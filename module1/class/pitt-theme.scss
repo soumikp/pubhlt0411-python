@@ -1,0 +1,429 @@
+/*-----------------------------------------------------------------------
+ * pitt-theme.scss
+ * Revealjs theme overrides for University of Pittsburgh academic talks.
+ * Use:  format: revealjs:  theme: [white, pitt-theme.scss]
+ *---------------------------------------------------------------------*/
+
+/*-- scss:defaults --*/
+
+// ---- Pitt brand colors (brand.pitt.edu) ------------------------------
+$pitt-royal:      #003594;   // Primary
+$pitt-gold:       #FFB81C;   // Primary accent — DECORATION ONLY (1.73:1 on white; never text)
+$pitt-medblue:    #00205B;   // Secondary (deep blue)
+$pitt-sky:        #DBEEFF;   // Secondary (pale blue)
+$pitt-gray:       #C8C9C7;   // Secondary
+$pitt-bronze:     #B87333;   // Secondary — DECORATION ONLY (3.79:1 on white; fails AA as text)
+$pitt-black:      #2B2B2B;   // Dark gray (body text)
+
+// ---- Accessible text variants (WCAG 2.2 AA — verified ≥ 4.5:1 on white) ----
+// Use these wherever the color carries TEXT. The brand gold/bronze above are
+// decoration-only (underlines, marker fills, left-borders paired with a label).
+$pitt-bronze-text: #8A5A26;  // 5.88:1 on white, 5.48:1 on the code tint — inline code
+$pitt-gold-dark:   #8A6400;  // 5.38:1 on white — gold accent when it must be text/small graphic
+
+// ---- Map onto Reveal SCSS defaults -----------------------------------
+$body-bg:         #ffffff;
+$body-color:      $pitt-black;
+$link-color:      $pitt-royal;
+$link-color-hover: $pitt-gold-dark;   // AA: raw brand gold fails as text (1.73:1)
+$selection-bg:    rgba($pitt-gold, 0.6);
+
+$presentation-heading-font: "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+$presentation-heading-color: $pitt-royal;
+$presentation-heading-font-weight: 600;
+$presentation-heading-text-transform: none;
+$presentation-heading-letter-spacing: -0.5px;
+
+$presentation-font-size-root: 32px;
+$presentation-font-smaller: 0.7;
+
+$mainFont: "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+$codeFont: "Fira Mono", "Source Code Pro", Menlo, Consolas, monospace;
+
+
+/*-- scss:rules --*/
+
+// ---- Title slide -----------------------------------------------------
+.reveal .title-slide {
+  text-align: left;
+}
+
+.reveal .title-slide h1.title {
+  color: $pitt-royal;
+  font-weight: 700;
+  font-size: 2.0em;
+  line-height: 1.15;
+  border-bottom: 4px solid $pitt-gold;
+  padding-bottom: 0.25em;
+  margin-bottom: 0.4em;
+}
+
+.reveal .title-slide .subtitle,
+.reveal .title-slide p.subtitle {
+  color: $pitt-medblue;
+  font-size: 1.1em;
+  font-style: italic;
+  margin-bottom: 1.2em;
+}
+
+.reveal .title-slide .quarto-title-author-name,
+.reveal .title-slide .quarto-title-authors {
+  color: $pitt-black;
+  font-weight: 600;
+  font-size: 0.9em;
+}
+
+.reveal .title-slide .quarto-title-affiliation,
+.reveal .title-slide .quarto-title-author-email {
+  color: lighten($pitt-black, 20%);
+  font-size: 0.7em;
+  font-style: normal;
+}
+
+.reveal .title-slide .date,
+.reveal .title-slide .quarto-title-meta {
+  color: $pitt-medblue;
+  font-size: 0.75em;
+  margin-top: 1em;
+}
+
+// ---- Section headings ------------------------------------------------
+.reveal h1, .reveal h2 {
+  color: $pitt-royal;
+  font-weight: 600;
+  text-transform: none;
+  letter-spacing: -0.5px;
+}
+
+.reveal h2 {
+  border-bottom: 2px solid $pitt-gold;
+  padding-bottom: 0.15em;
+  margin-bottom: 0.5em;
+}
+
+.reveal h3 {
+  color: $pitt-medblue;
+  font-weight: 600;
+}
+.reveal h4 {
+  color: $pitt-medblue;
+  font-weight: 500;
+  font-style: italic;
+}
+
+// ---- Section divider slides ------------------------------------------
+.reveal section.level1[data-background-color] h1 {
+  color: white;
+}
+
+// ---- Inline emphasis -------------------------------------------------
+.reveal strong { color: $pitt-royal; }
+.reveal em     { color: $pitt-medblue; font-style: italic; }
+
+// Class for marker highlight: [text]{.hl}
+.reveal .hl {
+  background: linear-gradient(180deg, transparent 60%, rgba($pitt-gold, 0.55) 60%);
+  padding: 0 0.08em;
+}
+
+// ---- Links -----------------------------------------------------------
+.reveal a {
+  color: $pitt-royal;
+  text-decoration: none;
+  border-bottom: 1px dotted rgba($pitt-royal, 0.5);
+  transition: color 0.15s, border-color 0.15s;
+}
+.reveal a:hover {
+  color: $pitt-gold-dark;          // WCAG AA: brand gold is 1.73:1 on white — never as text
+  border-bottom-color: $pitt-gold-dark;
+}
+// Visible keyboard focus (WCAG 2.4.7 / 2.2 2.4.11): a strong ring on any focused
+// interactive element — links, buttons, code editors. Never remove outlines.
+.reveal a:focus-visible,
+.reveal button:focus-visible,
+.reveal .cm-editor.cm-focused,
+.reveal [tabindex]:focus-visible {
+  outline: 3px solid $pitt-royal;
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+// ---- Lists -----------------------------------------------------------
+.reveal ul li::marker { color: $pitt-gold-dark; }   // AA-safe accent (brand gold too light)
+.reveal ol li::marker { color: $pitt-royal; font-weight: 600; }
+.reveal ul, .reveal ol { line-height: 1.4; }
+.reveal li + li { margin-top: 0.25em; }
+
+// ---- Blockquote ------------------------------------------------------
+.reveal blockquote {
+  border-left: 4px solid $pitt-gold;
+  background: $pitt-sky;
+  padding: 0.55em 1em;
+  font-style: normal;
+  color: $pitt-medblue;
+  border-radius: 0 4px 4px 0;
+}
+
+// ---- Code ------------------------------------------------------------
+.reveal pre {
+  box-shadow: none;
+  width: 100%;
+}
+.reveal pre code {
+  background: #f6f7f9;
+  border-left: 4px solid $pitt-royal;
+  padding: 0.55em 0.8em;
+  font-family: $codeFont;
+  font-size: 0.55em;
+  line-height: 1.35;
+  border-radius: 0 3px 3px 0;
+}
+.reveal code {
+  color: $pitt-bronze-text;   // WCAG AA: 5.48:1 on the tint below (brand bronze fails at 3.53:1)
+  background: rgba($pitt-gold, 0.12);
+  padding: 0.05em 0.25em;
+  border-radius: 3px;
+  font-family: $codeFont;
+  font-size: 0.85em;
+}
+// Inline code inside list items / paragraphs should not balloon past the
+// slide width — keep it proportional to the surrounding text.
+.reveal li code,
+.reveal p code { font-size: 0.82em; }
+// Safety net: never let text (or long inline code) run off the slide edge.
+.reveal .slides section { overflow-wrap: break-word; }
+.reveal li, .reveal p { overflow-wrap: break-word; }
+
+// ---- Tables ----------------------------------------------------------
+.reveal table {
+  font-size: 0.78em;
+  border-collapse: collapse;
+  margin: 0.4em auto;
+}
+.reveal table thead th {
+  background: $pitt-royal;
+  color: white;
+  font-weight: 600;
+  border-bottom: 2px solid $pitt-gold;
+  padding: 0.4em 0.7em;
+}
+.reveal table tbody td {
+  padding: 0.35em 0.7em;
+  border-bottom: 1px solid lighten($pitt-gray, 8%);
+}
+.reveal table tbody tr:nth-child(even) { background: $pitt-sky; }
+.reveal table caption {
+  color: $pitt-medblue;
+  font-style: italic;
+  font-size: 0.9em;
+  padding: 0.3em 0;
+}
+
+// ---- Figure captions -------------------------------------------------
+.reveal figure figcaption,
+.reveal .quarto-figure figcaption {
+  color: $pitt-medblue;
+  font-style: italic;
+  font-size: 0.65em;
+  text-align: center;
+}
+
+// ---- Callouts (Quarto callout-* classes) -----------------------------
+.reveal div.callout {
+  font-size: 0.85em;
+  margin: 0.4em 0;
+}
+.reveal div.callout-note    { border-left-color: $pitt-royal !important; }
+.reveal div.callout-tip     { border-left-color: #2e8540 !important; }
+.reveal div.callout-warning { border-left-color: $pitt-gold !important; }
+.reveal div.callout-important { border-left-color: #c53030 !important; }
+.reveal div.callout-caution { border-left-color: $pitt-bronze !important; }
+
+.reveal div.callout div.callout-header {
+  background-color: rgba($pitt-royal, 0.05);
+}
+
+// ---- Theorem-like divs:  ::: {.theorem name="..."} -------------------
+.reveal div.theorem,
+.reveal div.proposition,
+.reveal div.lemma,
+.reveal div.corollary,
+.reveal div.definition,
+.reveal div.example,
+.reveal div.proof {
+  border: 1px solid lighten($pitt-royal, 50%);
+  border-top: 3px solid $pitt-royal;
+  background: lighten($pitt-sky, 3%);
+  padding: 0.55em 0.9em;
+  margin: 0.5em 0;
+  border-radius: 0 0 4px 4px;
+  font-size: 0.92em;
+}
+.reveal div.theorem::before     { content: "Theorem.";     color: $pitt-royal;   font-weight: 700; margin-right: 0.4em; }
+.reveal div.proposition::before { content: "Proposition."; color: $pitt-royal;   font-weight: 700; margin-right: 0.4em; }
+.reveal div.lemma::before       { content: "Lemma.";       color: $pitt-royal;   font-weight: 700; margin-right: 0.4em; }
+.reveal div.corollary::before   { content: "Corollary.";   color: $pitt-royal;   font-weight: 700; margin-right: 0.4em; }
+.reveal div.definition::before  { content: "Definition.";  color: $pitt-medblue; font-weight: 700; margin-right: 0.4em; }
+.reveal div.example::before     { content: "Example.";     color: $pitt-bronze;  font-weight: 700; font-style: italic; margin-right: 0.4em; }
+.reveal div.proof {
+  background: #fafafa;
+  border-top-color: $pitt-medblue;
+  font-size: 0.88em;
+}
+.reveal div.proof::before { content: "Proof."; color: $pitt-medblue; font-weight: 700; font-style: italic; margin-right: 0.4em; }
+
+// ---- Algorithm div:  ::: {.algorithm} --------------------------------
+.reveal div.algorithm {
+  border: 1px solid $pitt-royal;
+  border-top: 3px solid $pitt-royal;
+  background: #fbfcff;
+  padding: 0.5em 0.9em 0.7em;
+  margin: 0.5em 0;
+  font-family: $codeFont;
+  font-size: 0.62em;
+  line-height: 1.5;
+  border-radius: 0 0 4px 4px;
+}
+.reveal div.algorithm::before {
+  content: "Algorithm";
+  display: block;
+  font-family: $mainFont;
+  font-weight: 700;
+  color: $pitt-royal;
+  margin: -0.1em 0 0.3em 0;
+  letter-spacing: 0.3px;
+  font-size: 1.15em;
+  border-bottom: 1px solid lighten($pitt-royal, 50%);
+  padding-bottom: 0.2em;
+}
+// Lists inside .algorithm get a compact numbered style
+.reveal div.algorithm ol {
+  margin: 0.2em 0 0.2em 1.4em;
+  padding: 0;
+}
+.reveal div.algorithm ol li { margin-top: 0; line-height: 1.45; }
+.reveal div.algorithm ol li::marker {
+  color: $pitt-gold;
+  font-family: $codeFont;
+  font-weight: 600;
+}
+
+// ---- Slide progress + page number ------------------------------------
+.reveal .progress {
+  height: 4px;
+  color: $pitt-gold;
+  background: rgba($pitt-royal, 0.15);
+}
+.reveal .progress span {
+  background: $pitt-gold;
+}
+.reveal .slide-number {
+  // Force visible regardless of base theme or Quarto defaults
+  display: inline-block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  position: fixed !important;
+  right: 14px !important;
+  bottom: 12px !important;
+  z-index: 100 !important;
+
+  // Flat text, no pill — uses Pitt Bronze (the "third" brand color)
+  background: transparent !important;
+  color: #B87333 !important;
+  font-size: 0.6em;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  padding: 0;
+}
+// Reveal renders the page number as <a>N</a><span>/</span><a>T</a>.
+// Force bronze on every link state so the generic `.reveal a` rule
+// (and any base-theme rule) can't override it.
+.reveal .slide-number a,
+.reveal .slide-number a:link,
+.reveal .slide-number a:visited,
+.reveal .slide-number a:active,
+.reveal .slide-number span,
+.reveal .slide-number .slide-number-delimiter {
+  color: #B87333 !important;
+  background: transparent !important;
+  border-bottom: none !important;
+  text-decoration: none !important;
+}
+.reveal .slide-number a:hover {
+  color: #FFB81C !important;     // Pitt gold
+}
+
+// ---- Footer ----------------------------------------------------------
+.reveal .footer {
+  color: $pitt-medblue;
+  font-size: 0.5em;
+  opacity: 0.85;
+}
+
+// ---- Columns spacing (Quarto ::: {.columns}) -------------------------
+.reveal .columns { gap: 1em; }
+.reveal .column  { padding: 0; }
+
+// ---- Smaller-text class:  ::: {.smaller-text} ------------------------
+.reveal .smaller-text { font-size: 0.8em; }
+.reveal .tiny-text    { font-size: 0.65em; }
+
+// ---- Math (KaTeX/MathJax) --------------------------------------------
+.reveal .katex, .reveal .MathJax { font-size: 0.95em; }
+
+// ---- quarto-live output readability ----------------------------------
+// The interactive editor renders at --exercise-font-size (1.3rem on reveal),
+// but the cell OUTPUT (printed results) has no size of its own and falls back
+// to reveal's tiny `pre code` (0.55em). Match the output to the editor so the
+// answer a student runs is as readable as the code that produced it.
+.reveal .cell-output pre code,
+.reveal .cell-output-container pre code,
+.reveal .cell-output-stdout pre code,
+.reveal .cell-output-stderr pre code,
+.reveal .cell-output-pyodide pre code,
+.reveal div.exercise-cell-output pre code {
+  font-size: 1.3rem;      // matches --exercise-font-size (the editor)
+  line-height: 1.4;
+}
+// Keep pyodide-rendered tables (e.g. DataFrame output) legible too.
+.reveal .cell-output-pyodide table { font-size: 1.15rem; }
+
+// ---- Accessibility (WCAG 2.2 AA — course-level) ----------------------
+// Target size (2.5.8): interactive controls ≥ 24×24 px. quarto-live's
+// Run / Hint / Solution buttons can render small; enforce a floor.
+.reveal .exercise-cell button,
+.reveal button.btn,
+.reveal .d-flex button {
+  min-height: 24px;
+  min-width: 24px;
+}
+// Respect reduced-motion (2.3.3): kill slide transitions & fragment animation
+// for users who ask for it. reveal reads its own config, but this covers CSS.
+@media (prefers-reduced-motion: reduce) {
+  .reveal .slides section,
+  .reveal .fragment {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+// Syntax-highlight contrast (1.4.3): the stock `github` highlight style has three
+// tokens that fail 4.5:1 on our code background (#f6f7f9): comments (#6a737d→4.49),
+// keyword-family red (#d73a49→4.27), and alert red (#ff5555→2.93). Darken just
+// those; the rest of the github palette already passes. Verified with the
+// project's contrast script.
+.reveal pre code span.co,   // comments
+.reveal pre code span.an,   // annotations
+.reveal pre code span.cv,   // comment vars
+.reveal pre code span.do,   // documentation
+.reveal pre code span.in,   // information
+.reveal pre code span.re { color: #586069 !important; }   // 5.95:1
+.reveal pre code span.kw,   // keyword
+.reveal pre code span.dt,   // data type
+.reveal pre code span.cf,   // control flow
+.reveal pre code span.bu,   // builtin
+.reveal pre code span.at,   // attribute
+.reveal pre code span.ex,   // extension
+.reveal pre code span.pp { color: #b31d28 !important; }   // 6.27:1
+.reveal pre code span.al,   // alert
+.reveal pre code span.er { color: #a71d2a !important; }   // 6.87:1

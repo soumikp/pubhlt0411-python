@@ -1,0 +1,694 @@
+---
+# =====================================================================
+# Module 1 — Conditions and sequences
+# PUBHLT 0411 · Python for Public Health Data Analysis
+# Renders to live-revealjs (interactive HTML, Pyodide code cells).
+#
+# Register: HANDOFF v3 §2 as amended 2026-08-11.
+#   Slides   = academic, impersonal, declarative. No "you"/"we".
+#   Notes    = conversational, second person. Load-bearing, not optional.
+#
+# Data: NONE. §4 specifies inline county records for M1. Every value is
+# lifted verbatim from data/pa_overdose_county_year.csv, 2023 rows, so the
+# numbers match M0 and the file students will open in M2/M4.
+#
+# Required assets (same folder):
+#   pitt-theme.scss
+#   _extensions/r-wasm/live/   (copy of the quarto-live extension)
+# =====================================================================
+title: "Module 1: Conditions and Sequences"
+subtitle: "PUBHLT 0411 · Python for Public Health Data Analysis"
+author:
+  - name: Soumik Purkayastha
+    affiliations:
+      - name: Dept. of Biostatistics and Health Data Science, University of Pittsburgh
+date: today
+date-format: long
+
+format:
+  live-revealjs:
+    theme: [white, pitt-theme.scss]
+    slide-number: c/t
+    show-slide-number: all
+    chalkboard: false
+    history: true
+    smaller: false
+    scrollable: true
+    incremental: false
+    fig-align: center
+    fig-cap-location: bottom
+    code-line-numbers: true
+    code-overflow: wrap
+    code-copy: hover
+    highlight-style: github
+    width: 1280
+    height: 720
+    margin: 0.08
+    footer: "soumik@pitt.edu  ·  PUBHLT 0411 · Module 1: Conditions and Sequences"
+
+engine: knitr
+
+pyodide:
+  packages: []
+
+execute:
+  echo: true
+  warning: false
+  message: false
+  cache: false
+---
+
+{{< include _extensions/r-wasm/live/_knitr.qmd >}}
+
+# Two counties. {.unnumbered background-color="#003594"}
+
+## Schuylkill and Centre counties differ ninefold {.smaller}
+
+Two Pennsylvania counties. Populations within 10% of one another. One buries nine times as
+many residents to overdose as the other.
+
+::: {.callout-important}
+## The question this session opens
+Module 0 established the two rates. It did not establish **which county is which**, or how
+that determination would be made **without being told**.
+
+**This session establishes the classification.** Given a county's deaths and population,
+the code decides whether its burden is low, moderate, or high — and states the evidence.
+:::
+
+**Required from Module 0:** assignment, `int` and `float`, arithmetic, f-strings.
+
+::: {.notes}
+Do not put the answer on screen yet. Ask the room to guess which county carries the higher
+rate before you show anything — Centre is the one with Penn State in it, and if somebody
+reasons "college town, so higher," that's a genuinely good guess that happens to be wrong.
+It makes the payoff land harder.
+
+The honest mechanism, for when it comes up: Centre's population is young, and overdose
+mortality concentrates in people aged 35–64. Schuylkill is an older former-anthracite
+county. That's module 1's argument in one sentence, and it is worth having ready.
+
+Everything today is inline. They won't open a file until module 2 — the point is
+conditionals and sequences, not file I/O. But every number on these slides is lifted
+verbatim from the real 2023 file, so nothing changes when the file arrives.
+:::
+
+## Comparison operators return a boolean {.smaller}
+
+A comparison is an expression. It evaluates to `True` or `False`.
+
+```{pyodide}
+schuylkill_rate = 41.7
+centre_rate = 4.4
+
+print(schuylkill_rate > centre_rate)
+print(schuylkill_rate == centre_rate)
+print(schuylkill_rate != centre_rate)
+print(centre_rate >= 4.4)
+```
+
+| Operator | Meaning |
+|---|---|
+| `==` | equal to |
+| `!=` | not equal to |
+| `<` `>` | less than, greater than |
+| `<=` `>=` | less than or equal, greater than or equal |
+
+::: {.callout-warning}
+## `=` assigns; `==` compares
+`rate = 41.7` binds a name. `rate == 41.7` asks a question. Substituting one for the other
+is among the most frequent errors in introductory Python.
+:::
+
+::: {.notes}
+The `=` versus `==` point deserves a full thirty seconds — they will all do it. In older
+Pythons `if rate = 41.7:` was a SyntaxError; it still is, so at least it's loud. Tell them
+the error message to expect.
+
+R analogue is exact: `==`, `!=`, `>=` all behave identically. This slide should feel like
+review, and saying so is worth doing — it builds confidence before the indentation rules,
+which do not feel like review.
+:::
+
+## Boolean operators combine conditions {.smaller}
+
+```{pyodide}
+population = 143786
+overdose_deaths = 60
+rate_per_100k = 41.7
+
+print(population > 100000 and rate_per_100k > 25.6)
+print(population > 200000 or rate_per_100k > 25.6)
+print(not rate_per_100k > 25.6)
+```
+
+- `and` — `True` only when **both** sides are `True`
+- `or` — `True` when **either** side is `True`
+- `not` — inverts the value
+
+::: {.callout-tip}
+## R analogue
+R's `&&` and `||` correspond to `and` and `or`. Python spells them as words, and provides
+no `&&` operator for this purpose.
+:::
+
+::: {.notes}
+The word-versus-symbol difference is a real stumbling block coming from R. `&&` in Python
+is a SyntaxError; `&` exists but means something else (bitwise, and on pandas Series it
+becomes element-wise — that's module 4's parenthesis trap). Plant the seed now, don't
+explain it yet.
+
+Worked example if the room wants one: `population > 100000 and rate > 25.6` is exactly the
+kind of compound question public health asks — "large counties with high burden" — and
+it's how they'll filter a whole dataset in module 4.
+:::
+
+## `if` executes a block when a condition holds {.smaller}
+
+```{pyodide}
+rate_per_100k = 41.7
+
+if rate_per_100k > 25.6:
+    print("Above the Pennsylvania rate")
+```
+
+Two pieces of syntax are mandatory:
+
+1. **The colon** ends the `if` line.
+2. **The indentation** — four spaces — marks the block that runs conditionally.
+
+```{pyodide}
+rate_per_100k = 4.4
+
+if rate_per_100k > 25.6:
+    print("Above the Pennsylvania rate")
+
+print("This line runs regardless")
+```
+
+::: {.notes}
+Run both cells. The second one printing only the last line is the whole idea — the
+indented line was skipped, the unindented line was not.
+
+This is the first genuinely new syntax of the course. R uses braces and treats whitespace
+as decoration; Python uses whitespace *as* the syntax. Say that difference out loud,
+because it is the source of nearly every error in the next two weeks.
+
+Four spaces is the convention. Colab inserts them when you press Tab. Tell them not to mix
+tabs and spaces — the error is confusing and the fix is invisible.
+:::
+
+## `elif` and `else` handle the remaining cases {.smaller}
+
+```{pyodide}
+rate_per_100k = 19.0
+
+if rate_per_100k >= 25.6:
+    print("High")
+elif rate_per_100k >= 13.1:
+    print("Moderate")
+else:
+    print("Low")
+```
+
+**Evaluation stops at the first `True` branch.** Order therefore determines behavior.
+
+The two thresholds are real:
+
+- **25.6** per 100,000 — Pennsylvania's overdose mortality rate
+- **13.1** per 100,000 — the Healthy People 2030 target
+
+::: {.callout-important}
+## Only one branch executes
+Once a condition matches, the remaining branches are not evaluated. A chain ordered from
+lowest threshold upward reports the wrong category for every value.
+:::
+
+::: {.notes}
+Ask what happens if the two branches are swapped — `>= 13.1` tested first. Everything at
+41.7 comes back "Moderate," because 41.7 clears 13.1 and the chain stops there. It's a
+silent wrong answer, not an error, which makes it the dangerous kind.
+
+The thresholds being real matters. This isn't an arbitrary grading scale — 13.1 is a
+national target the country committed to, and a county above 25.6 is above the state it
+sits in. When they classify a county in the lab, the label means something.
+
+19.0 is Franklin County, 2023. It's the middle case and it exists precisely so the `elif`
+has something real to catch.
+:::
+
+## Checkpoint: the condition tests the wrong quantity {.smaller}
+
+**Objective:** report whether Schuylkill County exceeds the state rate of 25.6 per 100,000.
+
+```{pyodide}
+overdose_deaths = 60
+population = 143786
+rate_per_100k = overdose_deaths / population * 100000
+
+if overdose_deaths > 25.6:
+    print("Above the state rate")
+else:
+    print("At or below the state rate")
+```
+
+::: {.callout-warning}
+## A silent error: the comparison is valid but meaningless
+The code runs and prints an answer. It compares a **count** (60 deaths) against a **rate**
+(25.6 per 100,000) — quantities in different units. The comparison is arithmetically
+legal, so no exception is raised.
+
+**Resolution:** compare `rate_per_100k > 25.6`. The correct answer is the same here, which
+is what makes the error survive review.
+:::
+
+::: {.notes}
+Run it. It prints "Above the state rate," which is the *right answer for the wrong reason*
+— and that is the entire point. Ask the room whether the code is correct before you say
+anything. Most will say yes, because the output is right.
+
+Then change the county to Centre: 7 deaths, population 157,795. The buggy version compares
+7 > 25.6, prints "At or below," and is still right by accident. Try Butler — 43 deaths,
+rate 21.7. Now the bug fires: 43 > 25.6 says "above," the true rate 21.7 says below.
+
+This is the count-versus-rate confusion, and it is the single most common analytic error
+in county-level public health. They met it in R. Here it's a one-line bug that no error
+message will ever catch.
+:::
+
+## Augmented assignment updates a value in place {.smaller}
+
+```{pyodide}
+total_deaths = 0
+
+total_deaths += 60      # Schuylkill
+total_deaths += 7       # Centre
+total_deaths += 30      # Franklin
+
+print(total_deaths)
+```
+
+`total_deaths += 60` is equivalent to `total_deaths = total_deaths + 60`.
+
+The same form exists for the other operators: `-=`, `*=`, `/=`.
+
+::: {.callout-tip}
+## Read the statement as an instruction, not an equation
+`total_deaths = total_deaths + 60` is false as algebra and correct as a sequence of steps:
+evaluate the right side, then rebind the name.
+:::
+
+::: {.notes}
+This connects straight back to module 0's right-to-left reading of `=`. If that landed,
+this slide is thirty seconds. If it didn't, this is the moment to repair it — `x = x + 1`
+is where the equation reading finally breaks down for good.
+
+Module 2 builds the accumulator pattern on exactly this, over sixty-seven counties instead
+of three. Say that this is the small version of something they'll use constantly.
+:::
+
+# Sequences. {.unnumbered background-color="#003594"}
+
+## A string is a sequence of characters {.smaller}
+
+Each character occupies a position, and **positions are numbered from zero**.
+
+```{pyodide}
+county = "Schuylkill"
+
+print(county[0])
+print(county[1])
+print(county[-1])
+print(len(county))
+```
+
+```
+ S  c  h  u  y  l  k  i  l  l
+ 0  1  2  3  4  5  6  7  8  9
+-10 -9 -8 -7 -6 -5 -4 -3 -2 -1
+```
+
+::: {.callout-important}
+## The first position is `0`, and the last is `len() - 1`
+`county[10]` raises `IndexError: string index out of range`, because the valid positions of
+a ten-character string are `0` through `9`. Negative indices count backward from the end.
+:::
+
+::: {.notes}
+Zero-indexing is the one place where R actively works against them — R starts at 1, Python
+starts at 0, and six weeks of muscle memory says the wrong thing. Say it plainly: "This is
+the one that will get you, because R lied to you."
+
+Draw the index ruler on the board if the room looks uncertain. The negative row is worth
+including — `[-1]` for "last" is used constantly and is much nicer than R's
+`length(x)` gymnastics.
+
+Have them predict `county[10]` before running it. The IndexError is the friendly kind: it
+tells you exactly what went wrong.
+:::
+
+## A slice extracts a range of positions {.smaller}
+
+`sequence[start:stop]` includes `start` and **excludes** `stop`.
+
+```{pyodide}
+county = "Schuylkill"
+
+print(county[0:4])
+print(county[:4])
+print(county[4:])
+print(county[::2])
+```
+
+- Omitting `start` begins at the beginning
+- Omitting `stop` continues to the end
+- A third value is the **step**: `[::2]` takes every second character
+
+::: {.callout-warning}
+## The stop position is excluded
+`county[0:4]` yields `Schu` — four characters, positions 0 through 3. The length of a slice
+is `stop - start`, which is the reason the convention is convenient.
+:::
+
+::: {.notes}
+The exclusive stop is the second thing that trips people, right after zero-indexing. The
+compensation is that `stop - start` gives the length directly, and that slices join
+cleanly: `[0:4]` and `[4:]` reconstruct the original with no overlap and no gap.
+
+R's `substr()` is inclusive on both ends. Note the difference once and move on.
+
+`[::2]` is mostly a curiosity at this scale, but the step shows up again in module 3 for
+selecting every nth row.
+:::
+
+## String methods transform text {.smaller}
+
+A method is called on the value itself, using a dot.
+
+```{pyodide}
+county = "  Schuylkill \n"
+
+print(repr(county.strip()))
+print(county.strip().upper())
+print("Mc Kean".replace(" ", ""))
+```
+
+| Method | Effect |
+|---|---|
+| `.strip()` | removes leading and trailing whitespace |
+| `.upper()` | converts to uppercase |
+| `.replace(a, b)` | substitutes every occurrence of `a` with `b` |
+| `.split(sep)` | divides into a list at each separator |
+
+::: {.callout-note}
+## Methods return new values
+`county.upper()` produces a new string. The original binding is unchanged unless it is
+reassigned.
+:::
+
+::: {.notes}
+`.strip()` looks decorative until they read a file. Values arrive from CSVs with trailing
+newlines constantly, and `"Schuylkill\n" == "Schuylkill"` is False — which produces a
+lookup that fails for no visible reason. Module 2 hits this within ten minutes of opening
+a file.
+
+`"Mc Kean"` is not a hypothetical. County Health Rankings writes "Mc Kean" and the Census
+writes "McKean," and that one space breaks a join in module 4. Flag it now as a real thing
+that happens, don't explain merging yet.
+
+The "methods return new values" point matters: `county.upper()` on its own line does
+nothing observable. Everyone writes that bug once.
+:::
+
+## `.split()` divides a line into fields {.smaller}
+
+```{pyodide}
+line = "Schuylkill,2023,60,143786,41.7"
+
+fields = line.split(",")
+print(fields)
+print(fields[0])
+print(int(fields[2]))
+```
+
+The result is a **list** — an ordered sequence of values, indexed from zero exactly as a
+string is.
+
+::: {.callout-important}
+## Fields extracted from text are text
+`fields[2]` is the string `"60"`, not the number `60`. Arithmetic requires explicit
+conversion with `int()` or `float()`.
+:::
+
+::: {.notes}
+This line is verbatim from the real CSV — it is exactly what module 2 reads off disk. Say
+so. They are seeing the actual shape of the data one module before they open it.
+
+The conversion point is module 0's TypeError returning in a context where it will actually
+bite them. `fields[2] + 8` gives `"608"`, silently. Ask what `fields[2] + fields[3]` gives
+if you want them to feel it — `"60143786"`, which is nobody's idea of a sum.
+:::
+
+## A list holds an ordered sequence of values {.smaller}
+
+```{pyodide}
+counties = ["Schuylkill", "Centre", "Franklin"]
+rates = [41.7, 4.4, 19.0]
+
+print(counties[0], rates[0])
+print(counties[-1], rates[-1])
+print(len(counties))
+print(counties[0:2])
+```
+
+Lists are indexed and sliced with the same notation as strings. **Position `i` in
+`counties` corresponds to position `i` in `rates`** — the two lists are parallel.
+
+::: {.callout-tip}
+## R analogue
+An R vector, with one difference: a Python list may hold values of mixed type, and it does
+not recycle.
+:::
+
+::: {.notes}
+Parallel lists are the structure module 2 replaces with a dictionary, and module 4
+replaces with a DataFrame. It's worth naming that trajectory — this is the crude version,
+and they will feel why it's crude the moment they need to sort one list and keep the other
+aligned.
+
+Ask what happens if a county is inserted into `counties` but not `rates`. Everything after
+the insertion point silently misaligns, and no error is raised. That fragility is the
+motivation for everything that follows.
+:::
+
+## Lists are modified in place {.smaller}
+
+```{pyodide}
+counties = ["Schuylkill", "Centre"]
+counties.append("Franklin")
+
+print(counties)
+print(len(counties))
+print("Centre" in counties)
+print("Erie" in counties)
+```
+
+- `.append(value)` adds one value to the end
+- `value in sequence` tests membership and returns a boolean
+
+::: {.callout-note}
+## `.append()` returns nothing
+The list is modified where it stands. Writing `counties = counties.append("Franklin")`
+rebinds the name to `None` and discards the list.
+:::
+
+::: {.notes}
+The `counties = counties.append(...)` bug is worth demonstrating live if there's time — it
+produces `None`, and then the next line raises a TypeError about NoneType that looks
+completely unrelated to the actual mistake. Point out that the error appears one line after
+the real problem, which is a general and important lesson about tracebacks.
+
+`in` is genuinely useful and reads like English. It works on strings too — `"kill" in
+"Schuylkill"` is True, which surprises people.
+
+`.append()` plus a loop is the accumulator pattern, and that's module 2's opening move.
+:::
+
+## Checkpoint: the block is not indented {.smaller}
+
+**Objective:** print a warning for a county above the state rate.
+
+```{pyodide}
+rate_per_100k = 41.7
+
+if rate_per_100k > 25.6:
+print("Above the state rate")
+```
+
+::: {.callout-warning}
+## `IndentationError` — the block is missing
+`IndentationError: expected an indented block after 'if' statement`
+
+A colon at the end of a line commits the following line to be indented. Python defines the
+conditional block by that indentation, so an unindented line leaves the `if` with no body.
+
+**Resolution:** indent the `print()` by four spaces.
+:::
+
+::: {.notes}
+Run it broken. This error and its sibling — `IndentationError: unexpected indent`, from
+indenting a line that shouldn't be — account for a huge share of first-month errors.
+
+The reassuring thing to say: this error is loud, immediate, and tells you the line number.
+Colab also auto-indents after a colon, so in practice this happens most often when pasting
+code from somewhere else.
+
+Everyone hits this, repeatedly, including me. The fix is always four spaces.
+:::
+
+# Which is which. {.unnumbered background-color="#003594"}
+
+## Exercise: classify a county by its rate {.smaller}
+
+Franklin County, 2023: 30 deaths, population 157,854.
+
+```{pyodide}
+#| exercise: m1_classify
+county = "Franklin"
+overdose_deaths = 30
+population = 157854
+
+rate_per_100k = overdose_deaths / population * 100000
+
+if rate_per_100k >= 25.6:
+    classification = "High"
+elif rate_per_100k >= ______:
+    classification = "Moderate"
+else:
+    classification = "Low"
+
+print(f"{county}: {rate_per_100k:.1f} per 100,000 — {classification}")
+```
+
+```{pyodide}
+#| exercise: m1_classify
+#| hint: true
+# The lower threshold is the Healthy People 2030 target: 13.1 per 100,000.
+# A county below it has met the national target.
+```
+
+```{pyodide}
+#| exercise: m1_classify
+#| solution: true
+county = "Franklin"
+overdose_deaths = 30
+population = 157854
+
+rate_per_100k = overdose_deaths / population * 100000
+
+if rate_per_100k >= 25.6:
+    classification = "High"
+elif rate_per_100k >= 13.1:
+    classification = "Moderate"
+else:
+    classification = "Low"
+
+print(f"{county}: {rate_per_100k:.1f} per 100,000 — {classification}")
+```
+
+::: {.notes}
+Fill this in with the room. Franklin lands at 19.0 — above the national target, below the
+state rate — so it exercises the `elif` branch specifically, which the two headline
+counties never do.
+
+Ask what "Moderate" actually means before moving on. It means Franklin has not met a
+target the United States set for itself, while sitting below the state it belongs to. Both
+halves of that are true and they pull in opposite directions. That tension is the reason
+classification is a judgment call and not arithmetic.
+:::
+
+## The classification applied to both counties {.smaller}
+
+```{pyodide}
+counties = ["Schuylkill", "Centre"]
+deaths = [60, 7]
+populations = [143786, 157795]
+
+schuylkill_rate = deaths[0] / populations[0] * 100000
+centre_rate = deaths[1] / populations[1] * 100000
+
+print(f"{counties[0]}: {schuylkill_rate:.1f} per 100,000")
+print(f"{counties[1]}: {centre_rate:.1f} per 100,000")
+print(f"Ratio: {schuylkill_rate / centre_rate:.1f}x")
+
+if schuylkill_rate >= 25.6:
+    print(f"{counties[0]} is classified High")
+if centre_rate < 13.1:
+    print(f"{counties[1]} is classified Low")
+```
+
+::: {.notes}
+This is the payoff assembling itself from the pieces of today: parallel lists, indexing,
+arithmetic from module 0, comparison, and `if`. Point that out as it runs — nothing here is
+new, and together it answers the question the module opened with.
+
+Note the code says which is which without anyone being told. That was the promise.
+:::
+
+## Schuylkill is High. Centre is Low. {.smaller}
+
+**Schuylkill County: 41.7 per 100,000 — above the state rate of 25.6.**
+**Centre County: 4.4 per 100,000 — below the Healthy People 2030 target of 13.1.**
+
+Comparable populations. **A ninefold difference, and opposite classifications.**
+
+::: {.callout-important}
+## What separates them
+Overdose mortality concentrates in adults aged 35 to 64. Centre County's population is
+disproportionately young — a large university enrollment shifts the age structure. Schuylkill
+is an older county built on anthracite coal, an industry that left.
+
+**The difference is structural: age composition and economic history, not individual
+conduct.**
+:::
+
+::: {.notes}
+Land this and stop.
+
+If anyone guessed "Centre is higher, it's a college town" at the start, acknowledge it now
+— it's a reasonable inference from a real association between college and substance use,
+and it is beaten by age structure. Being wrong for a good reason is worth naming out loud.
+
+Say the structural framing deliberately and don't hedge it: this is a difference in who
+lives there and what happened to the work, not a difference in character. §5 of the
+handoff requires that framing and it's also just correct.
+
+Then hold the door for module 2: three counties took three lines. Sixty-seven counties and
+forty-nine months of COVID deaths will not.
+:::
+
+## Session outcomes {.smaller}
+
+- Evaluating comparisons and combining them with `and`, `or`, `not`
+- Branching with `if` / `elif` / `else`, and the **colon and four-space indent**
+- Accumulating with `+=`
+- Indexing and slicing strings and lists from **position zero**
+- Applying `.strip()`, `.upper()`, `.replace()`, and `.split()`
+- Building lists, extending them with `.append()`, and testing membership with `in`
+
+::: {.callout-tip}
+## Preparation for the lab, Tuesday 10/13
+The lab classifies additional counties, parses real record lines, and builds parallel
+lists. No new syntax is required beyond this session.
+:::
+
+**Module 2 addresses scale: sixty-seven counties and forty-nine months, without repetition.**
+
+::: {.notes}
+The outcomes list is deliberately mechanical — it's what they should be able to do, and
+it's the checklist for the lab.
+
+Close on the scale problem. Everything today handled two or three counties by hand, and
+that approach fails immediately at sixty-seven. Loops and dictionaries are the answer, and
+that's Thursday.
+:::

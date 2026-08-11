@@ -1,0 +1,882 @@
+---
+# =====================================================================
+# Module 0 — Notebooks and values
+# PUBHLT 0411 · Python for Public Health Data Analysis
+# Renders to live-revealjs (interactive HTML, Pyodide code cells).
+#
+# Register: HANDOFF v3 §2 as amended 2026-08-11.
+#   Slides   = academic, impersonal, declarative. No "you"/"we".
+#   Notes    = conversational, second person. Load-bearing, not optional.
+#
+# Required assets (same folder):
+#   pitt-theme.scss
+#   _extensions/r-wasm/live/   (copy of the quarto-live extension)
+#   data/pa_overdose_county_year.csv  (must ALSO be listed under
+#   pyodide: resources: below, or Pyodide cannot see it)
+# =====================================================================
+title: "Module 0: Notebooks and Values"
+subtitle: "PUBHLT 0411 · Python for Public Health Data Analysis"
+author:
+  - name: Soumik Purkayastha
+    affiliations:
+      - name: Dept. of Biostatistics and Health Data Science, University of Pittsburgh
+date: today
+date-format: long
+
+format:
+  live-revealjs:
+    theme: [white, pitt-theme.scss]
+    slide-number: c/t
+    show-slide-number: all
+    chalkboard: false
+    history: true
+    smaller: false
+    scrollable: true
+    incremental: false
+    fig-align: center
+    fig-cap-location: bottom
+    code-line-numbers: true
+    code-overflow: wrap
+    code-copy: hover
+    highlight-style: github
+    width: 1280
+    height: 720
+    margin: 0.08
+    footer: "soumik@pitt.edu  ·  PUBHLT 0411 · Module 0: Notebooks and Values"
+
+engine: knitr
+
+pyodide:
+  packages: []
+  resources:
+    - data/pa_overdose_county_year.csv
+
+execute:
+  echo: true
+  warning: false
+  message: false
+  cache: false
+---
+
+{{< include _extensions/r-wasm/live/_knitr.qmd >}}
+
+# 3,336 people. {.unnumbered background-color="#003594"}
+
+## Pennsylvania recorded 3,336 overdose deaths in 2024 {.smaller}
+
+A single state-level count. It is also the population of a small Pennsylvania borough.
+
+::: {.callout-important}
+## The question this session opens
+A state total describes no one. Pennsylvania comprises 67 counties whose overdose burdens
+differ by nearly an order of magnitude, and the state figure conceals that variation
+entirely.
+
+**This session establishes what that number means for a single county.** The question is
+answered at the end, from data, using code written in this room.
+:::
+
+**Prerequisite assumed:** six weeks of R. The concepts of a variable, a data frame, and
+the distinction between a count and a rate carry over intact.
+
+::: {.notes}
+Open cold. Say the number, then pause before the borough line — it lands better spoken
+than read. Do not answer the question yet; the payoff slide at the end is where Schuylkill
+arrives.
+
+For the local comparison, pick whichever your room will feel: 3,336 is roughly the
+population of Jim Thorpe, or roughly a third of a typical Pitt first-year class.
+
+Say the prerequisite line out loud and mean it. This room is not full of beginners — they
+have six weeks of R behind them, and the whole module runs faster if you tell them you
+know that in the first two minutes. Something like: "You already know the hard part. What
+you don't know yet is where Python puts things."
+:::
+
+## The data has a named source and a documented limitation {.smaller}
+
+Every dataset in this course traces to a public agency, and every limitation is stated.
+
+| | |
+|---|---|
+| **Source** | Pennsylvania Department of Health, *Estimated Drug Overdose Deaths* |
+| **Coverage** | 67 counties, 2019–2024 |
+| **Definition** | Accidental and undetermined drug overdose deaths |
+| **Known limitation** | PA DOH marks 2024 **provisional** — death certificates lag three to six months |
+
+The apparent decline in 2024 is therefore partly a real change and partly incomplete
+reporting. **Both facts are stated rather than reconciled.**
+
+::: {.callout-note}
+## Two readings of the same value
+`3336` is a quantity admitting arithmetic. It is also 3,336 deaths. Neither reading
+displaces the other, and this course maintains both.
+:::
+
+::: {.notes}
+This slide sets the honesty standard for the course, so do not rush it.
+
+On provisional data: students will notice 2024 looks better than 2023 and will want to
+call it good news. Ask them whether they believe it. The honest answer is "partly, and
+partly we don't know yet" — and getting comfortable saying that is a real public-health
+skill.
+
+On the two readings: say it once, here, plainly, and then let it go. If you repeat "the
+numbers are people" every module it becomes a slogan and stops meaning anything. Gravity,
+not sensation.
+:::
+
+# The course. {.unnumbered background-color="#003594"}
+
+## Six weeks address six questions about Pennsylvania {.smaller}
+
+Each question is answered with code written by the student.
+
+| | Skill | Application |
+|---|---|---|
+| **0** | Running code in a notebook | Extracting one value from one file |
+| **1** | Interrogating values | Comparing two counties of similar size |
+| **2** | Handling many values at once | Identifying the pandemic's worst month |
+| **3** | Whole-dataset arithmetic | Identifying counties with the worst air quality |
+| **4** | Reshaping data to fit a question | Locating infant risk — and where it is unreportable |
+| **5** | Constructing figures from tables | Establishing what predicts asthma prevalence |
+| **6** | Conducting an analysis end to end | Producing a full report on firearm injury |
+
+**Every dataset originates with the PA Department of Health, the CDC, or the EPA.**
+
+::: {.notes}
+Do not name NumPy or pandas here. The names mean nothing on day one and naming them buys
+anxiety, not clarity. They meet NumPy in module 3 and pandas in module 4, when the names
+attach to something they have already felt the need for.
+
+If the room wants specifics, foreshadow module 4: the honest answer for twenty-three
+counties is that nobody will tell you the infant mortality rate. That is a real result,
+not a failure. Say it that way and leave it — the explanation is six weeks out.
+
+Worth saying plainly: "You'll write all of this yourself. I'm not going to hand you a
+notebook that already works."
+:::
+
+## The objective is analytic, not vocational {.smaller}
+
+The purpose of this course is **not** programming proficiency as an end in itself.
+
+The purpose is to pose a question about a population and obtain a defensible answer from
+data. **Code is instrumental.**
+
+::: {.callout-tip}
+## Prior R coursework transfers directly
+Six weeks of R established the conceptual apparatus: what a variable holds, why grouping
+precedes summarizing, why a rate supports comparison and a count does not. Python supplies
+a second implementation of familiar ideas.
+
+Where a Python construct has a direct R analogue, this course notes the correspondence in
+one line and proceeds.
+:::
+
+::: {.notes}
+This is where you set expectations for pace. Say it directly: "You're not here to become
+programmers, and I'm not going to teach this like a CS course, because you're not CS
+students."
+
+The bridge callouts are deliberately one line each. Do not build a comparison table
+between R and Python — it doubles the vocabulary load and teaches neither language well.
+If someone asks a detailed "but in R you'd..." question, answer it in ten seconds and move
+on.
+:::
+
+## The lecture and lab sequence inverts twice {.smaller}
+
+Sessions meet Tuesday and Thursday, 9:30–10:45, in 105 Lawrence Hall.
+
+1. **Modules 0–3** follow a Thursday lecture, Tuesday lab pattern. **Module 4 inverts** —
+   lecture Thursday 10/29, lab Thursday 11/5. **Module 5 inverts again** — lecture Tuesday,
+   lab Thursday.
+2. **Module 4's lab falls six days after its lecture**, spanning Election Day. This is the
+   densest module with the longest interval, and its lab restates prior material
+   accordingly.
+
+::: {.callout-warning}
+## This schedule is documented, not memorized
+The full calendar is on Canvas, and each module's README states its own dates. It appears
+here so the November inversion is expected rather than disorienting.
+:::
+
+::: {.notes}
+Thirty seconds on this, not three minutes. The only thing that matters is that when week
+nine feels off-rhythm, they know it's the schedule and not them. Say: "When this feels
+weird in November, it's supposed to."
+
+Module 6 on 11/17 is a single combined session — about twenty minutes of teaching, then
+studio time where they build the thing that becomes their project. Mention it now so the
+shape of the end of term is visible.
+:::
+
+## Assessment weights four components {.smaller}
+
+| Component | Weight | Detail |
+|---|---|---|
+| **Labs** (in class) | 30% | Submitted to Canvas the day of class. Lowest per module dropped. |
+| **Weekly homework** | 35% | Four per module, **due Mondays**. Lowest dropped. Pairs permitted. |
+| **Final project** | 30% | **Individual.** Presentations 12/1 and 12/3. |
+| **Participation** | 5% | Top Hat. |
+
+Four criteria determine marks: **correctness and reproducibility of code**, **quality of
+interpretation**, **presentation** — style, readability, grammar, spelling — and
+**effective integration of computer output into written work**.
+
+::: {.callout-important}
+## Reproducibility is assessed explicitly
+Code that produced a result once and cannot produce it again constitutes incomplete work.
+Module 6 is organized around this criterion; it applies from the first submission.
+:::
+
+::: {.notes}
+Flag the grammar-and-spelling criterion out loud. It's in the syllabus, students routinely
+assume it's boilerplate, and it isn't — presentation quality is a named criterion and it
+does move grades.
+
+Reproducibility gets its own callout because it's the one criterion with no R analogue in
+their heads yet. Give them the concrete version: "If you restart your notebook and run
+every cell top to bottom, does it still produce your report? If not, it isn't finished."
+In module 6 that becomes an actual button they press.
+:::
+
+## Generative AI is not permitted in this course {.smaller}
+
+The prohibition covers labs, homework, and the final project.
+
+**The rationale is specific.** The assessed outcome is the student's own capability. A
+model that produces working code yields a submission that executes and an analyst who
+cannot diagnose it. The skill is acquired during the six weeks it takes to acquire it.
+
+::: {.callout-warning}
+## The official environment ships an AI assistant enabled by default
+Google Colab includes Gemini. Disabling it is a required setup step, documented on the
+following slide, and takes approximately fifteen seconds.
+:::
+
+**Substitutes:** office hours, lab partners, the class channel, the instructor.
+
+::: {.notes}
+Give the reason once, without an academic-integrity lecture. Undergraduates respond far
+better to "here's why this rule exists" than to a threat, and the reason here is honestly
+a good one. Say something like: "I'd rather you submit something broken that you
+understand than something perfect that you don't."
+
+Be candid about the awkward part — the university's official environment ships an AI
+assistant switched on, and we're asking them to turn it off. Naming that costs nothing and
+buys you credibility for the rest of the policy.
+
+The substitutes line matters. Say you mean it, and say when your office hours are.
+:::
+
+# Colab. {.unnumbered background-color="#003594"}
+
+## Google Colab is the course environment {.smaller}
+
+Colab provides a browser-based notebook executing on Google's infrastructure. No local
+installation is required.
+
+**Access at [colab.research.google.com](https://colab.research.google.com) using a Pitt account.**
+
+| Operation | Location |
+|---|---|
+| New notebook | `File > New notebook` |
+| Rename | Click the title, upper left |
+| Save to Drive | `File > Save a copy in Drive` — **required before editing** |
+| Reconnect the runtime | `Runtime > Connect`, upper right |
+
+::: {.callout-warning}
+## A shared notebook opens as a view, not as a file
+Editing a shared notebook without first saving a copy modifies nothing durable. `File >
+Save a copy in Drive` establishes an owned file. **Work is lost to this omission
+routinely.**
+:::
+
+::: {.notes}
+Do this live on the projector instead of reading the table. Two minutes, screen shared,
+and have them follow along on their own machines.
+
+The "save a copy" warning is the single highest-value sentence in this section. It happens
+every term without exception. Tell them so: "Somebody in this room is going to lose an
+hour of lab work to this. It may as well be somebody who was warned."
+
+Anaconda is documented on Canvas as an optional local setup. Don't spend class time on it
+— Colab is official and everything graded runs there.
+:::
+
+## Disabling Gemini is a required setup step {.smaller}
+
+**`Tools > Settings > AI Assistance`** — disable **both** settings:
+
+- **Show AI-powered code completions**
+- **Show generative AI features**
+
+::: {.callout-important}
+## Inline completion bypasses the decision being assessed
+Accepting a suggested line is not an authored line. Independent of intent, the result is
+submitted code the student did not choose. Disabling the feature eliminates the ambiguity.
+:::
+
+**These settings can revert after a Colab update and warrant periodic verification.**
+
+::: {.notes}
+Do this live as well, and ask for hands up when both toggles are off. Thirty seconds, and
+it's the only way to know the room actually did it rather than nodding.
+
+The distinction worth drawing out loud: this isn't mainly about cheating. It's that inline
+completion removes the moment where you decide what the code should do — and that moment
+is the entire skill. Say that; it lands better than the policy framing.
+:::
+
+## A notebook preserves execution state, not screen order {.smaller}
+
+Notebooks contain **code** cells and **text** cells. `Shift+Enter` executes a cell and
+advances.
+
+The consequential property: **the interpreter retains what was executed, not what is
+displayed.**
+
+```python
+population = 143786      # executed first
+
+population = 157795      # executed second
+
+# The first cell is then edited to 999999 and NOT re-executed.
+# The value of population remains 157795.
+```
+
+::: {.callout-warning}
+## Execution order is invocation order
+Execution does not proceed top to bottom. The bracketed number beside each cell records
+the true sequence. This accounts for roughly half of all inexplicable notebook behavior.
+:::
+
+**Resolution:** `Runtime > Restart and run all`, which is also the test of whether a
+notebook is reproducible.
+
+::: {.notes}
+This is the most important idea in module 0 and the one with no R-script analogue — a
+sourced R script runs top to bottom, always. A notebook does not.
+
+Do the worked example live: run three cells, go back and change the first, don't re-run
+it, then print. Ask the room what it will print *before* you press it. Enough people guess
+wrong that the point lands hard, and it's much better learned from a wrong guess than from
+a slide.
+
+Connect it forward explicitly: "restart and run all" is what reproducibility means in
+practice, and it's 30% of the grade in module 6.
+:::
+
+## Two mechanisms transfer files into Colab {.smaller}
+
+**Upload** — the folder icon in the left sidebar, then the upload control. Immediate, but
+the file is discarded when the runtime disconnects.
+
+**Drive mount** — persistent, and the preferred mechanism:
+
+```python
+from google.colab import drive
+drive.mount('/content/drive')
+```
+
+A mounted file is then addressed by path:
+
+```python
+'/content/drive/MyDrive/pubhlt0411/pa_overdose_county_year.csv'
+```
+
+::: {.callout-note}
+## Uploaded files do not persist
+Runtime disconnection discards uploaded files. Mounting Drive establishes a stable path
+across sessions.
+:::
+
+::: {.notes}
+Demonstrate the mount live. The permissions pop-up is confusing the first time and much
+less confusing once they've watched somebody click through it.
+
+Practical instruction: have them make a `pubhlt0411` folder in Drive today and drop the
+overdose CSV into it. Every later module assumes there's somewhere to put a file.
+
+Worth saying: re-uploading the same CSV four times in one lab is a rite of passage, and
+you'd rather they skip it.
+
+Note the slides they're looking at run Python in the browser instead — no Colab, no
+upload. That's a teaching convenience for lecture. Graded work happens in Colab.
+:::
+
+# Values. {.unnumbered background-color="#003594"}
+
+## Assignment binds a name to a value {.smaller}
+
+The `=` operator does not assert equality. It **binds**: the expression on the right is
+evaluated, and the name on the left refers to the result.
+
+```{pyodide}
+county = "Schuylkill"
+overdose_deaths = 60
+population = 143786
+
+print(county)
+print(overdose_deaths)
+```
+
+The statement is read right to left: construct the value, then attach the name.
+
+::: {.callout-tip}
+## R analogue
+`county <- "Schuylkill"`. The semantics are equivalent. Python uses `=` and provides no
+`<-`.
+:::
+
+::: {.notes}
+Say the right-to-left reading out loud — it's worth thirty seconds. Students who read `=`
+as "equals" get stuck in module 2 on `count = count + 1`, which is nonsense as an equation
+and obvious as an instruction.
+
+These are the real 2023 Schuylkill County numbers, and they stay these numbers all
+semester. When Schuylkill comes back in module 1, it comes back with the same variable
+names and the same values. That consistency is deliberate — tell them the stories recur.
+:::
+
+## Identifier choice is a documentation decision {.smaller}
+
+```{pyodide}
+# Syntactically valid, semantically opaque.
+x = 60
+y = 143786
+
+# Syntactically valid, self-documenting.
+overdose_deaths = 60
+population = 143786
+
+print(overdose_deaths / population * 100000)
+```
+
+**Constraints:** letters, digits, underscores; no spaces; no leading digit. Identifiers are
+case-sensitive — `Population` and `population` denote different names.
+
+**Convention:** `lower_case_with_underscores`, not `PopulationCount`.
+
+::: {.callout-warning}
+## Readability is an assessed criterion
+Identifier quality falls under presentation, which is a named grading criterion in this
+course.
+:::
+
+::: {.notes}
+Don't soften this one. The habit forms in the first week or it doesn't form at all, and
+the cost of `x` stays invisible until the notebook is long enough to hurt. Tell them: "`x`
+costs you marks here, and it costs your future self twenty minutes."
+
+R conventions are often `dot.separated` or `camelCase`. Python is near-universally
+`snake_case`. One line, then move on.
+:::
+
+## Every value carries a type that determines valid operations {.smaller}
+
+Four types account for nearly all data handled in this course.
+
+```{pyodide}
+county = "Schuylkill"        # str   — text
+overdose_deaths = 60         # int   — whole number
+rate_per_100k = 41.7         # float — decimal number
+is_rural = True              # bool  — True or False
+
+print(type(county))
+print(type(overdose_deaths))
+print(type(rate_per_100k))
+print(type(is_rural))
+```
+
+`type()` reports the type of any value and is the appropriate diagnostic when an operation
+behaves unexpectedly.
+
+::: {.callout-tip}
+## R analogue
+`character`, `integer`, `numeric`, `logical`. Python writes `True` and `False`, not `TRUE`
+and `FALSE`.
+:::
+
+::: {.notes}
+Stress the capital `T`. `TRUE` raises a NameError in Python and it's the single most common
+import from R muscle memory — they will all do it at least once.
+
+Worked example: ask what `type(60)` and `type(60.0)` return. Same number to a human, `int`
+and `float` to Python. That distinction is exactly what produces the division surprise two
+slides from now, so plant it here.
+:::
+
+## Exercise: bind one county's values {.smaller}
+
+Centre County, 2023: seven deaths, population 157,795.
+
+```{pyodide}
+#| exercise: m0_assign
+county = "Centre"
+overdose_deaths = ______
+population = 157795
+
+print(county, overdose_deaths, population)
+```
+
+```{pyodide}
+#| exercise: m0_assign
+#| hint: true
+# Seven deaths, written as a whole number without quotation marks.
+# Quoted, the value becomes the string "7", which does not support division.
+```
+
+```{pyodide}
+#| exercise: m0_assign
+#| solution: true
+county = "Centre"
+overdose_deaths = 7
+population = 157795
+
+print(county, overdose_deaths, population)
+```
+
+::: {.notes}
+Fill this in with the room rather than letting them work alone. It's the first `{pyodide}`
+cell they touch, and the point is the mechanics of running a cell, not the difficulty of
+the blank.
+
+Before you type the answer, ask why `"7"` in quotes would be wrong. Somebody will say "it's
+text" — promise them the TypeError slide is two slides away and that they're about to see
+exactly what goes wrong.
+
+Centre County is the counterweight to Schuylkill and returns in module 1 as the direct
+comparison.
+:::
+
+## Python does not coerce between text and numbers {.smaller}
+
+**Scenario:** a file supplies `"60"` as text. Adding eight should yield `68`.
+
+```{pyodide}
+overdose_deaths = "60"
+
+print(overdose_deaths + 8)
+```
+
+::: {.callout-warning}
+## `TypeError` — unsupported operand types
+`TypeError: can only concatenate str (not "int") to str`
+
+The `+` operator is defined for `str + str` (concatenation) and for `int + int` (addition),
+but not across the two. Rather than infer an intent, the interpreter raises.
+
+**Resolution:** convert explicitly — `int(overdose_deaths) + 8`.
+:::
+
+::: {.notes}
+Run it broken. Let the traceback appear on the projector and read the last line out loud —
+they need to learn early that the bottom line of a traceback is the sentence that matters,
+and that the wall of text above it is mostly noise.
+
+Then fix it live and re-run.
+
+Be candid: everybody hits this one, including you, all semester. Data read from a file
+arrives as text constantly. Tell them they'll stop being surprised by it around week three.
+
+Point out that this error is loud, and that loud is a gift — the dangerous errors are the
+silent ones that hand you a wrong number without complaint. That's the next slide.
+:::
+
+## Conversion between types is explicit {.smaller}
+
+```{pyodide}
+deaths_as_text = "60"
+
+print(int(deaths_as_text) + 8)        # 68  — numeric addition
+print(deaths_as_text + "8")           # 608 — string concatenation
+print(float("41.7"))                  # text to floating point
+print(str(60) + " deaths")            # numeric to text
+print(int(41.7))                      # 41  — truncation, not rounding
+```
+
+::: {.callout-warning}
+## `int()` truncates toward zero
+`int(41.7)` evaluates to `41`. The fractional component is discarded rather than rounded.
+`round(41.7)` performs rounding and evaluates to `42`.
+:::
+
+::: {.notes}
+Pause on the `608` line. It is not an error — Python did exactly what it was told and
+produced a wrong answer in silence. That's the more dangerous failure mode and this is the
+first time they see it. Ask them how they'd catch it. The answer is `type()`, and that they
+have to be suspicious.
+
+Truncation bites whenever they compute a per-something count. If you want a second example,
+show `int(49.8)` returning 49 — that's the average deaths per county, and losing 0.8 of a
+person is a real distortion.
+:::
+
+## Seven arithmetic operators {.smaller}
+
+```{pyodide}
+print(3336 + 67)      # addition
+print(3336 - 67)      # subtraction
+print(3336 * 2)       # multiplication
+print(3336 / 67)      # division       -> float, always
+print(3336 // 67)     # floor division -> 49, remainder discarded
+print(3336 % 67)      # modulo         -> 53, the remainder
+print(2 ** 10)        # exponentiation -> 1024
+```
+
+::: {.callout-important}
+## Three operators warrant particular attention
+`/` returns a `float` even when the division is exact. `//` discards the remainder.
+Exponentiation is `**`; the `^` operator denotes bitwise exclusive-or and **evaluates
+without error to an incorrect result** when used for powers.
+:::
+
+::: {.notes}
+`^` is the R import that hurts most. In R, `2^10` is 1024. In Python, `2^10` is 8 — wrong,
+silent, and plausible-looking enough to survive a code review. Demonstrate it if there's
+time; the silence is the whole lesson.
+
+`%` corresponds to R's `%%`. One character, same job. Mention it and move on.
+:::
+
+## Exercise: compute a rate per 100,000 {.smaller}
+
+A rate per 100,000 is the count divided by the population, multiplied by 100,000.
+Schuylkill County, 2023.
+
+```{pyodide}
+#| exercise: m0_rate
+overdose_deaths = 60
+population = 143786
+
+rate_per_100k = overdose_deaths / population * ______
+
+print(rate_per_100k)
+```
+
+```{pyodide}
+#| exercise: m0_rate
+#| hint: true
+# The multiplier is 100000, written without a comma separator.
+# Python parses 100,000 as two values, not one, and the result will not be a rate.
+```
+
+```{pyodide}
+#| exercise: m0_rate
+#| solution: true
+overdose_deaths = 60
+population = 143786
+
+rate_per_100k = overdose_deaths / population * 100000
+
+print(rate_per_100k)
+```
+
+::: {.callout-note}
+## The output carries excessive precision
+`41.728680121847745` is arithmetically correct and unsuitable for presentation. Formatting
+is addressed on the following slide.
+:::
+
+::: {.notes}
+The comma warning in the hint is not hypothetical. `100,000` is legal Python that means
+something completely different — it builds a tuple — so it fails confusingly rather than
+cleanly. Somebody will do it.
+
+They have computed a rate in R already. Say so: this is the same arithmetic they already
+know, and the only new thing is where Python wants the parentheses.
+
+Leave the ugly output on screen. Don't clean it up — it's the motivation for the next
+slide, and they should feel the need before they're handed the tool.
+:::
+
+## f-strings interpolate values into text {.smaller}
+
+An `f` prefix on a string literal causes each `{expression}` to be evaluated and
+substituted.
+
+```{pyodide}
+county = "Schuylkill"
+rate_per_100k = 41.72
+
+print(f"{county} County: {rate_per_100k} per 100,000")
+print(f"{county} County: {rate_per_100k:.1f} per 100,000")
+```
+
+The `:.1f` format specifier fixes the output at one digit after the decimal point; `:.2f`
+gives two.
+
+::: {.callout-tip}
+## Format at presentation, retain full precision in computation
+Rounding applied at the point of printing does not affect stored values. Rounding applied
+during computation propagates through every subsequent step.
+:::
+
+::: {.notes}
+`.1f` is the one they'll use constantly. This course reports rates to one decimal by
+convention, because a second decimal implies a precision the underlying data doesn't
+support — worth saying, since they'll otherwise copy whatever Python prints.
+
+R analogue: `sprintf("%.1f", x)` or `glue()`. One line.
+
+The forward-looking point is real, not theoretical. In module 4 they compute group rates
+across many counties, and rounding at the wrong step there produces totals that are
+visibly, embarrassingly wrong.
+:::
+
+## Comments document rationale, not syntax {.smaller}
+
+Text following `#` is ignored by the interpreter and addressed to the reader.
+
+```{pyodide}
+# Redundant: restates the operation.
+rate_per_100k = 60 / 143786 * 100000   # divide deaths by population
+
+# Substantive: records a decision about the data.
+# PA DOH suppresses counts of 1-5. Counties below that threshold are
+# blank rather than zero; a blank does not indicate the absence of deaths.
+overdose_deaths = 60
+
+print(f"{rate_per_100k:.1f}")
+```
+
+::: {.callout-important}
+## Comments are assessed
+Interpretation and presentation together account for the majority of the grading criteria.
+Comments are where analytic reasoning becomes visible to a reader.
+:::
+
+::: {.notes}
+The suppression comment is a genuine preview of module 4, where blank-versus-zero becomes
+an entire teaching case. Forest County has both, in the same column, in the real file —
+mention that if you want to make it concrete.
+
+The rule to give them out loud: comment the decision, not the syntax. If a line's *what*
+isn't obvious, the fix is usually a better variable name rather than a comment explaining
+a bad one.
+:::
+
+# One real number. {.unnumbered background-color="#003594"}
+
+## The source file is accessible from this session {.smaller}
+
+`data/pa_overdose_county_year.csv` — 402 observations across 67 counties, 2019–2024.
+
+```{pyodide}
+with open("data/pa_overdose_county_year.csv") as handle:
+    for line in handle:
+        print(line.rstrip())
+        break
+```
+
+The first line is the header, naming each column.
+
+```{pyodide}
+with open("data/pa_overdose_county_year.csv") as handle:
+    lines = handle.readlines()
+
+print(f"Rows in the file: {len(lines)}")
+print(lines[1].rstrip())
+print(lines[2].rstrip())
+```
+
+::: {.notes}
+Do not teach file reading here. This is a demonstration that the file is real and
+reachable — they watch it, they don't reproduce it. Module 2 teaches loops and module 4
+teaches pandas; both open this same file properly.
+
+What to point at: the header names, and that 403 lines is 402 county-years plus one header
+row. Real files have a header, and forgetting it is a classic off-by-one that will bite
+them in module 2.
+:::
+
+## Two counties of comparable population {.smaller}
+
+Schuylkill and Centre, 2023. Both approximately 150,000 residents.
+
+```{pyodide}
+schuylkill_deaths = 60
+schuylkill_population = 143786
+
+centre_deaths = 7
+centre_population = 157795
+
+schuylkill_rate = schuylkill_deaths / schuylkill_population * 100000
+centre_rate = centre_deaths / centre_population * 100000
+
+print(f"Schuylkill: {schuylkill_rate:.1f} per 100,000")
+print(f"Centre:     {centre_rate:.1f} per 100,000")
+print(f"Ratio:      {schuylkill_rate / centre_rate:.1f}x")
+```
+
+::: {.notes}
+Run it, then stop talking. Let the output do the work — resist narrating over the moment
+the ratio appears.
+
+These are the real 2023 rows from the file on the previous slide: 60 deaths in Schuylkill,
+7 in Centre. Centre's low count is partly a young student population, which is module 1's
+argument and not today's.
+
+If a student asks "why is it so different?", the honest answer is "that's Thursday's entire
+lecture." Say it that way — the question is the hook for module 1, and answering it now
+spends it.
+:::
+
+## The state figure resolves into a ninefold difference {.smaller}
+
+**Schuylkill County: 41.7 per 100,000. Centre County: 4.4 per 100,000.**
+
+Comparable populations. **A ninefold difference in rate.**
+
+::: {.callout-important}
+## What the state total concealed
+3,336 describes Pennsylvania. It resolves into 41.7 in one county and 4.4 in another, and
+no resident experiences the state average. **This is the justification for conducting the
+remainder of the course at the county level.**
+:::
+
+::: {.notes}
+This is the payoff. Land it and stop — do not add another point after it.
+
+Say the closing line plainly, out loud: "Two counties, nearly the same size. There's the
+gap. You wrote the code that found it, in your first hour of Python." That sentence is
+spoken, not printed — it's the promise from the cold open being paid off, and it works
+because they did the work.
+
+Then hold the door open for Thursday: which county is which, and how would you know without
+me telling you? Module 1 makes them classify it themselves.
+:::
+
+## Session outcomes {.smaller}
+
+- Executing cells in Colab, and accounting for **execution order as invocation order**
+- Disabling generative AI assistance, and the rationale for the requirement
+- Transferring files into Colab by upload or Drive mount
+- Binding values to descriptive identifiers
+- Distinguishing `int`, `float`, `str`, and `bool` via `type()`, and converting between them
+- Applying arithmetic operators, including `//`, `%`, and `**`
+- Formatting output with f-strings and the `:.1f` specifier
+
+::: {.callout-tip}
+## Preparation for Thursday
+Create a `pubhlt0411` folder in Drive. Open a new Colab notebook, save a copy to that
+folder, disable both AI settings, and compute the 2023 rate for one county of interest
+using the file posted to Canvas.
+:::
+
+**Module 1 addresses the classification: which county is which, and on what evidence.**
+
+::: {.notes}
+The pre-work is genuinely two minutes, and its real purpose is to front-load every Colab
+problem into a moment when they aren't also trying to learn syntax. Tell them that's why —
+they'll actually do it if the reason is honest.
+
+Suggest they pick their own county for the rate calculation. It stops being an exercise
+the moment it's their hometown.
+
+Close on the module 1 question. Same two counties, same framing, same numbers — the story
+continues on Thursday rather than restarting.
+:::

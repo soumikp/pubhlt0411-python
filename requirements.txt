@@ -1,0 +1,6 @@
+# Posit Connect Cloud reads this to set up the Python environment used to
+# RENDER the Quarto content. The interactive code cells themselves run in the
+# student's browser via Pyodide (quarto-live) and do NOT use this environment.
+# Rendering the live-revealjs / live-html output needs only Jupyter to be
+# present; no data-science packages are required at render time for M1.
+jupyter

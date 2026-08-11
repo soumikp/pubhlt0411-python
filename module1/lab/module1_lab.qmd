@@ -1,0 +1,864 @@
+---
+# =====================================================================
+# Py Lab 1 — Conditions and Sequences
+# PUBHLT 0411 · Python for Public Health Data Analysis
+#
+# Format: live-revealjs with smaller: true, one exercise per slide.
+# (HANDOFF v3 §7 — labs are live-revealjs, NOT live-html. Follow the
+# built files; v1's own README says live-html and is wrong.)
+#
+# Data: NONE. §4 specifies inline county records for M1. Every value is
+# lifted verbatim from data/pa_overdose_county_year.csv, 2023 rows.
+#
+# Required assets (same folder):
+#   pitt-theme.scss
+#   _extensions/r-wasm/live/
+# =====================================================================
+title: "Py Lab 1: Conditions and Sequences"
+subtitle: "PUBHLT 0411 · Python for Public Health Data Analysis"
+author: "Soumik Purkayastha"
+date: today
+date-format: long
+
+format:
+  live-revealjs:
+    theme: [white, pitt-theme.scss]
+    slide-number: c/t
+    show-slide-number: all
+    chalkboard: false
+    history: true
+    smaller: true
+    scrollable: true
+    incremental: false
+    code-copy: hover
+    highlight-style: github
+    width: 1280
+    height: 720
+    margin: 0.08
+    footer: "soumik@pitt.edu  ·  PUBHLT 0411 · Py Lab 1"
+
+engine: knitr
+
+pyodide:
+  packages: []
+
+execute:
+  echo: true
+  warning: false
+  message: false
+  cache: false
+---
+
+{{< include _extensions/r-wasm/live/_knitr.qmd >}}
+
+# Py Lab 1 {.unnumbered background-color="#003594"}
+
+## Conditions and Sequences {.smaller}
+
+The lecture classified Schuylkill and Centre counties. This lab extends the classification
+to additional counties, parses record lines into fields, and assembles parallel lists.
+
+::: {.callout-note}
+## Lab mechanics
+- Each exercise supplies a worked example, then a similar problem to complete.
+- Click into a code block and press **Run**. Edit the blanks (`____`) and run again.
+- **Hint** gives the reasoning. **Solution** gives the answer.
+- Arrow keys navigate between exercises — one exercise per slide.
+- Submit to Canvas at the end of class.
+:::
+
+::: {.callout-tip}
+## The data and its anchors
+Every county figure in this lab is the real 2023 value from the Pennsylvania Department of
+Health file used throughout the course.
+
+| Anchor | Value |
+|---|---|
+| Pennsylvania overdose mortality rate | **25.6** per 100,000 |
+| Healthy People 2030 target | **13.1** per 100,000 |
+| Schuylkill County | 60 deaths, population 143,786 |
+| Centre County | 7 deaths, population 157,795 |
+
+A rate per 100,000 is `deaths / population * 100000`.
+:::
+
+# Exercise 1 — Compare two rates {.unnumbered background-color="#003594"}
+
+## Exercise 1 — Compare two rates {.smaller}
+
+**Worked example.** A comparison evaluates to `True` or `False`.
+
+```{pyodide}
+schuylkill_rate = 41.7
+state_rate = 25.6
+
+print(schuylkill_rate > state_rate)
+```
+
+**Your turn.** Beaver County recorded 67 deaths in a population of 165,631. Compute its
+rate and test whether it exceeds the state rate.
+
+```{pyodide}
+#| exercise: ex1_compare
+beaver_deaths = 67
+beaver_population = 165631
+state_rate = 25.6
+
+beaver_rate = beaver_deaths / beaver_population * ____
+
+above_state = beaver_rate ____ state_rate
+
+print(f"Beaver: {beaver_rate:.1f} per 100,000")
+print("Above the state rate:", above_state)
+```
+
+```{pyodide}
+#| exercise: ex1_compare
+#| hint: true
+# First blank: the per-100,000 multiplier, written without a comma — 100000.
+# Second blank: the greater-than operator, >.
+# Beaver's rate works out to 40.5, so above_state should be True.
+```
+
+```{pyodide}
+#| exercise: ex1_compare
+#| solution: true
+beaver_deaths = 67
+beaver_population = 165631
+state_rate = 25.6
+
+beaver_rate = beaver_deaths / beaver_population * 100000
+
+above_state = beaver_rate > state_rate
+
+print(f"Beaver: {beaver_rate:.1f} per 100,000")
+print("Above the state rate:", above_state)
+```
+
+```{pyodide}
+#| exercise: ex1_compare
+#| check: true
+assert abs(beaver_rate - 40.4514) < 0.01, "Beaver's rate should be about 40.5 per 100,000."
+assert above_state is True, "Beaver is above the state rate of 25.6."
+```
+
+# Exercise 2 — Combine two conditions {.unnumbered background-color="#003594"}
+
+## Exercise 2 — Combine two conditions {.smaller}
+
+**Worked example.** `and` requires both sides to hold.
+
+```{pyodide}
+population = 143786
+rate_per_100k = 41.7
+
+print(population > 100000 and rate_per_100k > 25.6)
+```
+
+**Your turn.** Public health planners often target **large counties with high burden**.
+Test whether Cambria County qualifies: 66 deaths, population 130,668. The thresholds are a
+population above 100,000 and a rate above the state rate.
+
+```{pyodide}
+#| exercise: ex2_and
+cambria_deaths = 66
+cambria_population = 130668
+
+cambria_rate = cambria_deaths / cambria_population * 100000
+
+is_priority = cambria_population > 100000 ____ cambria_rate > 25.6
+
+print(f"Cambria: {cambria_rate:.1f} per 100,000")
+print("Priority county:", is_priority)
+```
+
+```{pyodide}
+#| exercise: ex2_and
+#| hint: true
+# Both conditions must hold, so the operator is `and` — the word, not &&.
+# Cambria's rate is 50.5 and its population is 130,668, so both are satisfied.
+```
+
+```{pyodide}
+#| exercise: ex2_and
+#| solution: true
+cambria_deaths = 66
+cambria_population = 130668
+
+cambria_rate = cambria_deaths / cambria_population * 100000
+
+is_priority = cambria_population > 100000 and cambria_rate > 25.6
+
+print(f"Cambria: {cambria_rate:.1f} per 100,000")
+print("Priority county:", is_priority)
+```
+
+```{pyodide}
+#| exercise: ex2_and
+#| check: true
+assert abs(cambria_rate - 50.5096) < 0.01, "Cambria's rate should be about 50.5 per 100,000."
+assert is_priority is True, "Cambria satisfies both conditions."
+```
+
+# Exercise 3 — Branch on a condition {.unnumbered background-color="#003594"}
+
+## Exercise 3 — Branch on a condition {.smaller}
+
+**Worked example.** The colon ends the `if` line; the indented block runs conditionally.
+
+```{pyodide}
+rate_per_100k = 41.7
+
+if rate_per_100k > 25.6:
+    print("Above the state rate")
+else:
+    print("At or below the state rate")
+```
+
+**Your turn.** Adams County recorded 7 deaths in a population of 106,748. Report whether it
+has met the Healthy People 2030 target of 13.1 per 100,000.
+
+```{pyodide}
+#| exercise: ex3_if
+adams_deaths = 7
+adams_population = 106748
+
+adams_rate = adams_deaths / adams_population * 100000
+
+if adams_rate < 13.1____
+    message = "Target met"
+else:
+    message = "Target not met"
+
+print(f"Adams: {adams_rate:.1f} per 100,000 — {message}")
+```
+
+```{pyodide}
+#| exercise: ex3_if
+#| hint: true
+# The blank is the colon that ends every if line. Without it Python raises SyntaxError.
+# Adams comes out at 6.6 per 100,000, which is below 13.1 — the target is met.
+```
+
+```{pyodide}
+#| exercise: ex3_if
+#| solution: true
+adams_deaths = 7
+adams_population = 106748
+
+adams_rate = adams_deaths / adams_population * 100000
+
+if adams_rate < 13.1:
+    message = "Target met"
+else:
+    message = "Target not met"
+
+print(f"Adams: {adams_rate:.1f} per 100,000 — {message}")
+```
+
+```{pyodide}
+#| exercise: ex3_if
+#| check: true
+assert abs(adams_rate - 6.5575) < 0.01, "Adams's rate should be about 6.6 per 100,000."
+assert message == "Target met", "Adams is below 13.1, so the target is met."
+```
+
+# Exercise 4 — Three-way classification {.unnumbered background-color="#003594"}
+
+## Exercise 4 — Three-way classification {.smaller}
+
+**Worked example.** Evaluation stops at the first branch that holds.
+
+```{pyodide}
+rate_per_100k = 19.0
+
+if rate_per_100k >= 25.6:
+    print("High")
+elif rate_per_100k >= 13.1:
+    print("Moderate")
+else:
+    print("Low")
+```
+
+**Your turn.** Classify Lebanon County: 31 deaths, population 144,252. Use the same two
+thresholds — the state rate of 25.6 and the national target of 13.1.
+
+```{pyodide}
+#| exercise: ex4_elif
+lebanon_deaths = 31
+lebanon_population = 144252
+
+lebanon_rate = lebanon_deaths / lebanon_population * 100000
+
+if lebanon_rate >= 25.6:
+    classification = "High"
+____ lebanon_rate >= 13.1:
+    classification = "Moderate"
+else:
+    classification = "Low"
+
+print(f"Lebanon: {lebanon_rate:.1f} per 100,000 — {classification}")
+```
+
+```{pyodide}
+#| exercise: ex4_elif
+#| hint: true
+# The blank introduces the middle branch: elif.
+# Lebanon's rate is 21.5 — below the state rate, above the national target.
+# Writing a second plain `if` here would also run, but `elif` states the intent:
+# these three categories are mutually exclusive.
+```
+
+```{pyodide}
+#| exercise: ex4_elif
+#| solution: true
+lebanon_deaths = 31
+lebanon_population = 144252
+
+lebanon_rate = lebanon_deaths / lebanon_population * 100000
+
+if lebanon_rate >= 25.6:
+    classification = "High"
+elif lebanon_rate >= 13.1:
+    classification = "Moderate"
+else:
+    classification = "Low"
+
+print(f"Lebanon: {lebanon_rate:.1f} per 100,000 — {classification}")
+```
+
+```{pyodide}
+#| exercise: ex4_elif
+#| check: true
+assert abs(lebanon_rate - 21.4901) < 0.01, "Lebanon's rate should be about 21.5 per 100,000."
+assert classification == "Moderate", "21.5 falls between 13.1 and 25.6, so the label is Moderate."
+```
+
+# Exercise 5 — Accumulate a total {.unnumbered background-color="#003594"}
+
+## Exercise 5 — Accumulate a total {.smaller}
+
+**Worked example.** `+=` rebinds a name to its current value plus another.
+
+```{pyodide}
+total = 0
+total += 60
+total += 7
+
+print(total)
+```
+
+**Your turn.** Total the deaths and the population across four counties, then compute the
+combined rate. Note that the combined rate is **not** the average of the four rates.
+
+```{pyodide}
+#| exercise: ex5_accumulate
+total_deaths = 0
+total_population = 0
+
+total_deaths += 60          # Schuylkill
+total_deaths += 7           # Centre
+total_deaths += 30          # Franklin
+total_deaths ____ 31        # Lebanon
+
+total_population += 143786
+total_population += 157795
+total_population += 157854
+total_population += 144252
+
+combined_rate = total_deaths / total_population * 100000
+
+print(f"Deaths: {total_deaths}, population: {total_population}")
+print(f"Combined rate: {combined_rate:.1f} per 100,000")
+```
+
+```{pyodide}
+#| exercise: ex5_accumulate
+#| hint: true
+# The blank is the augmented assignment operator: +=
+# The four counties total 128 deaths across 603,687 people, which is 21.2 per 100,000.
+```
+
+```{pyodide}
+#| exercise: ex5_accumulate
+#| solution: true
+total_deaths = 0
+total_population = 0
+
+total_deaths += 60          # Schuylkill
+total_deaths += 7           # Centre
+total_deaths += 30          # Franklin
+total_deaths += 31          # Lebanon
+
+total_population += 143786
+total_population += 157795
+total_population += 157854
+total_population += 144252
+
+combined_rate = total_deaths / total_population * 100000
+
+print(f"Deaths: {total_deaths}, population: {total_population}")
+print(f"Combined rate: {combined_rate:.1f} per 100,000")
+```
+
+```{pyodide}
+#| exercise: ex5_accumulate
+#| check: true
+assert total_deaths == 128, "The four counties total 128 deaths."
+assert total_population == 603687, "The four populations total 603,687."
+assert abs(combined_rate - 21.2027) < 0.01, "The combined rate is about 21.2 per 100,000."
+```
+
+::: {.callout-important}
+## Why the combined rate is not the average rate
+The four county rates are 41.7, 4.4, 19.0, and 21.5, averaging **21.7**. The combined rate
+is **21.2**. Averaging rates weights every county equally; combining counts weights each
+county by its population. **The combined rate is the correct one for a four-county region.**
+:::
+
+# Exercise 6 — Index a string {.unnumbered background-color="#003594"}
+
+## Exercise 6 — Index a string {.smaller}
+
+**Worked example.** Positions are numbered from zero. `[-1]` is the last.
+
+```{pyodide}
+county = "Schuylkill"
+
+print(county[0])
+print(county[-1])
+print(len(county))
+```
+
+**Your turn.** Extract the first character, the last character, and the length of
+`"Westmoreland"`.
+
+```{pyodide}
+#| exercise: ex6_index
+county = "Westmoreland"
+
+first_letter = county[____]
+last_letter = county[____]
+name_length = ____(county)
+
+print(first_letter, last_letter, name_length)
+```
+
+```{pyodide}
+#| exercise: ex6_index
+#| hint: true
+# First blank: 0 — Python counts positions from zero, not one.
+# Second blank: -1 — negative indices count backward from the end.
+# Third blank: len — the built-in that reports how many characters there are.
+```
+
+```{pyodide}
+#| exercise: ex6_index
+#| solution: true
+county = "Westmoreland"
+
+first_letter = county[0]
+last_letter = county[-1]
+name_length = len(county)
+
+print(first_letter, last_letter, name_length)
+```
+
+```{pyodide}
+#| exercise: ex6_index
+#| check: true
+assert first_letter == "W", "Position 0 holds 'W'."
+assert last_letter == "d", "Position -1 holds the final 'd'."
+assert name_length == 12, "'Westmoreland' has 12 characters."
+```
+
+# Exercise 7 — Slice a string {.unnumbered background-color="#003594"}
+
+## Exercise 7 — Slice a string {.smaller}
+
+**Worked example.** `[start:stop]` includes `start` and excludes `stop`.
+
+```{pyodide}
+county = "Schuylkill"
+
+print(county[0:4])
+print(county[4:])
+```
+
+**Your turn.** A record line begins with a four-digit year. Extract the year and the rest
+of the line separately.
+
+```{pyodide}
+#| exercise: ex7_slice
+record = "2023 Schuylkill County"
+
+year_text = record[0:____]
+remainder = record[____:]
+
+print(repr(year_text))
+print(repr(remainder))
+print(int(year_text) + 1)
+```
+
+```{pyodide}
+#| exercise: ex7_slice
+#| hint: true
+# The year occupies positions 0, 1, 2, 3 — so the stop position is 4, which is excluded.
+# The remainder starts at position 5, skipping the space at position 4.
+```
+
+```{pyodide}
+#| exercise: ex7_slice
+#| solution: true
+record = "2023 Schuylkill County"
+
+year_text = record[0:4]
+remainder = record[5:]
+
+print(repr(year_text))
+print(repr(remainder))
+print(int(year_text) + 1)
+```
+
+```{pyodide}
+#| exercise: ex7_slice
+#| check: true
+assert year_text == "2023", "Positions 0 through 3 hold the year."
+assert remainder == "Schuylkill County", "The remainder starts at position 5, after the space."
+```
+
+# Exercise 8 — Clean a value {.unnumbered background-color="#003594"}
+
+## Exercise 8 — Clean a value {.smaller}
+
+**Worked example.** Values read from a file arrive with whitespace attached.
+
+```{pyodide}
+raw = "  Schuylkill \n"
+
+print(repr(raw))
+print(repr(raw.strip()))
+```
+
+**Your turn.** County Health Rankings writes `"Mc Kean"`; the Census writes `"McKean"`.
+Clean the first into the second, then confirm the two now match.
+
+```{pyodide}
+#| exercise: ex8_clean
+from_rankings = "  Mc Kean \n"
+
+cleaned = from_rankings.____().replace(" ", "")
+
+print(repr(cleaned))
+print("Matches the Census spelling:", cleaned ____ "McKean")
+```
+
+```{pyodide}
+#| exercise: ex8_clean
+#| hint: true
+# First blank: strip — removes the leading spaces and the trailing newline.
+# Second blank: == — the equality test, not the assignment operator.
+# Order matters: strip first, then replace, or the internal space survives.
+```
+
+```{pyodide}
+#| exercise: ex8_clean
+#| solution: true
+from_rankings = "  Mc Kean \n"
+
+cleaned = from_rankings.strip().replace(" ", "")
+
+print(repr(cleaned))
+print("Matches the Census spelling:", cleaned == "McKean")
+```
+
+```{pyodide}
+#| exercise: ex8_clean
+#| check: true
+assert cleaned == "McKean", "Strip the whitespace, then remove the internal space."
+```
+
+::: {.callout-note}
+## This is a real mismatch
+"Mc Kean" and "McKean" are the actual spellings used by two of this course's sources. In
+Module 4 that single space breaks a join between two real files, and every McKean County
+value goes missing without any error being raised.
+:::
+
+# Exercise 9 — Split a record into fields {.unnumbered background-color="#003594"}
+
+## Exercise 9 — Split a record into fields {.smaller}
+
+**Worked example.** `.split()` divides text at a separator and returns a list.
+
+```{pyodide}
+line = "Schuylkill,2023,60,143786,41.7"
+fields = line.split(",")
+
+print(fields)
+print(fields[0])
+```
+
+**Your turn.** This is one line from the course data file. Extract the county name and the
+death count, converting the count to a number.
+
+```{pyodide}
+#| exercise: ex9_split
+line = "Fayette,2023,77,123915,62.1"
+
+fields = line.split("____")
+
+county = fields[0]
+deaths = ____(fields[2])
+population = int(fields[3])
+
+rate_per_100k = deaths / population * 100000
+
+print(f"{county}: {deaths} deaths, {rate_per_100k:.1f} per 100,000")
+```
+
+```{pyodide}
+#| exercise: ex9_split
+#| hint: true
+# First blank: the comma separator, "," — this is a CSV line.
+# Second blank: int — fields arrive as text, and "77" will not divide.
+# Fayette's rate comes out at 62.1, which matches the last field.
+```
+
+```{pyodide}
+#| exercise: ex9_split
+#| solution: true
+line = "Fayette,2023,77,123915,62.1"
+
+fields = line.split(",")
+
+county = fields[0]
+deaths = int(fields[2])
+population = int(fields[3])
+
+rate_per_100k = deaths / population * 100000
+
+print(f"{county}: {deaths} deaths, {rate_per_100k:.1f} per 100,000")
+```
+
+```{pyodide}
+#| exercise: ex9_split
+#| check: true
+assert county == "Fayette", "The county name is the first field."
+assert deaths == 77, "The death count is the third field, converted with int()."
+assert abs(rate_per_100k - 62.1414) < 0.01, "Fayette's rate is about 62.1 per 100,000."
+```
+
+# Exercise 10 — Build parallel lists {.unnumbered background-color="#003594"}
+
+## Exercise 10 — Build parallel lists {.smaller}
+
+**Worked example.** `.append()` adds one value to the end of a list.
+
+```{pyodide}
+counties = ["Schuylkill"]
+counties.append("Centre")
+
+print(counties)
+print(len(counties))
+```
+
+**Your turn.** Build two parallel lists and read the same position from each.
+
+```{pyodide}
+#| exercise: ex10_lists
+counties = []
+rates = []
+
+counties.append("Schuylkill")
+rates.append(41.7)
+
+counties.____("Centre")
+rates.append(4.4)
+
+counties.append("Fayette")
+rates.append(62.1)
+
+print(counties)
+print(f"{counties[2]} has a rate of {rates[____]}")
+print("Centre is in the list:", "Centre" ____ counties)
+```
+
+```{pyodide}
+#| exercise: ex10_lists
+#| hint: true
+# First blank: append — the same method used two lines above.
+# Second blank: 2 — parallel lists use the same index in both, and Fayette is at position 2.
+# Third blank: in — the membership test.
+```
+
+```{pyodide}
+#| exercise: ex10_lists
+#| solution: true
+counties = []
+rates = []
+
+counties.append("Schuylkill")
+rates.append(41.7)
+
+counties.append("Centre")
+rates.append(4.4)
+
+counties.append("Fayette")
+rates.append(62.1)
+
+print(counties)
+print(f"{counties[2]} has a rate of {rates[2]}")
+print("Centre is in the list:", "Centre" in counties)
+```
+
+```{pyodide}
+#| exercise: ex10_lists
+#| check: true
+assert counties == ["Schuylkill", "Centre", "Fayette"], "Three counties, appended in order."
+assert rates == [41.7, 4.4, 62.1], "Three rates, in the same order as the counties."
+assert len(counties) == len(rates), "Parallel lists must stay the same length."
+```
+
+# Exercise 11 — Classify from a record {.unnumbered background-color="#003594"}
+
+## Exercise 11 — Classify from a record {.smaller}
+
+**Putting it together.** Parse a record line, compute the rate, and classify it — the whole
+sequence in one exercise.
+
+```{pyodide}
+#| exercise: ex11_full
+line = "Blair,2023,54,120273,44.9"
+
+fields = line.split(",")
+county = fields[0]
+deaths = int(fields[2])
+population = int(fields[3])
+
+rate_per_100k = deaths / population * 100000
+
+if rate_per_100k >= 25.6:
+    classification = "High"
+elif rate_per_100k >= ____:
+    classification = "Moderate"
+else:
+    classification = "Low"
+
+print(f"{county}: {rate_per_100k:.1f} per 100,000 — {classification}")
+```
+
+```{pyodide}
+#| exercise: ex11_full
+#| hint: true
+# The blank is the Healthy People 2030 target: 13.1
+# Blair's rate is 44.9, well above the state rate, so it classifies as High.
+```
+
+```{pyodide}
+#| exercise: ex11_full
+#| solution: true
+line = "Blair,2023,54,120273,44.9"
+
+fields = line.split(",")
+county = fields[0]
+deaths = int(fields[2])
+population = int(fields[3])
+
+rate_per_100k = deaths / population * 100000
+
+if rate_per_100k >= 25.6:
+    classification = "High"
+elif rate_per_100k >= 13.1:
+    classification = "Moderate"
+else:
+    classification = "Low"
+
+print(f"{county}: {rate_per_100k:.1f} per 100,000 — {classification}")
+```
+
+```{pyodide}
+#| exercise: ex11_full
+#| check: true
+assert county == "Blair", "Parse the county name from the first field."
+assert abs(rate_per_100k - 44.8977) < 0.01, "Blair's rate is about 44.9 per 100,000."
+assert classification == "High", "44.9 is above the state rate of 25.6."
+```
+
+# Exercise 12 — Find the error {.unnumbered background-color="#003594"}
+
+## Exercise 12 — Find the error {.smaller}
+
+**This code is broken.** Run it, read the error, and repair it.
+
+The objective is to report whether Lawrence County exceeds the state rate. Lawrence
+recorded 61 deaths in a population of 84,472.
+
+```{pyodide}
+#| exercise: ex12_debug
+lawrence_deaths = 61
+lawrence_population = 84472
+
+lawrence_rate = lawrence_deaths / lawrence_population * 100000
+
+if lawrence_rate > 25.6
+print("Above the state rate")
+else:
+    print("At or below the state rate")
+```
+
+```{pyodide}
+#| exercise: ex12_debug
+#| hint: true
+# There are two faults, and Python reports them one at a time.
+# First: the `if` line is missing the colon that must end it — SyntaxError.
+# Second: the print() beneath it is not indented — IndentationError.
+# Fix the colon, run again, then fix the indentation.
+```
+
+```{pyodide}
+#| exercise: ex12_debug
+#| solution: true
+lawrence_deaths = 61
+lawrence_population = 84472
+
+lawrence_rate = lawrence_deaths / lawrence_population * 100000
+
+if lawrence_rate > 25.6:
+    print("Above the state rate")
+else:
+    print("At or below the state rate")
+```
+
+```{pyodide}
+#| exercise: ex12_debug
+#| check: true
+assert abs(lawrence_rate - 72.2133) < 0.01, "Lawrence's rate is about 72.2 per 100,000."
+```
+
+::: {.callout-warning}
+## Errors surface one at a time
+Python stops at the first fault it cannot parse. Repairing one error and seeing a second is
+normal, and it does not mean the first repair was wrong.
+:::
+
+# Submitting {.unnumbered background-color="#003594"}
+
+## Before leaving {.smaller}
+
+Every exercise should run without error and pass its check.
+
+::: {.callout-important}
+## Submission
+Save the notebook and upload it to Canvas today. Labs are graded on **correct, reproducible
+code** and on **readability** — identifier choice and comments count toward the mark.
+:::
+
+::: {.callout-tip}
+## What was covered
+Comparison operators · `and` / `or` / `not` · `if` / `elif` / `else` · the colon and the
+four-space indent · `+=` · indexing and slicing from position zero · `len()` · `.strip()` ·
+`.replace()` · `.split()` · lists · `.append()` · `in`
+:::
+
+**Module 2 introduces loops, which remove the repetition every exercise here relied on.**

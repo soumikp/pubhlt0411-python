@@ -1,0 +1,57 @@
+---
+title: "PUBHLT 0411 — Python for Public Health Data Analysis"
+subtitle: "University of Pittsburgh · School of Public Health · Fall 2026"
+format:
+  html:
+    theme: cosmo
+    toc: false
+    page-layout: full
+---
+
+## Course materials
+
+Interactive slides. Every code cell runs in the browser — nothing to install.
+
+::: {.callout-note}
+## How to use these
+Click into any code block and press **Run**. Edit the code and run it again. Lab exercises
+have **Hint** and **Solution** buttons.
+
+The first cell on a page takes a few seconds to start while Python loads. After that it is
+immediate.
+:::
+
+### Module 0 — Notebooks and Values
+
+*Tuesday, October 6*
+
+Running code in a notebook, and storing values in typed variables.
+
+- [Lecture slides](module0/class/module0_lecture.html)
+
+### Module 1 — Conditions and Sequences
+
+*Lecture Thursday, October 8 · Lab Tuesday, October 13*
+
+Branching on a condition, and holding a sequence of values.
+
+- [Lecture slides](module1/class/module1_lecture.html)
+- [Lab 1](module1/lab/module1_lab.html)
+
+---
+
+## About the data
+
+Every dataset in this course is real and traces to a named public source — the
+Pennsylvania Department of Health, the CDC, or the EPA. County-level figures are reported
+as published, including their suppression rules and known limitations.
+
+## Software
+
+Coursework is completed in [Google Colab](https://colab.research.google.com). The slides on
+this site run Python directly in the browser through
+[Pyodide](https://pyodide.org), which requires no account and no installation.
+
+---
+
+*Soumik Purkayastha · Department of Biostatistics and Health Data Science · <soumik@pitt.edu>*
