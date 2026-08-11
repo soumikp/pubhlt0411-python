@@ -47,6 +47,15 @@ Walking collections with loops, and packaging work into your own functions.
 - [Lecture slides](module2/class/module2_lecture.html)
 - [Lab 2](module2/lab/module2_lab.html)
 
+### Module 3 — NumPy
+
+*Lecture Thursday, October 22 · Lab Tuesday, October 27*
+
+Replacing loops with whole-array arithmetic, then selecting with masks.
+
+- [Lecture slides](module3/class/module3_lecture.html)
+- [Lab 3](module3/lab/module3_lab.html)
+
 ---
 
 ## About the data

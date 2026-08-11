@@ -116,7 +116,7 @@ were caught and fixed:
     as though it were the answer, with no error. The notes tell the instructor to indent it
     live and ask which of the seven printed lines a hurried reader would copy.
 - **One fill-in-the-blank live demo** (`m2_worst`), blank on `.items()`.
-- **Thirteen lab exercises**, worked-example-then-your-turn, with hint, solution, and a
+- **Thirteen lab exercises**, worked-example-then-your-turn **across two slides**, with hint, solution, and a
   discriminating check.
 - **Exercise 13 is a `NameError` debug** — an accumulator used before initialization, which
   is the most common loop bug students write.

@@ -3,7 +3,9 @@
 # Py Lab 1 — Conditions and Sequences
 # PUBHLT 0411 · Python for Public Health Data Analysis
 #
-# Format: live-revealjs with smaller: true, one exercise per slide.
+# Format: live-revealjs with smaller: true, one *task* per slide:
+# the worked example and the `**Your turn.**` task are separate slides
+# sharing a heading, the task suffixed `— your turn`. See §2 labs clause.
 # (HANDOFF v3 §7 — labs are live-revealjs, NOT live-html. Follow the
 # built files; v1's own README says live-html and is wrong.)
 #
@@ -63,7 +65,8 @@ to additional counties, parses record lines into fields, and assembles parallel 
 - Each exercise supplies a worked example, then a similar problem to complete.
 - Click into a code block and press **Run**. Edit the blanks (`____`) and run again.
 - **Hint** gives the reasoning. **Solution** gives the answer.
-- Arrow keys navigate between exercises — one exercise per slide.
+- Each exercise takes two slides: the worked example, then the task.
+- Arrow keys navigate between slides.
 - Submit to Canvas at the end of class.
 :::
 
@@ -94,6 +97,8 @@ state_rate = 25.6
 
 print(schuylkill_rate > state_rate)
 ```
+
+## Exercise 1 — Compare two rates — your turn {.smaller}
 
 **Your turn.** Beaver County recorded 67 deaths in a population of 165,631. Compute its
 rate and test whether it exceeds the state rate.
@@ -155,6 +160,8 @@ rate_per_100k = 41.7
 print(population > 100000 and rate_per_100k > 25.6)
 ```
 
+## Exercise 2 — Combine two conditions — your turn {.smaller}
+
 **Your turn.** Public health planners often target **large counties with high burden**.
 Test whether Cambria County qualifies: 66 deaths, population 130,668. The thresholds are a
 population above 100,000 and a rate above the state rate.
@@ -214,6 +221,8 @@ if rate_per_100k > 25.6:
 else:
     print("At or below the state rate")
 ```
+
+## Exercise 3 — Branch on a condition — your turn {.smaller}
 
 **Your turn.** Adams County recorded 7 deaths in a population of 106,748. Report whether it
 has met the Healthy People 2030 target of 13.1 per 100,000.
@@ -279,6 +288,8 @@ elif rate_per_100k >= 13.1:
 else:
     print("Low")
 ```
+
+## Exercise 4 — Three-way classification — your turn {.smaller}
 
 **Your turn.** Classify Lebanon County: 31 deaths, population 144,252. Use the same two
 thresholds — the state rate of 25.6 and the national target of 13.1.
@@ -347,6 +358,8 @@ total += 7
 
 print(total)
 ```
+
+## Exercise 5 — Accumulate a total — your turn {.smaller}
 
 **Your turn.** Total the deaths and the population across four counties, then compute the
 combined rate. Note that the combined rate is **not** the average of the four rates.
@@ -430,6 +443,8 @@ print(county[-1])
 print(len(county))
 ```
 
+## Exercise 6 — Index a string — your turn {.smaller}
+
 **Your turn.** Extract the first character, the last character, and the length of
 `"Westmoreland"`.
 
@@ -485,6 +500,8 @@ print(county[0:4])
 print(county[4:])
 ```
 
+## Exercise 7 — Slice a string — your turn {.smaller}
+
 **Your turn.** A record line begins with a four-digit year. Extract the year and the rest
 of the line separately.
 
@@ -539,6 +556,8 @@ raw = "  Schuylkill \n"
 print(repr(raw))
 print(repr(raw.strip()))
 ```
+
+## Exercise 8 — Clean a value — your turn {.smaller}
 
 **Your turn.** County Health Rankings writes `"Mc Kean"`; the Census writes `"McKean"`.
 Clean the first into the second, then confirm the two now match.
@@ -598,6 +617,8 @@ fields = line.split(",")
 print(fields)
 print(fields[0])
 ```
+
+## Exercise 9 — Split a record into fields — your turn {.smaller}
 
 **Your turn.** This is one line from the course data file. Extract the county name and the
 death count, converting the count to a number.
@@ -662,6 +683,8 @@ counties.append("Centre")
 print(counties)
 print(len(counties))
 ```
+
+## Exercise 10 — Build parallel lists — your turn {.smaller}
 
 **Your turn.** Build two parallel lists and read the same position from each.
 

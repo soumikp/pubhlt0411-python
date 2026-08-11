@@ -38,7 +38,9 @@ cd lab   && quarto render module1_lab.qmd     --to live-revealjs
 ```
 
 **Labs are `live-revealjs`, not `live-html`** (§7). The v1 READMEs say `live-html` and are
-wrong. `smaller: true`, one exercise per slide.
+wrong. `smaller: true`, **one *task* per slide** — the worked example and the
+`**Your turn.**` task are separate slides sharing a heading, the task suffixed
+`— your turn` (§2 labs clause, amended 2026-08-11).
 
 The `{{< include _extensions/r-wasm/live/_knitr.qmd >}}` line must sit directly after the
 YAML in both files, or the `{pyodide}` cells render as dead text.
@@ -130,7 +132,7 @@ The hint tells students to expect exactly this sequence.
   - **A loud error** — `IndentationError` from an unindented block.
 - **One fill-in-the-blank live demo** (`m1_classify`), Franklin County, blank on the 13.1
   threshold.
-- **Twelve lab exercises**, each worked-example-then-your-turn, with hint, solution, and a
+- **Twelve lab exercises**, each worked-example-then-your-turn **across two slides**, with hint, solution, and a
   discriminating check.
 - **Exercise 5 carries a real statistical point**: the four-county combined rate (21.2) is
   not the average of the four county rates (21.7). Averaging rates weights counties

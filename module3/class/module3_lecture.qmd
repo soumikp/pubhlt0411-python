@@ -1,0 +1,841 @@
+---
+# =====================================================================
+# Module 3 — NumPy
+# PUBHLT 0411 · Python for Public Health Data Analysis
+#
+# Register: HANDOFF v3 §2 as amended 2026-08-11.
+#   Slides = academic, impersonal. No "you"/"we".
+#   Notes  = conversational, second person. Load-bearing.
+#
+# Data: REAL. data/pa_air_pollution.csv (67 rows) and
+#       data/pa_overdose_county_year.csv (402 rows), read with
+#       np.genfromtxt — no pandas until Module 4.
+#       Both files are mounted into the Pyodide VFS via
+#       `pyodide: resources:` below. Dropping a CSV in data/ is NOT
+#       enough; a file not listed there never reaches the browser.
+#
+# ⚠️ §6 trap 2: PM2.5 must NEVER be used for a disparity claim.
+#    Child poverty × PM2.5 = −0.421 in PA, and stratifying by
+#    urbanicity does not reverse it. Treat PM2.5 as a regulatory
+#    threshold story only.
+#
+# Required assets (same folder):
+#   pitt-theme.scss
+#   _extensions/r-wasm/live/
+#   data/pa_air_pollution.csv
+#   data/pa_overdose_county_year.csv
+# =====================================================================
+title: "Module 3: NumPy"
+subtitle: "PUBHLT 0411 · Python for Public Health Data Analysis"
+author:
+  - name: Soumik Purkayastha
+    affiliations:
+      - name: Dept. of Biostatistics and Health Data Science, University of Pittsburgh
+date: today
+date-format: long
+
+format:
+  live-revealjs:
+    theme: [white, pitt-theme.scss]
+    slide-number: c/t
+    show-slide-number: all
+    chalkboard: false
+    history: true
+    smaller: false
+    scrollable: true
+    incremental: false
+    fig-align: center
+    fig-cap-location: bottom
+    code-line-numbers: true
+    code-overflow: wrap
+    code-copy: hover
+    highlight-style: github
+    width: 1280
+    height: 720
+    margin: 0.08
+    footer: "soumik@pitt.edu  ·  PUBHLT 0411 · Module 3: NumPy"
+
+engine: knitr
+
+pyodide:
+  packages: [numpy]
+  resources:
+    - data/pa_air_pollution.csv
+    - data/pa_overdose_county_year.csv
+
+execute:
+  echo: true
+  warning: false
+  message: false
+  cache: false
+---
+
+{{< include _extensions/r-wasm/live/_knitr.qmd >}}
+
+# Nine micrograms. {.unnumbered background-color="#003594"}
+
+## The EPA annual standard for PM2.5 is 9 micrograms per cubic metre {.smaller}
+
+Twenty-two of Pennsylvania's 67 counties exceed it. **One exceeds it by a wide margin.**
+
+::: {.callout-important}
+## The question this session opens
+Ranking 67 counties against a threshold, and measuring how far each sits from the state's
+typical value, requires arithmetic on every county at once.
+
+**This session establishes the array**: one object holding all 67 values, arithmetic that
+applies to every element in a single expression, and selection by condition rather than by
+position.
+:::
+
+**Required from Module 2:** `for`, the accumulator pattern, `def` and `return`, and the
+distinction between counts and rates.
+
+::: {.notes}
+Ask which county is worst before showing anything. Allegheny is the answer and this room
+will guess it, because most of them live in it. That is the point — the number is about
+where they are sitting.
+
+Do not give the magnitude yet. "Over by a wide margin" is deliberately vague, and the
+payoff slide is where +4.37 standard deviations arrives.
+
+One caution for the instructor, not for the slide: PM2.5 in Pennsylvania is an
+industrial and density exposure, and the poorest counties here are rural with clean air.
+Do not let the discussion drift into an environmental-justice claim — county averages
+cannot support one, and the correlation actually runs the other way. Keep this a story
+about a regulatory threshold and an outlier.
+
+Module 2 wrote loops. Today those loops mostly disappear, and it is worth saying that up
+front so the disappearance reads as progress rather than as a new dialect.
+:::
+
+## A NumPy array holds many values of one type {.smaller}
+
+```{pyodide}
+import numpy as np
+
+pm25 = np.array([9.1, 14.1, 7.7, 9.9, 8.5])
+
+print(pm25)
+print(type(pm25))
+print(pm25.dtype)
+print(pm25.shape)
+```
+
+- `np.array()` builds an array from a list
+- `.dtype` reports the single type every element shares
+- `.shape` reports the size along each dimension, as a tuple
+
+::: {.callout-tip}
+## `import numpy as np` is the universal convention
+Every NumPy example in every textbook and every answer online uses the name `np`. The
+alias is not required by the language, and departing from it makes code harder for others
+to read.
+:::
+
+::: {.notes}
+These five values are real: Adams, Allegheny, Armstrong, Beaver, and Bedford, in the order
+the file lists them. Allegheny is the 14.1.
+
+`.shape` returning `(5,)` with the trailing comma catches people. That is Python's notation
+for a one-element tuple, and it is distinguishing `(5,)` the tuple from `(5)` the number
+five in parentheses. Say it once; it recurs constantly in Module 4.
+
+The one-type rule is the trade. A list holds anything, an array holds one type, and that
+restriction is exactly what buys the speed on the next slide.
+:::
+
+## An array applies arithmetic to every element at once {.smaller}
+
+A list requires a loop. An array does not.
+
+```{pyodide}
+import numpy as np
+
+pm25 = np.array([9.1, 14.1, 7.7, 9.9, 8.5])
+
+excess = pm25 - 9.0
+
+print(excess)
+print(pm25 * 2)
+print(pm25 > 9.0)
+```
+
+Each operation produces a **new array of the same shape**, with the operation applied
+element by element. This is **vectorisation**.
+
+::: {.callout-important}
+## The same operation on a list does something else entirely
+`[9.1, 14.1] * 2` repeats the list, producing four elements. `np.array([9.1, 14.1]) * 2`
+doubles each value, producing two. The operator is the same; the type decides the meaning.
+:::
+
+::: {.notes}
+This is the slide the module is built on. Everything after it is a variation.
+
+Demonstrate the list-versus-array multiplication live — it is a two-line demo and it
+genuinely surprises people. `*` on a list means "repeat," which is the string behaviour
+from Module 1 generalized. On an array it means multiply. Same symbol, and the type
+decides.
+
+For the R half of their brains: this is exactly R's vectorized arithmetic. `v * 2` in R
+does what an array does here, and R's vectors are closer to NumPy arrays than to Python
+lists. This is the one place in the course where R is the better preparation, so say so.
+
+The negative values in `excess` are counties under the standard. Bedford at 8.5 comes out
+at −0.5, meaning half a microgram of headroom.
+:::
+
+## Reading a real file into an array {.smaller}
+
+`np.genfromtxt()` reads a CSV directly into arrays. Column 0 holds names; column 1 holds
+the measurement.
+
+```{pyodide}
+import numpy as np
+
+counties = np.genfromtxt(
+    "data/pa_air_pollution.csv", delimiter=",", skip_header=1, usecols=0, dtype=str
+)
+pm25 = np.genfromtxt(
+    "data/pa_air_pollution.csv", delimiter=",", skip_header=1, usecols=1
+)
+
+print(pm25.shape)
+print(counties[:5])
+print(pm25[:5])
+```
+
+`skip_header=1` discards the header row. `usecols=` selects a column. Text needs
+`dtype=str`; numbers are read as `float64` by default.
+
+::: {.callout-tip}
+## Source
+County Health Rankings, PM2.5 annual average by county, all 67 Pennsylvania counties.
+:::
+
+::: {.notes}
+First real file of the course. Worth marking as a milestone — from here on the numbers on
+screen are read from disk, not typed in.
+
+Two calls for two columns is clumsy and they should notice. That clumsiness is the argument
+for Module 4: pandas reads the whole table in one call and keeps the columns together. Say
+that explicitly, because "this is annoying" is the correct reaction and it is about to be
+solved.
+
+The parallel-arrays arrangement — `counties[3]` and `pm25[3]` describing the same county —
+is the thing to watch. Nothing enforces the alignment. Sort one without the other and the
+data is silently wrong, which is a real bug and a preview of why a DataFrame exists.
+:::
+
+## Indexing and slicing follow Module 1's rules {.smaller}
+
+```{pyodide}
+import numpy as np
+
+pm25 = np.genfromtxt(
+    "data/pa_air_pollution.csv", delimiter=",", skip_header=1, usecols=1
+)
+
+print(pm25[0])
+print(pm25[1])
+print(pm25[-1])
+print(pm25[:5])
+print(pm25[::10])
+```
+
+Zero-indexing, exclusive endpoints, negative indices, and strides are identical to string
+and list slicing.
+
+::: {.notes}
+Nothing new here, and that is the point worth stating: the slicing rules learned on strings
+in Module 1 transfer without modification. One rule, three data structures.
+
+`pm25[0]` is Adams at 9.1, `pm25[1]` is Allegheny at 14.1, and `pm25[-1]` is York at 8.9,
+because the file is alphabetical.
+
+The stride `[::10]` takes every tenth county. It has no analytical meaning here — it is a
+syntax demonstration, so do not invent a reason for it.
+:::
+
+## A two-dimensional array is indexed `[row, column]` {.smaller}
+
+```{pyodide}
+import numpy as np
+
+# Overdose deaths per 100,000, four counties × five years (2019–2023)
+rates = np.array([
+    [46.5, 55.8, 58.5, 56.6, 54.7],   # Allegheny
+    [74.4, 78.5, 82.4, 91.4, 84.8],   # Philadelphia
+    [41.7, 46.6, 39.6, 43.1, 41.7],   # Schuylkill
+    [ 5.1,  8.9,  7.6,  8.9,  4.4],   # Centre
+])
+
+print(rates.shape)
+print(rates[1, 3])
+print(rates[2])
+print(rates[:, 4])
+```
+
+`rates[1, 3]` selects one element. `rates[2]` selects a whole row. `rates[:, 4]` selects a
+whole column — the colon means "every row."
+
+::: {.callout-tip}
+## Rows and columns carry meaning
+Here a row is a county and a column is a year. The shape `(4, 5)` states that directly:
+four counties, five years.
+:::
+
+::: {.notes}
+Real numbers from the overdose file, and the same four counties that have appeared since
+Module 1. Philadelphia's 91.4 in 2022 is the highest cell in the table.
+
+`rates[:, 4]` is the line to slow down on. The colon in the row position means all rows,
+and the 4 in the column position means the fifth year — so it reads out 2023 for every
+county. Read it aloud as "every row, column four."
+
+Centre County's row is the one to point at. It runs 5.1, 8.9, 7.6, 8.9, 4.4 while
+Philadelphia runs in the seventies and eighties. That is the Module 1 comparison, now sitting
+inside one object.
+:::
+
+## `axis=` chooses the direction a summary collapses {.smaller}
+
+```{pyodide}
+import numpy as np
+
+rates = np.array([
+    [46.5, 55.8, 58.5, 56.6, 54.7],   # Allegheny
+    [74.4, 78.5, 82.4, 91.4, 84.8],   # Philadelphia
+    [41.7, 46.6, 39.6, 43.1, 41.7],   # Schuylkill
+    [ 5.1,  8.9,  7.6,  8.9,  4.4],   # Centre
+])
+
+print(rates.mean())
+print(rates.mean(axis=1))
+print(rates.mean(axis=0))
+```
+
+- No `axis=` collapses everything to a single number
+- `axis=1` collapses the **columns**, leaving one value per row — a per-county mean
+- `axis=0` collapses the **rows**, leaving one value per column — a per-year mean
+
+::: {.callout-warning}
+## `axis=` names the dimension removed, not the one kept
+`axis=0` runs down the rows and returns a value per column. Reading it as "axis 0 means
+rows, so I get row answers" is the standard mistake, and it produces a plausible array of
+the wrong length.
+:::
+
+::: {.notes}
+This is the hardest idea in the module and it deserves the time.
+
+The reliable way to check is the shape. Start with `(4, 5)`. `axis=1` removes the 5, leaving
+4 numbers — one per county. `axis=0` removes the 4, leaving 5 numbers — one per year. Tell
+them to check the length of what comes back whenever they are unsure, because the wrong
+axis usually still returns an array and stays silent.
+
+The per-county means are 54.4, 82.3, 42.5, and 7.0. The per-year means climb from 41.9 in
+2019 to 50.0 in 2022 and then fall slightly. Four counties is too few to call that a trend,
+and saying so is the honest move.
+
+This is the same `axis=` that `.groupby()` generalizes in Module 4.
+:::
+
+## Summary statistics are methods on the array {.smaller}
+
+```{pyodide}
+import numpy as np
+
+pm25 = np.genfromtxt(
+    "data/pa_air_pollution.csv", delimiter=",", skip_header=1, usecols=1
+)
+
+print(f"Mean:    {pm25.mean():.2f}")
+print(f"Median:  {np.median(pm25):.2f}")
+print(f"Std dev: {pm25.std():.2f}")
+print(f"Min–max: {pm25.min()} to {pm25.max()}")
+print(f"75th percentile: {np.percentile(pm25, 75)}")
+```
+
+`.mean()`, `.std()`, `.min()`, and `.max()` are methods on the array. `np.median()` and
+`np.percentile()` are functions taking the array as an argument.
+
+::: {.callout-important}
+## `.std()` divides by *n*, not by *n* − 1
+NumPy's default is the population standard deviation. R's `sd()` and most statistics
+courses use the sample version, which is `pm25.std(ddof=1)`. On 67 counties the two differ
+by under one percent, but the default is not the one a statistics course teaches.
+:::
+
+::: {.notes}
+The method-versus-function split is arbitrary and students will ask why. The honest answer
+is history, not design — some operations became array methods and some stayed as module
+functions. Do not manufacture a principle. When in doubt, try the method and fall back to
+`np.something()`.
+
+The `ddof` point is worth the thirty seconds because this course runs alongside a statistics
+sequence. Default `ddof=0` gives 1.28 here, `ddof=1` gives 1.29. The numbers on the payoff
+slide use the default, which is what `.std()` produces.
+
+Mean 8.49 against median 8.50 — nearly identical, so this distribution is close to
+symmetric apart from Allegheny. That is worth contrasting with the overdose rates in the
+lab, where the mean sits well above the median.
+:::
+
+## A boolean mask selects elements by condition {.smaller}
+
+A comparison on an array produces an **array of booleans**. Indexing with that array
+returns the elements where it is `True`.
+
+```{pyodide}
+import numpy as np
+
+pm25 = np.array([9.1, 14.1, 7.7, 9.9, 8.5])
+
+over_standard = pm25 > 9.0
+
+print(over_standard)
+print(pm25[over_standard])
+print(over_standard.sum())
+```
+
+`.sum()` on a boolean array counts the `True` values, because `True` equals 1.
+
+::: {.callout-tip}
+## The mask replaces the counting loop
+Module 2 counted with a loop, an `if`, and a counter initialized outside. The mask states
+the condition once and the count follows from it.
+:::
+
+::: {.notes}
+Point back at Module 2's counting exercise explicitly. Five lines of loop become one
+comparison and a `.sum()`. That is the payoff for the whole module and it is best shown as
+a before-and-after.
+
+The `True`-is-1 trick is worth a sentence. It is not a NumPy convenience, it is how Python
+booleans work — `True + True` is 2 at the interpreter prompt. Try it.
+
+`.mean()` on a boolean array gives the proportion rather than the count, which is often what
+is actually wanted. Mention it; the lab uses it.
+:::
+
+## Masking the counties above the standard {.smaller}
+
+```{pyodide}
+import numpy as np
+
+counties = np.genfromtxt(
+    "data/pa_air_pollution.csv", delimiter=",", skip_header=1, usecols=0, dtype=str
+)
+pm25 = np.genfromtxt(
+    "data/pa_air_pollution.csv", delimiter=",", skip_header=1, usecols=1
+)
+
+over = pm25 > 9.0
+
+print(f"Counties over 9.0: {over.sum()} of {pm25.size}")
+print(f"Share over: {over.mean():.1%}")
+print(counties[over][:8])
+print(f"Mean where over:  {pm25[over].mean():.2f}")
+print(f"Mean where under: {pm25[~over].mean():.2f}")
+```
+
+The **same mask** indexes both arrays, because the two are aligned element by element.
+`~` negates a mask.
+
+::: {.callout-warning}
+## Masks use `&`, `|`, and `~` — not `and`, `or`, `not`
+`and` and `or` require a single true-or-false value and raise `ValueError` on an array.
+Each comparison also needs its own parentheses: `(pm25 > 9.0) & (pm25 < 11.0)`.
+:::
+
+::: {.notes}
+Twenty-two counties, 32.8% of the state. The eight printed are alphabetical, not ranked —
+Adams, Allegheny, Beaver, Berks, Blair, Bucks, Butler, Cambria.
+
+`counties[over]` is the move that makes masks useful. The mask was computed from the
+measurements and applied to the names, and it works only because position 12 means the same
+county in both arrays. That alignment is a promise nothing in the code enforces.
+
+The `&`-versus-`and` warning is on the slide because it is the single most common NumPy
+error and it comes back in Module 4 with pandas, where the parentheses trip people even
+harder. It is worth demonstrating the ValueError so the message is familiar: "The truth
+value of an array with more than one element is ambiguous."
+
+The two conditional means, 9.80 against 7.85, are the sentence a report would carry.
+:::
+
+## `np.where()` builds a new array from a condition {.smaller}
+
+```{pyodide}
+import numpy as np
+
+pm25 = np.array([9.1, 14.1, 7.7, 9.9, 8.5])
+
+status = np.where(pm25 > 9.0, "Above standard", "At or below")
+headroom = np.where(pm25 > 9.0, 0.0, 9.0 - pm25)
+
+print(status)
+print(headroom)
+```
+
+`np.where(condition, value_if_true, value_if_false)` returns a full-length array, choosing
+element by element.
+
+::: {.callout-tip}
+## A mask filters; `np.where()` labels
+`pm25[pm25 > 9.0]` returns 22 values. `np.where(pm25 > 9.0, ...)` returns 67, one per
+county. Selecting and labelling are different jobs.
+:::
+
+::: {.notes}
+The filter-versus-label distinction is the one to land. Both start from the same comparison
+and they answer different questions — "which counties" versus "what does each county get
+called."
+
+Nesting works for three or more bands: `np.where(a, "High", np.where(b, "Middle", "Low"))`.
+It is legal, it is common, and past two levels it becomes unreadable. Show it once, then say
+pandas has a better tool for it in Module 4.
+
+`np.where()` with one argument does something completely different — it returns the indices
+where the condition holds. Do not open that door unless someone asks.
+:::
+
+## Standardizing expresses each value in standard deviations {.smaller}
+
+A **z-score** measures distance from the mean in units of the standard deviation.
+
+```{pyodide}
+import numpy as np
+
+counties = np.genfromtxt(
+    "data/pa_air_pollution.csv", delimiter=",", skip_header=1, usecols=0, dtype=str
+)
+pm25 = np.genfromtxt(
+    "data/pa_air_pollution.csv", delimiter=",", skip_header=1, usecols=1
+)
+
+z = (pm25 - pm25.mean()) / pm25.std()
+
+print(f"Mean of z: {z.mean():.6f}")
+print(f"Std of z:  {z.std():.2f}")
+print(counties[z > 2])
+print(np.round(z[z > 2], 2))
+```
+
+The whole transformation is one line, because subtraction and division apply to every
+element.
+
+::: {.callout-important}
+## A z-score is a statement about this collection
+The value describes a county's position among Pennsylvania counties. It carries no
+information about health effects, and a z-score near zero can still exceed a regulatory
+standard.
+:::
+
+::: {.notes}
+Two counties clear +2: Allegheny at 4.37 and Lancaster at 2.03. Cumberland and Delaware are
+next, both at 1.80, and both miss the cut. The mean of z prints as effectively zero and the
+standard deviation prints as 1.00 —
+that is the arithmetic working, and it is a good self-check for them to remember.
+
+The caveat on the slide matters here. Philadelphia's PM2.5 is 8.7, which is a z of +0.16 —
+almost exactly typical for Pennsylvania — and it is still under the federal standard. Two
+different questions: how does this county compare to its neighbours, and does it meet the
+rule. Standardizing answers the first only.
+
+Do not extend this into an exposure-disparity claim. County-level averages cannot support
+one, and in Pennsylvania the correlation with poverty runs the wrong way for the story
+students expect.
+:::
+
+## `np.nan` marks a value that is absent {.smaller}
+
+```{pyodide}
+import numpy as np
+
+# 2023 overdose rates. Cameron, Juniata, and McKean are suppressed —
+# fewer than ten deaths, so the state withholds the figure.
+rates = np.array([54.7, np.nan, 84.8, np.nan, 41.7, np.nan, 4.4])
+
+print(rates.mean())
+print(np.isnan(rates))
+print(np.isnan(rates).sum())
+```
+
+Any arithmetic touching `nan` produces `nan`. **One missing value makes the whole mean
+missing**, which is the safe behaviour: the result announces the gap rather than hiding it.
+
+::: {.callout-warning}
+## `nan` is never equal to anything, including itself
+`np.nan == np.nan` evaluates to `False`. Testing for missingness requires `np.isnan()`.
+:::
+
+::: {.notes}
+The suppression is real and worth explaining properly. Pennsylvania withholds county counts
+below ten because a rate computed from three deaths is unstable and because small counts can
+identify people. Seven of the 67 counties are suppressed for 2023.
+
+`nan` propagating is a feature, not a bug. A mean that silently ignored the gap would report
+a state figure that quietly excluded seven rural counties. Getting `nan` back is the array
+saying "you have not decided what to do about this yet."
+
+The self-inequality is genuinely strange and they should just memorize it. It follows from
+the floating-point standard: `nan` means "not a number," and no comparison with an unknown
+quantity can be true.
+
+This is the seed of Module 4's whole missing-data section, and it is the same judgment as
+Module 2's `.get(key, 0)`. Missing is not zero.
+:::
+
+## The `nan`-aware functions skip the gaps {.smaller}
+
+```{pyodide}
+import numpy as np
+
+rates = np.array([54.7, np.nan, 84.8, np.nan, 41.7, np.nan, 4.4])
+
+print(f"mean:      {rates.mean()}")
+print(f"nanmean:   {np.nanmean(rates):.2f}")
+print(f"nanmedian: {np.nanmedian(rates):.2f}")
+print(f"Reported:  {(~np.isnan(rates)).sum()} of {rates.size} counties")
+```
+
+`np.nanmean()`, `np.nanmedian()`, `np.nansum()`, and `np.nanstd()` compute over the present
+values.
+
+::: {.callout-important}
+## Skipping a value is a decision, and it belongs in the writeup
+`np.nanmean()` computes the mean of the counties that reported. Where suppression is
+concentrated in small rural counties, that mean describes a different population than the
+one requested, and the count of omitted counties is part of the result.
+:::
+
+::: {.notes}
+Report the denominator. Always. "30.1 per 100,000 across the 60 counties that reported"
+is honest; "30.1 per 100,000" alone is not, and the difference costs nothing to write.
+
+Across all 67 counties for 2023 the real figures are: 60 reporting, mean 30.1, median 26.8.
+The mean above the median tells you the distribution has a long right tail — a few counties
+far worse than typical — which is exactly the opposite of the PM2.5 shape from earlier.
+
+The instinct students have is to fill the gaps with zero. Ask what that would assert:
+that nobody in Cameron County died of an overdose in 2023. The state suppressed the number
+precisely because it is not zero. Module 4 has the full treatment.
+:::
+
+## `np.random` needs a seed to be reproducible {.smaller}
+
+```{pyodide}
+import numpy as np
+
+rng = np.random.default_rng(2026)
+sample = rng.normal(loc=8.5, scale=1.3, size=5)
+
+print(np.round(sample, 2))
+
+rng_again = np.random.default_rng(2026)
+print(np.round(rng_again.normal(loc=8.5, scale=1.3, size=5), 2))
+```
+
+The same seed produces the same numbers. **Without a seed, every run differs and the
+analysis cannot be checked by anyone**, including its author.
+
+::: {.callout-tip}
+## Seeding is a reproducibility requirement, not a statistical one
+A seeded result is verifiable by a reader running the same file. This is a graded criterion
+in this course and a condition of publication in most journals.
+:::
+
+::: {.notes}
+`default_rng()` is the modern interface. Older code and older tutorials use
+`np.random.seed()` with `np.random.normal()`, which still works and which they will meet
+online. Point at it so they can read old code, then tell them to write the new form.
+
+Why simulate at all in a course about real data: to check whether a pattern could have
+arisen by chance, and to test code against inputs whose answer is known in advance. Both
+are legitimate and neither is taught in depth here.
+
+2026 as a seed has no properties. Any integer works. The number is a label so a reader can
+reproduce the run, not a parameter that tunes anything.
+:::
+
+## A slice is a view; modifying it modifies the original {.smaller}
+
+```{pyodide}
+import numpy as np
+
+pm25 = np.array([9.1, 14.1, 7.7, 9.9, 8.5])
+
+first_three = pm25[:3]
+first_three[0] = 99.9
+
+print(first_three)
+print(pm25)
+```
+
+A slice of an array does **not** copy. It is a **view** onto the same memory, and writing
+through it changes the original array.
+
+::: {.callout-warning}
+## Slicing a list copies; slicing an array does not
+`list[:3]` produces an independent copy. `array[:3]` produces a view. The syntax is
+identical and the behaviour is not.
+
+**Resolution:** `.copy()` makes an independent array — `first_three = pm25[:3].copy()`.
+:::
+
+::: {.notes}
+This is the module's real bug source and the reason it is on the spec. The failure is
+silent: a value changes in an array the code never appears to touch, and the wrong number
+propagates through everything downstream.
+
+Run it with `.copy()` added and show that `pm25` keeps its 9.1. One character of difference,
+completely different behaviour.
+
+Why NumPy does this: arrays are meant to be large, and copying a slice of a million-element
+array on every operation would be ruinous. The view is a performance decision, and the
+copy is available whenever it is wanted.
+
+One useful asymmetry worth knowing: boolean-mask indexing *does* copy. `pm25[pm25 > 9]`
+returns new memory, so writing to it is safe. Slices are views, masks are copies.
+:::
+
+# The outlier. {.unnumbered background-color="#003594"}
+
+## Exercise: standardize and rank {.smaller}
+
+```{pyodide}
+#| exercise: m3_zscore
+import numpy as np
+
+counties = np.genfromtxt(
+    "data/pa_air_pollution.csv", delimiter=",", skip_header=1, usecols=0, dtype=str
+)
+pm25 = np.genfromtxt(
+    "data/pa_air_pollution.csv", delimiter=",", skip_header=1, usecols=1
+)
+
+z = (pm25 - pm25.______()) / pm25.std()
+
+worst = z.argmax()
+
+print(f"Highest PM2.5: {counties[worst]}")
+print(f"  concentration: {pm25[worst]} ug/m3")
+print(f"  z-score:       {z[worst]:+.2f}")
+print(f"Counties over the 9.0 standard: {(pm25 > 9.0).sum()}")
+```
+
+```{pyodide}
+#| exercise: m3_zscore
+#| hint: true
+# The blank is mean. A z-score subtracts the mean, then divides by the
+# standard deviation. Subtracting the median would centre the values but
+# would not produce a z-score.
+#
+# .argmax() returns the *position* of the largest value, which then indexes
+# both arrays — the same alignment used throughout this session.
+```
+
+```{pyodide}
+#| exercise: m3_zscore
+#| solution: true
+import numpy as np
+
+counties = np.genfromtxt(
+    "data/pa_air_pollution.csv", delimiter=",", skip_header=1, usecols=0, dtype=str
+)
+pm25 = np.genfromtxt(
+    "data/pa_air_pollution.csv", delimiter=",", skip_header=1, usecols=1
+)
+
+z = (pm25 - pm25.mean()) / pm25.std()
+
+worst = z.argmax()
+
+print(f"Highest PM2.5: {counties[worst]}")
+print(f"  concentration: {pm25[worst]} ug/m3")
+print(f"  z-score:       {z[worst]:+.2f}")
+print(f"Counties over the 9.0 standard: {(pm25 > 9.0).sum()}")
+```
+
+::: {.notes}
+Fill this in with the room. It is the whole module in twelve lines — read a real file,
+vectorized arithmetic, a summary method, and a mask.
+
+`.argmax()` is new on this slide and it is worth naming. `.max()` gives the largest value,
+`.argmax()` gives its position, and the position is what indexes the names array. That
+distinction comes back constantly.
+
+The `:+.2f` format forces the plus sign. Small presentation detail, and presentation is
+graded.
+
+Ask for the county before running. They will say Allegheny and they will be right. The
+magnitude is the part nobody predicts.
+:::
+
+## Allegheny County {.smaller}
+
+**Allegheny County's PM2.5 average is 14.1 micrograms per cubic metre — a z-score of
++4.37.**
+
+The state mean is 8.49. The next-highest county, Lancaster, is 11.1.
+
+::: {.callout-important}
+## What the magnitude means
+A z-score above 4 places Allegheny more than four standard deviations from the typical
+Pennsylvania county. **The gap between Allegheny and second place is larger than the gap
+between second place and the state mean.**
+
+Twenty-two counties exceed the 9.0 standard. Twenty-one of them cluster between 9.1 and
+11.1. Allegheny sits alone.
+:::
+
+::: {.notes}
+Land it and stop.
+
+The distribution matters more than the single number. Strip Allegheny out and Pennsylvania's
+counties run from 5.5 to 11.1 — a normal-looking spread. Allegheny is not the top of a
+gradient, it is a separate case, and that is what a z-score above 4 is telling you.
+
+Say plainly what this is and is not. It is a county-wide annual average against a federal
+standard. It is not a statement about any neighbourhood, and PM2.5 varies enormously within
+Allegheny County — the Mon Valley is not Sewickley. County averages are the resolution this
+data has, and the honest move is to name that limit rather than to over-read the number.
+
+Then close the loop on Module 2: this took one line of arithmetic across 67 counties.
+The equivalent loop would be fifteen lines, and it would be slower.
+:::
+
+## Session outcomes {.smaller}
+
+- Building arrays with `np.array()`, and reading real ones with `np.genfromtxt()`
+- Inspecting `.dtype`, `.shape`, and `.size`
+- Indexing and slicing in one dimension, and `[row, column]` in two
+- **Vectorised arithmetic** — one expression applied to every element
+- Summarising with `.mean()`, `.std()`, `np.median()`, and `np.percentile()`
+- Collapsing a chosen dimension with **`axis=`**
+- Selecting with a **boolean mask**, and labelling with **`np.where()`**
+- Standardising to **z-scores**
+- Handling `np.nan` with `np.isnan()` and the `nan`-aware functions
+- Seeding `np.random` for reproducibility
+- Distinguishing a **view** from a **copy**
+
+::: {.callout-tip}
+## Preparation for the lab, Tuesday 10/27
+The lab reads both course files, masks against the standard, standardises overdose rates,
+and handles the suppressed counties.
+:::
+
+**Module 4 attaches these arrays to labelled columns and calls the result a DataFrame.**
+
+::: {.notes}
+The single sentence for the whole module: an array applies one operation to every element,
+so the loop disappears.
+
+Close on Module 4 and be concrete about what it fixes. Today the county names and the
+measurements sat in two arrays held in alignment by nothing but care. A DataFrame keeps them
+in one object, so sorting or filtering moves them together and the alignment cannot break.
+Every complaint about the two `genfromtxt` calls is answered on Thursday.
+:::

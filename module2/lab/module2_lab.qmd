@@ -3,7 +3,9 @@
 # Py Lab 2 — Collections, Loops, and Functions
 # PUBHLT 0411 · Python for Public Health Data Analysis
 #
-# Format: live-revealjs with smaller: true, one exercise per slide (§7).
+# Format: live-revealjs with smaller: true, one *task* per slide (§7):
+# the worked example and the `**Your turn.**` task are separate slides
+# sharing a heading, the task suffixed `— your turn`. See §2 labs clause.
 # Register: §2 "Labs — the third surface" — second person permitted in
 # task instructions and hints only; framing prose stays academic.
 #
@@ -59,7 +61,8 @@ ranking counties two different ways.
 - Each exercise supplies a worked example, then a similar problem to complete.
 - Click into a code block and press **Run**. Edit the blanks (`____`) and run again.
 - **Hint** gives the reasoning. **Solution** gives the answer.
-- Arrow keys navigate between exercises — one exercise per slide.
+- Each exercise takes two slides: the worked example, then the task.
+- Arrow keys navigate between slides.
 - Submit to Canvas at the end of class.
 :::
 
@@ -90,6 +93,8 @@ covid_deaths = {"2021-12": 3365, "2022-01": 4294}
 print(covid_deaths["2022-01"])
 print(len(covid_deaths))
 ```
+
+## Exercise 1 — Build a dictionary — your turn {.smaller}
 
 **Your turn.** These are Allegheny County's monthly COVID-19 deaths. Retrieve December's
 figure and report how many months the dictionary holds.
@@ -158,6 +163,8 @@ print(allegheny.get("2021-12", 0))
 print(allegheny.get("2022-07", 0))
 ```
 
+## Exercise 2 — Handle a missing key — your turn {.smaller}
+
 **Your turn.** Retrieve a month that exists and one that does not, without raising.
 
 ```{pyodide}
@@ -216,6 +223,8 @@ allegheny = {"2021-11": 158, "2021-12": 242}
 for month, deaths in allegheny.items():
     print(f"{month}: {deaths}")
 ```
+
+## Exercise 3 — Loop over key–value pairs — your turn {.smaller}
 
 **Your turn.** Print each month alongside its death count.
 
@@ -284,6 +293,8 @@ for month, deaths in allegheny.items():
 
 print(total)
 ```
+
+## Exercise 4 — Accumulate a total — your turn {.smaller}
 
 **Your turn.** Total Allegheny's deaths across the six months, then compute the monthly
 average.
@@ -360,6 +371,8 @@ for month, deaths in deaths_by_month.items():
 print(worst_month, worst_deaths)
 ```
 
+## Exercise 5 — Find the maximum — your turn {.smaller}
+
 **Your turn.** Identify Allegheny County's deadliest month.
 
 ```{pyodide}
@@ -431,6 +444,8 @@ for month, deaths in allegheny.items():
 print(high_months)
 ```
 
+## Exercise 6 — Count with a condition — your turn {.smaller}
+
 **Your turn.** Count the months exceeding 150 deaths, and collect their names in a list.
 
 ```{pyodide}
@@ -497,6 +512,8 @@ for year in range(2020, 2023):
     print(year)
 ```
 
+## Exercise 7 — Loop with `range()` — your turn {.smaller}
+
 **Your turn.** Print each year of the pandemic period, 2020 through 2024 inclusive, and
 count them.
 
@@ -550,6 +567,8 @@ for month, deaths in allegheny.items():
         print(f"First month above 100: {month}")
         break
 ```
+
+## Exercise 8 — Stop at the first match — your turn {.smaller}
 
 **Your turn.** Identify the first month in which Allegheny exceeded 200 deaths, and stop
 searching there.
@@ -624,6 +643,8 @@ def double(value):
 print(double(21))
 ```
 
+## Exercise 9 — Write a function — your turn {.smaller}
+
 **Your turn.** Write a function computing a rate per 100,000, then apply it to two counties.
 
 ```{pyodide}
@@ -692,6 +713,8 @@ rate, is_high = describe(401, 143786)
 print(f"{rate:.1f}", is_high)
 ```
 
+## Exercise 10 — Return two values — your turn {.smaller}
+
 **Your turn.** Return both the rate and a classification.
 
 ```{pyodide}
@@ -755,6 +778,8 @@ counties = [("Potter", 89, 15999), ("Philadelphia", 4052, 1550542)]
 by_deaths = sorted(counties, key=lambda record: record[1], reverse=True)
 print(by_deaths[0][0])
 ```
+
+## Exercise 11 — Rank two ways — your turn {.smaller}
 
 **Your turn.** Rank the same five counties by death count and by death rate, then compare
 the two leaders.
@@ -829,6 +854,8 @@ class County:
 erie = County("Erie", 559)
 print(erie.name, erie.deaths)
 ```
+
+## Exercise 12 — Read a class — your turn {.smaller}
 
 **Your turn.** Complete the method so it returns the county's rate.
 
