@@ -38,6 +38,15 @@ Branching on a condition, and holding a sequence of values.
 - [Lecture slides](module1/class/module1_lecture.html)
 - [Lab 1](module1/lab/module1_lab.html)
 
+### Module 2 — Collections, Loops, and Functions
+
+*Lecture Thursday, October 15 · Lab Tuesday, October 20*
+
+Walking collections with loops, and packaging work into your own functions.
+
+- [Lecture slides](module2/class/module2_lecture.html)
+- [Lab 2](module2/lab/module2_lab.html)
+
 ---
 
 ## About the data

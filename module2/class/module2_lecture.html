@@ -1,0 +1,1591 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="module2_lecture_files/libs/clipboard/clipboard.min.js"></script>
+<script src="module2_lecture_files/libs/quarto-html/tabby.min.js"></script>
+<script src="module2_lecture_files/libs/quarto-html/popper.min.js"></script>
+<script src="module2_lecture_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="module2_lecture_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="module2_lecture_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="module2_lecture_files/libs/quarto-html/quarto-syntax-highlighting-acf12a64177840b8d86f2d4f01b2e9fb.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="module2_lecture_files/libs/quarto-contrib/live-runtime/live-runtime.js" type="module"></script>
+<link href="module2_lecture_files/libs/quarto-contrib/live-runtime/live-runtime.css" rel="stylesheet"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.9.37">
+
+  <meta name="author" content="Soumik Purkayastha">
+  <meta name="dcterms.date" content="2026-08-11">
+  <title>Module 2: Collections, Loops, and Functions</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="module2_lecture_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="module2_lecture_files/libs/revealjs/dist/reveal.css">
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+      }
+    pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+    div.sourceCode
+      { color: #24292e;  }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #24292e; } /* Normal */
+    code span.al { color: #ff5555; font-weight: bold; } /* Alert */
+    code span.an { color: #6a737d; } /* Annotation */
+    code span.at { color: #d73a49; } /* Attribute */
+    code span.bn { color: #005cc5; } /* BaseN */
+    code span.bu { color: #d73a49; } /* BuiltIn */
+    code span.cf { color: #d73a49; } /* ControlFlow */
+    code span.ch { color: #032f62; } /* Char */
+    code span.cn { color: #005cc5; } /* Constant */
+    code span.co { color: #6a737d; } /* Comment */
+    code span.cv { color: #6a737d; } /* CommentVar */
+    code span.do { color: #6a737d; } /* Documentation */
+    code span.dt { color: #d73a49; } /* DataType */
+    code span.dv { color: #005cc5; } /* DecVal */
+    code span.er { color: #ff5555; text-decoration: underline; } /* Error */
+    code span.ex { color: #d73a49; font-weight: bold; } /* Extension */
+    code span.fl { color: #005cc5; } /* Float */
+    code span.fu { color: #6f42c1; } /* Function */
+    code span.im { color: #032f62; } /* Import */
+    code span.in { color: #6a737d; } /* Information */
+    code span.kw { color: #d73a49; } /* Keyword */
+    code span.op { color: #24292e; } /* Operator */
+    code span.ot { color: #6f42c1; } /* Other */
+    code span.pp { color: #d73a49; } /* Preprocessor */
+    code span.re { color: #6a737d; } /* RegionMarker */
+    code span.sc { color: #005cc5; } /* SpecialChar */
+    code span.ss { color: #032f62; } /* SpecialString */
+    code span.st { color: #032f62; } /* String */
+    code span.va { color: #e36209; } /* Variable */
+    code span.vs { color: #032f62; } /* VerbatimString */
+    code span.wa { color: #ff5555; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="module2_lecture_files/libs/revealjs/dist/theme/quarto-9fa7b1445c4131f435e2d8b4886606e0.css">
+  <link href="module2_lecture_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="module2_lecture_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="module2_lecture_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="module2_lecture_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+  <script type="module" src="module2_lecture_files/libs/quarto-ojs/quarto-ojs-runtime.js"></script>
+  <link href="module2_lecture_files/libs/quarto-ojs/quarto-ojs.css" rel="stylesheet">
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title">Module 2: Collections, Loops, and Functions</h1>
+  <p class="subtitle">PUBHLT 0411 · Python for Public Health Data Analysis</p>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Soumik Purkayastha 
+</div>
+        <p class="quarto-title-affiliation">
+            Dept. of Biostatistics and Health Data Science, University of Pittsburgh
+          </p>
+    </div>
+</div>
+
+  <p class="date">August 11, 2026</p>
+</section>
+<section>
+<section id="forty-nine-months." class="title-slide slide level1 unnumbered center" data-background-color="#003594">
+<h1>Forty-nine months.</h1>
+
+</section>
+<section id="pennsylvania-recorded-covid-19-deaths-across-49-months-and-67-counties" class="slide level2 smaller">
+<h2>Pennsylvania recorded COVID-19 deaths across 49 months and 67 counties</h2>
+<p>That is 3,283 county-months of data. <strong>One of those months was the worst.</strong></p>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>The question this session opens</strong></p>
+</div>
+<div class="callout-content">
+<p>Identifying the deadliest month requires examining every month and retaining the largest. Performed by hand, this is 49 comparisons for the state and 3,283 for the counties.</p>
+<p><strong>This session establishes the machinery that performs the comparison.</strong> A collection to hold the values, a loop to walk them, and a function to package the work for reuse.</p>
+</div>
+</div>
+</div>
+<p><strong>Required from Module 1:</strong> <code>if</code> / <code>elif</code> / <code>else</code>, indentation, lists, <code>.append()</code>, <code>+=</code>.</p>
+<aside class="notes">
+<p>Open by asking the room to guess the worst month before showing anything. Most will say spring 2020 — the lockdown period everyone remembers, with the ambulance sirens and the refrigerated trucks. That guess is wrong, and being wrong for a memorable reason makes the answer stick.</p>
+<p>Do not reveal it yet. The payoff slide at the end is where January 2022 arrives, and the whole module is the machinery for finding it.</p>
+<p>Everything today is inline again, but the dictionary on the next slides was computed from the real 3,283-row file. Module 4 opens that file properly. Say that — they’re one module away from doing this at full scale.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="a-dictionary-maps-keys-to-values" class="slide level2 smaller">
+<h2>A dictionary maps keys to values</h2>
+<p>A list is indexed by position. A dictionary is indexed by a <strong>key</strong> chosen by the author.</p>
+<div class="cell">
+<div>
+<div id="pyodide-1" class="exercise-cell">
+
+</div>
+<script type="pyodide-1-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiY292aWRfZGVhdGhzID0ge1xuICAgIFwiMjAyMS0wOFwiOiA1NTUsXG4gICAgXCIyMDIxLTA5XCI6IDEyNDgsXG4gICAgXCIyMDIxLTEwXCI6IDIwMzUsXG4gICAgXCIyMDIxLTExXCI6IDIxMTcsXG4gICAgXCIyMDIxLTEyXCI6IDMzNjUsXG4gICAgXCIyMDIyLTAxXCI6IDQyOTQsXG4gICAgXCIyMDIyLTAyXCI6IDE4MTksXG59XG5cbnByaW50KGNvdmlkX2RlYXRoc1tcIjIwMjEtMTJcIl0pXG5wcmludChsZW4oY292aWRfZGVhdGhzKSkifQ==
+</script>
+</div>
+</div>
+<p>Each entry is a <code>key: value</code> pair. <strong>Keys are unique</strong>; assigning to an existing key replaces its value.</p>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>R analogue</strong></p>
+</div>
+<div class="callout-content">
+<p>A named list, or a two-column lookup table. Python’s version is built into the language and is the standard way to express “this label corresponds to this quantity.”</p>
+</div>
+</div>
+</div>
+<aside class="notes">
+<p>These seven months are real: August 2021 through February 2022, the Delta wave running into Omicron. The values were summed across all 67 counties from the course file.</p>
+<p>The key insight to state plainly: with a list, retrieving December’s total means knowing that December is at position 4. With a dictionary, it means asking for <code>"2021-12"</code>. When the data has natural labels, the position is an accident and the label is the meaning.</p>
+<p>R users will reach for <code>covid_deaths$</code>. That’s not Python — square brackets and a quoted key. Expect the mistake once.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="a-missing-key-raises-keyerror" class="slide level2 smaller">
+<h2>A missing key raises <code>KeyError</code></h2>
+<div class="cell">
+<div>
+<div id="pyodide-2" class="exercise-cell">
+
+</div>
+<script type="pyodide-2-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiY292aWRfZGVhdGhzID0ge1wiMjAyMS0xMlwiOiAzMzY1LCBcIjIwMjItMDFcIjogNDI5NH1cblxucHJpbnQoY292aWRfZGVhdGhzW1wiMjAyMi0wNlwiXSkifQ==
+</script>
+</div>
+</div>
+<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong><code>KeyError</code> — the key is not present</strong></p>
+</div>
+<div class="callout-content">
+<p><code>KeyError: '2022-06'</code></p>
+<p>Subscripting a dictionary with an absent key raises immediately rather than returning an empty value. The exception names the offending key.</p>
+<p><strong>Resolution:</strong> <code>.get(key, default)</code> returns the default instead of raising — <code>covid_deaths.get("2022-06", 0)</code> evaluates to <code>0</code>.</p>
+</div>
+</div>
+</div>
+<div class="cell">
+<div>
+<div id="pyodide-3" class="exercise-cell">
+
+</div>
+<script type="pyodide-3-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiY292aWRfZGVhdGhzID0ge1wiMjAyMS0xMlwiOiAzMzY1LCBcIjIwMjItMDFcIjogNDI5NH1cblxucHJpbnQoY292aWRfZGVhdGhzLmdldChcIjIwMjItMDZcIiwgMCkpXG5wcmludChjb3ZpZF9kZWF0aHMuZ2V0KFwiMjAyMS0xMlwiLCAwKSkifQ==
+</script>
+</div>
+</div>
+<aside class="notes">
+<p>Run the broken one first and let the KeyError appear. It’s a friendly error — it tells you exactly which key was missing, which is more than most languages offer.</p>
+<p>The judgment call worth discussing: <code>.get(key, 0)</code> is right when a missing month genuinely means zero deaths. It is <strong>wrong</strong> when the month is missing because nobody reported — that’s missing data, not zero, and silently converting it to 0 fabricates a fact.</p>
+<p>That distinction is the whole of module 4’s NaN material. Plant it here: a default is a claim about the world, not a convenience.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="for-walks-every-element-of-a-collection" class="slide level2 smaller">
+<h2><code>for</code> walks every element of a collection</h2>
+<div class="cell">
+<div>
+<div id="pyodide-4" class="exercise-cell">
+
+</div>
+<script type="pyodide-4-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiY292aWRfZGVhdGhzID0ge1xuICAgIFwiMjAyMS0xMVwiOiAyMTE3LFxuICAgIFwiMjAyMS0xMlwiOiAzMzY1LFxuICAgIFwiMjAyMi0wMVwiOiA0Mjk0LFxufVxuXG5mb3IgbW9udGggaW4gY292aWRfZGVhdGhzOlxuICAgIHByaW50KG1vbnRoLCBjb3ZpZF9kZWF0aHNbbW9udGhdKSJ9
+</script>
+</div>
+</div>
+<p>Iterating a dictionary yields its <strong>keys</strong>. The colon and the indented block follow the same rule as <code>if</code>.</p>
+<div class="cell">
+<div>
+<div id="pyodide-5" class="exercise-cell">
+
+</div>
+<script type="pyodide-5-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiY292aWRfZGVhdGhzID0ge1xuICAgIFwiMjAyMS0xMVwiOiAyMTE3LFxuICAgIFwiMjAyMS0xMlwiOiAzMzY1LFxuICAgIFwiMjAyMi0wMVwiOiA0Mjk0LFxufVxuXG5mb3IgbW9udGgsIGRlYXRocyBpbiBjb3ZpZF9kZWF0aHMuaXRlbXMoKTpcbiAgICBwcmludChmXCJ7bW9udGh9OiB7ZGVhdGhzfSBkZWF0aHNcIikifQ==
+</script>
+</div>
+</div>
+<p><code>.items()</code> yields both parts at once, which is the idiomatic form.</p>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Three views of a dictionary</strong></p>
+</div>
+<div class="callout-content">
+<p><code>.keys()</code> yields the labels, <code>.values()</code> yields the quantities, <code>.items()</code> yields both.</p>
+</div>
+</div>
+</div>
+<aside class="notes">
+<p><code>.items()</code> is the one they will use constantly, so spend the time here rather than on <code>.keys()</code> and <code>.values()</code>.</p>
+<p>Point out the two-name loop variable — <code>for month, deaths in ...</code> — because it’s the first appearance of unpacking, which gets its own slide later. Two names, one item, because each item is a pair.</p>
+<p>R comparison worth one line: this replaces both <code>for (i in seq_along(x))</code> and much of what they’d use <code>sapply</code> for. Python leans on explicit loops far more than R does, and that’s idiomatic here rather than a failure to vectorize.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="range-generates-a-sequence-of-integers" class="slide level2 smaller">
+<h2><code>range()</code> generates a sequence of integers</h2>
+<div class="cell">
+<div>
+<div id="pyodide-6" class="exercise-cell">
+
+</div>
+<script type="pyodide-6-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiZm9yIGkgaW4gcmFuZ2UoNSk6XG4gICAgcHJpbnQoaSkifQ==
+</script>
+</div>
+</div>
+<div class="cell">
+<div>
+<div id="pyodide-7" class="exercise-cell">
+
+</div>
+<script type="pyodide-7-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiZm9yIHllYXIgaW4gcmFuZ2UoMjAyMCwgMjAyNCk6XG4gICAgcHJpbnQoeWVhcikifQ==
+</script>
+</div>
+</div>
+<ul>
+<li><code>range(n)</code> yields <code>0</code> through <code>n - 1</code> — <strong>n values, starting at zero</strong></li>
+<li><code>range(a, b)</code> yields <code>a</code> through <code>b - 1</code> — the stop is excluded, as in slicing</li>
+</ul>
+<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong><code>range()</code> excludes its endpoint</strong></p>
+</div>
+<div class="callout-content">
+<p><code>range(2020, 2024)</code> yields 2020, 2021, 2022, and 2023. Reaching 2024 requires <code>range(2020, 2025)</code>.</p>
+</div>
+</div>
+</div>
+<aside class="notes">
+<p>The excluded endpoint is the same convention as slicing from module 1, and saying so explicitly helps — it’s one rule, not two.</p>
+<p>R’s <code>2020:2024</code> includes both ends, so this is another place where six weeks of R actively misleads. Expect off-by-one errors and tell them to expect them too.</p>
+<p>Worth noting: when iterating a collection, <code>for month in covid_deaths</code> is preferred over <code>for i in range(len(...))</code>. The second works and reads badly. Python’s loop walks things, not indices.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="the-accumulator-pattern-builds-a-result-across-iterations" class="slide level2 smaller">
+<h2>The accumulator pattern builds a result across iterations</h2>
+<p>Initialize a variable <strong>before</strong> the loop; update it <strong>inside</strong>.</p>
+<div class="cell">
+<div>
+<div id="pyodide-8" class="exercise-cell">
+
+</div>
+<script type="pyodide-8-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiY292aWRfZGVhdGhzID0ge1xuICAgIFwiMjAyMS0wOFwiOiA1NTUsIFwiMjAyMS0wOVwiOiAxMjQ4LCBcIjIwMjEtMTBcIjogMjAzNSwgXCIyMDIxLTExXCI6IDIxMTcsXG4gICAgXCIyMDIxLTEyXCI6IDMzNjUsIFwiMjAyMi0wMVwiOiA0Mjk0LCBcIjIwMjItMDJcIjogMTgxOSxcbn1cblxudG90YWxfZGVhdGhzID0gMFxuXG5mb3IgbW9udGgsIGRlYXRocyBpbiBjb3ZpZF9kZWF0aHMuaXRlbXMoKTpcbiAgICB0b3RhbF9kZWF0aHMgKz0gZGVhdGhzXG5cbnByaW50KGZcIlRvdGFsIGFjcm9zcyB7bGVuKGNvdmlkX2RlYXRocyl9IG1vbnRoczoge3RvdGFsX2RlYXRoc31cIilcbnByaW50KGZcIk1vbnRobHkgYXZlcmFnZToge3RvdGFsX2RlYXRocyAvIGxlbihjb3ZpZF9kZWF0aHMpOi4xZn1cIikifQ==
+</script>
+</div>
+</div>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Initialization belongs outside the loop</strong></p>
+</div>
+<div class="callout-content">
+<p>A counter initialized inside the loop resets on every iteration and finishes holding only the final value.</p>
+</div>
+</div>
+</div>
+<aside class="notes">
+<p>This is module 1’s <code>+=</code> doing real work. Point at the continuity — they already know the operator; what’s new is that a loop supplies the values.</p>
+<p>The initialize-outside rule is worth demonstrating wrong if there’s time. Move <code>total_deaths = 0</code> inside the loop and it prints 1819, the last month’s value. No error, just a wrong answer, which is the failure mode they should fear most.</p>
+<p>15,433 deaths across seven months. That’s the Delta-through-Omicron period, and it’s worth a moment of silence before moving on.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="the-maximum-requires-remembering-the-best-so-far" class="slide level2 smaller">
+<h2>The maximum requires remembering the best so far</h2>
+<div class="cell">
+<div>
+<div id="pyodide-9" class="exercise-cell">
+
+</div>
+<script type="pyodide-9-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiY292aWRfZGVhdGhzID0ge1xuICAgIFwiMjAyMS0wOFwiOiA1NTUsIFwiMjAyMS0wOVwiOiAxMjQ4LCBcIjIwMjEtMTBcIjogMjAzNSwgXCIyMDIxLTExXCI6IDIxMTcsXG4gICAgXCIyMDIxLTEyXCI6IDMzNjUsIFwiMjAyMi0wMVwiOiA0Mjk0LCBcIjIwMjItMDJcIjogMTgxOSxcbn1cblxud29yc3RfbW9udGggPSBcIlwiXG53b3JzdF9kZWF0aHMgPSAwXG5cbmZvciBtb250aCwgZGVhdGhzIGluIGNvdmlkX2RlYXRocy5pdGVtcygpOlxuICAgIGlmIGRlYXRocyA+IHdvcnN0X2RlYXRoczpcbiAgICAgICAgd29yc3RfZGVhdGhzID0gZGVhdGhzXG4gICAgICAgIHdvcnN0X21vbnRoID0gbW9udGhcblxucHJpbnQoZlwiV29yc3QgbW9udGg6IHt3b3JzdF9tb250aH0gd2l0aCB7d29yc3RfZGVhdGhzfSBkZWF0aHNcIikifQ==
+</script>
+</div>
+</div>
+<p>The loop retains a candidate and replaces it whenever a larger value appears. <strong>This is the same procedure a person performs by hand, stated precisely.</strong></p>
+<aside class="notes">
+<p>Walk the first three iterations out loud: 555 beats 0 so August leads; 1248 beats 555 so September leads; 2035 beats 1248 so October leads. Once the mechanism is visible the rest is obvious.</p>
+<p>Ask what happens if <code>worst_deaths</code> starts at 10000 instead of 0. Nothing ever beats it, the loop finishes with the initial values, and the answer is an empty string. Initialization matters and there’s no error to warn you.</p>
+<p>Python has <code>max(covid_deaths, key=covid_deaths.get)</code> which does this in one line. Mention it exists, then say the loop is what matters today — the pattern generalizes to questions <code>max()</code> cannot answer.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="checkpoint-the-comparison-is-inside-the-wrong-block" class="slide level2 smaller">
+<h2>Checkpoint: the comparison is inside the wrong block</h2>
+<p><strong>Objective:</strong> count the months exceeding 2,000 deaths.</p>
+<div class="cell">
+<div>
+<div id="pyodide-10" class="exercise-cell">
+
+</div>
+<script type="pyodide-10-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiY292aWRfZGVhdGhzID0ge1xuICAgIFwiMjAyMS0wOFwiOiA1NTUsIFwiMjAyMS0wOVwiOiAxMjQ4LCBcIjIwMjEtMTBcIjogMjAzNSwgXCIyMDIxLTExXCI6IDIxMTcsXG4gICAgXCIyMDIxLTEyXCI6IDMzNjUsIFwiMjAyMi0wMVwiOiA0Mjk0LCBcIjIwMjItMDJcIjogMTgxOSxcbn1cblxuaGlnaF9tb250aHMgPSAwXG5cbmZvciBtb250aCwgZGVhdGhzIGluIGNvdmlkX2RlYXRocy5pdGVtcygpOlxuICAgIGlmIGRlYXRocyA+IDIwMDA6XG4gICAgICAgIGhpZ2hfbW9udGhzICs9IDFcbiAgICAgICAgcHJpbnQoZlwie21vbnRofToge2RlYXRoc31cIilcbiAgICAgICAgcHJpbnQoZlwiUnVubmluZyBjb3VudDoge2hpZ2hfbW9udGhzfVwiKVxuXG5wcmludChmXCJNb250aHMgYWJvdmUgMjAwMDoge2hpZ2hfbW9udGhzfVwiKSJ9
+</script>
+</div>
+</div>
+<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Indentation determines what runs when</strong></p>
+</div>
+<div class="callout-content">
+<p>The final <code>print()</code> is outside the loop and reports the total once, correctly. The running count is inside the <code>if</code> and prints on every match.</p>
+<p><strong>Moving the final line inside the loop would report a partial count as though it were the answer</strong> — with no error raised.</p>
+</div>
+</div>
+</div>
+<aside class="notes">
+<p>This one is subtler than module 1’s errors because the code as written is <em>correct</em>. The lesson is what indentation controls, and the failure is what happens if it’s wrong.</p>
+<p>Demonstrate live: indent the last <code>print()</code> by four spaces and re-run. It now prints seven times, and the first six numbers are all wrong-but-plausible partial counts. Ask which of the seven lines a hurried reader would copy into a report.</p>
+<p>Four months exceed 2,000: October and November 2021, December 2021, and January 2022. That is the Omicron ramp.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="while-repeats-until-a-condition-fails" class="slide level2 smaller">
+<h2><code>while</code> repeats until a condition fails</h2>
+<p>A <code>for</code> loop runs a known number of times. A <code>while</code> loop runs until something changes.</p>
+<div class="cell">
+<div>
+<div id="pyodide-11" class="exercise-cell">
+
+</div>
+<script type="pyodide-11-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiY292aWRfZGVhdGhzID0ge1xuICAgIFwiMjAyMS0wOFwiOiA1NTUsIFwiMjAyMS0wOVwiOiAxMjQ4LCBcIjIwMjEtMTBcIjogMjAzNSwgXCIyMDIxLTExXCI6IDIxMTcsXG4gICAgXCIyMDIxLTEyXCI6IDMzNjUsIFwiMjAyMi0wMVwiOiA0Mjk0LCBcIjIwMjItMDJcIjogMTgxOSxcbn1cblxubW9udGhzID0gbGlzdChjb3ZpZF9kZWF0aHMua2V5cygpKVxuY3VtdWxhdGl2ZSA9IDBcbnBvc2l0aW9uID0gMFxuXG53aGlsZSBjdW11bGF0aXZlIDw9IDEwMDAwOlxuICAgIG1vbnRoID0gbW9udGhzW3Bvc2l0aW9uXVxuICAgIGN1bXVsYXRpdmUgKz0gY292aWRfZGVhdGhzW21vbnRoXVxuICAgIHBvc2l0aW9uICs9IDFcblxucHJpbnQoZlwiQ3VtdWxhdGl2ZSBkZWF0aHMgcGFzc2VkIDEwLDAwMCBkdXJpbmcge21vbnRofToge2N1bXVsYXRpdmV9XCIpIn0=
+</script>
+</div>
+</div>
+<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>A condition that never becomes false runs forever</strong></p>
+</div>
+<div class="callout-content">
+<p>Every <code>while</code> loop requires something inside it that moves the condition toward failure. Omitting <code>position += 1</code> produces a loop that never terminates.</p>
+</div>
+</div>
+</div>
+<aside class="notes">
+<p>The infinite loop is worth naming clearly, because in Colab it hangs the notebook and the fix is Runtime &gt; Interrupt execution. Tell them where that menu item is <em>before</em> they need it.</p>
+<p>The result is January 2022 — the same month as the peak. Cumulative deaths crossed ten thousand in the worst month itself, which is what an exponential ramp does.</p>
+<p>The distinction to draw: <code>for</code> is for “do this to every element,” <code>while</code> is for “keep going until something happens.” Counting to a threshold is the second kind, because you don’t know in advance how many months it takes.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="while-true-with-break-is-an-exit-controlled-loop" class="slide level2 smaller">
+<h2><code>while True:</code> with <code>break</code> is an exit-controlled loop</h2>
+<div class="cell">
+<div>
+<div id="pyodide-12" class="exercise-cell">
+
+</div>
+<script type="pyodide-12-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiY292aWRfZGVhdGhzID0ge1xuICAgIFwiMjAyMS0wOFwiOiA1NTUsIFwiMjAyMS0wOVwiOiAxMjQ4LCBcIjIwMjEtMTBcIjogMjAzNSxcbiAgICBcIjIwMjEtMTFcIjogMjExNywgXCIyMDIxLTEyXCI6IDMzNjUsIFwiMjAyMi0wMVwiOiA0Mjk0LFxufVxuXG5tb250aHMgPSBsaXN0KGNvdmlkX2RlYXRocy5rZXlzKCkpXG5wb3NpdGlvbiA9IDBcblxud2hpbGUgVHJ1ZTpcbiAgICBtb250aCA9IG1vbnRoc1twb3NpdGlvbl1cbiAgICBpZiBjb3ZpZF9kZWF0aHNbbW9udGhdID4gMzAwMDpcbiAgICAgICAgcHJpbnQoZlwiRmlyc3QgbW9udGggYWJvdmUgMzAwMDoge21vbnRofVwiKVxuICAgICAgICBicmVha1xuICAgIHBvc2l0aW9uICs9IDEifQ==
+</script>
+</div>
+</div>
+<p><code>break</code> exits the loop immediately. <code>continue</code> skips to the next iteration without leaving.</p>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>The loop that tests at the bottom</strong></p>
+</div>
+<div class="callout-content">
+<p><code>while True:</code> with <code>break</code> runs the body first and decides afterward. This is Python’s equivalent of a do-while loop, and it suits searches that stop at the first match.</p>
+</div>
+</div>
+</div>
+<aside class="notes">
+<p>The pattern reads strangely at first — <code>while True:</code> looks like a deliberate infinite loop, and it is one, right up until the <code>break</code>. Say that out loud; it’s the part that confuses people.</p>
+<p>Why it’s useful: this search stops the moment it finds December. It doesn’t examine January. On seven months that’s irrelevant, but the habit matters when the collection is large or when each check is expensive.</p>
+<p>Demonstrate <code>continue</code> briefly if there’s time — skipping months below a threshold rather than stopping. Both keywords do control flow; one exits, one advances.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section></section>
+<section>
+<section id="functions." class="title-slide slide level1 unnumbered center" data-background-color="#003594">
+<h1>Functions.</h1>
+
+</section>
+<section id="def-packages-a-computation-under-a-name" class="slide level2 smaller">
+<h2><code>def</code> packages a computation under a name</h2>
+<div class="cell">
+<div>
+<div id="pyodide-13" class="exercise-cell">
+
+</div>
+<script type="pyodide-13-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiZGVmIHJhdGVfcGVyXzEwMGsoZGVhdGhzLCBwb3B1bGF0aW9uKTpcbiAgICBcIlwiXCJSZXR1cm4gZGVhdGhzIHBlciAxMDAsMDAwIHBlb3BsZS5cIlwiXCJcbiAgICByZXR1cm4gZGVhdGhzIC8gcG9wdWxhdGlvbiAqIDEwMDAwMFxuXG5cbnByaW50KHJhdGVfcGVyXzEwMGsoNDAxLCAxNDM3ODYpKVxucHJpbnQocmF0ZV9wZXJfMTAwaygyMDgsIDE1Nzc5NSkpXG5wcmludChmXCJ7cmF0ZV9wZXJfMTAwayg0MDUyLCAxNTUwNTQyKTouMWZ9XCIpIn0=
+</script>
+</div>
+</div>
+<ul>
+<li><code>def</code> names the function; the parameters are named in parentheses</li>
+<li>The <strong>docstring</strong> — a string on the first line — states what the function returns</li>
+<li><code>return</code> sends a value back to the caller</li>
+</ul>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>A function without <code>return</code> returns <code>None</code></strong></p>
+</div>
+<div class="callout-content">
+<p>Printing a value inside a function displays it; it does not hand it back. Only <code>return</code> produces a value the caller can store or reuse.</p>
+</div>
+</div>
+</div>
+<aside class="notes">
+<p>The print-versus-return confusion is the single biggest stumbling block in this section. Demonstrate it: replace <code>return</code> with <code>print</code> and then try <code>x = rate_per_100k(401, 143786)</code>. The number appears on screen, <code>x</code> is None, and the next line fails somewhere unrelated.</p>
+<p>The docstring is graded. Presentation and interpretation are named criteria in this course, and a one-line docstring is the cheapest interpretation mark available. Say so.</p>
+<p>These are the real COVID totals: Schuylkill 401 deaths, Centre 208, Philadelphia 4,052. Same counties as module 1, different story — that’s deliberate.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="a-function-may-return-more-than-one-value" class="slide level2 smaller">
+<h2>A function may return more than one value</h2>
+<div class="cell">
+<div>
+<div id="pyodide-14" class="exercise-cell">
+
+</div>
+<script type="pyodide-14-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiZGVmIHN1bW1hcml6ZV9jb3VudHkoY291bnR5LCBkZWF0aHMsIHBvcHVsYXRpb24pOlxuICAgIFwiXCJcIlJldHVybiB0aGUgY291bnR5J3MgcmF0ZSBhbmQgYSBjbGFzc2lmaWNhdGlvbiBhZ2FpbnN0IHRoZSBzdGF0ZSByYXRlLlwiXCJcIlxuICAgIHJhdGUgPSBkZWF0aHMgLyBwb3B1bGF0aW9uICogMTAwMDAwXG4gICAgaWYgcmF0ZSA+IDIxMi4zOlxuICAgICAgICBjbGFzc2lmaWNhdGlvbiA9IFwiQWJvdmUgdGhlIHN0YXRlIHJhdGVcIlxuICAgIGVsc2U6XG4gICAgICAgIGNsYXNzaWZpY2F0aW9uID0gXCJBdCBvciBiZWxvdyB0aGUgc3RhdGUgcmF0ZVwiXG4gICAgcmV0dXJuIHJhdGUsIGNsYXNzaWZpY2F0aW9uXG5cblxucmF0ZSwgbGFiZWwgPSBzdW1tYXJpemVfY291bnR5KFwiU2NodXlsa2lsbFwiLCA0MDEsIDE0Mzc4NilcblxucHJpbnQoZlwiU2NodXlsa2lsbDoge3JhdGU6LjFmfSBwZXIgMTAwLDAwMCDigJQge2xhYmVsfVwiKSJ9
+</script>
+</div>
+</div>
+<p>Returning several values produces a <strong>tuple</strong>, and assigning to several names unpacks it.</p>
+<aside class="notes">
+<p>Pennsylvania’s overall COVID death rate across these 49 months is 212.3 per 100,000 — that’s the threshold in the function, and it’s computed from the same file.</p>
+<p>The unpacking line is worth pausing on. <code>rate, label = ...</code> assigns two names from one return value, and the count on each side must match. Mismatch gives ValueError with a clear message about too many or too few values.</p>
+<p>This function is doing what module 1 did across four separate slides, now packaged so it can run on any county. That’s the argument for functions and it’s better shown than asserted.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="a-tuple-is-an-immutable-sequence" class="slide level2 smaller">
+<h2>A tuple is an immutable sequence</h2>
+<div class="cell">
+<div>
+<div id="pyodide-15" class="exercise-cell">
+
+</div>
+<script type="pyodide-15-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiY291bnR5X3JlY29yZCA9IChcIlNjaHV5bGtpbGxcIiwgNDAxLCAxNDM3ODYpXG5cbmNvdW50eSwgZGVhdGhzLCBwb3B1bGF0aW9uID0gY291bnR5X3JlY29yZFxuXG5wcmludChjb3VudHksIGRlYXRocywgcG9wdWxhdGlvbilcbnByaW50KGNvdW50eV9yZWNvcmRbMF0pXG5wcmludChsZW4oY291bnR5X3JlY29yZCkpIn0=
+</script>
+</div>
+</div>
+<p>Tuples index and slice exactly as lists do. <strong>They cannot be modified after creation</strong> — there is no <code>.append()</code>.</p>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Tuples signal fixed structure</strong></p>
+</div>
+<div class="callout-content">
+<p>A list holds a variable number of similar things. A tuple holds a fixed number of related things — a record whose shape is known.</p>
+</div>
+</div>
+</div>
+<aside class="notes">
+<p>The practical distinction: <code>counties</code> is a list because counties get added. A single county’s <code>(name, deaths, population)</code> is a tuple because it always has exactly three parts in that order.</p>
+<p>Unpacking is the reason tuples matter here. <code>.items()</code> yields tuples, which is why <code>for month, deaths in ...</code> works — each item is a two-element tuple being unpacked into two names.</p>
+<p>Attempting <code>county_record.append(...)</code> raises AttributeError: ‘tuple’ object has no attribute ‘append’. Worth showing, since AttributeError is on §2’s list and this is a clean example of it.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="sorted-orders-a-collection-and-key-chooses-by-what" class="slide level2 smaller">
+<h2><code>sorted()</code> orders a collection, and <code>key=</code> chooses by what</h2>
+<div class="cell">
+<div>
+<div id="pyodide-16" class="exercise-cell">
+
+</div>
+<script type="pyodide-16-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiY291bnRpZXMgPSBbXG4gICAgKFwiUGhpbGFkZWxwaGlhXCIsIDQwNTIsIDE1NTA1NDIpLFxuICAgIChcIkFsbGVnaGVueVwiLCAyMTc5LCAxMjI0ODI1KSxcbiAgICAoXCJTY2h1eWxraWxsXCIsIDQwMSwgMTQzNzg2KSxcbiAgICAoXCJDZW50cmVcIiwgMjA4LCAxNTc3OTUpLFxuICAgIChcIkZheWV0dGVcIiwgMzI1LCAxMjM5MTUpLFxuXVxuXG5ieV9kZWF0aHMgPSBzb3J0ZWQoY291bnRpZXMsIGtleT1sYW1iZGEgcmVjb3JkOiByZWNvcmRbMV0sIHJldmVyc2U9VHJ1ZSlcblxuZm9yIGNvdW50eSwgZGVhdGhzLCBwb3B1bGF0aW9uIGluIGJ5X2RlYXRoc1s6M106XG4gICAgcHJpbnQoZlwie2NvdW50eX06IHtkZWF0aHN9IGRlYXRoc1wiKSJ9
+</script>
+</div>
+</div>
+<p><code>key=</code> receives a function returning the value to sort on. <code>lambda</code> writes that function inline.</p>
+<aside class="notes">
+<p><code>lambda record: record[1]</code> means “given a record, sort by its second element.” That’s the whole idea — don’t over-explain lambda as a concept, just read it aloud as a sentence.</p>
+<p><code>reverse=True</code> gives descending order. Without it, sorted() ascends.</p>
+<p>The next slide is where this becomes a public health point rather than a syntax point, so don’t linger here.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="checkpoint-ranking-by-count-answers-a-different-question" class="slide level2 smaller">
+<h2>Checkpoint: ranking by count answers a different question</h2>
+<div class="cell">
+<div>
+<div id="pyodide-17" class="exercise-cell">
+
+</div>
+<script type="pyodide-17-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiY291bnRpZXMgPSBbXG4gICAgKFwiUGhpbGFkZWxwaGlhXCIsIDQwNTIsIDE1NTA1NDIpLFxuICAgIChcIkFsbGVnaGVueVwiLCAyMTc5LCAxMjI0ODI1KSxcbiAgICAoXCJTY2h1eWxraWxsXCIsIDQwMSwgMTQzNzg2KSxcbiAgICAoXCJDZW50cmVcIiwgMjA4LCAxNTc3OTUpLFxuICAgIChcIkZheWV0dGVcIiwgMzI1LCAxMjM5MTUpLFxuXVxuXG5ieV9kZWF0aHMgPSBzb3J0ZWQoY291bnRpZXMsIGtleT1sYW1iZGEgcjogclsxXSwgcmV2ZXJzZT1UcnVlKVxuYnlfcmF0ZSA9IHNvcnRlZChjb3VudGllcywga2V5PWxhbWJkYSByOiByWzFdIC8gclsyXSAqIDEwMDAwMCwgcmV2ZXJzZT1UcnVlKVxuXG5wcmludChcIlJhbmtlZCBieSBkZWF0aHM6XCIpXG5mb3IgY291bnR5LCBkZWF0aHMsIHBvcHVsYXRpb24gaW4gYnlfZGVhdGhzWzozXTpcbiAgICBwcmludChmXCIgICB7Y291bnR5fToge2RlYXRoc30gZGVhdGhzXCIpXG5cbnByaW50KFwiUmFua2VkIGJ5IHJhdGU6XCIpXG5mb3IgY291bnR5LCBkZWF0aHMsIHBvcHVsYXRpb24gaW4gYnlfcmF0ZVs6M106XG4gICAgcHJpbnQoZlwiICAge2NvdW50eX06IHtkZWF0aHMgLyBwb3B1bGF0aW9uICogMTAwMDAwOi4xZn0gcGVyIDEwMCwwMDBcIikifQ==
+</script>
+</div>
+</div>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Counts rank by population; rates rank by burden</strong></p>
+</div>
+<div class="callout-content">
+<p>The two orderings answer different questions. Ranking Pennsylvania’s 67 counties by COVID death <strong>count</strong> returns the five largest counties. Ranking by <strong>rate</strong> returns five rural counties, and <strong>the two lists share no members at all.</strong></p>
+<p>A county appears at the top of a count ranking largely because many people live there.</p>
+</div>
+</div>
+</div>
+<aside class="notes">
+<p>This is the most important slide in the module and it is not really about <code>sorted()</code>.</p>
+<p>The full-state numbers, verified: by count the top five are Philadelphia, Allegheny, Montgomery, Lancaster, Bucks — the five biggest counties. By rate they are Potter, McKean, Juniata, Jefferson, Armstrong — all rural, all small, none above 65,000 people. Zero overlap.</p>
+<p>Potter County had 89 deaths. Philadelphia had 4,052. Potter’s rate is more than double Philadelphia’s, because Potter has 16,000 residents. A county with 89 deaths does not make a national headline and lost a larger share of its neighbors.</p>
+<p>This is why public health reports rates. Module 5 returns to it as a full check-in.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section></section>
+<section>
+<section id="objects." class="title-slide slide level1 unnumbered center" data-background-color="#003594">
+<h1>Objects.</h1>
+
+</section>
+<section id="every-value-in-python-is-an-object" class="slide level2 smaller">
+<h2>Every value in Python is an object</h2>
+<p>An object carries <strong>data</strong> and the <strong>operations</strong> defined for it. The dot accesses both.</p>
+<div class="cell">
+<div>
+<div id="pyodide-18" class="exercise-cell">
+
+</div>
+<script type="pyodide-18-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiY291bnR5ID0gXCJTY2h1eWxraWxsXCJcbmNvdW50aWVzID0gW1wiU2NodXlsa2lsbFwiLCBcIkNlbnRyZVwiXVxuY292aWRfZGVhdGhzID0ge1wiMjAyMi0wMVwiOiA0Mjk0fVxuXG5wcmludChjb3VudHkudXBwZXIoKSlcbnByaW50KGNvdW50aWVzLmNvdW50KFwiQ2VudHJlXCIpKVxucHJpbnQoY292aWRfZGVhdGhzLmtleXMoKSkifQ==
+</script>
+</div>
+</div>
+<p><code>"text".upper()</code>, <code>counties.append()</code>, and <code>covid_deaths.items()</code> are the same construction: <strong>a value, a dot, and an operation that value supports.</strong></p>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Methods belong to types</strong></p>
+</div>
+<div class="callout-content">
+<p><code>.upper()</code> exists on strings and not on lists. Calling a method a type does not define raises <code>AttributeError</code>, which names both the type and the missing attribute.</p>
+</div>
+</div>
+</div>
+<aside class="notes">
+<p>The payoff for this slide arrives in module 4, when <code>df.head()</code> and <code>df.groupby()</code> appear. Those are not new syntax — they are the same dot they’ve used since module 1. Say that explicitly now so it lands later.</p>
+<p>Worth demonstrating: <code>counties.upper()</code> raises <code>AttributeError: 'list' object has no attribute 'upper'</code>. The error tells you the type and the missing name, which is usually enough to diagnose it.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="a-class-defines-a-new-kind-of-object" class="slide level2 smaller">
+<h2>A class defines a new kind of object</h2>
+<div class="cell">
+<div>
+<div id="pyodide-19" class="exercise-cell">
+
+</div>
+<script type="pyodide-19-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiY2xhc3MgQ291bnR5OlxuICAgIFwiXCJcIkEgUGVubnN5bHZhbmlhIGNvdW50eSB3aXRoIENPVklELTE5IG1vcnRhbGl0eSBkYXRhLlwiXCJcIlxuXG4gICAgZGVmIF9faW5pdF9fKHNlbGYsIG5hbWUsIGRlYXRocywgcG9wdWxhdGlvbik6XG4gICAgICAgIHNlbGYubmFtZSA9IG5hbWVcbiAgICAgICAgc2VsZi5kZWF0aHMgPSBkZWF0aHNcbiAgICAgICAgc2VsZi5wb3B1bGF0aW9uID0gcG9wdWxhdGlvblxuXG4gICAgZGVmIHJhdGVfcGVyXzEwMGsoc2VsZik6XG4gICAgICAgIFwiXCJcIlJldHVybiBkZWF0aHMgcGVyIDEwMCwwMDAgcmVzaWRlbnRzLlwiXCJcIlxuICAgICAgICByZXR1cm4gc2VsZi5kZWF0aHMgLyBzZWxmLnBvcHVsYXRpb24gKiAxMDAwMDBcblxuXG5zY2h1eWxraWxsID0gQ291bnR5KFwiU2NodXlsa2lsbFwiLCA0MDEsIDE0Mzc4NilcblxucHJpbnQoc2NodXlsa2lsbC5uYW1lKVxucHJpbnQoZlwie3NjaHV5bGtpbGwucmF0ZV9wZXJfMTAwaygpOi4xZn0gcGVyIDEwMCwwMDBcIikifQ==
+</script>
+</div>
+</div>
+<ul>
+<li><code>__init__</code> runs when the object is created and stores its data</li>
+<li><code>self</code> refers to the object being operated on</li>
+<li>An <strong>attribute</strong> holds data; a <strong>method</strong> performs an operation</li>
+</ul>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Attributes and methods differ by the parentheses</strong></p>
+</div>
+<div class="callout-content">
+<p><code>schuylkill.name</code> retrieves stored data. <code>schuylkill.rate_per_100k()</code> calls a function. Omitting the parentheses returns the function itself rather than its result.</p>
+</div>
+</div>
+</div>
+<aside class="notes">
+<p>Two slides on classes, per the spec, and this is the first. The goal is recognition, not fluency — they need to read this, not design it.</p>
+<p>The missing-parentheses bug is genuinely nasty and worth demonstrating. <code>print(schuylkill.rate_per_100k)</code> prints something like <code>&lt;bound method County.rate_per_100k of ...&gt;</code>. No error, no number, and if you write <code>if schuylkill.rate_per_100k:</code> it’s always True because a function object is truthy. That exact bug is recorded in the handoff as a real one from v1.</p>
+<p><code>self</code> confuses everyone at first. The honest explanation: when you call <code>schuylkill.rate_per_100k()</code>, Python passes <code>schuylkill</code> in as <code>self</code>. The method needs a way to refer to whichever county it was called on.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="the-dot-is-the-same-idea-everywhere" class="slide level2 smaller">
+<h2>The dot is the same idea everywhere</h2>
+<div class="cell">
+<div>
+<div id="pyodide-20" class="exercise-cell">
+
+</div>
+<script type="pyodide-20-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiY2xhc3MgQ291bnR5OlxuICAgIGRlZiBfX2luaXRfXyhzZWxmLCBuYW1lLCBkZWF0aHMsIHBvcHVsYXRpb24pOlxuICAgICAgICBzZWxmLm5hbWUgPSBuYW1lXG4gICAgICAgIHNlbGYuZGVhdGhzID0gZGVhdGhzXG4gICAgICAgIHNlbGYucG9wdWxhdGlvbiA9IHBvcHVsYXRpb25cblxuICAgIGRlZiByYXRlX3Blcl8xMDBrKHNlbGYpOlxuICAgICAgICByZXR1cm4gc2VsZi5kZWF0aHMgLyBzZWxmLnBvcHVsYXRpb24gKiAxMDAwMDBcblxuXG5jb3VudGllcyA9IFtcbiAgICBDb3VudHkoXCJQaGlsYWRlbHBoaWFcIiwgNDA1MiwgMTU1MDU0MiksXG4gICAgQ291bnR5KFwiU2NodXlsa2lsbFwiLCA0MDEsIDE0Mzc4NiksXG4gICAgQ291bnR5KFwiQ2VudHJlXCIsIDIwOCwgMTU3Nzk1KSxcbl1cblxuZm9yIGNvdW50eSBpbiBzb3J0ZWQoY291bnRpZXMsIGtleT1sYW1iZGEgYzogYy5yYXRlX3Blcl8xMDBrKCksIHJldmVyc2U9VHJ1ZSk6XG4gICAgcHJpbnQoZlwie2NvdW50eS5uYW1lfToge2NvdW50eS5yYXRlX3Blcl8xMDBrKCk6LjFmfSBwZXIgMTAwLDAwMFwiKSJ9
+</script>
+</div>
+</div>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>What Module 4 introduces</strong></p>
+</div>
+<div class="callout-content">
+<p><code>pandas</code> supplies an object holding an entire table. <code>df.head()</code> and <code>df.groupby()</code> use the construction on this slide — a value, a dot, an operation.</p>
+</div>
+</div>
+</div>
+<aside class="notes">
+<p>This slide combines everything: a class, a list of objects, <code>sorted()</code> with a key, a lambda calling a method, and an f-string. Nothing here is new as of five minutes ago.</p>
+<p>Note that Schuylkill outranks Philadelphia by rate — 278.9 against 261.3 — despite having a tenth as many deaths. That’s the counts-versus-rates point again, now expressed through objects.</p>
+<p>Then say what’s coming: module 3 replaces these loops with array arithmetic, and module 4 replaces this class with a DataFrame. Everything today is the foundation those stand on, not a detour.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section></section>
+<section>
+<section id="the-worst-month." class="title-slide slide level1 unnumbered center" data-background-color="#003594">
+<h1>The worst month.</h1>
+
+</section>
+<section id="exercise-find-the-deadliest-month" class="slide level2 smaller">
+<h2>Exercise: find the deadliest month</h2>
+<div class="cell" data-exercise="m2_worst">
+<div>
+<div id="pyodide-21" class="exercise-cell">
+
+</div>
+<script type="pyodide-21-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoibTJfd29yc3QifSwiY29kZSI6ImNvdmlkX2RlYXRocyA9IHtcbiAgICBcIjIwMjEtMDhcIjogNTU1LCBcIjIwMjEtMDlcIjogMTI0OCwgXCIyMDIxLTEwXCI6IDIwMzUsIFwiMjAyMS0xMVwiOiAyMTE3LFxuICAgIFwiMjAyMS0xMlwiOiAzMzY1LCBcIjIwMjItMDFcIjogNDI5NCwgXCIyMDIyLTAyXCI6IDE4MTksXG59XG5cbndvcnN0X21vbnRoID0gXCJcIlxud29yc3RfZGVhdGhzID0gMFxuXG5mb3IgbW9udGgsIGRlYXRocyBpbiBjb3ZpZF9kZWF0aHMuX19fX19fKCk6XG4gICAgaWYgZGVhdGhzID4gd29yc3RfZGVhdGhzOlxuICAgICAgICB3b3JzdF9kZWF0aHMgPSBkZWF0aHNcbiAgICAgICAgd29yc3RfbW9udGggPSBtb250aFxuXG5wcmludChmXCJXb3JzdCBtb250aDoge3dvcnN0X21vbnRofSB3aXRoIHt3b3JzdF9kZWF0aHM6LH0gZGVhdGhzXCIpIn0=
+</script>
+</div>
+</div>
+<div class="cell" data-exercise="m2_worst" data-hint="true">
+<div class="pyodide-ojs-exercise exercise-hint d-none" data-exercise="m2_worst">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="interpolate-23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="interpolate-23-1"><a href="#interpolate-23-1"></a><span class="co"># The blank is the method yielding both the key and the value: items</span></span>
+<span id="interpolate-23-2"><a href="#interpolate-23-2"></a><span class="co"># Iterating the dictionary directly would give only the month, and `deaths`</span></span>
+<span id="interpolate-23-3"><a href="#interpolate-23-3"></a><span class="co"># would be undefined.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<div class="cell" data-exercise="m2_worst" data-solution="true">
+<div class="pyodide-ojs-exercise exercise-solution d-none" data-exercise="m2_worst">
+<code id="interpolate-25" class="solution-code d-none">covid_deaths = {
+    "2021-08": 555, "2021-09": 1248, "2021-10": 2035, "2021-11": 2117,
+    "2021-12": 3365, "2022-01": 4294, "2022-02": 1819,
+}
+
+worst_month = ""
+worst_deaths = 0
+
+for month, deaths in covid_deaths.items():
+    if deaths &gt; worst_deaths:
+        worst_deaths = deaths
+        worst_month = month
+
+print(f"Worst month: {worst_month} with {worst_deaths:,} deaths")</code>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="interpolate-26"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="interpolate-26-1"><a href="#interpolate-26-1"></a>covid_deaths <span class="op">=</span> {</span>
+<span id="interpolate-26-2"><a href="#interpolate-26-2"></a>    <span class="st">"2021-08"</span>: <span class="dv">555</span>, <span class="st">"2021-09"</span>: <span class="dv">1248</span>, <span class="st">"2021-10"</span>: <span class="dv">2035</span>, <span class="st">"2021-11"</span>: <span class="dv">2117</span>,</span>
+<span id="interpolate-26-3"><a href="#interpolate-26-3"></a>    <span class="st">"2021-12"</span>: <span class="dv">3365</span>, <span class="st">"2022-01"</span>: <span class="dv">4294</span>, <span class="st">"2022-02"</span>: <span class="dv">1819</span>,</span>
+<span id="interpolate-26-4"><a href="#interpolate-26-4"></a>}</span>
+<span id="interpolate-26-5"><a href="#interpolate-26-5"></a></span>
+<span id="interpolate-26-6"><a href="#interpolate-26-6"></a>worst_month <span class="op">=</span> <span class="st">""</span></span>
+<span id="interpolate-26-7"><a href="#interpolate-26-7"></a>worst_deaths <span class="op">=</span> <span class="dv">0</span></span>
+<span id="interpolate-26-8"><a href="#interpolate-26-8"></a></span>
+<span id="interpolate-26-9"><a href="#interpolate-26-9"></a><span class="cf">for</span> month, deaths <span class="kw">in</span> covid_deaths.items():</span>
+<span id="interpolate-26-10"><a href="#interpolate-26-10"></a>    <span class="cf">if</span> deaths <span class="op">&gt;</span> worst_deaths:</span>
+<span id="interpolate-26-11"><a href="#interpolate-26-11"></a>        worst_deaths <span class="op">=</span> deaths</span>
+<span id="interpolate-26-12"><a href="#interpolate-26-12"></a>        worst_month <span class="op">=</span> month</span>
+<span id="interpolate-26-13"><a href="#interpolate-26-13"></a></span>
+<span id="interpolate-26-14"><a href="#interpolate-26-14"></a><span class="bu">print</span>(<span class="ss">f"Worst month: </span><span class="sc">{</span>worst_month<span class="sc">}</span><span class="ss"> with </span><span class="sc">{</span>worst_deaths<span class="sc">:,}</span><span class="ss"> deaths"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<aside class="notes">
+<p>Fill this in with the room. It assembles the dictionary, <code>.items()</code>, the loop, the comparison, and the accumulator — every piece from today in eleven lines.</p>
+<p>The <code>:,</code> in the f-string inserts thousands separators: 4,294 rather than 4294. Small thing, but it’s a presentation mark and presentation is graded.</p>
+<p>Ask before running: which month wins? By now enough of the slides have shown January 2022 that they should be confident.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="january-2022" class="slide level2 smaller">
+<h2>January 2022</h2>
+<p><strong>4,294 Pennsylvanians died of COVID-19 in January 2022</strong> — the deadliest month of the pandemic in this state.</p>
+<p>Not March 2020. Not the first wave.</p>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>What the timing means</strong></p>
+</div>
+<div class="callout-content">
+<p>The deadliest month arrived <strong>twenty-two months into the pandemic</strong>, after vaccines were widely available, during the Omicron wave. Cumulative deaths across these seven months crossed ten thousand during that same January.</p>
+<p><strong>The worst of an epidemic is not always its beginning</strong>, and a response calibrated to the first wave will misjudge the peak.</p>
+</div>
+</div>
+</div>
+<aside class="notes">
+<p>Land it and stop.</p>
+<p>If the room guessed spring 2020 at the start, return to that now. It is a completely reasonable guess — that period had the lockdowns, the empty streets, the sirens. It is also wrong, and the reason is that memory tracks disruption while mortality tracks transmission and susceptibility.</p>
+<p>Say plainly that the code found this, not the instructor. Seven lines of loop over a dictionary. At full scale it’s the same seven lines over 3,283 rows, which is module 4.</p>
+<p>Then the handoff to the lab: the lab does this at county level and asks which counties the answer changes for.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="session-outcomes" class="slide level2 smaller">
+<h2>Session outcomes</h2>
+<ul>
+<li>Storing labelled data in a <strong>dictionary</strong>, and retrieving it with <code>[key]</code> and <code>.get()</code></li>
+<li>Iterating with <code>for</code>, over a collection and over <code>range()</code></li>
+<li>Walking key–value pairs with <strong><code>.items()</code></strong></li>
+<li>Building results with the <strong>accumulator pattern</strong>, initialized outside the loop</li>
+<li>Repeating with <code>while</code>, and exiting with <code>while True:</code> plus <code>break</code></li>
+<li>Defining functions with <code>def</code>, <code>return</code>, and a docstring</li>
+<li>Returning several values, and unpacking <strong>tuples</strong></li>
+<li>Ordering with <code>sorted(key=)</code>, and distinguishing <strong>counts from rates</strong></li>
+<li>Reading a small class: <code>__init__</code>, <code>self</code>, attributes, and methods</li>
+</ul>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Preparation for the lab, Tuesday 10/20</strong></p>
+</div>
+<div class="callout-content">
+<p>The lab builds county-level dictionaries, writes functions returning several values, and ranks counties two ways.</p>
+</div>
+</div>
+</div>
+<p><strong>Module 3 replaces these loops with arithmetic on whole arrays.</strong></p>
+<aside class="notes">
+<p>That outcomes list is long, and this is the densest module so far. If the room looks saturated, the honest thing to say is that dictionaries and <code>.items()</code> are the parts that matter most and the rest will recur.</p>
+<p>Close on module 3. Every loop written today runs one element at a time; NumPy performs the same work on an entire array in one expression. Today’s loops are what make that worth having.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+
+<script type="pyodide-data">
+eyJvcHRpb25zIjp7ImVudiI6eyJQTE9UTFlfUkVOREVSRVIiOiJwbG90bHlfbWltZXR5cGUifSwiaW5kZXhVUkwiOiJodHRwczovL2Nkbi5qc2RlbGl2ci5uZXQvcHlvZGlkZS92MC4yOC4xL2Z1bGwvIn0sInBhY2thZ2VzIjp7InBrZ3MiOlsicHlvZGlkZV9odHRwIiwibWljcm9waXAiLCJpcHl0aG9uIl19fQ==
+</script>
+<script type="ojs-module-contents">
+eyJjb250ZW50cyI6W3siY2VsbE5hbWUiOiJweW9kaWRlLTIxIiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldCIsInNvdXJjZSI6InZpZXdvZiBfcHlvZGlkZV9lZGl0b3JfMjEgPSB7XG4gIGNvbnN0IHsgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yLCBiNjREZWNvZGUgfSA9IHdpbmRvdy5fZXhlcmNpc2Vfb2pzX3J1bnRpbWU7XG5cbiAgY29uc3Qgc2NyaXB0Q29udGVudCA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoYHNjcmlwdFt0eXBlPVxcXCJweW9kaWRlLTIxLWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgLy8gRGVmYXVsdCBleGVyY2lzZSBjb25maWd1cmF0aW9uXG4gIGNvbnN0IG9wdGlvbnMgPSBPYmplY3QuYXNzaWduKFxuICAgIHtcbiAgICAgIGlkOiBcInB5b2RpZGUtMjEtY29udGVudHNcIixcbiAgICAgIGVudmlyOiBgZXhlcmNpc2UtZW52LSR7YmxvY2suYXR0ci5leGVyY2lzZX1gLFxuICAgICAgZXJyb3I6IGZhbHNlLFxuICAgICAgY2FwdGlvbjogJ0V4ZXJjaXNlJyxcbiAgICB9LFxuICAgIGJsb2NrLmF0dHJcbiAgKTtcblxuICBjb25zdCBlZGl0b3IgPSBuZXcgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yKHB5b2RpZGVPanMucHlvZGlkZVByb21pc2UsIGJsb2NrLmNvZGUsIG9wdGlvbnMpO1xuICByZXR1cm4gZWRpdG9yLmNvbnRhaW5lcjtcbn1cbnZpZXdvZiBfcHlvZGlkZV92YWx1ZV8yMSA9IHB5b2RpZGVPanMucHJvY2VzcyhfcHlvZGlkZV9lZGl0b3JfMjEsIHt9KTtcbl9weW9kaWRlX2ZlZWRiYWNrXzIxID0ge1xuICBjb25zdCB7IFB5b2RpZGVHcmFkZXIgfSA9IHdpbmRvdy5fZXhlcmNpc2Vfb2pzX3J1bnRpbWU7XG4gIGNvbnN0IGVtcHR5RmVlZGJhY2sgPSBkb2N1bWVudC5jcmVhdGVFbGVtZW50KCdkaXYnKTtcblxuICBjb25zdCBncmFkZXIgPSBuZXcgUHlvZGlkZUdyYWRlcihfcHlvZGlkZV92YWx1ZV8yMS5ldmFsdWF0b3IpO1xuICBjb25zdCBmZWVkYmFjayA9IGF3YWl0IGdyYWRlci5ncmFkZUV4ZXJjaXNlKCk7XG4gIGlmICghZmVlZGJhY2spIHJldHVybiBlbXB0eUZlZWRiYWNrO1xuICByZXR1cm4gZmVlZGJhY2s7XG59XG4ifSx7ImNlbGxOYW1lIjoicHlvZGlkZS0yMCIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJzb3VyY2UiOiJ2aWV3b2YgX3B5b2RpZGVfZWRpdG9yXzIwID0ge1xuICBjb25zdCB7IFB5b2RpZGVFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS0yMC1jb250ZW50c1xcXCJdYCkudGV4dENvbnRlbnQ7XG4gIGNvbnN0IGJsb2NrID0gSlNPTi5wYXJzZShiNjREZWNvZGUoc2NyaXB0Q29udGVudCkpO1xuXG4gIGNvbnN0IG9wdGlvbnMgPSBPYmplY3QuYXNzaWduKHsgaWQ6IGBweW9kaWRlLTIwLWNvbnRlbnRzYCB9LCBibG9jay5hdHRyKTtcbiAgY29uc3QgZWRpdG9yID0gbmV3IFB5b2RpZGVFeGVyY2lzZUVkaXRvcihcbiAgICBweW9kaWRlT2pzLnB5b2RpZGVQcm9taXNlLFxuICAgIGJsb2NrLmNvZGUsXG4gICAgb3B0aW9uc1xuICApO1xuXG4gIHJldHVybiBlZGl0b3IuY29udGFpbmVyO1xufVxuX3B5b2RpZGVfdmFsdWVfMjAgPSBweW9kaWRlT2pzLnByb2Nlc3MoX3B5b2RpZGVfZWRpdG9yXzIwLCB7fSk7XG4ifSx7ImNlbGxOYW1lIjoicHlvZGlkZS0xOSIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJzb3VyY2UiOiJ2aWV3b2YgX3B5b2RpZGVfZWRpdG9yXzE5ID0ge1xuICBjb25zdCB7IFB5b2RpZGVFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS0xOS1jb250ZW50c1xcXCJdYCkudGV4dENvbnRlbnQ7XG4gIGNvbnN0IGJsb2NrID0gSlNPTi5wYXJzZShiNjREZWNvZGUoc2NyaXB0Q29udGVudCkpO1xuXG4gIGNvbnN0IG9wdGlvbnMgPSBPYmplY3QuYXNzaWduKHsgaWQ6IGBweW9kaWRlLTE5LWNvbnRlbnRzYCB9LCBibG9jay5hdHRyKTtcbiAgY29uc3QgZWRpdG9yID0gbmV3IFB5b2RpZGVFeGVyY2lzZUVkaXRvcihcbiAgICBweW9kaWRlT2pzLnB5b2RpZGVQcm9taXNlLFxuICAgIGJsb2NrLmNvZGUsXG4gICAgb3B0aW9uc1xuICApO1xuXG4gIHJldHVybiBlZGl0b3IuY29udGFpbmVyO1xufVxuX3B5b2RpZGVfdmFsdWVfMTkgPSBweW9kaWRlT2pzLnByb2Nlc3MoX3B5b2RpZGVfZWRpdG9yXzE5LCB7fSk7XG4ifSx7ImNlbGxOYW1lIjoicHlvZGlkZS0xOCIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJzb3VyY2UiOiJ2aWV3b2YgX3B5b2RpZGVfZWRpdG9yXzE4ID0ge1xuICBjb25zdCB7IFB5b2RpZGVFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS0xOC1jb250ZW50c1xcXCJdYCkudGV4dENvbnRlbnQ7XG4gIGNvbnN0IGJsb2NrID0gSlNPTi5wYXJzZShiNjREZWNvZGUoc2NyaXB0Q29udGVudCkpO1xuXG4gIGNvbnN0IG9wdGlvbnMgPSBPYmplY3QuYXNzaWduKHsgaWQ6IGBweW9kaWRlLTE4LWNvbnRlbnRzYCB9LCBibG9jay5hdHRyKTtcbiAgY29uc3QgZWRpdG9yID0gbmV3IFB5b2RpZGVFeGVyY2lzZUVkaXRvcihcbiAgICBweW9kaWRlT2pzLnB5b2RpZGVQcm9taXNlLFxuICAgIGJsb2NrLmNvZGUsXG4gICAgb3B0aW9uc1xuICApO1xuXG4gIHJldHVybiBlZGl0b3IuY29udGFpbmVyO1xufVxuX3B5b2RpZGVfdmFsdWVfMTggPSBweW9kaWRlT2pzLnByb2Nlc3MoX3B5b2RpZGVfZWRpdG9yXzE4LCB7fSk7XG4ifSx7ImNlbGxOYW1lIjoicHlvZGlkZS0xNyIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJzb3VyY2UiOiJ2aWV3b2YgX3B5b2RpZGVfZWRpdG9yXzE3ID0ge1xuICBjb25zdCB7IFB5b2RpZGVFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS0xNy1jb250ZW50c1xcXCJdYCkudGV4dENvbnRlbnQ7XG4gIGNvbnN0IGJsb2NrID0gSlNPTi5wYXJzZShiNjREZWNvZGUoc2NyaXB0Q29udGVudCkpO1xuXG4gIGNvbnN0IG9wdGlvbnMgPSBPYmplY3QuYXNzaWduKHsgaWQ6IGBweW9kaWRlLTE3LWNvbnRlbnRzYCB9LCBibG9jay5hdHRyKTtcbiAgY29uc3QgZWRpdG9yID0gbmV3IFB5b2RpZGVFeGVyY2lzZUVkaXRvcihcbiAgICBweW9kaWRlT2pzLnB5b2RpZGVQcm9taXNlLFxuICAgIGJsb2NrLmNvZGUsXG4gICAgb3B0aW9uc1xuICApO1xuXG4gIHJldHVybiBlZGl0b3IuY29udGFpbmVyO1xufVxuX3B5b2RpZGVfdmFsdWVfMTcgPSBweW9kaWRlT2pzLnByb2Nlc3MoX3B5b2RpZGVfZWRpdG9yXzE3LCB7fSk7XG4ifSx7ImNlbGxOYW1lIjoicHlvZGlkZS0xNiIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJzb3VyY2UiOiJ2aWV3b2YgX3B5b2RpZGVfZWRpdG9yXzE2ID0ge1xuICBjb25zdCB7IFB5b2RpZGVFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS0xNi1jb250ZW50c1xcXCJdYCkudGV4dENvbnRlbnQ7XG4gIGNvbnN0IGJsb2NrID0gSlNPTi5wYXJzZShiNjREZWNvZGUoc2NyaXB0Q29udGVudCkpO1xuXG4gIGNvbnN0IG9wdGlvbnMgPSBPYmplY3QuYXNzaWduKHsgaWQ6IGBweW9kaWRlLTE2LWNvbnRlbnRzYCB9LCBibG9jay5hdHRyKTtcbiAgY29uc3QgZWRpdG9yID0gbmV3IFB5b2RpZGVFeGVyY2lzZUVkaXRvcihcbiAgICBweW9kaWRlT2pzLnB5b2RpZGVQcm9taXNlLFxuICAgIGJsb2NrLmNvZGUsXG4gICAgb3B0aW9uc1xuICApO1xuXG4gIHJldHVybiBlZGl0b3IuY29udGFpbmVyO1xufVxuX3B5b2RpZGVfdmFsdWVfMTYgPSBweW9kaWRlT2pzLnByb2Nlc3MoX3B5b2RpZGVfZWRpdG9yXzE2LCB7fSk7XG4ifSx7ImNlbGxOYW1lIjoicHlvZGlkZS0xNSIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJzb3VyY2UiOiJ2aWV3b2YgX3B5b2RpZGVfZWRpdG9yXzE1ID0ge1xuICBjb25zdCB7IFB5b2RpZGVFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS0xNS1jb250ZW50c1xcXCJdYCkudGV4dENvbnRlbnQ7XG4gIGNvbnN0IGJsb2NrID0gSlNPTi5wYXJzZShiNjREZWNvZGUoc2NyaXB0Q29udGVudCkpO1xuXG4gIGNvbnN0IG9wdGlvbnMgPSBPYmplY3QuYXNzaWduKHsgaWQ6IGBweW9kaWRlLTE1LWNvbnRlbnRzYCB9LCBibG9jay5hdHRyKTtcbiAgY29uc3QgZWRpdG9yID0gbmV3IFB5b2RpZGVFeGVyY2lzZUVkaXRvcihcbiAgICBweW9kaWRlT2pzLnB5b2RpZGVQcm9taXNlLFxuICAgIGJsb2NrLmNvZGUsXG4gICAgb3B0aW9uc1xuICApO1xuXG4gIHJldHVybiBlZGl0b3IuY29udGFpbmVyO1xufVxuX3B5b2RpZGVfdmFsdWVfMTUgPSBweW9kaWRlT2pzLnByb2Nlc3MoX3B5b2RpZGVfZWRpdG9yXzE1LCB7fSk7XG4ifSx7ImNlbGxOYW1lIjoicHlvZGlkZS0xNCIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJzb3VyY2UiOiJ2aWV3b2YgX3B5b2RpZGVfZWRpdG9yXzE0ID0ge1xuICBjb25zdCB7IFB5b2RpZGVFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS0xNC1jb250ZW50c1xcXCJdYCkudGV4dENvbnRlbnQ7XG4gIGNvbnN0IGJsb2NrID0gSlNPTi5wYXJzZShiNjREZWNvZGUoc2NyaXB0Q29udGVudCkpO1xuXG4gIGNvbnN0IG9wdGlvbnMgPSBPYmplY3QuYXNzaWduKHsgaWQ6IGBweW9kaWRlLTE0LWNvbnRlbnRzYCB9LCBibG9jay5hdHRyKTtcbiAgY29uc3QgZWRpdG9yID0gbmV3IFB5b2RpZGVFeGVyY2lzZUVkaXRvcihcbiAgICBweW9kaWRlT2pzLnB5b2RpZGVQcm9taXNlLFxuICAgIGJsb2NrLmNvZGUsXG4gICAgb3B0aW9uc1xuICApO1xuXG4gIHJldHVybiBlZGl0b3IuY29udGFpbmVyO1xufVxuX3B5b2RpZGVfdmFsdWVfMTQgPSBweW9kaWRlT2pzLnByb2Nlc3MoX3B5b2RpZGVfZWRpdG9yXzE0LCB7fSk7XG4ifSx7ImNlbGxOYW1lIjoicHlvZGlkZS0xMyIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJzb3VyY2UiOiJ2aWV3b2YgX3B5b2RpZGVfZWRpdG9yXzEzID0ge1xuICBjb25zdCB7IFB5b2RpZGVFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS0xMy1jb250ZW50c1xcXCJdYCkudGV4dENvbnRlbnQ7XG4gIGNvbnN0IGJsb2NrID0gSlNPTi5wYXJzZShiNjREZWNvZGUoc2NyaXB0Q29udGVudCkpO1xuXG4gIGNvbnN0IG9wdGlvbnMgPSBPYmplY3QuYXNzaWduKHsgaWQ6IGBweW9kaWRlLTEzLWNvbnRlbnRzYCB9LCBibG9jay5hdHRyKTtcbiAgY29uc3QgZWRpdG9yID0gbmV3IFB5b2RpZGVFeGVyY2lzZUVkaXRvcihcbiAgICBweW9kaWRlT2pzLnB5b2RpZGVQcm9taXNlLFxuICAgIGJsb2NrLmNvZGUsXG4gICAgb3B0aW9uc1xuICApO1xuXG4gIHJldHVybiBlZGl0b3IuY29udGFpbmVyO1xufVxuX3B5b2RpZGVfdmFsdWVfMTMgPSBweW9kaWRlT2pzLnByb2Nlc3MoX3B5b2RpZGVfZWRpdG9yXzEzLCB7fSk7XG4ifSx7ImNlbGxOYW1lIjoicHlvZGlkZS0xMiIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJzb3VyY2UiOiJ2aWV3b2YgX3B5b2RpZGVfZWRpdG9yXzEyID0ge1xuICBjb25zdCB7IFB5b2RpZGVFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS0xMi1jb250ZW50c1xcXCJdYCkudGV4dENvbnRlbnQ7XG4gIGNvbnN0IGJsb2NrID0gSlNPTi5wYXJzZShiNjREZWNvZGUoc2NyaXB0Q29udGVudCkpO1xuXG4gIGNvbnN0IG9wdGlvbnMgPSBPYmplY3QuYXNzaWduKHsgaWQ6IGBweW9kaWRlLTEyLWNvbnRlbnRzYCB9LCBibG9jay5hdHRyKTtcbiAgY29uc3QgZWRpdG9yID0gbmV3IFB5b2RpZGVFeGVyY2lzZUVkaXRvcihcbiAgICBweW9kaWRlT2pzLnB5b2RpZGVQcm9taXNlLFxuICAgIGJsb2NrLmNvZGUsXG4gICAgb3B0aW9uc1xuICApO1xuXG4gIHJldHVybiBlZGl0b3IuY29udGFpbmVyO1xufVxuX3B5b2RpZGVfdmFsdWVfMTIgPSBweW9kaWRlT2pzLnByb2Nlc3MoX3B5b2RpZGVfZWRpdG9yXzEyLCB7fSk7XG4ifSx7ImNlbGxOYW1lIjoicHlvZGlkZS0xMSIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJzb3VyY2UiOiJ2aWV3b2YgX3B5b2RpZGVfZWRpdG9yXzExID0ge1xuICBjb25zdCB7IFB5b2RpZGVFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS0xMS1jb250ZW50c1xcXCJdYCkudGV4dENvbnRlbnQ7XG4gIGNvbnN0IGJsb2NrID0gSlNPTi5wYXJzZShiNjREZWNvZGUoc2NyaXB0Q29udGVudCkpO1xuXG4gIGNvbnN0IG9wdGlvbnMgPSBPYmplY3QuYXNzaWduKHsgaWQ6IGBweW9kaWRlLTExLWNvbnRlbnRzYCB9LCBibG9jay5hdHRyKTtcbiAgY29uc3QgZWRpdG9yID0gbmV3IFB5b2RpZGVFeGVyY2lzZUVkaXRvcihcbiAgICBweW9kaWRlT2pzLnB5b2RpZGVQcm9taXNlLFxuICAgIGJsb2NrLmNvZGUsXG4gICAgb3B0aW9uc1xuICApO1xuXG4gIHJldHVybiBlZGl0b3IuY29udGFpbmVyO1xufVxuX3B5b2RpZGVfdmFsdWVfMTEgPSBweW9kaWRlT2pzLnByb2Nlc3MoX3B5b2RpZGVfZWRpdG9yXzExLCB7fSk7XG4ifSx7ImNlbGxOYW1lIjoicHlvZGlkZS0xMCIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJzb3VyY2UiOiJ2aWV3b2YgX3B5b2RpZGVfZWRpdG9yXzEwID0ge1xuICBjb25zdCB7IFB5b2RpZGVFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS0xMC1jb250ZW50c1xcXCJdYCkudGV4dENvbnRlbnQ7XG4gIGNvbnN0IGJsb2NrID0gSlNPTi5wYXJzZShiNjREZWNvZGUoc2NyaXB0Q29udGVudCkpO1xuXG4gIGNvbnN0IG9wdGlvbnMgPSBPYmplY3QuYXNzaWduKHsgaWQ6IGBweW9kaWRlLTEwLWNvbnRlbnRzYCB9LCBibG9jay5hdHRyKTtcbiAgY29uc3QgZWRpdG9yID0gbmV3IFB5b2RpZGVFeGVyY2lzZUVkaXRvcihcbiAgICBweW9kaWRlT2pzLnB5b2RpZGVQcm9taXNlLFxuICAgIGJsb2NrLmNvZGUsXG4gICAgb3B0aW9uc1xuICApO1xuXG4gIHJldHVybiBlZGl0b3IuY29udGFpbmVyO1xufVxuX3B5b2RpZGVfdmFsdWVfMTAgPSBweW9kaWRlT2pzLnByb2Nlc3MoX3B5b2RpZGVfZWRpdG9yXzEwLCB7fSk7XG4ifSx7ImNlbGxOYW1lIjoicHlvZGlkZS05IiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldCIsInNvdXJjZSI6InZpZXdvZiBfcHlvZGlkZV9lZGl0b3JfOSA9IHtcbiAgY29uc3QgeyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IsIGI2NERlY29kZSB9ID0gd2luZG93Ll9leGVyY2lzZV9vanNfcnVudGltZTtcblxuICBjb25zdCBzY3JpcHRDb250ZW50ID0gZG9jdW1lbnQucXVlcnlTZWxlY3Rvcihgc2NyaXB0W3R5cGU9XFxcInB5b2RpZGUtOS1jb250ZW50c1xcXCJdYCkudGV4dENvbnRlbnQ7XG4gIGNvbnN0IGJsb2NrID0gSlNPTi5wYXJzZShiNjREZWNvZGUoc2NyaXB0Q29udGVudCkpO1xuXG4gIGNvbnN0IG9wdGlvbnMgPSBPYmplY3QuYXNzaWduKHsgaWQ6IGBweW9kaWRlLTktY29udGVudHNgIH0sIGJsb2NrLmF0dHIpO1xuICBjb25zdCBlZGl0b3IgPSBuZXcgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yKFxuICAgIHB5b2RpZGVPanMucHlvZGlkZVByb21pc2UsXG4gICAgYmxvY2suY29kZSxcbiAgICBvcHRpb25zXG4gICk7XG5cbiAgcmV0dXJuIGVkaXRvci5jb250YWluZXI7XG59XG5fcHlvZGlkZV92YWx1ZV85ID0gcHlvZGlkZU9qcy5wcm9jZXNzKF9weW9kaWRlX2VkaXRvcl85LCB7fSk7XG4ifSx7ImNlbGxOYW1lIjoicHlvZGlkZS04IiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldCIsInNvdXJjZSI6InZpZXdvZiBfcHlvZGlkZV9lZGl0b3JfOCA9IHtcbiAgY29uc3QgeyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IsIGI2NERlY29kZSB9ID0gd2luZG93Ll9leGVyY2lzZV9vanNfcnVudGltZTtcblxuICBjb25zdCBzY3JpcHRDb250ZW50ID0gZG9jdW1lbnQucXVlcnlTZWxlY3Rvcihgc2NyaXB0W3R5cGU9XFxcInB5b2RpZGUtOC1jb250ZW50c1xcXCJdYCkudGV4dENvbnRlbnQ7XG4gIGNvbnN0IGJsb2NrID0gSlNPTi5wYXJzZShiNjREZWNvZGUoc2NyaXB0Q29udGVudCkpO1xuXG4gIGNvbnN0IG9wdGlvbnMgPSBPYmplY3QuYXNzaWduKHsgaWQ6IGBweW9kaWRlLTgtY29udGVudHNgIH0sIGJsb2NrLmF0dHIpO1xuICBjb25zdCBlZGl0b3IgPSBuZXcgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yKFxuICAgIHB5b2RpZGVPanMucHlvZGlkZVByb21pc2UsXG4gICAgYmxvY2suY29kZSxcbiAgICBvcHRpb25zXG4gICk7XG5cbiAgcmV0dXJuIGVkaXRvci5jb250YWluZXI7XG59XG5fcHlvZGlkZV92YWx1ZV84ID0gcHlvZGlkZU9qcy5wcm9jZXNzKF9weW9kaWRlX2VkaXRvcl84LCB7fSk7XG4ifSx7ImNlbGxOYW1lIjoicHlvZGlkZS03IiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldCIsInNvdXJjZSI6InZpZXdvZiBfcHlvZGlkZV9lZGl0b3JfNyA9IHtcbiAgY29uc3QgeyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IsIGI2NERlY29kZSB9ID0gd2luZG93Ll9leGVyY2lzZV9vanNfcnVudGltZTtcblxuICBjb25zdCBzY3JpcHRDb250ZW50ID0gZG9jdW1lbnQucXVlcnlTZWxlY3Rvcihgc2NyaXB0W3R5cGU9XFxcInB5b2RpZGUtNy1jb250ZW50c1xcXCJdYCkudGV4dENvbnRlbnQ7XG4gIGNvbnN0IGJsb2NrID0gSlNPTi5wYXJzZShiNjREZWNvZGUoc2NyaXB0Q29udGVudCkpO1xuXG4gIGNvbnN0IG9wdGlvbnMgPSBPYmplY3QuYXNzaWduKHsgaWQ6IGBweW9kaWRlLTctY29udGVudHNgIH0sIGJsb2NrLmF0dHIpO1xuICBjb25zdCBlZGl0b3IgPSBuZXcgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yKFxuICAgIHB5b2RpZGVPanMucHlvZGlkZVByb21pc2UsXG4gICAgYmxvY2suY29kZSxcbiAgICBvcHRpb25zXG4gICk7XG5cbiAgcmV0dXJuIGVkaXRvci5jb250YWluZXI7XG59XG5fcHlvZGlkZV92YWx1ZV83ID0gcHlvZGlkZU9qcy5wcm9jZXNzKF9weW9kaWRlX2VkaXRvcl83LCB7fSk7XG4ifSx7ImNlbGxOYW1lIjoicHlvZGlkZS02IiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldCIsInNvdXJjZSI6InZpZXdvZiBfcHlvZGlkZV9lZGl0b3JfNiA9IHtcbiAgY29uc3QgeyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IsIGI2NERlY29kZSB9ID0gd2luZG93Ll9leGVyY2lzZV9vanNfcnVudGltZTtcblxuICBjb25zdCBzY3JpcHRDb250ZW50ID0gZG9jdW1lbnQucXVlcnlTZWxlY3Rvcihgc2NyaXB0W3R5cGU9XFxcInB5b2RpZGUtNi1jb250ZW50c1xcXCJdYCkudGV4dENvbnRlbnQ7XG4gIGNvbnN0IGJsb2NrID0gSlNPTi5wYXJzZShiNjREZWNvZGUoc2NyaXB0Q29udGVudCkpO1xuXG4gIGNvbnN0IG9wdGlvbnMgPSBPYmplY3QuYXNzaWduKHsgaWQ6IGBweW9kaWRlLTYtY29udGVudHNgIH0sIGJsb2NrLmF0dHIpO1xuICBjb25zdCBlZGl0b3IgPSBuZXcgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yKFxuICAgIHB5b2RpZGVPanMucHlvZGlkZVByb21pc2UsXG4gICAgYmxvY2suY29kZSxcbiAgICBvcHRpb25zXG4gICk7XG5cbiAgcmV0dXJuIGVkaXRvci5jb250YWluZXI7XG59XG5fcHlvZGlkZV92YWx1ZV82ID0gcHlvZGlkZU9qcy5wcm9jZXNzKF9weW9kaWRlX2VkaXRvcl82LCB7fSk7XG4ifSx7ImNlbGxOYW1lIjoicHlvZGlkZS01IiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldCIsInNvdXJjZSI6InZpZXdvZiBfcHlvZGlkZV9lZGl0b3JfNSA9IHtcbiAgY29uc3QgeyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IsIGI2NERlY29kZSB9ID0gd2luZG93Ll9leGVyY2lzZV9vanNfcnVudGltZTtcblxuICBjb25zdCBzY3JpcHRDb250ZW50ID0gZG9jdW1lbnQucXVlcnlTZWxlY3Rvcihgc2NyaXB0W3R5cGU9XFxcInB5b2RpZGUtNS1jb250ZW50c1xcXCJdYCkudGV4dENvbnRlbnQ7XG4gIGNvbnN0IGJsb2NrID0gSlNPTi5wYXJzZShiNjREZWNvZGUoc2NyaXB0Q29udGVudCkpO1xuXG4gIGNvbnN0IG9wdGlvbnMgPSBPYmplY3QuYXNzaWduKHsgaWQ6IGBweW9kaWRlLTUtY29udGVudHNgIH0sIGJsb2NrLmF0dHIpO1xuICBjb25zdCBlZGl0b3IgPSBuZXcgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yKFxuICAgIHB5b2RpZGVPanMucHlvZGlkZVByb21pc2UsXG4gICAgYmxvY2suY29kZSxcbiAgICBvcHRpb25zXG4gICk7XG5cbiAgcmV0dXJuIGVkaXRvci5jb250YWluZXI7XG59XG5fcHlvZGlkZV92YWx1ZV81ID0gcHlvZGlkZU9qcy5wcm9jZXNzKF9weW9kaWRlX2VkaXRvcl81LCB7fSk7XG4ifSx7ImNlbGxOYW1lIjoicHlvZGlkZS00IiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldCIsInNvdXJjZSI6InZpZXdvZiBfcHlvZGlkZV9lZGl0b3JfNCA9IHtcbiAgY29uc3QgeyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IsIGI2NERlY29kZSB9ID0gd2luZG93Ll9leGVyY2lzZV9vanNfcnVudGltZTtcblxuICBjb25zdCBzY3JpcHRDb250ZW50ID0gZG9jdW1lbnQucXVlcnlTZWxlY3Rvcihgc2NyaXB0W3R5cGU9XFxcInB5b2RpZGUtNC1jb250ZW50c1xcXCJdYCkudGV4dENvbnRlbnQ7XG4gIGNvbnN0IGJsb2NrID0gSlNPTi5wYXJzZShiNjREZWNvZGUoc2NyaXB0Q29udGVudCkpO1xuXG4gIGNvbnN0IG9wdGlvbnMgPSBPYmplY3QuYXNzaWduKHsgaWQ6IGBweW9kaWRlLTQtY29udGVudHNgIH0sIGJsb2NrLmF0dHIpO1xuICBjb25zdCBlZGl0b3IgPSBuZXcgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yKFxuICAgIHB5b2RpZGVPanMucHlvZGlkZVByb21pc2UsXG4gICAgYmxvY2suY29kZSxcbiAgICBvcHRpb25zXG4gICk7XG5cbiAgcmV0dXJuIGVkaXRvci5jb250YWluZXI7XG59XG5fcHlvZGlkZV92YWx1ZV80ID0gcHlvZGlkZU9qcy5wcm9jZXNzKF9weW9kaWRlX2VkaXRvcl80LCB7fSk7XG4ifSx7ImNlbGxOYW1lIjoicHlvZGlkZS0zIiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldCIsInNvdXJjZSI6InZpZXdvZiBfcHlvZGlkZV9lZGl0b3JfMyA9IHtcbiAgY29uc3QgeyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IsIGI2NERlY29kZSB9ID0gd2luZG93Ll9leGVyY2lzZV9vanNfcnVudGltZTtcblxuICBjb25zdCBzY3JpcHRDb250ZW50ID0gZG9jdW1lbnQucXVlcnlTZWxlY3Rvcihgc2NyaXB0W3R5cGU9XFxcInB5b2RpZGUtMy1jb250ZW50c1xcXCJdYCkudGV4dENvbnRlbnQ7XG4gIGNvbnN0IGJsb2NrID0gSlNPTi5wYXJzZShiNjREZWNvZGUoc2NyaXB0Q29udGVudCkpO1xuXG4gIGNvbnN0IG9wdGlvbnMgPSBPYmplY3QuYXNzaWduKHsgaWQ6IGBweW9kaWRlLTMtY29udGVudHNgIH0sIGJsb2NrLmF0dHIpO1xuICBjb25zdCBlZGl0b3IgPSBuZXcgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yKFxuICAgIHB5b2RpZGVPanMucHlvZGlkZVByb21pc2UsXG4gICAgYmxvY2suY29kZSxcbiAgICBvcHRpb25zXG4gICk7XG5cbiAgcmV0dXJuIGVkaXRvci5jb250YWluZXI7XG59XG5fcHlvZGlkZV92YWx1ZV8zID0gcHlvZGlkZU9qcy5wcm9jZXNzKF9weW9kaWRlX2VkaXRvcl8zLCB7fSk7XG4ifSx7ImNlbGxOYW1lIjoicHlvZGlkZS0yIiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldCIsInNvdXJjZSI6InZpZXdvZiBfcHlvZGlkZV9lZGl0b3JfMiA9IHtcbiAgY29uc3QgeyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IsIGI2NERlY29kZSB9ID0gd2luZG93Ll9leGVyY2lzZV9vanNfcnVudGltZTtcblxuICBjb25zdCBzY3JpcHRDb250ZW50ID0gZG9jdW1lbnQucXVlcnlTZWxlY3Rvcihgc2NyaXB0W3R5cGU9XFxcInB5b2RpZGUtMi1jb250ZW50c1xcXCJdYCkudGV4dENvbnRlbnQ7XG4gIGNvbnN0IGJsb2NrID0gSlNPTi5wYXJzZShiNjREZWNvZGUoc2NyaXB0Q29udGVudCkpO1xuXG4gIGNvbnN0IG9wdGlvbnMgPSBPYmplY3QuYXNzaWduKHsgaWQ6IGBweW9kaWRlLTItY29udGVudHNgIH0sIGJsb2NrLmF0dHIpO1xuICBjb25zdCBlZGl0b3IgPSBuZXcgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yKFxuICAgIHB5b2RpZGVPanMucHlvZGlkZVByb21pc2UsXG4gICAgYmxvY2suY29kZSxcbiAgICBvcHRpb25zXG4gICk7XG5cbiAgcmV0dXJuIGVkaXRvci5jb250YWluZXI7XG59XG5fcHlvZGlkZV92YWx1ZV8yID0gcHlvZGlkZU9qcy5wcm9jZXNzKF9weW9kaWRlX2VkaXRvcl8yLCB7fSk7XG4ifSx7ImNlbGxOYW1lIjoicHlvZGlkZS0xIiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldCIsInNvdXJjZSI6InZpZXdvZiBfcHlvZGlkZV9lZGl0b3JfMSA9IHtcbiAgY29uc3QgeyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IsIGI2NERlY29kZSB9ID0gd2luZG93Ll9leGVyY2lzZV9vanNfcnVudGltZTtcblxuICBjb25zdCBzY3JpcHRDb250ZW50ID0gZG9jdW1lbnQucXVlcnlTZWxlY3Rvcihgc2NyaXB0W3R5cGU9XFxcInB5b2RpZGUtMS1jb250ZW50c1xcXCJdYCkudGV4dENvbnRlbnQ7XG4gIGNvbnN0IGJsb2NrID0gSlNPTi5wYXJzZShiNjREZWNvZGUoc2NyaXB0Q29udGVudCkpO1xuXG4gIGNvbnN0IG9wdGlvbnMgPSBPYmplY3QuYXNzaWduKHsgaWQ6IGBweW9kaWRlLTEtY29udGVudHNgIH0sIGJsb2NrLmF0dHIpO1xuICBjb25zdCBlZGl0b3IgPSBuZXcgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yKFxuICAgIHB5b2RpZGVPanMucHlvZGlkZVByb21pc2UsXG4gICAgYmxvY2suY29kZSxcbiAgICBvcHRpb25zXG4gICk7XG5cbiAgcmV0dXJuIGVkaXRvci5jb250YWluZXI7XG59XG5fcHlvZGlkZV92YWx1ZV8xID0gcHlvZGlkZU9qcy5wcm9jZXNzKF9weW9kaWRlX2VkaXRvcl8xLCB7fSk7XG4ifSx7ImNlbGxOYW1lIjoiaW50ZXJwb2xhdGUtMjMiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0UXVpZXQiLCJzb3VyY2UiOiJ7XG4gIGNvbnN0IHsgaW50ZXJwb2xhdGUgfSA9IHdpbmRvdy5fZXhlcmNpc2Vfb2pzX3J1bnRpbWU7XG4gIGNvbnN0IGJsb2NrX2lkID0gXCIyM1wiO1xuICBjb25zdCBsYW5ndWFnZSA9IFwicHl0aG9uXCI7XG4gIGNvbnN0IGRlZl9tYXAgPSB7XG59O1xuICBjb25zdCBlbGVtID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoYGludGVycG9sYXRlLSR7YmxvY2tfaWR9YCk7XG5cbiAgLy8gU3RvcmUgb3JpZ2luYWwgdGVtcGxhdGVkIEhUTUwgZm9yIHJlZmVyZW5jZSBpbiBmdXR1cmUgcmVhY3RpdmUgdXBkYXRlc1xuICBpZiAoIWVsZW0ub3JpZ0hUTUwpIGVsZW0ub3JpZ0hUTUwgPSBlbGVtLmlubmVySFRNTDtcblxuICAvLyBJbnRlcnBvbGF0ZSByZWFjdGl2ZSBPSlMgdmFyaWFibGVzIGludG8gZXN0YWJsaXNoZWQgSFRNTCBlbGVtZW50XG4gIGVsZW0uaW5uZXJIVE1MID0gZWxlbS5vcmlnSFRNTDtcbiAgT2JqZWN0LmtleXMoZGVmX21hcCkuZm9yRWFjaCgoZGVmKSA9PlxuICAgIGludGVycG9sYXRlKGVsZW0sIFwiJHtcIiArIGRlZiArIFwifVwiLCBkZWZfbWFwW2RlZl0sIGxhbmd1YWdlKVxuICApO1xufVxuIn0seyJjZWxsTmFtZSI6ImludGVycG9sYXRlLTI1IiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldFF1aWV0Iiwic291cmNlIjoie1xuICBjb25zdCB7IGludGVycG9sYXRlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuICBjb25zdCBibG9ja19pZCA9IFwiMjVcIjtcbiAgY29uc3QgbGFuZ3VhZ2UgPSBcIm5vbmVcIjtcbiAgY29uc3QgZGVmX21hcCA9IHtcbn07XG4gIGNvbnN0IGVsZW0gPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZChgaW50ZXJwb2xhdGUtJHtibG9ja19pZH1gKTtcblxuICAvLyBTdG9yZSBvcmlnaW5hbCB0ZW1wbGF0ZWQgSFRNTCBmb3IgcmVmZXJlbmNlIGluIGZ1dHVyZSByZWFjdGl2ZSB1cGRhdGVzXG4gIGlmICghZWxlbS5vcmlnSFRNTCkgZWxlbS5vcmlnSFRNTCA9IGVsZW0uaW5uZXJIVE1MO1xuXG4gIC8vIEludGVycG9sYXRlIHJlYWN0aXZlIE9KUyB2YXJpYWJsZXMgaW50byBlc3RhYmxpc2hlZCBIVE1MIGVsZW1lbnRcbiAgZWxlbS5pbm5lckhUTUwgPSBlbGVtLm9yaWdIVE1MO1xuICBPYmplY3Qua2V5cyhkZWZfbWFwKS5mb3JFYWNoKChkZWYpID0+XG4gICAgaW50ZXJwb2xhdGUoZWxlbSwgXCIke1wiICsgZGVmICsgXCJ9XCIsIGRlZl9tYXBbZGVmXSwgbGFuZ3VhZ2UpXG4gICk7XG59XG4ifSx7ImNlbGxOYW1lIjoiaW50ZXJwb2xhdGUtMjYiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0UXVpZXQiLCJzb3VyY2UiOiJ7XG4gIGNvbnN0IHsgaW50ZXJwb2xhdGUgfSA9IHdpbmRvdy5fZXhlcmNpc2Vfb2pzX3J1bnRpbWU7XG4gIGNvbnN0IGJsb2NrX2lkID0gXCIyNlwiO1xuICBjb25zdCBsYW5ndWFnZSA9IFwicHl0aG9uXCI7XG4gIGNvbnN0IGRlZl9tYXAgPSB7XG59O1xuICBjb25zdCBlbGVtID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoYGludGVycG9sYXRlLSR7YmxvY2tfaWR9YCk7XG5cbiAgLy8gU3RvcmUgb3JpZ2luYWwgdGVtcGxhdGVkIEhUTUwgZm9yIHJlZmVyZW5jZSBpbiBmdXR1cmUgcmVhY3RpdmUgdXBkYXRlc1xuICBpZiAoIWVsZW0ub3JpZ0hUTUwpIGVsZW0ub3JpZ0hUTUwgPSBlbGVtLmlubmVySFRNTDtcblxuICAvLyBJbnRlcnBvbGF0ZSByZWFjdGl2ZSBPSlMgdmFyaWFibGVzIGludG8gZXN0YWJsaXNoZWQgSFRNTCBlbGVtZW50XG4gIGVsZW0uaW5uZXJIVE1MID0gZWxlbS5vcmlnSFRNTDtcbiAgT2JqZWN0LmtleXMoZGVmX21hcCkuZm9yRWFjaCgoZGVmKSA9PlxuICAgIGludGVycG9sYXRlKGVsZW0sIFwiJHtcIiArIGRlZiArIFwifVwiLCBkZWZfbWFwW2RlZl0sIGxhbmd1YWdlKVxuICApO1xufVxuIn0seyJjZWxsTmFtZSI6InB5b2RpZGUtcHJlbHVkZSIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsInNvdXJjZSI6InB5b2RpZGVPanMgPSB7XG4gIGNvbnN0IHtcbiAgICBQeW9kaWRlRXZhbHVhdG9yLFxuICAgIFB5b2RpZGVFbnZpcm9ubWVudE1hbmFnZXIsXG4gICAgc2V0dXBQeXRob24sXG4gICAgc3RhcnRQeW9kaWRlV29ya2VyLFxuICAgIGI2NERlY29kZSxcbiAgICBjb2xsYXBzZVBhdGgsXG4gIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHN0YXR1c0NvbnRhaW5lciA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKFwiZXhlcmNpc2UtbG9hZGluZy1zdGF0dXNcIik7XG4gIGNvbnN0IGluZGljYXRvckNvbnRhaW5lciA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKFwiZXhlcmNpc2UtbG9hZGluZy1pbmRpY2F0b3JcIik7XG4gIGluZGljYXRvckNvbnRhaW5lci5jbGFzc0xpc3QucmVtb3ZlKFwiZC1ub25lXCIpO1xuXG4gIGxldCBzdGF0dXNUZXh0ID0gZG9jdW1lbnQuY3JlYXRlRWxlbWVudChcImRpdlwiKVxuICBzdGF0dXNUZXh0LmNsYXNzTGlzdCA9IFwiZXhlcmNpc2UtbG9hZGluZy1kZXRhaWxzXCI7XG4gIHN0YXR1c1RleHQgPSBzdGF0dXNDb250YWluZXIuYXBwZW5kQ2hpbGQoc3RhdHVzVGV4dCk7XG4gIHN0YXR1c1RleHQudGV4dENvbnRlbnQgPSBgSW5pdGlhbGlzZWA7XG5cbiAgLy8gSG9pc3QgaW5kaWNhdG9yIG91dCBmcm9tIGZpbmFsIHNsaWRlIHdoZW4gcnVubmluZyB1bmRlciByZXZlYWxcbiAgY29uc3QgcmV2ZWFsU3RhdHVzID0gZG9jdW1lbnQucXVlcnlTZWxlY3RvcihcIi5yZXZlYWwgLmV4ZXJjaXNlLWxvYWRpbmctaW5kaWNhdG9yXCIpO1xuICBpZiAocmV2ZWFsU3RhdHVzKSB7XG4gICAgcmV2ZWFsU3RhdHVzLnJlbW92ZSgpO1xuICAgIGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoXCIucmV2ZWFsID4gLnNsaWRlc1wiKS5hcHBlbmRDaGlsZChyZXZlYWxTdGF0dXMpO1xuICB9XG5cbiAgLy8gTWFrZSBhbnkgcmV2ZWFsIHNsaWRlcyB3aXRoIGxpdmUgY2VsbHMgc2Nyb2xsYWJsZVxuICBkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKFwiLnJldmVhbCAuZXhlcmNpc2UtY2VsbFwiKS5mb3JFYWNoKChlbCkgPT4ge1xuICAgIGVsLmNsb3Nlc3QoJ3NlY3Rpb24uc2xpZGUnKS5jbGFzc0xpc3QuYWRkKFwic2Nyb2xsYWJsZVwiKTtcbiAgfSlcblxuICAvLyBQeW9kaWRlIHN1cHBsZW1lbnRhbCBkYXRhIGFuZCBvcHRpb25zXG4gIGNvbnN0IGRhdGFDb250ZW50ID0gZG9jdW1lbnQucXVlcnlTZWxlY3Rvcihgc2NyaXB0W3R5cGU9XFxcInB5b2RpZGUtZGF0YVxcXCJdYCkudGV4dENvbnRlbnQ7XG4gIGNvbnN0IGRhdGEgPSBKU09OLnBhcnNlKGI2NERlY29kZShkYXRhQ29udGVudCkpO1xuXG4gIC8vIEdyYWIgbGlzdCBvZiByZXNvdXJjZXMgdG8gYmUgZG93bmxvYWRlZFxuICBjb25zdCBmaWxlc0NvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwidmZzLWZpbGVcXFwiXWApLnRleHRDb250ZW50O1xuICBjb25zdCBmaWxlcyA9IEpTT04ucGFyc2UoYjY0RGVjb2RlKGZpbGVzQ29udGVudCkpO1xuXG4gIGxldCBweW9kaWRlUHJvbWlzZSA9IChhc3luYyAoKSA9PiB7XG4gICAgc3RhdHVzVGV4dC50ZXh0Q29udGVudCA9IGBEb3dubG9hZGluZyBQeW9kaWRlYDtcbiAgICBjb25zdCBweW9kaWRlID0gYXdhaXQgc3RhcnRQeW9kaWRlV29ya2VyKGRhdGEub3B0aW9ucyk7XG5cbiAgICBzdGF0dXNUZXh0LnRleHRDb250ZW50ID0gYERvd25sb2FkaW5nIHBhY2thZ2U6IG1pY3JvcGlwYDtcbiAgICBhd2FpdCBweW9kaWRlLmxvYWRQYWNrYWdlKFwibWljcm9waXBcIik7XG4gICAgY29uc3QgbWljcm9waXAgPSBhd2FpdCBweW9kaWRlLnB5aW1wb3J0KFwibWljcm9waXBcIik7XG4gICAgYXdhaXQgZGF0YS5wYWNrYWdlcy5wa2dzLm1hcCgocGtnKSA9PiAoKSA9PiB7XG4gICAgICBzdGF0dXNUZXh0LnRleHRDb250ZW50ID0gYERvd25sb2FkaW5nIHBhY2thZ2U6ICR7cGtnfWA7XG4gICAgICByZXR1cm4gbWljcm9waXAuaW5zdGFsbChwa2cpO1xuICAgIH0pLnJlZHVjZSgoY3VyLCBuZXh0KSA9PiBjdXIudGhlbihuZXh0KSwgUHJvbWlzZS5yZXNvbHZlKCkpO1xuICAgIGF3YWl0IG1pY3JvcGlwLmRlc3Ryb3koKTtcblxuICAgIC8vIERvd25sb2FkIGFuZCBpbnN0YWxsIHJlc291cmNlc1xuICAgIGF3YWl0IGZpbGVzLm1hcCgoZmlsZSkgPT4gYXN5bmMgKCkgPT4ge1xuICAgICAgY29uc3QgbmFtZSA9IGZpbGUuc3Vic3RyaW5nKGZpbGUubGFzdEluZGV4T2YoJy8nKSArIDEpO1xuICAgICAgc3RhdHVzVGV4dC50ZXh0Q29udGVudCA9IGBEb3dubG9hZGluZyByZXNvdXJjZTogJHtuYW1lfWA7XG4gICAgICBjb25zdCByZXNwb25zZSA9IGF3YWl0IGZldGNoKGZpbGUpO1xuICAgICAgaWYgKCFyZXNwb25zZS5vaykge1xuICAgICAgICB0aHJvdyBuZXcgRXJyb3IoYENhbid0IGRvd25sb2FkIFxcYCR7ZmlsZX1cXGAuIEVycm9yICR7cmVzcG9uc2Uuc3RhdHVzfTogXCIke3Jlc3BvbnNlLnN0YXR1c1RleHR9XCIuYCk7XG4gICAgICB9XG4gICAgICBjb25zdCBkYXRhID0gYXdhaXQgcmVzcG9uc2UuYXJyYXlCdWZmZXIoKTtcblxuICAgICAgLy8gU3RvcmUgVVJMcyBpbiB0aGUgY3dkIHdpdGhvdXQgYW55IHN1YmRpcmVjdG9yeSBzdHJ1Y3R1cmVcbiAgICAgIGlmIChmaWxlLmluY2x1ZGVzKFwiOi8vXCIpKSB7XG4gICAgICAgIGZpbGUgPSBuYW1lO1xuICAgICAgfVxuXG4gICAgICAvLyBDb2xsYXBzZSBoaWdoZXIgZGlyZWN0b3J5IHN0cnVjdHVyZVxuICAgICAgZmlsZSA9IGNvbGxhcHNlUGF0aChmaWxlKTtcblxuICAgICAgLy8gQ3JlYXRlIGRpcmVjdG9yeSB0cmVlLCBpZ25vcmluZyBcImRpcmVjdG9yeSBleGlzdHNcIiBWRlMgZXJyb3JzXG4gICAgICBjb25zdCBwYXJ0cyA9IGZpbGUuc3BsaXQoJy8nKS5zbGljZSgwLCAtMSk7XG4gICAgICBsZXQgcGF0aCA9ICcnO1xuICAgICAgd2hpbGUgKHBhcnRzLmxlbmd0aCA+IDApIHtcbiAgICAgICAgcGF0aCArPSBwYXJ0cy5zaGlmdCgpICsgJy8nO1xuICAgICAgICB0cnkge1xuICAgICAgICAgIGF3YWl0IHB5b2RpZGUuRlMubWtkaXIocGF0aCk7XG4gICAgICAgIH0gY2F0Y2ggKGUpIHtcbiAgICAgICAgICBpZiAoZS5uYW1lICE9PSBcIkVycm5vRXJyb3JcIikgdGhyb3cgZTtcbiAgICAgICAgICBpZiAoZS5lcnJubyAhPT0gMjApIHtcbiAgICAgICAgICAgIGNvbnN0IGVycm9yVGV4dFB0ciA9IGF3YWl0IHB5b2RpZGUuX21vZHVsZS5fc3RyZXJyb3IoZS5lcnJubyk7XG4gICAgICAgICAgICBjb25zdCBlcnJvclRleHQgPSBhd2FpdCBweW9kaWRlLl9tb2R1bGUuVVRGOFRvU3RyaW5nKGVycm9yVGV4dFB0cik7XG4gICAgICAgICAgICB0aHJvdyBuZXcgRXJyb3IoYEZpbGVzeXN0ZW0gRXJyb3IgJHtlLmVycm5vfSBcIiR7ZXJyb3JUZXh0fVwiLmApO1xuICAgICAgICAgIH1cbiAgICAgICAgfVxuICAgICAgfVxuXG4gICAgICAvLyBXcml0ZSB0aGlzIGZpbGUgdG8gdGhlIFZGU1xuICAgICAgdHJ5IHtcbiAgICAgICAgcmV0dXJuIGF3YWl0IHB5b2RpZGUuRlMud3JpdGVGaWxlKGZpbGUsIG5ldyBVaW50OEFycmF5KGRhdGEpKTtcbiAgICAgIH0gY2F0Y2ggKGUpIHtcbiAgICAgICAgaWYgKGUubmFtZSAhPT0gXCJFcnJub0Vycm9yXCIpIHRocm93IGU7XG4gICAgICAgIGNvbnN0IGVycm9yVGV4dFB0ciA9IGF3YWl0IHB5b2RpZGUuX21vZHVsZS5fc3RyZXJyb3IoZS5lcnJubyk7XG4gICAgICAgIGNvbnN0IGVycm9yVGV4dCA9IGF3YWl0IHB5b2RpZGUuX21vZHVsZS5VVEY4VG9TdHJpbmcoZXJyb3JUZXh0UHRyKTtcbiAgICAgICAgdGhyb3cgbmV3IEVycm9yKGBGaWxlc3lzdGVtIEVycm9yICR7ZS5lcnJub30gXCIke2Vycm9yVGV4dH1cIi5gKTtcbiAgICAgIH1cbiAgICB9KS5yZWR1Y2UoKGN1ciwgbmV4dCkgPT4gY3VyLnRoZW4obmV4dCksIFByb21pc2UucmVzb2x2ZSgpKTtcblxuICAgIHN0YXR1c1RleHQudGV4dENvbnRlbnQgPSBgUHlvZGlkZSBlbnZpcm9ubWVudCBzZXR1cGA7XG4gICAgYXdhaXQgc2V0dXBQeXRob24ocHlvZGlkZSk7XG5cbiAgICBzdGF0dXNUZXh0LnJlbW92ZSgpO1xuICAgIGlmIChzdGF0dXNDb250YWluZXIuY2hpbGRyZW4ubGVuZ3RoID09IDApIHtcbiAgICAgIHN0YXR1c0NvbnRhaW5lci5wYXJlbnROb2RlLnJlbW92ZSgpO1xuICAgIH1cbiAgICByZXR1cm4gcHlvZGlkZTtcbiAgfSkoKS5jYXRjaCgoZXJyKSA9PiB7XG4gICAgc3RhdHVzVGV4dC5zdHlsZS5jb2xvciA9IFwidmFyKC0tZXhlcmNpc2UtZWRpdG9yLWhsLWVyLCAjQUQwMDAwKVwiO1xuICAgIHN0YXR1c1RleHQudGV4dENvbnRlbnQgPSBlcnIubWVzc2FnZTtcbiAgICAvL2luZGljYXRvckNvbnRhaW5lci5xdWVyeVNlbGVjdG9yKFwiLnNwaW5uZXItZ3Jvd1wiKS5jbGFzc0xpc3QuYWRkKFwiZC1ub25lXCIpO1xuICAgIHRocm93IGVycjtcbiAgfSk7XG5cbiAgLy8gS2VlcCB0cmFjayBvZiBpbml0aWFsIE9KUyBibG9jayByZW5kZXJcbiAgY29uc3QgcmVuZGVyZWRPanMgPSB7fTtcblxuICBjb25zdCBwcm9jZXNzID0gYXN5bmMgKGNvbnRleHQsIGlucHV0cykgPT4ge1xuICAgIGNvbnN0IHB5b2RpZGUgPSBhd2FpdCBweW9kaWRlUHJvbWlzZTtcbiAgICBjb25zdCBldmFsdWF0b3IgPSBuZXcgUHlvZGlkZUV2YWx1YXRvcihweW9kaWRlLCBjb250ZXh0KTtcbiAgICBhd2FpdCBldmFsdWF0b3IucHJvY2VzcyhpbnB1dHMpO1xuICAgIHJldHVybiBldmFsdWF0b3IuY29udGFpbmVyO1xuICB9XG5cbiAgcmV0dXJuIHtcbiAgICBweW9kaWRlUHJvbWlzZSxcbiAgICByZW5kZXJlZE9qcyxcbiAgICBwcm9jZXNzLFxuICB9O1xufVxuIn1dfQ==
+</script>
+<div id="exercise-loading-indicator" class="exercise-loading-indicator d-none d-flex align-items-center gap-2">
+<div id="exercise-loading-status" class="d-flex gap-2">
+
+</div>
+<div class="spinner-grow spinner-grow-sm">
+
+</div>
+</div>
+<script type="vfs-file">
+W10=
+</script>
+</section></section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<div class="footer footer-default">
+<p>soumik@pitt.edu · PUBHLT 0411 · Module 2: Collections, Loops, and Functions</p>
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="module2_lecture_files/libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="module2_lecture_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="module2_lecture_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="module2_lecture_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="module2_lecture_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="module2_lecture_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="module2_lecture_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="module2_lecture_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="module2_lecture_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="module2_lecture_files/libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'none',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1280,
+
+        height: 720,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 8.0e-2,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    <script type="ojs-module-contents">
+    eyJjb250ZW50cyI6W119
+    </script>
+    <script type="module">
+    if (window.location.protocol === "file:") { alert("The OJS runtime does not work with file:// URLs. Please use a web server to view this document."); }
+    window._ojs.paths.runtimeToDoc = "../../..";
+    window._ojs.paths.runtimeToRoot = "../../..";
+    window._ojs.paths.docToRoot = "";
+    window._ojs.selfContained = false;
+    window._ojs.runtime.interpretFromScriptTags();
+    </script>
+    
+    <script>
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+      // slide changes (different for each slide format).
+      (function () {
+        // dispatch for htmlwidgets
+        function fireSlideEnter() {
+          const event = window.document.createEvent("Event");
+          event.initEvent("slideenter", true, true);
+          window.document.dispatchEvent(event);
+        }
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+          fireSlideEnter();
+
+          // dispatch for shiny
+          if (window.jQuery) {
+            if (previousSlide) {
+              window.jQuery(previousSlide).trigger("hidden");
+            }
+            if (currentSlide) {
+              window.jQuery(currentSlide).trigger("shown");
+            }
+          }
+        }
+
+        // hookup for slidy
+        if (window.w3c_slidy) {
+          window.w3c_slidy.add_observer(function (slide_num) {
+            // slide_num starts at position 1
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+          });
+        }
+
+      })();
+    </script>
+
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp('/' + window.location.host + '/');
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    
+
+</body></html>

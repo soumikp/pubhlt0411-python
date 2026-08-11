@@ -1,0 +1,969 @@
+---
+# =====================================================================
+# Py Lab 2 — Collections, Loops, and Functions
+# PUBHLT 0411 · Python for Public Health Data Analysis
+#
+# Format: live-revealjs with smaller: true, one exercise per slide (§7).
+# Register: §2 "Labs — the third surface" — second person permitted in
+# task instructions and hints only; framing prose stays academic.
+#
+# Data: NONE. Inline dicts built from data/pa_covid_monthly.csv, verified.
+# =====================================================================
+title: "Py Lab 2: Collections, Loops, and Functions"
+subtitle: "PUBHLT 0411 · Python for Public Health Data Analysis"
+author: "Soumik Purkayastha"
+date: today
+date-format: long
+
+format:
+  live-revealjs:
+    theme: [white, pitt-theme.scss]
+    slide-number: c/t
+    show-slide-number: all
+    chalkboard: false
+    history: true
+    smaller: true
+    scrollable: true
+    incremental: false
+    code-copy: hover
+    highlight-style: github
+    width: 1280
+    height: 720
+    margin: 0.08
+    footer: "soumik@pitt.edu  ·  PUBHLT 0411 · Py Lab 2"
+
+engine: knitr
+
+pyodide:
+  packages: []
+
+execute:
+  echo: true
+  warning: false
+  message: false
+  cache: false
+---
+
+{{< include _extensions/r-wasm/live/_knitr.qmd >}}
+
+# Py Lab 2 {.unnumbered background-color="#003594"}
+
+## Collections, Loops, and Functions {.smaller}
+
+The lecture identified the deadliest month statewide. This lab works at county level:
+building dictionaries, walking them with loops, packaging the work into functions, and
+ranking counties two different ways.
+
+::: {.callout-note}
+## Lab mechanics
+- Each exercise supplies a worked example, then a similar problem to complete.
+- Click into a code block and press **Run**. Edit the blanks (`____`) and run again.
+- **Hint** gives the reasoning. **Solution** gives the answer.
+- Arrow keys navigate between exercises — one exercise per slide.
+- Submit to Canvas at the end of class.
+:::
+
+::: {.callout-tip}
+## The data
+COVID-19 deaths by county, March 2020 through March 2024, from the Pennsylvania Department
+of Health. County totals below are the full 49-month sums.
+
+| County | Deaths | Population |
+|---|---|---|
+| Philadelphia | 4,052 | 1,550,542 |
+| Allegheny | 2,179 | 1,224,825 |
+| Schuylkill | 401 | 143,786 |
+| Potter | 89 | 15,999 |
+
+A rate per 100,000 is `deaths / population * 100000`.
+:::
+
+# Exercise 1 — Build a dictionary {.unnumbered background-color="#003594"}
+
+## Exercise 1 — Build a dictionary {.smaller}
+
+**Worked example.** A dictionary maps a key to a value.
+
+```{pyodide}
+covid_deaths = {"2021-12": 3365, "2022-01": 4294}
+
+print(covid_deaths["2022-01"])
+print(len(covid_deaths))
+```
+
+**Your turn.** These are Allegheny County's monthly COVID-19 deaths. Retrieve December's
+figure and report how many months the dictionary holds.
+
+```{pyodide}
+#| exercise: ex1_dict
+allegheny = {
+    "2021-08": 60,
+    "2021-09": 109,
+    "2021-10": 197,
+    "2021-11": 158,
+    "2021-12": 242,
+    "2022-01": 322,
+}
+
+december_deaths = allegheny["____"]
+month_count = ____(allegheny)
+
+print(f"December 2021: {december_deaths} deaths")
+print(f"Months recorded: {month_count}")
+```
+
+```{pyodide}
+#| exercise: ex1_dict
+#| hint: true
+# First blank: the key for December 2021, written exactly as it appears — "2021-12".
+# Second blank: len — the built-in that counts entries.
+```
+
+```{pyodide}
+#| exercise: ex1_dict
+#| solution: true
+allegheny = {
+    "2021-08": 60,
+    "2021-09": 109,
+    "2021-10": 197,
+    "2021-11": 158,
+    "2021-12": 242,
+    "2022-01": 322,
+}
+
+december_deaths = allegheny["2021-12"]
+month_count = len(allegheny)
+
+print(f"December 2021: {december_deaths} deaths")
+print(f"Months recorded: {month_count}")
+```
+
+```{pyodide}
+#| exercise: ex1_dict
+#| check: true
+assert december_deaths == 242, "Allegheny recorded 242 deaths in December 2021."
+assert month_count == 6, "The dictionary holds six months."
+```
+
+# Exercise 2 — Handle a missing key {.unnumbered background-color="#003594"}
+
+## Exercise 2 — Handle a missing key {.smaller}
+
+**Worked example.** Subscripting an absent key raises; `.get()` supplies a default.
+
+```{pyodide}
+allegheny = {"2021-12": 242, "2022-01": 322}
+
+print(allegheny.get("2021-12", 0))
+print(allegheny.get("2022-07", 0))
+```
+
+**Your turn.** Retrieve a month that exists and one that does not, without raising.
+
+```{pyodide}
+#| exercise: ex2_get
+allegheny = {"2021-11": 158, "2021-12": 242, "2022-01": 322}
+
+recorded = allegheny.____("2022-01", 0)
+absent = allegheny.____("2023-05", 0)
+
+print(f"January 2022: {recorded}")
+print(f"May 2023: {absent}")
+```
+
+```{pyodide}
+#| exercise: ex2_get
+#| hint: true
+# Both blanks are the same method: get
+# It returns the second argument when the key is absent, rather than raising KeyError.
+```
+
+```{pyodide}
+#| exercise: ex2_get
+#| solution: true
+allegheny = {"2021-11": 158, "2021-12": 242, "2022-01": 322}
+
+recorded = allegheny.get("2022-01", 0)
+absent = allegheny.get("2023-05", 0)
+
+print(f"January 2022: {recorded}")
+print(f"May 2023: {absent}")
+```
+
+```{pyodide}
+#| exercise: ex2_get
+#| check: true
+assert recorded == 322, "January 2022 is in the dictionary, with 322 deaths."
+assert absent == 0, "May 2023 is absent, so .get() returns the default of 0."
+```
+
+::: {.callout-warning}
+## A default is a claim about the world
+Returning `0` for an absent month asserts that nobody died that month. That is correct when
+the month is genuinely outside the reporting period, and **wrong** when the month is missing
+because no one reported. Module 4 treats missing data as its own category.
+:::
+
+# Exercise 3 — Loop over key–value pairs {.unnumbered background-color="#003594"}
+
+## Exercise 3 — Loop over key–value pairs {.smaller}
+
+**Worked example.** `.items()` yields the key and the value together.
+
+```{pyodide}
+allegheny = {"2021-11": 158, "2021-12": 242}
+
+for month, deaths in allegheny.items():
+    print(f"{month}: {deaths}")
+```
+
+**Your turn.** Print each month alongside its death count.
+
+```{pyodide}
+#| exercise: ex3_items
+allegheny = {
+    "2021-10": 197,
+    "2021-11": 158,
+    "2021-12": 242,
+    "2022-01": 322,
+}
+
+months_printed = 0
+
+for month, deaths in allegheny.____():
+    print(f"{month}: {deaths} deaths")
+    months_printed += 1
+
+print(f"Rows printed: {months_printed}")
+```
+
+```{pyodide}
+#| exercise: ex3_items
+#| hint: true
+# The blank is items — the method yielding both parts of each entry.
+# Looping the dictionary directly would give only the month, and `deaths` would be undefined.
+```
+
+```{pyodide}
+#| exercise: ex3_items
+#| solution: true
+allegheny = {
+    "2021-10": 197,
+    "2021-11": 158,
+    "2021-12": 242,
+    "2022-01": 322,
+}
+
+months_printed = 0
+
+for month, deaths in allegheny.items():
+    print(f"{month}: {deaths} deaths")
+    months_printed += 1
+
+print(f"Rows printed: {months_printed}")
+```
+
+```{pyodide}
+#| exercise: ex3_items
+#| check: true
+assert months_printed == 4, "The loop should run once per month, four times."
+```
+
+# Exercise 4 — Accumulate a total {.unnumbered background-color="#003594"}
+
+## Exercise 4 — Accumulate a total {.smaller}
+
+**Worked example.** Initialize before the loop; update inside it.
+
+```{pyodide}
+allegheny = {"2021-11": 158, "2021-12": 242}
+
+total = 0
+for month, deaths in allegheny.items():
+    total += deaths
+
+print(total)
+```
+
+**Your turn.** Total Allegheny's deaths across the six months, then compute the monthly
+average.
+
+```{pyodide}
+#| exercise: ex4_accumulate
+allegheny = {
+    "2021-08": 60, "2021-09": 109, "2021-10": 197,
+    "2021-11": 158, "2021-12": 242, "2022-01": 322,
+}
+
+total_deaths = ____
+
+for month, deaths in allegheny.items():
+    total_deaths += deaths
+
+average = total_deaths / len(allegheny)
+
+print(f"Total: {total_deaths} deaths")
+print(f"Monthly average: {average:.1f}")
+```
+
+```{pyodide}
+#| exercise: ex4_accumulate
+#| hint: true
+# The blank is the starting value: 0
+# Starting anywhere else adds a quantity that is not in the data.
+# The six months total 1,088 deaths.
+```
+
+```{pyodide}
+#| exercise: ex4_accumulate
+#| solution: true
+allegheny = {
+    "2021-08": 60, "2021-09": 109, "2021-10": 197,
+    "2021-11": 158, "2021-12": 242, "2022-01": 322,
+}
+
+total_deaths = 0
+
+for month, deaths in allegheny.items():
+    total_deaths += deaths
+
+average = total_deaths / len(allegheny)
+
+print(f"Total: {total_deaths} deaths")
+print(f"Monthly average: {average:.1f}")
+```
+
+```{pyodide}
+#| exercise: ex4_accumulate
+#| check: true
+assert total_deaths == 1088, "The six months total 1,088 deaths."
+assert abs(average - 181.333) < 0.01, "The monthly average is about 181.3."
+```
+
+# Exercise 5 — Find the maximum {.unnumbered background-color="#003594"}
+
+## Exercise 5 — Find the maximum {.smaller}
+
+**Worked example.** Retain the best candidate seen so far; replace it when beaten.
+
+```{pyodide}
+deaths_by_month = {"2021-11": 158, "2021-12": 242, "2022-01": 322}
+
+worst_month = ""
+worst_deaths = 0
+
+for month, deaths in deaths_by_month.items():
+    if deaths > worst_deaths:
+        worst_deaths = deaths
+        worst_month = month
+
+print(worst_month, worst_deaths)
+```
+
+**Your turn.** Identify Allegheny County's deadliest month.
+
+```{pyodide}
+#| exercise: ex5_max
+allegheny = {
+    "2021-08": 60, "2021-09": 109, "2021-10": 197,
+    "2021-11": 158, "2021-12": 242, "2022-01": 322,
+}
+
+worst_month = ""
+worst_deaths = 0
+
+for month, deaths in allegheny.items():
+    if deaths ____ worst_deaths:
+        worst_deaths = deaths
+        worst_month = ____
+
+print(f"Allegheny's worst month: {worst_month} with {worst_deaths} deaths")
+```
+
+```{pyodide}
+#| exercise: ex5_max
+#| hint: true
+# First blank: > — a new maximum is one that exceeds the current best.
+# Second blank: month — record which month produced that value.
+# Allegheny's peak is January 2022, matching the statewide peak.
+```
+
+```{pyodide}
+#| exercise: ex5_max
+#| solution: true
+allegheny = {
+    "2021-08": 60, "2021-09": 109, "2021-10": 197,
+    "2021-11": 158, "2021-12": 242, "2022-01": 322,
+}
+
+worst_month = ""
+worst_deaths = 0
+
+for month, deaths in allegheny.items():
+    if deaths > worst_deaths:
+        worst_deaths = deaths
+        worst_month = month
+
+print(f"Allegheny's worst month: {worst_month} with {worst_deaths} deaths")
+```
+
+```{pyodide}
+#| exercise: ex5_max
+#| check: true
+assert worst_month == "2022-01", "Allegheny's deadliest month was January 2022."
+assert worst_deaths == 322, "That month recorded 322 deaths."
+```
+
+# Exercise 6 — Count with a condition {.unnumbered background-color="#003594"}
+
+## Exercise 6 — Count with a condition {.smaller}
+
+**Worked example.** A counter and an `if` inside a loop.
+
+```{pyodide}
+allegheny = {"2021-10": 197, "2021-11": 158, "2021-12": 242}
+
+high_months = 0
+for month, deaths in allegheny.items():
+    if deaths > 200:
+        high_months += 1
+
+print(high_months)
+```
+
+**Your turn.** Count the months exceeding 150 deaths, and collect their names in a list.
+
+```{pyodide}
+#| exercise: ex6_count
+allegheny = {
+    "2021-08": 60, "2021-09": 109, "2021-10": 197,
+    "2021-11": 158, "2021-12": 242, "2022-01": 322,
+}
+
+high_months = 0
+high_month_names = []
+
+for month, deaths in allegheny.items():
+    if deaths > 150:
+        high_months += 1
+        high_month_names.____(month)
+
+print(f"Months above 150: {high_months}")
+print(high_month_names)
+```
+
+```{pyodide}
+#| exercise: ex6_count
+#| hint: true
+# The blank is append — the list method from Module 1.
+# Four months exceed 150: October and November 2021, December 2021, and January 2022.
+```
+
+```{pyodide}
+#| exercise: ex6_count
+#| solution: true
+allegheny = {
+    "2021-08": 60, "2021-09": 109, "2021-10": 197,
+    "2021-11": 158, "2021-12": 242, "2022-01": 322,
+}
+
+high_months = 0
+high_month_names = []
+
+for month, deaths in allegheny.items():
+    if deaths > 150:
+        high_months += 1
+        high_month_names.append(month)
+
+print(f"Months above 150: {high_months}")
+print(high_month_names)
+```
+
+```{pyodide}
+#| exercise: ex6_count
+#| check: true
+assert high_months == 4, "Four months exceed 150 deaths."
+assert high_month_names == ["2021-10", "2021-11", "2021-12", "2022-01"], "Collect the month keys in order."
+```
+
+# Exercise 7 — Loop with `range()` {.unnumbered background-color="#003594"}
+
+## Exercise 7 — Loop with `range()` {.smaller}
+
+**Worked example.** `range(a, b)` yields `a` through `b - 1`.
+
+```{pyodide}
+for year in range(2020, 2023):
+    print(year)
+```
+
+**Your turn.** Print each year of the pandemic period, 2020 through 2024 inclusive, and
+count them.
+
+```{pyodide}
+#| exercise: ex7_range
+years_counted = 0
+
+for year in range(2020, ____):
+    print(year)
+    years_counted += 1
+
+print(f"Years covered: {years_counted}")
+```
+
+```{pyodide}
+#| exercise: ex7_range
+#| hint: true
+# range() excludes its stop value, so reaching 2024 requires a stop of 2025.
+# That gives five years: 2020, 2021, 2022, 2023, 2024.
+```
+
+```{pyodide}
+#| exercise: ex7_range
+#| solution: true
+years_counted = 0
+
+for year in range(2020, 2025):
+    print(year)
+    years_counted += 1
+
+print(f"Years covered: {years_counted}")
+```
+
+```{pyodide}
+#| exercise: ex7_range
+#| check: true
+assert years_counted == 5, "2020 through 2024 inclusive is five years — the stop must be 2025."
+```
+
+# Exercise 8 — Stop at the first match {.unnumbered background-color="#003594"}
+
+## Exercise 8 — Stop at the first match {.smaller}
+
+**Worked example.** `break` leaves the loop immediately.
+
+```{pyodide}
+allegheny = {"2021-08": 60, "2021-09": 109, "2021-10": 197}
+
+for month, deaths in allegheny.items():
+    if deaths > 100:
+        print(f"First month above 100: {month}")
+        break
+```
+
+**Your turn.** Identify the first month in which Allegheny exceeded 200 deaths, and stop
+searching there.
+
+```{pyodide}
+#| exercise: ex8_break
+allegheny = {
+    "2021-08": 60, "2021-09": 109, "2021-10": 197,
+    "2021-11": 158, "2021-12": 242, "2022-01": 322,
+}
+
+first_month = ""
+months_checked = 0
+
+for month, deaths in allegheny.items():
+    months_checked += 1
+    if deaths > 200:
+        first_month = month
+        ____
+
+print(f"First month above 200: {first_month}")
+print(f"Months examined: {months_checked}")
+```
+
+```{pyodide}
+#| exercise: ex8_break
+#| hint: true
+# The blank is break — it exits the loop at the first match.
+# December 2021 is the first month above 200, and it is the fifth month checked.
+# Without break, the loop would examine all six and first_month would end up as January.
+```
+
+```{pyodide}
+#| exercise: ex8_break
+#| solution: true
+allegheny = {
+    "2021-08": 60, "2021-09": 109, "2021-10": 197,
+    "2021-11": 158, "2021-12": 242, "2022-01": 322,
+}
+
+first_month = ""
+months_checked = 0
+
+for month, deaths in allegheny.items():
+    months_checked += 1
+    if deaths > 200:
+        first_month = month
+        break
+
+print(f"First month above 200: {first_month}")
+print(f"Months examined: {months_checked}")
+```
+
+```{pyodide}
+#| exercise: ex8_break
+#| check: true
+assert first_month == "2021-12", "December 2021 is the first month above 200 deaths."
+assert months_checked == 5, "break stops the loop after the fifth month."
+```
+
+# Exercise 9 — Write a function {.unnumbered background-color="#003594"}
+
+## Exercise 9 — Write a function {.smaller}
+
+**Worked example.** `def` names it, `return` hands a value back.
+
+```{pyodide}
+def double(value):
+    """Return twice the value."""
+    return value * 2
+
+print(double(21))
+```
+
+**Your turn.** Write a function computing a rate per 100,000, then apply it to two counties.
+
+```{pyodide}
+#| exercise: ex9_function
+def rate_per_100k(deaths, population):
+    """Return deaths per 100,000 people."""
+    ____ deaths / population * 100000
+
+
+potter_rate = rate_per_100k(89, 15999)
+philadelphia_rate = rate_per_100k(4052, 1550542)
+
+print(f"Potter: {potter_rate:.1f} per 100,000")
+print(f"Philadelphia: {philadelphia_rate:.1f} per 100,000")
+```
+
+```{pyodide}
+#| exercise: ex9_function
+#| hint: true
+# The blank is return. Using print here would display the number but hand back None,
+# and potter_rate would be None rather than a rate.
+# Potter comes out at 556.3, Philadelphia at 261.3.
+```
+
+```{pyodide}
+#| exercise: ex9_function
+#| solution: true
+def rate_per_100k(deaths, population):
+    """Return deaths per 100,000 people."""
+    return deaths / population * 100000
+
+
+potter_rate = rate_per_100k(89, 15999)
+philadelphia_rate = rate_per_100k(4052, 1550542)
+
+print(f"Potter: {potter_rate:.1f} per 100,000")
+print(f"Philadelphia: {philadelphia_rate:.1f} per 100,000")
+```
+
+```{pyodide}
+#| exercise: ex9_function
+#| check: true
+assert abs(potter_rate - 556.2848) < 0.01, "Potter's rate is about 556.3 per 100,000."
+assert abs(philadelphia_rate - 261.3273) < 0.01, "Philadelphia's rate is about 261.3 per 100,000."
+```
+
+::: {.callout-important}
+## Potter County recorded 89 deaths; Philadelphia recorded 4,052
+Potter's rate is more than double Philadelphia's, because 16,000 people live in Potter
+County. **The county with 45 times fewer deaths lost a larger share of its residents.**
+:::
+
+# Exercise 10 — Return two values {.unnumbered background-color="#003594"}
+
+## Exercise 10 — Return two values {.smaller}
+
+**Worked example.** Several return values form a tuple, unpacked on assignment.
+
+```{pyodide}
+def describe(deaths, population):
+    """Return the rate and whether it exceeds 250 per 100,000."""
+    rate = deaths / population * 100000
+    return rate, rate > 250
+
+rate, is_high = describe(401, 143786)
+print(f"{rate:.1f}", is_high)
+```
+
+**Your turn.** Return both the rate and a classification.
+
+```{pyodide}
+#| exercise: ex10_tuple
+def summarize(county, deaths, population):
+    """Return the county's rate and a classification against 250 per 100,000."""
+    rate = deaths / population * 100000
+    if rate > 250:
+        classification = "High"
+    else:
+        classification = "Moderate"
+    return rate, ____
+
+
+cambria_rate, cambria_class = summarize("Cambria", 411, 130668)
+
+print(f"Cambria: {cambria_rate:.1f} per 100,000 — {cambria_class}")
+```
+
+```{pyodide}
+#| exercise: ex10_tuple
+#| hint: true
+# The blank is classification — the second value the function should hand back.
+# Cambria's rate is 314.5, so the classification is High.
+```
+
+```{pyodide}
+#| exercise: ex10_tuple
+#| solution: true
+def summarize(county, deaths, population):
+    """Return the county's rate and a classification against 250 per 100,000."""
+    rate = deaths / population * 100000
+    if rate > 250:
+        classification = "High"
+    else:
+        classification = "Moderate"
+    return rate, classification
+
+
+cambria_rate, cambria_class = summarize("Cambria", 411, 130668)
+
+print(f"Cambria: {cambria_rate:.1f} per 100,000 — {cambria_class}")
+```
+
+```{pyodide}
+#| exercise: ex10_tuple
+#| check: true
+assert abs(cambria_rate - 314.5375) < 0.01, "Cambria's rate is about 314.5 per 100,000."
+assert cambria_class == "High", "314.5 exceeds 250, so the classification is High."
+```
+
+# Exercise 11 — Rank two ways {.unnumbered background-color="#003594"}
+
+## Exercise 11 — Rank two ways {.smaller}
+
+**Worked example.** `key=` selects what to sort on.
+
+```{pyodide}
+counties = [("Potter", 89, 15999), ("Philadelphia", 4052, 1550542)]
+
+by_deaths = sorted(counties, key=lambda record: record[1], reverse=True)
+print(by_deaths[0][0])
+```
+
+**Your turn.** Rank the same five counties by death count and by death rate, then compare
+the two leaders.
+
+```{pyodide}
+#| exercise: ex11_sort
+counties = [
+    ("Philadelphia", 4052, 1550542),
+    ("Allegheny", 2179, 1224825),
+    ("Schuylkill", 401, 143786),
+    ("Potter", 89, 15999),
+    ("Centre", 208, 157795),
+]
+
+by_deaths = sorted(counties, key=lambda r: r[1], reverse=True)
+by_rate = sorted(counties, key=lambda r: r[1] / r[____] * 100000, reverse=True)
+
+top_by_deaths = by_deaths[0][0]
+top_by_rate = by_rate[0][0]
+
+print(f"Most deaths: {top_by_deaths}")
+print(f"Highest rate: {top_by_rate}")
+```
+
+```{pyodide}
+#| exercise: ex11_sort
+#| hint: true
+# The blank is 2 — the population is the third element of each record, at index 2.
+# Philadelphia leads on count. Potter leads on rate, with 89 deaths.
+```
+
+```{pyodide}
+#| exercise: ex11_sort
+#| solution: true
+counties = [
+    ("Philadelphia", 4052, 1550542),
+    ("Allegheny", 2179, 1224825),
+    ("Schuylkill", 401, 143786),
+    ("Potter", 89, 15999),
+    ("Centre", 208, 157795),
+]
+
+by_deaths = sorted(counties, key=lambda r: r[1], reverse=True)
+by_rate = sorted(counties, key=lambda r: r[1] / r[2] * 100000, reverse=True)
+
+top_by_deaths = by_deaths[0][0]
+top_by_rate = by_rate[0][0]
+
+print(f"Most deaths: {top_by_deaths}")
+print(f"Highest rate: {top_by_rate}")
+```
+
+```{pyodide}
+#| exercise: ex11_sort
+#| check: true
+assert top_by_deaths == "Philadelphia", "Philadelphia recorded the most deaths."
+assert top_by_rate == "Potter", "Potter has the highest rate despite the fewest deaths."
+```
+
+# Exercise 12 — Read a class {.unnumbered background-color="#003594"}
+
+## Exercise 12 — Read a class {.smaller}
+
+**Worked example.** `self` refers to the object; a method is called with parentheses.
+
+```{pyodide}
+class County:
+    def __init__(self, name, deaths):
+        self.name = name
+        self.deaths = deaths
+
+erie = County("Erie", 559)
+print(erie.name, erie.deaths)
+```
+
+**Your turn.** Complete the method so it returns the county's rate.
+
+```{pyodide}
+#| exercise: ex12_class
+class County:
+    """A Pennsylvania county with COVID-19 mortality data."""
+
+    def __init__(self, name, deaths, population):
+        self.name = name
+        self.deaths = deaths
+        self.population = population
+
+    def rate_per_100k(self):
+        """Return deaths per 100,000 residents."""
+        return ____.deaths / self.population * 100000
+
+
+mckean = County("McKean", 195, 39519)
+
+print(f"{mckean.name}: {mckean.rate_per_100k():.1f} per 100,000")
+```
+
+```{pyodide}
+#| exercise: ex12_class
+#| hint: true
+# The blank is self — inside a method, that is how the object refers to its own data.
+# McKean's rate is 493.4 per 100,000.
+# Note the parentheses on rate_per_100k() — without them you get the function, not the number.
+```
+
+```{pyodide}
+#| exercise: ex12_class
+#| solution: true
+class County:
+    """A Pennsylvania county with COVID-19 mortality data."""
+
+    def __init__(self, name, deaths, population):
+        self.name = name
+        self.deaths = deaths
+        self.population = population
+
+    def rate_per_100k(self):
+        """Return deaths per 100,000 residents."""
+        return self.deaths / self.population * 100000
+
+
+mckean = County("McKean", 195, 39519)
+
+print(f"{mckean.name}: {mckean.rate_per_100k():.1f} per 100,000")
+```
+
+```{pyodide}
+#| exercise: ex12_class
+#| check: true
+assert abs(mckean.rate_per_100k() - 493.4335) < 0.01, "McKean's rate is about 493.4 per 100,000."
+assert mckean.name == "McKean", "The name attribute is set in __init__."
+```
+
+# Exercise 13 — Find the error {.unnumbered background-color="#003594"}
+
+## Exercise 13 — Find the error {.smaller}
+
+**This code is broken.** Run it, read the error, and repair it.
+
+The objective is to total the deaths across four months.
+
+```{pyodide}
+#| exercise: ex13_debug
+allegheny = {
+    "2021-10": 197, "2021-11": 158,
+    "2021-12": 242, "2022-01": 322,
+}
+
+for month, deaths in allegheny.items():
+    total_deaths += deaths
+
+print(f"Total: {total_deaths}")
+```
+
+```{pyodide}
+#| exercise: ex13_debug
+#| hint: true
+# NameError: total_deaths is used before it exists.
+# The accumulator must be initialized to 0 before the loop begins —
+# `total_deaths = 0` on its own line above the for statement.
+# The four months total 919 deaths.
+```
+
+```{pyodide}
+#| exercise: ex13_debug
+#| solution: true
+allegheny = {
+    "2021-10": 197, "2021-11": 158,
+    "2021-12": 242, "2022-01": 322,
+}
+
+total_deaths = 0
+
+for month, deaths in allegheny.items():
+    total_deaths += deaths
+
+print(f"Total: {total_deaths}")
+```
+
+```{pyodide}
+#| exercise: ex13_debug
+#| check: true
+assert total_deaths == 919, "The four months total 919 deaths."
+```
+
+::: {.callout-warning}
+## `NameError` — the accumulator was never initialized
+`+=` reads the current value before adding to it, so the name must already exist. Every
+accumulator needs a starting value **outside** the loop.
+:::
+
+# Submitting {.unnumbered background-color="#003594"}
+
+## Before leaving {.smaller}
+
+Every exercise should run without error and pass its check.
+
+::: {.callout-important}
+## Submission
+Save the notebook and upload it to Canvas today. Labs are graded on **correct, reproducible
+code** and on **readability** — identifier choice, docstrings, and comments count toward the
+mark.
+:::
+
+::: {.callout-tip}
+## What was covered
+Dictionaries · `[key]` · `.get()` · `.items()` · `for` · `range()` · the accumulator
+pattern · `break` · `def` · `return` · docstrings · multiple return values · tuples and
+unpacking · `sorted(key=)` · classes, `__init__`, `self`, attributes and methods
+:::
+
+**Module 3 replaces these loops with arithmetic performed on whole arrays at once.**

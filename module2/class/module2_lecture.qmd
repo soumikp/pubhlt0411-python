@@ -1,0 +1,871 @@
+---
+# =====================================================================
+# Module 2 — Collections, loops, functions, objects
+# PUBHLT 0411 · Python for Public Health Data Analysis
+#
+# Register: HANDOFF v3 §2 as amended 2026-08-11.
+#   Slides = academic, impersonal. No "you"/"we".
+#   Notes  = conversational, second person. Load-bearing.
+#
+# Data: NONE. §4 specifies inline dicts built from the real COVID file.
+# Every value is computed from data/pa_covid_monthly.csv and verified.
+#
+# Required assets (same folder):
+#   pitt-theme.scss
+#   _extensions/r-wasm/live/
+# =====================================================================
+title: "Module 2: Collections, Loops, and Functions"
+subtitle: "PUBHLT 0411 · Python for Public Health Data Analysis"
+author:
+  - name: Soumik Purkayastha
+    affiliations:
+      - name: Dept. of Biostatistics and Health Data Science, University of Pittsburgh
+date: today
+date-format: long
+
+format:
+  live-revealjs:
+    theme: [white, pitt-theme.scss]
+    slide-number: c/t
+    show-slide-number: all
+    chalkboard: false
+    history: true
+    smaller: false
+    scrollable: true
+    incremental: false
+    fig-align: center
+    fig-cap-location: bottom
+    code-line-numbers: true
+    code-overflow: wrap
+    code-copy: hover
+    highlight-style: github
+    width: 1280
+    height: 720
+    margin: 0.08
+    footer: "soumik@pitt.edu  ·  PUBHLT 0411 · Module 2: Collections, Loops, and Functions"
+
+engine: knitr
+
+pyodide:
+  packages: []
+
+execute:
+  echo: true
+  warning: false
+  message: false
+  cache: false
+---
+
+{{< include _extensions/r-wasm/live/_knitr.qmd >}}
+
+# Forty-nine months. {.unnumbered background-color="#003594"}
+
+## Pennsylvania recorded COVID-19 deaths across 49 months and 67 counties {.smaller}
+
+That is 3,283 county-months of data. **One of those months was the worst.**
+
+::: {.callout-important}
+## The question this session opens
+Identifying the deadliest month requires examining every month and retaining the largest.
+Performed by hand, this is 49 comparisons for the state and 3,283 for the counties.
+
+**This session establishes the machinery that performs the comparison.** A collection to
+hold the values, a loop to walk them, and a function to package the work for reuse.
+:::
+
+**Required from Module 1:** `if` / `elif` / `else`, indentation, lists, `.append()`, `+=`.
+
+::: {.notes}
+Open by asking the room to guess the worst month before showing anything. Most will say
+spring 2020 — the lockdown period everyone remembers, with the ambulance sirens and the
+refrigerated trucks. That guess is wrong, and being wrong for a memorable reason makes the
+answer stick.
+
+Do not reveal it yet. The payoff slide at the end is where January 2022 arrives, and the
+whole module is the machinery for finding it.
+
+Everything today is inline again, but the dictionary on the next slides was computed from
+the real 3,283-row file. Module 4 opens that file properly. Say that — they're one module
+away from doing this at full scale.
+:::
+
+## A dictionary maps keys to values {.smaller}
+
+A list is indexed by position. A dictionary is indexed by a **key** chosen by the author.
+
+```{pyodide}
+covid_deaths = {
+    "2021-08": 555,
+    "2021-09": 1248,
+    "2021-10": 2035,
+    "2021-11": 2117,
+    "2021-12": 3365,
+    "2022-01": 4294,
+    "2022-02": 1819,
+}
+
+print(covid_deaths["2021-12"])
+print(len(covid_deaths))
+```
+
+Each entry is a `key: value` pair. **Keys are unique**; assigning to an existing key
+replaces its value.
+
+::: {.callout-tip}
+## R analogue
+A named list, or a two-column lookup table. Python's version is built into the language and
+is the standard way to express "this label corresponds to this quantity."
+:::
+
+::: {.notes}
+These seven months are real: August 2021 through February 2022, the Delta wave running into
+Omicron. The values were summed across all 67 counties from the course file.
+
+The key insight to state plainly: with a list, retrieving December's total means knowing
+that December is at position 4. With a dictionary, it means asking for `"2021-12"`. When
+the data has natural labels, the position is an accident and the label is the meaning.
+
+R users will reach for `covid_deaths$`. That's not Python — square brackets and a quoted
+key. Expect the mistake once.
+:::
+
+## A missing key raises `KeyError` {.smaller}
+
+```{pyodide}
+covid_deaths = {"2021-12": 3365, "2022-01": 4294}
+
+print(covid_deaths["2022-06"])
+```
+
+::: {.callout-warning}
+## `KeyError` — the key is not present
+`KeyError: '2022-06'`
+
+Subscripting a dictionary with an absent key raises immediately rather than returning an
+empty value. The exception names the offending key.
+
+**Resolution:** `.get(key, default)` returns the default instead of raising —
+`covid_deaths.get("2022-06", 0)` evaluates to `0`.
+:::
+
+```{pyodide}
+covid_deaths = {"2021-12": 3365, "2022-01": 4294}
+
+print(covid_deaths.get("2022-06", 0))
+print(covid_deaths.get("2021-12", 0))
+```
+
+::: {.notes}
+Run the broken one first and let the KeyError appear. It's a friendly error — it tells you
+exactly which key was missing, which is more than most languages offer.
+
+The judgment call worth discussing: `.get(key, 0)` is right when a missing month genuinely
+means zero deaths. It is **wrong** when the month is missing because nobody reported —
+that's missing data, not zero, and silently converting it to 0 fabricates a fact.
+
+That distinction is the whole of module 4's NaN material. Plant it here: a default is a
+claim about the world, not a convenience.
+:::
+
+## `for` walks every element of a collection {.smaller}
+
+```{pyodide}
+covid_deaths = {
+    "2021-11": 2117,
+    "2021-12": 3365,
+    "2022-01": 4294,
+}
+
+for month in covid_deaths:
+    print(month, covid_deaths[month])
+```
+
+Iterating a dictionary yields its **keys**. The colon and the indented block follow the
+same rule as `if`.
+
+```{pyodide}
+covid_deaths = {
+    "2021-11": 2117,
+    "2021-12": 3365,
+    "2022-01": 4294,
+}
+
+for month, deaths in covid_deaths.items():
+    print(f"{month}: {deaths} deaths")
+```
+
+`.items()` yields both parts at once, which is the idiomatic form.
+
+::: {.callout-tip}
+## Three views of a dictionary
+`.keys()` yields the labels, `.values()` yields the quantities, `.items()` yields both.
+:::
+
+::: {.notes}
+`.items()` is the one they will use constantly, so spend the time here rather than on
+`.keys()` and `.values()`.
+
+Point out the two-name loop variable — `for month, deaths in ...` — because it's the first
+appearance of unpacking, which gets its own slide later. Two names, one item, because each
+item is a pair.
+
+R comparison worth one line: this replaces both `for (i in seq_along(x))` and much of what
+they'd use `sapply` for. Python leans on explicit loops far more than R does, and that's
+idiomatic here rather than a failure to vectorize.
+:::
+
+## `range()` generates a sequence of integers {.smaller}
+
+```{pyodide}
+for i in range(5):
+    print(i)
+```
+
+```{pyodide}
+for year in range(2020, 2024):
+    print(year)
+```
+
+- `range(n)` yields `0` through `n - 1` — **n values, starting at zero**
+- `range(a, b)` yields `a` through `b - 1` — the stop is excluded, as in slicing
+
+::: {.callout-warning}
+## `range()` excludes its endpoint
+`range(2020, 2024)` yields 2020, 2021, 2022, and 2023. Reaching 2024 requires
+`range(2020, 2025)`.
+:::
+
+::: {.notes}
+The excluded endpoint is the same convention as slicing from module 1, and saying so
+explicitly helps — it's one rule, not two.
+
+R's `2020:2024` includes both ends, so this is another place where six weeks of R actively
+misleads. Expect off-by-one errors and tell them to expect them too.
+
+Worth noting: when iterating a collection, `for month in covid_deaths` is preferred over
+`for i in range(len(...))`. The second works and reads badly. Python's loop walks things,
+not indices.
+:::
+
+## The accumulator pattern builds a result across iterations {.smaller}
+
+Initialize a variable **before** the loop; update it **inside**.
+
+```{pyodide}
+covid_deaths = {
+    "2021-08": 555, "2021-09": 1248, "2021-10": 2035, "2021-11": 2117,
+    "2021-12": 3365, "2022-01": 4294, "2022-02": 1819,
+}
+
+total_deaths = 0
+
+for month, deaths in covid_deaths.items():
+    total_deaths += deaths
+
+print(f"Total across {len(covid_deaths)} months: {total_deaths}")
+print(f"Monthly average: {total_deaths / len(covid_deaths):.1f}")
+```
+
+::: {.callout-important}
+## Initialization belongs outside the loop
+A counter initialized inside the loop resets on every iteration and finishes holding only
+the final value.
+:::
+
+::: {.notes}
+This is module 1's `+=` doing real work. Point at the continuity — they already know the
+operator; what's new is that a loop supplies the values.
+
+The initialize-outside rule is worth demonstrating wrong if there's time. Move
+`total_deaths = 0` inside the loop and it prints 1819, the last month's value. No error,
+just a wrong answer, which is the failure mode they should fear most.
+
+15,433 deaths across seven months. That's the Delta-through-Omicron period, and it's worth
+a moment of silence before moving on.
+:::
+
+## The maximum requires remembering the best so far {.smaller}
+
+```{pyodide}
+covid_deaths = {
+    "2021-08": 555, "2021-09": 1248, "2021-10": 2035, "2021-11": 2117,
+    "2021-12": 3365, "2022-01": 4294, "2022-02": 1819,
+}
+
+worst_month = ""
+worst_deaths = 0
+
+for month, deaths in covid_deaths.items():
+    if deaths > worst_deaths:
+        worst_deaths = deaths
+        worst_month = month
+
+print(f"Worst month: {worst_month} with {worst_deaths} deaths")
+```
+
+The loop retains a candidate and replaces it whenever a larger value appears. **This is the
+same procedure a person performs by hand, stated precisely.**
+
+::: {.notes}
+Walk the first three iterations out loud: 555 beats 0 so August leads; 1248 beats 555 so
+September leads; 2035 beats 1248 so October leads. Once the mechanism is visible the rest
+is obvious.
+
+Ask what happens if `worst_deaths` starts at 10000 instead of 0. Nothing ever beats it, the
+loop finishes with the initial values, and the answer is an empty string. Initialization
+matters and there's no error to warn you.
+
+Python has `max(covid_deaths, key=covid_deaths.get)` which does this in one line. Mention
+it exists, then say the loop is what matters today — the pattern generalizes to questions
+`max()` cannot answer.
+:::
+
+## Checkpoint: the comparison is inside the wrong block {.smaller}
+
+**Objective:** count the months exceeding 2,000 deaths.
+
+```{pyodide}
+covid_deaths = {
+    "2021-08": 555, "2021-09": 1248, "2021-10": 2035, "2021-11": 2117,
+    "2021-12": 3365, "2022-01": 4294, "2022-02": 1819,
+}
+
+high_months = 0
+
+for month, deaths in covid_deaths.items():
+    if deaths > 2000:
+        high_months += 1
+        print(f"{month}: {deaths}")
+        print(f"Running count: {high_months}")
+
+print(f"Months above 2000: {high_months}")
+```
+
+::: {.callout-warning}
+## Indentation determines what runs when
+The final `print()` is outside the loop and reports the total once, correctly. The running
+count is inside the `if` and prints on every match.
+
+**Moving the final line inside the loop would report a partial count as though it were the
+answer** — with no error raised.
+:::
+
+::: {.notes}
+This one is subtler than module 1's errors because the code as written is *correct*. The
+lesson is what indentation controls, and the failure is what happens if it's wrong.
+
+Demonstrate live: indent the last `print()` by four spaces and re-run. It now prints seven
+times, and the first six numbers are all wrong-but-plausible partial counts. Ask which of
+the seven lines a hurried reader would copy into a report.
+
+Four months exceed 2,000: October and November 2021, December 2021, and January 2022. That
+is the Omicron ramp.
+:::
+
+## `while` repeats until a condition fails {.smaller}
+
+A `for` loop runs a known number of times. A `while` loop runs until something changes.
+
+```{pyodide}
+covid_deaths = {
+    "2021-08": 555, "2021-09": 1248, "2021-10": 2035, "2021-11": 2117,
+    "2021-12": 3365, "2022-01": 4294, "2022-02": 1819,
+}
+
+months = list(covid_deaths.keys())
+cumulative = 0
+position = 0
+
+while cumulative <= 10000:
+    month = months[position]
+    cumulative += covid_deaths[month]
+    position += 1
+
+print(f"Cumulative deaths passed 10,000 during {month}: {cumulative}")
+```
+
+::: {.callout-warning}
+## A condition that never becomes false runs forever
+Every `while` loop requires something inside it that moves the condition toward failure.
+Omitting `position += 1` produces a loop that never terminates.
+:::
+
+::: {.notes}
+The infinite loop is worth naming clearly, because in Colab it hangs the notebook and the
+fix is Runtime > Interrupt execution. Tell them where that menu item is *before* they need
+it.
+
+The result is January 2022 — the same month as the peak. Cumulative deaths crossed ten
+thousand in the worst month itself, which is what an exponential ramp does.
+
+The distinction to draw: `for` is for "do this to every element," `while` is for "keep going
+until something happens." Counting to a threshold is the second kind, because you don't know
+in advance how many months it takes.
+:::
+
+## `while True:` with `break` is an exit-controlled loop {.smaller}
+
+```{pyodide}
+covid_deaths = {
+    "2021-08": 555, "2021-09": 1248, "2021-10": 2035,
+    "2021-11": 2117, "2021-12": 3365, "2022-01": 4294,
+}
+
+months = list(covid_deaths.keys())
+position = 0
+
+while True:
+    month = months[position]
+    if covid_deaths[month] > 3000:
+        print(f"First month above 3000: {month}")
+        break
+    position += 1
+```
+
+`break` exits the loop immediately. `continue` skips to the next iteration without leaving.
+
+::: {.callout-tip}
+## The loop that tests at the bottom
+`while True:` with `break` runs the body first and decides afterward. This is Python's
+equivalent of a do-while loop, and it suits searches that stop at the first match.
+:::
+
+::: {.notes}
+The pattern reads strangely at first — `while True:` looks like a deliberate infinite loop,
+and it is one, right up until the `break`. Say that out loud; it's the part that confuses
+people.
+
+Why it's useful: this search stops the moment it finds December. It doesn't examine
+January. On seven months that's irrelevant, but the habit matters when the collection is
+large or when each check is expensive.
+
+Demonstrate `continue` briefly if there's time — skipping months below a threshold rather
+than stopping. Both keywords do control flow; one exits, one advances.
+:::
+
+# Functions. {.unnumbered background-color="#003594"}
+
+## `def` packages a computation under a name {.smaller}
+
+```{pyodide}
+def rate_per_100k(deaths, population):
+    """Return deaths per 100,000 people."""
+    return deaths / population * 100000
+
+
+print(rate_per_100k(401, 143786))
+print(rate_per_100k(208, 157795))
+print(f"{rate_per_100k(4052, 1550542):.1f}")
+```
+
+- `def` names the function; the parameters are named in parentheses
+- The **docstring** — a string on the first line — states what the function returns
+- `return` sends a value back to the caller
+
+::: {.callout-important}
+## A function without `return` returns `None`
+Printing a value inside a function displays it; it does not hand it back. Only `return`
+produces a value the caller can store or reuse.
+:::
+
+::: {.notes}
+The print-versus-return confusion is the single biggest stumbling block in this section.
+Demonstrate it: replace `return` with `print` and then try `x = rate_per_100k(401, 143786)`.
+The number appears on screen, `x` is None, and the next line fails somewhere unrelated.
+
+The docstring is graded. Presentation and interpretation are named criteria in this course,
+and a one-line docstring is the cheapest interpretation mark available. Say so.
+
+These are the real COVID totals: Schuylkill 401 deaths, Centre 208, Philadelphia 4,052.
+Same counties as module 1, different story — that's deliberate.
+:::
+
+## A function may return more than one value {.smaller}
+
+```{pyodide}
+def summarize_county(county, deaths, population):
+    """Return the county's rate and a classification against the state rate."""
+    rate = deaths / population * 100000
+    if rate > 212.3:
+        classification = "Above the state rate"
+    else:
+        classification = "At or below the state rate"
+    return rate, classification
+
+
+rate, label = summarize_county("Schuylkill", 401, 143786)
+
+print(f"Schuylkill: {rate:.1f} per 100,000 — {label}")
+```
+
+Returning several values produces a **tuple**, and assigning to several names unpacks it.
+
+::: {.notes}
+Pennsylvania's overall COVID death rate across these 49 months is 212.3 per 100,000 —
+that's the threshold in the function, and it's computed from the same file.
+
+The unpacking line is worth pausing on. `rate, label = ...` assigns two names from one
+return value, and the count on each side must match. Mismatch gives ValueError with a
+clear message about too many or too few values.
+
+This function is doing what module 1 did across four separate slides, now packaged so it
+can run on any county. That's the argument for functions and it's better shown than
+asserted.
+:::
+
+## A tuple is an immutable sequence {.smaller}
+
+```{pyodide}
+county_record = ("Schuylkill", 401, 143786)
+
+county, deaths, population = county_record
+
+print(county, deaths, population)
+print(county_record[0])
+print(len(county_record))
+```
+
+Tuples index and slice exactly as lists do. **They cannot be modified after creation** —
+there is no `.append()`.
+
+::: {.callout-tip}
+## Tuples signal fixed structure
+A list holds a variable number of similar things. A tuple holds a fixed number of related
+things — a record whose shape is known.
+:::
+
+::: {.notes}
+The practical distinction: `counties` is a list because counties get added. A single
+county's `(name, deaths, population)` is a tuple because it always has exactly three parts
+in that order.
+
+Unpacking is the reason tuples matter here. `.items()` yields tuples, which is why
+`for month, deaths in ...` works — each item is a two-element tuple being unpacked into
+two names.
+
+Attempting `county_record.append(...)` raises AttributeError: 'tuple' object has no
+attribute 'append'. Worth showing, since AttributeError is on §2's list and this is a clean
+example of it.
+:::
+
+## `sorted()` orders a collection, and `key=` chooses by what {.smaller}
+
+```{pyodide}
+counties = [
+    ("Philadelphia", 4052, 1550542),
+    ("Allegheny", 2179, 1224825),
+    ("Schuylkill", 401, 143786),
+    ("Centre", 208, 157795),
+    ("Fayette", 325, 123915),
+]
+
+by_deaths = sorted(counties, key=lambda record: record[1], reverse=True)
+
+for county, deaths, population in by_deaths[:3]:
+    print(f"{county}: {deaths} deaths")
+```
+
+`key=` receives a function returning the value to sort on. `lambda` writes that function
+inline.
+
+::: {.notes}
+`lambda record: record[1]` means "given a record, sort by its second element." That's the
+whole idea — don't over-explain lambda as a concept, just read it aloud as a sentence.
+
+`reverse=True` gives descending order. Without it, sorted() ascends.
+
+The next slide is where this becomes a public health point rather than a syntax point, so
+don't linger here.
+:::
+
+## Checkpoint: ranking by count answers a different question {.smaller}
+
+```{pyodide}
+counties = [
+    ("Philadelphia", 4052, 1550542),
+    ("Allegheny", 2179, 1224825),
+    ("Schuylkill", 401, 143786),
+    ("Centre", 208, 157795),
+    ("Fayette", 325, 123915),
+]
+
+by_deaths = sorted(counties, key=lambda r: r[1], reverse=True)
+by_rate = sorted(counties, key=lambda r: r[1] / r[2] * 100000, reverse=True)
+
+print("Ranked by deaths:")
+for county, deaths, population in by_deaths[:3]:
+    print(f"   {county}: {deaths} deaths")
+
+print("Ranked by rate:")
+for county, deaths, population in by_rate[:3]:
+    print(f"   {county}: {deaths / population * 100000:.1f} per 100,000")
+```
+
+::: {.callout-important}
+## Counts rank by population; rates rank by burden
+The two orderings answer different questions. Ranking Pennsylvania's 67 counties by COVID
+death **count** returns the five largest counties. Ranking by **rate** returns five rural
+counties, and **the two lists share no members at all.**
+
+A county appears at the top of a count ranking largely because many people live there.
+:::
+
+::: {.notes}
+This is the most important slide in the module and it is not really about `sorted()`.
+
+The full-state numbers, verified: by count the top five are Philadelphia, Allegheny,
+Montgomery, Lancaster, Bucks — the five biggest counties. By rate they are Potter, McKean,
+Juniata, Jefferson, Armstrong — all rural, all small, none above 65,000 people. Zero
+overlap.
+
+Potter County had 89 deaths. Philadelphia had 4,052. Potter's rate is more than double
+Philadelphia's, because Potter has 16,000 residents. A county with 89 deaths does not make
+a national headline and lost a larger share of its neighbors.
+
+This is why public health reports rates. Module 5 returns to it as a full check-in.
+:::
+
+# Objects. {.unnumbered background-color="#003594"}
+
+## Every value in Python is an object {.smaller}
+
+An object carries **data** and the **operations** defined for it. The dot accesses both.
+
+```{pyodide}
+county = "Schuylkill"
+counties = ["Schuylkill", "Centre"]
+covid_deaths = {"2022-01": 4294}
+
+print(county.upper())
+print(counties.count("Centre"))
+print(covid_deaths.keys())
+```
+
+`"text".upper()`, `counties.append()`, and `covid_deaths.items()` are the same construction:
+**a value, a dot, and an operation that value supports.**
+
+::: {.callout-tip}
+## Methods belong to types
+`.upper()` exists on strings and not on lists. Calling a method a type does not define
+raises `AttributeError`, which names both the type and the missing attribute.
+:::
+
+::: {.notes}
+The payoff for this slide arrives in module 4, when `df.head()` and `df.groupby()` appear.
+Those are not new syntax — they are the same dot they've used since module 1. Say that
+explicitly now so it lands later.
+
+Worth demonstrating: `counties.upper()` raises `AttributeError: 'list' object has no
+attribute 'upper'`. The error tells you the type and the missing name, which is usually
+enough to diagnose it.
+:::
+
+## A class defines a new kind of object {.smaller}
+
+```{pyodide}
+class County:
+    """A Pennsylvania county with COVID-19 mortality data."""
+
+    def __init__(self, name, deaths, population):
+        self.name = name
+        self.deaths = deaths
+        self.population = population
+
+    def rate_per_100k(self):
+        """Return deaths per 100,000 residents."""
+        return self.deaths / self.population * 100000
+
+
+schuylkill = County("Schuylkill", 401, 143786)
+
+print(schuylkill.name)
+print(f"{schuylkill.rate_per_100k():.1f} per 100,000")
+```
+
+- `__init__` runs when the object is created and stores its data
+- `self` refers to the object being operated on
+- An **attribute** holds data; a **method** performs an operation
+
+::: {.callout-important}
+## Attributes and methods differ by the parentheses
+`schuylkill.name` retrieves stored data. `schuylkill.rate_per_100k()` calls a function.
+Omitting the parentheses returns the function itself rather than its result.
+:::
+
+::: {.notes}
+Two slides on classes, per the spec, and this is the first. The goal is recognition, not
+fluency — they need to read this, not design it.
+
+The missing-parentheses bug is genuinely nasty and worth demonstrating. `print(schuylkill.rate_per_100k)`
+prints something like `<bound method County.rate_per_100k of ...>`. No error, no number, and
+if you write `if schuylkill.rate_per_100k:` it's always True because a function object is
+truthy. That exact bug is recorded in the handoff as a real one from v1.
+
+`self` confuses everyone at first. The honest explanation: when you call
+`schuylkill.rate_per_100k()`, Python passes `schuylkill` in as `self`. The method needs a
+way to refer to whichever county it was called on.
+:::
+
+## The dot is the same idea everywhere {.smaller}
+
+```{pyodide}
+class County:
+    def __init__(self, name, deaths, population):
+        self.name = name
+        self.deaths = deaths
+        self.population = population
+
+    def rate_per_100k(self):
+        return self.deaths / self.population * 100000
+
+
+counties = [
+    County("Philadelphia", 4052, 1550542),
+    County("Schuylkill", 401, 143786),
+    County("Centre", 208, 157795),
+]
+
+for county in sorted(counties, key=lambda c: c.rate_per_100k(), reverse=True):
+    print(f"{county.name}: {county.rate_per_100k():.1f} per 100,000")
+```
+
+::: {.callout-tip}
+## What Module 4 introduces
+`pandas` supplies an object holding an entire table. `df.head()` and `df.groupby()` use the
+construction on this slide — a value, a dot, an operation.
+:::
+
+::: {.notes}
+This slide combines everything: a class, a list of objects, `sorted()` with a key, a lambda
+calling a method, and an f-string. Nothing here is new as of five minutes ago.
+
+Note that Schuylkill outranks Philadelphia by rate — 278.9 against 261.3 — despite having a
+tenth as many deaths. That's the counts-versus-rates point again, now expressed through
+objects.
+
+Then say what's coming: module 3 replaces these loops with array arithmetic, and module 4
+replaces this class with a DataFrame. Everything today is the foundation those stand on,
+not a detour.
+:::
+
+# The worst month. {.unnumbered background-color="#003594"}
+
+## Exercise: find the deadliest month {.smaller}
+
+```{pyodide}
+#| exercise: m2_worst
+covid_deaths = {
+    "2021-08": 555, "2021-09": 1248, "2021-10": 2035, "2021-11": 2117,
+    "2021-12": 3365, "2022-01": 4294, "2022-02": 1819,
+}
+
+worst_month = ""
+worst_deaths = 0
+
+for month, deaths in covid_deaths.______():
+    if deaths > worst_deaths:
+        worst_deaths = deaths
+        worst_month = month
+
+print(f"Worst month: {worst_month} with {worst_deaths:,} deaths")
+```
+
+```{pyodide}
+#| exercise: m2_worst
+#| hint: true
+# The blank is the method yielding both the key and the value: items
+# Iterating the dictionary directly would give only the month, and `deaths`
+# would be undefined.
+```
+
+```{pyodide}
+#| exercise: m2_worst
+#| solution: true
+covid_deaths = {
+    "2021-08": 555, "2021-09": 1248, "2021-10": 2035, "2021-11": 2117,
+    "2021-12": 3365, "2022-01": 4294, "2022-02": 1819,
+}
+
+worst_month = ""
+worst_deaths = 0
+
+for month, deaths in covid_deaths.items():
+    if deaths > worst_deaths:
+        worst_deaths = deaths
+        worst_month = month
+
+print(f"Worst month: {worst_month} with {worst_deaths:,} deaths")
+```
+
+::: {.notes}
+Fill this in with the room. It assembles the dictionary, `.items()`, the loop, the
+comparison, and the accumulator — every piece from today in eleven lines.
+
+The `:,` in the f-string inserts thousands separators: 4,294 rather than 4294. Small thing,
+but it's a presentation mark and presentation is graded.
+
+Ask before running: which month wins? By now enough of the slides have shown January 2022
+that they should be confident.
+:::
+
+## January 2022 {.smaller}
+
+**4,294 Pennsylvanians died of COVID-19 in January 2022** — the deadliest month of the
+pandemic in this state.
+
+Not March 2020. Not the first wave.
+
+::: {.callout-important}
+## What the timing means
+The deadliest month arrived **twenty-two months into the pandemic**, after vaccines were
+widely available, during the Omicron wave. Cumulative deaths across these seven months
+crossed ten thousand during that same January.
+
+**The worst of an epidemic is not always its beginning**, and a response calibrated to the
+first wave will misjudge the peak.
+:::
+
+::: {.notes}
+Land it and stop.
+
+If the room guessed spring 2020 at the start, return to that now. It is a completely
+reasonable guess — that period had the lockdowns, the empty streets, the sirens. It is also
+wrong, and the reason is that memory tracks disruption while mortality tracks transmission
+and susceptibility.
+
+Say plainly that the code found this, not the instructor. Seven lines of loop over a
+dictionary. At full scale it's the same seven lines over 3,283 rows, which is module 4.
+
+Then the handoff to the lab: the lab does this at county level and asks which counties the
+answer changes for.
+:::
+
+## Session outcomes {.smaller}
+
+- Storing labelled data in a **dictionary**, and retrieving it with `[key]` and `.get()`
+- Iterating with `for`, over a collection and over `range()`
+- Walking key–value pairs with **`.items()`**
+- Building results with the **accumulator pattern**, initialized outside the loop
+- Repeating with `while`, and exiting with `while True:` plus `break`
+- Defining functions with `def`, `return`, and a docstring
+- Returning several values, and unpacking **tuples**
+- Ordering with `sorted(key=)`, and distinguishing **counts from rates**
+- Reading a small class: `__init__`, `self`, attributes, and methods
+
+::: {.callout-tip}
+## Preparation for the lab, Tuesday 10/20
+The lab builds county-level dictionaries, writes functions returning several values, and
+ranks counties two ways.
+:::
+
+**Module 3 replaces these loops with arithmetic on whole arrays.**
+
+::: {.notes}
+That outcomes list is long, and this is the densest module so far. If the room looks
+saturated, the honest thing to say is that dictionaries and `.items()` are the parts that
+matter most and the rest will recur.
+
+Close on module 3. Every loop written today runs one element at a time; NumPy performs the
+same work on an entire array in one expression. Today's loops are what make that worth
+having.
+:::
