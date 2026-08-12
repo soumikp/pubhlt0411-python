@@ -1,0 +1,1366 @@
+---
+# =====================================================================
+# Py Lab 4 — pandas and wrangling
+# PUBHLT 0411 · Python for Public Health Data Analysis
+#
+# ⚠️ CALENDAR: this lab runs Thu 11/5, SIX DAYS after the 10/29 lecture,
+#    across Election Day (11/3, a non-teaching Final Project session).
+#    HANDOFF §3 fact 1: "the densest module has the longest lecture-to-lab
+#    gap. M4's lab must restate more than any other." Every exercise
+#    therefore RESTATES its construct in the worked example before the
+#    task uses it. That redundancy is deliberate — do not compress it.
+#
+# Format: live-revealjs with smaller: true, one *task* per slide (§7):
+# the worked example and the `**Your turn.**` task are separate slides
+# sharing a heading, the task suffixed `— your turn`. See §2 labs clause.
+# Register: §2 "Labs — the third surface" — second person permitted in
+# task instructions and hints only; framing prose stays academic.
+#
+# Data: REAL, read from the Pyodide VFS. All five files are listed under
+#       `pyodide: resources:` below — a CSV in data/ that is not listed
+#       there never reaches the browser.
+#
+# ⚠️ §6 trap 3: suppression biases grouped rates downward (Exercise 12).
+# ⚠️ §5 rule 4: maternal/infant framed STRUCTURALLY, never as choice.
+# =====================================================================
+title: "Py Lab 4: pandas and wrangling"
+subtitle: "PUBHLT 0411 · Python for Public Health Data Analysis"
+author: "Soumik Purkayastha"
+date: today
+date-format: long
+
+format:
+  live-revealjs:
+    theme: [white, pitt-theme.scss]
+    slide-number: c/t
+    show-slide-number: all
+    chalkboard: false
+    history: true
+    smaller: true
+    scrollable: true
+    incremental: false
+    code-copy: hover
+    highlight-style: github
+    width: 1280
+    height: 720
+    margin: 0.08
+    footer: "soumik@pitt.edu  ·  PUBHLT 0411 · Py Lab 4"
+
+engine: knitr
+
+pyodide:
+  packages: [numpy, pandas]
+  resources:
+    - data/pa_maternal_infant.csv
+    - data/pa_counties.csv
+    - data/pa_overdose_county_year.csv
+    - data/pa_covid_monthly.csv
+    - data/pa_firearm_county_year.csv
+
+execute:
+  echo: true
+  warning: false
+  message: false
+  cache: false
+---
+
+{{< include _extensions/r-wasm/live/_knitr.qmd >}}
+
+# Py Lab 4 {.unnumbered background-color="#003594"}
+
+## pandas and wrangling {.smaller}
+
+The lecture established that twenty-three Pennsylvania counties publish no infant mortality
+rate, and that eighteen of them are nonmetro. This lab works the same tools across five real
+files: selecting, filtering, deriving, grouping, joining, and repairing a broken key.
+
+::: {.callout-note}
+## Lab mechanics
+- Each exercise supplies a worked example, then a similar problem to complete.
+- Click into a code block and press **Run**. Edit the blanks (`____`) and run again.
+- **Hint** gives the reasoning. **Solution** gives the answer.
+- Each exercise takes two slides: the worked example, then the task.
+- Arrow keys navigate between slides.
+:::
+
+::: {.callout-important}
+## This lab restates the lecture as it goes
+Six days and a holiday separate this lab from its lecture. **Every exercise redefines its
+construct in the worked example before the task uses it**, so returning to this material cold
+is expected. Rereading the slides first is unnecessary.
+:::
+
+## The data {.smaller}
+
+Five real files, all mounted and readable with `pd.read_csv()`.
+
+| File | Rows | Contents |
+|---|---|---|
+| `data/pa_maternal_infant.csv` | 67 | Infant mortality, low birthweight, poverty, income |
+| `data/pa_counties.csv` | 67 | Population, **region**, **metro/nonmetro** — the join target |
+| `data/pa_overdose_county_year.csv` | 402 | Overdose deaths and rates, 2019–2024 |
+| `data/pa_covid_monthly.csv` | 3,283 | COVID deaths by county and month, 2020–2024 |
+| `data/pa_firearm_county_year.csv` | 402 | Firearm deaths by intent, 2019–2024 |
+
+::: {.callout-tip}
+## Two facts that recur throughout
+**A rate is** `deaths / population * 100000`. **A blank is suppression**, not zero — a count
+too small to publish. Neither `region` nor `metro` appears in any outcome file, so every
+grouped comparison below requires a join.
+:::
+
+# Exercise 1 — Read and inspect {.unnumbered background-color="#003594"}
+
+## Exercise 1 — Read and inspect {.smaller}
+
+**Worked example.** `pd.read_csv()` reads a whole table in one call. `.shape` gives rows and
+columns; `.columns` lists the names.
+
+```{pyodide}
+import pandas as pd
+
+counties = pd.read_csv("data/pa_counties.csv")
+
+print(counties.shape)
+print(counties.columns.tolist())
+print(counties.head(2))
+```
+
+## Exercise 1 — Read and inspect — your turn {.smaller}
+
+**Your turn.** Read the maternal and infant health file and report its dimensions.
+
+```{pyodide}
+#| exercise: ex1_read
+import pandas as pd
+
+births = pd.____("data/pa_maternal_infant.csv")
+
+n_rows = births.shape[0]
+n_cols = births.shape[1]
+
+print(f"Rows: {n_rows}   Columns: {n_cols}")
+print(births.columns.tolist())
+```
+
+```{pyodide}
+#| exercise: ex1_read
+#| hint: true
+# The blank is read_csv.
+# .shape is a tuple: position 0 is rows, position 1 is columns — the same
+# zero-indexing as every sequence since Module 1.
+# Pennsylvania has 67 counties, and this file carries 8 columns.
+```
+
+```{pyodide}
+#| exercise: ex1_read
+#| solution: true
+import pandas as pd
+
+births = pd.read_csv("data/pa_maternal_infant.csv")
+
+n_rows = births.shape[0]
+n_cols = births.shape[1]
+
+print(f"Rows: {n_rows}   Columns: {n_cols}")
+print(births.columns.tolist())
+```
+
+```{pyodide}
+#| exercise: ex1_read
+#| check: true
+import pandas as pd
+assert isinstance(births, pd.DataFrame), "read_csv returns a DataFrame."
+assert n_rows == 67, "Pennsylvania has 67 counties."
+assert n_cols == 8, "The file carries 8 columns."
+```
+
+# Exercise 2 — Find the missing values {.unnumbered background-color="#003594"}
+
+## Exercise 2 — Find the missing values {.smaller}
+
+**Worked example.** `.isna()` marks each cell as missing or not; `.sum()` counts the missing
+ones per column, because `True` equals 1.
+
+```{pyodide}
+import pandas as pd
+
+counties = pd.read_csv("data/pa_counties.csv")
+
+print(counties.isna().sum())
+```
+
+## Exercise 2 — Find the missing values — your turn {.smaller}
+
+**Your turn.** Count the missing values in every column of the births file, then pull out the
+count for infant mortality.
+
+```{pyodide}
+#| exercise: ex2_isna
+import pandas as pd
+
+births = pd.read_csv("data/pa_maternal_infant.csv")
+
+missing_per_column = births.____().sum()
+n_suppressed = missing_per_column["infant_mortality_per_1000"]
+
+print(missing_per_column)
+print(f"\nCounties with no published infant mortality rate: {n_suppressed}")
+```
+
+```{pyodide}
+#| exercise: ex2_isna
+#| hint: true
+# The blank is isna. (.isnull() is an exact synonym; either works.)
+# The result of .isna().sum() is a Series indexed by column name, so you can
+# select one count with square brackets and the column's name.
+# Three columns have gaps: 23, 7, and 1.
+```
+
+```{pyodide}
+#| exercise: ex2_isna
+#| solution: true
+import pandas as pd
+
+births = pd.read_csv("data/pa_maternal_infant.csv")
+
+missing_per_column = births.isna().sum()
+n_suppressed = missing_per_column["infant_mortality_per_1000"]
+
+print(missing_per_column)
+print(f"\nCounties with no published infant mortality rate: {n_suppressed}")
+```
+
+```{pyodide}
+#| exercise: ex2_isna
+#| check: true
+assert n_suppressed == 23, "Twenty-three counties have no published infant mortality rate."
+assert missing_per_column["child_mortality_per_100k"] == 7, "Child mortality is missing for 7."
+assert missing_per_column["low_birthweight_pct"] == 0, "Low birthweight is complete."
+```
+
+::: {.callout-warning}
+## Different columns, different thresholds
+The suppression cutoff applies to the underlying **count**, not to the county. Infant deaths
+are rarer than child deaths, so more counties fall below the cutoff for the infant measure.
+Missingness is a property of the measure and the county together.
+:::
+
+# Exercise 3 — Select a column {.unnumbered background-color="#003594"}
+
+## Exercise 3 — Select a column {.smaller}
+
+**Worked example.** Square brackets with a column name return a **Series** — one column plus
+its index. `.count()` counts present values; `.size` counts rows.
+
+```{pyodide}
+import pandas as pd
+
+births = pd.read_csv("data/pa_maternal_infant.csv")
+
+poverty = births["children_in_poverty_pct"]
+
+print(type(poverty))
+print(f"Mean: {poverty.mean():.2f}   Present: {poverty.count()} of {poverty.size}")
+```
+
+## Exercise 3 — Select a column — your turn {.smaller}
+
+**Your turn.** Select the low birthweight column and summarise it. Every county reports this
+one.
+
+```{pyodide}
+#| exercise: ex3_series
+import pandas as pd
+
+births = pd.read_csv("data/pa_maternal_infant.csv")
+
+low_birthweight = births[____]
+
+mean_pct = low_birthweight.mean()
+highest = low_birthweight.max()
+n_present = low_birthweight.count()
+
+print(f"Mean:    {mean_pct:.2f}%")
+print(f"Highest: {highest}%")
+print(f"Reporting: {n_present} counties")
+```
+
+```{pyodide}
+#| exercise: ex3_series
+#| hint: true
+# The blank is the column name as a string, in quotes:
+#   "low_birthweight_pct"
+# Without the quotes Python looks for a variable of that name and raises
+# NameError. The column names are listed by births.columns.tolist().
+```
+
+```{pyodide}
+#| exercise: ex3_series
+#| solution: true
+import pandas as pd
+
+births = pd.read_csv("data/pa_maternal_infant.csv")
+
+low_birthweight = births["low_birthweight_pct"]
+
+mean_pct = low_birthweight.mean()
+highest = low_birthweight.max()
+n_present = low_birthweight.count()
+
+print(f"Mean:    {mean_pct:.2f}%")
+print(f"Highest: {highest}%")
+print(f"Reporting: {n_present} counties")
+```
+
+```{pyodide}
+#| exercise: ex3_series
+#| check: true
+import pandas as pd
+assert isinstance(low_birthweight, pd.Series), "One column selected with [] is a Series."
+assert abs(mean_pct - 7.7239) < 0.01, "The state mean is 7.72%."
+assert abs(highest - 11.0) < 0.001, "The highest is 11.0%."
+assert n_present == 67, "Every county reports low birthweight."
+```
+
+# Exercise 4 — Filter rows {.unnumbered background-color="#003594"}
+
+## Exercise 4 — Filter rows {.smaller}
+
+**Worked example.** A comparison on a column produces a boolean mask. Passing it to `[]`
+keeps the rows where it is `True`, and **every column comes along**.
+
+```{pyodide}
+import pandas as pd
+
+births = pd.read_csv("data/pa_maternal_infant.csv")
+
+poor = births[births["children_in_poverty_pct"] > 20]
+
+print(poor.shape)
+print(poor[["county", "children_in_poverty_pct"]].head(3))
+```
+
+## Exercise 4 — Filter rows — your turn {.smaller}
+
+**Your turn.** Select the counties where more than 9% of births are low birthweight.
+
+```{pyodide}
+#| exercise: ex4_filter
+import pandas as pd
+
+births = pd.read_csv("data/pa_maternal_infant.csv")
+
+high_lbw = births[births["low_birthweight_pct"] ____ 9]
+
+n_counties = len(high_lbw)
+
+print(f"Counties above 9%: {n_counties}")
+print(high_lbw[["county", "low_birthweight_pct"]].to_string(index=False))
+```
+
+```{pyodide}
+#| exercise: ex4_filter
+#| hint: true
+# The blank is the greater-than operator: >
+# The mask is a Series of 67 True/False values. Putting it inside the outer
+# square brackets keeps the True rows and all of their columns.
+# Nine counties clear 9%.
+```
+
+```{pyodide}
+#| exercise: ex4_filter
+#| solution: true
+import pandas as pd
+
+births = pd.read_csv("data/pa_maternal_infant.csv")
+
+high_lbw = births[births["low_birthweight_pct"] > 9]
+
+n_counties = len(high_lbw)
+
+print(f"Counties above 9%: {n_counties}")
+print(high_lbw[["county", "low_birthweight_pct"]].to_string(index=False))
+```
+
+```{pyodide}
+#| exercise: ex4_filter
+#| check: true
+assert n_counties == 9, "Nine counties exceed 9% low birthweight."
+assert (high_lbw["low_birthweight_pct"] > 9).all(), "Every retained row must exceed 9%."
+assert "county" in high_lbw.columns, "Filtering keeps every column, including county."
+```
+
+# Exercise 5 — Combine two conditions {.unnumbered background-color="#003594"}
+
+## Exercise 5 — Combine two conditions {.smaller}
+
+**Worked example.** `&` means and, `|` means or. **Each comparison needs its own
+parentheses**, because `&` binds more tightly than `>`.
+
+```{pyodide}
+import pandas as pd
+
+births = pd.read_csv("data/pa_maternal_infant.csv")
+
+both = births[(births["children_in_poverty_pct"] > 20) & (births["low_birthweight_pct"] > 8)]
+
+print(both[["county", "children_in_poverty_pct", "low_birthweight_pct"]].to_string(index=False))
+```
+
+## Exercise 5 — Combine two conditions — your turn {.smaller}
+
+**Your turn.** Find the counties where more than 6% of children are uninsured **and** more
+than 15% live in poverty. Supply both missing operators.
+
+```{pyodide}
+#| exercise: ex5_andor
+import pandas as pd
+
+births = pd.read_csv("data/pa_maternal_infant.csv")
+
+strained = births[
+    (births["uninsured_children_pct"] > 6) ____ (births["children_in_poverty_pct"] ____ 15)
+]
+
+n_strained = len(strained)
+
+print(f"Counties meeting both conditions: {n_strained}")
+print(strained[["county", "uninsured_children_pct", "children_in_poverty_pct"]].to_string(index=False))
+```
+
+```{pyodide}
+#| exercise: ex5_andor
+#| hint: true
+# The first blank is & and the second is >.
+# Writing `and` instead of & raises ValueError: a comparison on 67 rows gives
+# 67 truth values, and `and` demands exactly one.
+# Dropping the parentheses raises TypeError, because & binds tighter than >.
+# Seven counties meet both conditions.
+```
+
+```{pyodide}
+#| exercise: ex5_andor
+#| solution: true
+import pandas as pd
+
+births = pd.read_csv("data/pa_maternal_infant.csv")
+
+strained = births[
+    (births["uninsured_children_pct"] > 6) & (births["children_in_poverty_pct"] > 15)
+]
+
+n_strained = len(strained)
+
+print(f"Counties meeting both conditions: {n_strained}")
+print(strained[["county", "uninsured_children_pct", "children_in_poverty_pct"]].to_string(index=False))
+```
+
+```{pyodide}
+#| exercise: ex5_andor
+#| check: true
+assert n_strained == 7, "Seven counties meet both conditions."
+assert (strained["uninsured_children_pct"] > 6).all(), "Every row must exceed 6% uninsured."
+assert (strained["children_in_poverty_pct"] > 15).all(), "Every row must exceed 15% poverty."
+```
+
+::: {.callout-warning}
+## Uninsurance and poverty are county attributes
+Seven counties appear on both lists. That is a statement about coverage gaps and local
+economies, and it describes **counties**, not the families living in them.
+:::
+
+# Exercise 6 — Derive a column {.unnumbered background-color="#003594"}
+
+## Exercise 6 — Derive a column {.smaller}
+
+**Worked example.** `.assign()` returns a new DataFrame with a column added. Inside it,
+`lambda d:` refers to the table as it exists at that point in the chain.
+
+```{pyodide}
+import pandas as pd
+
+overdose = pd.read_csv("data/pa_overdose_county_year.csv")
+
+checked = overdose[overdose["year"] == 2023].assign(
+    rate_check=lambda d: d["overdose_deaths"] / d["population"] * 100_000
+)
+
+print(checked[["county", "rate_per_100k", "rate_check"]].head(3).round(2))
+```
+
+## Exercise 6 — Derive a column — your turn {.smaller}
+
+**Your turn.** Compute the 2022 firearm death rate per 100,000 and confirm it reproduces the
+published column.
+
+```{pyodide}
+#| exercise: ex6_assign
+import pandas as pd
+
+firearm = pd.read_csv("data/pa_firearm_county_year.csv")
+
+f2022 = firearm[firearm["year"] == 2022].assign(
+    my_rate=lambda d: d["firearm_deaths"] / d["population"] * ______
+)
+
+allegheny = f2022[f2022["county"] == "Allegheny"]
+
+print(allegheny[["county", "firearm_deaths", "population", "rate_per_100k", "my_rate"]].round(2).to_string(index=False))
+```
+
+```{pyodide}
+#| exercise: ex6_assign
+#| hint: true
+# The blank is 100000 — a rate per 100,000 multiplies the proportion by
+# 100,000. Python allows 100_000 with an underscore for readability.
+# Allegheny recorded 187 firearm deaths in 2022, giving 15.27 per 100,000,
+# which matches the published 15.3 to rounding.
+# Recomputing a published column is a DATA CHECK: a mismatch means the
+# population denominator or the published rate uses different assumptions.
+```
+
+```{pyodide}
+#| exercise: ex6_assign
+#| solution: true
+import pandas as pd
+
+firearm = pd.read_csv("data/pa_firearm_county_year.csv")
+
+f2022 = firearm[firearm["year"] == 2022].assign(
+    my_rate=lambda d: d["firearm_deaths"] / d["population"] * 100_000
+)
+
+allegheny = f2022[f2022["county"] == "Allegheny"]
+
+print(allegheny[["county", "firearm_deaths", "population", "rate_per_100k", "my_rate"]].round(2).to_string(index=False))
+```
+
+```{pyodide}
+#| exercise: ex6_assign
+#| check: true
+assert "my_rate" in f2022.columns, "assign() must add a column named my_rate."
+diff = (f2022["my_rate"] - f2022["rate_per_100k"]).abs()
+assert diff.max() < 0.1, "The computed rate must reproduce the published one to rounding."
+assert abs(allegheny["my_rate"].item() - 15.27) < 0.05, "Allegheny 2022 is 15.27 per 100,000."
+```
+
+# Exercise 7 — Sort and rank {.unnumbered background-color="#003594"}
+
+## Exercise 7 — Sort and rank {.smaller}
+
+**Worked example.** `.sort_values()` orders rows and carries every column with them. Missing
+values sort to the end regardless of direction.
+
+```{pyodide}
+import pandas as pd
+
+births = pd.read_csv("data/pa_maternal_infant.csv")
+
+print(births.sort_values("children_in_poverty_pct", ascending=False)[
+    ["county", "children_in_poverty_pct"]
+].head(3).to_string(index=False))
+```
+
+## Exercise 7 — Sort and rank — your turn {.smaller}
+
+**Your turn.** Rank the counties by teen birth rate, highest first, and show the top five.
+
+```{pyodide}
+#| exercise: ex7_sort
+import pandas as pd
+
+births = pd.read_csv("data/pa_maternal_infant.csv")
+
+ranked = births.sort_values("teen_births_per_1000", ascending=____)
+
+top5 = ranked[["county", "teen_births_per_1000"]].head(5)
+
+print(top5.to_string(index=False))
+print(f"\nHighest: {ranked.iloc[0]['county']}")
+```
+
+```{pyodide}
+#| exercise: ex7_sort
+#| hint: true
+# The blank is False. ascending=True (the default) sorts low to high, so the
+# highest rates would land at the bottom.
+# .iloc[0] takes the first row by position, and ["county"] pulls one value
+# out of it. Fayette County leads at 25.4 per 1,000.
+```
+
+```{pyodide}
+#| exercise: ex7_sort
+#| solution: true
+import pandas as pd
+
+births = pd.read_csv("data/pa_maternal_infant.csv")
+
+ranked = births.sort_values("teen_births_per_1000", ascending=False)
+
+top5 = ranked[["county", "teen_births_per_1000"]].head(5)
+
+print(top5.to_string(index=False))
+print(f"\nHighest: {ranked.iloc[0]['county']}")
+```
+
+```{pyodide}
+#| exercise: ex7_sort
+#| check: true
+assert ranked.iloc[0]["county"] == "Fayette", "Fayette has the highest teen birth rate."
+assert abs(ranked.iloc[0]["teen_births_per_1000"] - 25.4) < 0.001, "Fayette is 25.4 per 1,000."
+assert len(top5) == 5, "The result shows five counties."
+```
+
+::: {.callout-warning}
+## A ranking omits what is missing
+One county has no published teen birth rate, so this ranks 66 counties, not 67. Nothing in
+the sorted output announces that. **A ranking is always a ranking of the rows that reported.**
+:::
+
+# Exercise 8 — Group and aggregate {.unnumbered background-color="#003594"}
+
+## Exercise 8 — Group and aggregate {.smaller}
+
+**Worked example.** `.groupby()` splits rows into groups, applies an aggregation to each, and
+combines the results. `.agg()` takes several functions at once.
+
+```{pyodide}
+import pandas as pd
+
+overdose = pd.read_csv("data/pa_overdose_county_year.csv")
+
+print(overdose.groupby("year")["rate_per_100k"].agg(["count", "mean"]).round(2))
+```
+
+## Exercise 8 — Group and aggregate — your turn {.smaller}
+
+**Your turn.** Summarise firearm deaths by year: how many counties reported, and the mean
+rate among them.
+
+```{pyodide}
+#| exercise: ex8_groupby
+import pandas as pd
+
+firearm = pd.read_csv("data/pa_firearm_county_year.csv")
+
+by_year = firearm.____("year")["rate_per_100k"].agg(["count", "mean"]).round(2)
+
+print(by_year)
+print(f"\nYears covered: {len(by_year)}")
+```
+
+```{pyodide}
+#| exercise: ex8_groupby
+#| hint: true
+# The blank is groupby.
+# Read the count column before the mean column. It is NOT 67 in any year —
+# suppressed counties carry no rate, so each year's mean is computed over a
+# different set of counties. That makes year-to-year comparison unreliable.
+```
+
+```{pyodide}
+#| exercise: ex8_groupby
+#| solution: true
+import pandas as pd
+
+firearm = pd.read_csv("data/pa_firearm_county_year.csv")
+
+by_year = firearm.groupby("year")["rate_per_100k"].agg(["count", "mean"]).round(2)
+
+print(by_year)
+print(f"\nYears covered: {len(by_year)}")
+```
+
+```{pyodide}
+#| exercise: ex8_groupby
+#| check: true
+assert len(by_year) == 6, "The file covers 2019 through 2024."
+assert "count" in by_year.columns, "The count column reports how many counties reported."
+assert by_year["count"].min() < 67, "No year has all 67 counties reporting."
+```
+
+# Exercise 9 — Join two tables {.unnumbered background-color="#003594"}
+
+## Exercise 9 — Join two tables {.smaller}
+
+**Worked example.** `.merge()` joins on a shared key. `how="left"` keeps every row of the
+left table and fills unmatched columns with `NaN`.
+
+```{pyodide}
+import pandas as pd
+
+births = pd.read_csv("data/pa_maternal_infant.csv")
+counties = pd.read_csv("data/pa_counties.csv")
+
+joined = births.merge(counties, on="county", how="left")
+
+print(f"{births.shape} + {counties.shape} -> {joined.shape}")
+print(joined[["county", "low_birthweight_pct", "region", "metro"]].head(2))
+```
+
+## Exercise 9 — Join two tables — your turn {.smaller}
+
+**Your turn.** The overdose file has no `region` column. Attach one, keeping every overdose
+row.
+
+```{pyodide}
+#| exercise: ex9_merge
+import pandas as pd
+
+overdose = pd.read_csv("data/pa_overdose_county_year.csv")
+counties = pd.read_csv("data/pa_counties.csv")
+
+o2023 = overdose[overdose["year"] == 2023]
+
+joined = o2023.merge(counties, ____="county", how="left")
+
+rows_before = len(o2023)
+rows_after = len(joined)
+
+print(f"Before: {rows_before} rows   After: {rows_after} rows")
+print(f"Regions attached: {joined['region'].nunique()}")
+print(joined[["county", "rate_per_100k", "region", "metro"]].head(3).to_string(index=False))
+```
+
+```{pyodide}
+#| exercise: ex9_merge
+#| hint: true
+# The blank is on — the argument naming the shared key column.
+# Compare the row count before and after EVERY join. A left join should never
+# change it, and a change means a key matched more than once.
+# Six regions are attached.
+```
+
+```{pyodide}
+#| exercise: ex9_merge
+#| solution: true
+import pandas as pd
+
+overdose = pd.read_csv("data/pa_overdose_county_year.csv")
+counties = pd.read_csv("data/pa_counties.csv")
+
+o2023 = overdose[overdose["year"] == 2023]
+
+joined = o2023.merge(counties, on="county", how="left")
+
+rows_before = len(o2023)
+rows_after = len(joined)
+
+print(f"Before: {rows_before} rows   After: {rows_after} rows")
+print(f"Regions attached: {joined['region'].nunique()}")
+print(joined[["county", "rate_per_100k", "region", "metro"]].head(3).to_string(index=False))
+```
+
+```{pyodide}
+#| exercise: ex9_merge
+#| check: true
+assert rows_before == 67, "One row per county for 2023."
+assert rows_after == 67, "A left join on a unique key must not change the row count."
+assert "region" in joined.columns, "The region column must arrive from the county table."
+assert joined["region"].nunique() == 6, "Pennsylvania is divided into six regions here."
+```
+
+# Exercise 10 — Group by a joined column {.unnumbered background-color="#003594"}
+
+## Exercise 10 — Group by a joined column {.smaller}
+
+**Worked example.** Once `metro` is attached, it can be grouped on. Neither grouping variable
+exists in any outcome file, so **the join is what makes the comparison possible**.
+
+```{pyodide}
+import pandas as pd
+
+births = pd.read_csv("data/pa_maternal_infant.csv")
+counties = pd.read_csv("data/pa_counties.csv")
+
+joined = births.merge(counties, on="county", how="left")
+
+print(joined.groupby("metro")["median_household_income"].agg(["size", "median"]).round(0))
+```
+
+## Exercise 10 — Group by a joined column — your turn {.smaller}
+
+**Your turn.** Compare mean low birthweight across the six regions, and report how many
+counties each region contains.
+
+```{pyodide}
+#| exercise: ex10_groupjoin
+import pandas as pd
+
+births = pd.read_csv("data/pa_maternal_infant.csv")
+counties = pd.read_csv("data/pa_counties.csv")
+
+joined = births.merge(counties, on="county", how="left")
+
+by_region = joined.groupby("____")["low_birthweight_pct"].agg(["size", "mean"]).round(2)
+
+print(by_region.sort_values("mean", ascending=False))
+```
+
+```{pyodide}
+#| exercise: ex10_groupjoin
+#| hint: true
+# The blank is region, in quotes.
+# The regions are unevenly sized — South Central and North Central hold 14
+# counties each, Northeast only 8 — so a regional mean is an average over a
+# different number of counties each time.
+# Northwest is highest at 8.44%; North Central lowest at 6.94%.
+```
+
+```{pyodide}
+#| exercise: ex10_groupjoin
+#| solution: true
+import pandas as pd
+
+births = pd.read_csv("data/pa_maternal_infant.csv")
+counties = pd.read_csv("data/pa_counties.csv")
+
+joined = births.merge(counties, on="county", how="left")
+
+by_region = joined.groupby("region")["low_birthweight_pct"].agg(["size", "mean"]).round(2)
+
+print(by_region.sort_values("mean", ascending=False))
+```
+
+```{pyodide}
+#| exercise: ex10_groupjoin
+#| check: true
+assert len(by_region) == 6, "There are six regions."
+assert by_region["size"].sum() == 67, "The regions partition all 67 counties."
+assert abs(by_region.loc["Northwest", "mean"] - 8.44) < 0.01, "Northwest averages 8.44%."
+```
+
+# Exercise 11 — Cross-tabulate {.unnumbered background-color="#003594"}
+
+## Exercise 11 — Cross-tabulate {.smaller}
+
+**Worked example.** `pd.crosstab()` counts one categorical against another. `.isna()` on a
+column produces exactly such a categorical: suppressed or not.
+
+```{pyodide}
+import pandas as pd
+
+births = pd.read_csv("data/pa_maternal_infant.csv")
+counties = pd.read_csv("data/pa_counties.csv")
+
+joined = births.merge(counties, on="county", how="left")
+joined["suppressed"] = joined["infant_mortality_per_1000"].isna()
+
+print(pd.crosstab(joined["metro"], joined["suppressed"]))
+```
+
+## Exercise 11 — Cross-tabulate — your turn {.smaller}
+
+**Your turn.** Firearm deaths are suppressed too. Cross-tabulate 2023 suppression against
+metro status.
+
+```{pyodide}
+#| exercise: ex11_crosstab
+import pandas as pd
+
+firearm = pd.read_csv("data/pa_firearm_county_year.csv")
+counties = pd.read_csv("data/pa_counties.csv")
+
+f2023 = firearm[firearm["year"] == 2023].merge(counties, on="county", how="left")
+f2023["suppressed"] = f2023["firearm_deaths"].isna()
+
+table = pd.____(f2023["metro"], f2023["suppressed"])
+
+print(table)
+print(f"\nTotal suppressed: {f2023['suppressed'].sum()} of {len(f2023)}")
+```
+
+```{pyodide}
+#| exercise: ex11_crosstab
+#| hint: true
+# The blank is crosstab — it lives on pd, not on the DataFrame.
+# Nineteen of thirty nonmetro counties are suppressed, against six of
+# thirty-seven metro counties. That is the same rural concentration the
+# lecture found in the infant mortality data, in a different outcome.
+# Adding normalize="index" would report row proportions instead of counts.
+```
+
+```{pyodide}
+#| exercise: ex11_crosstab
+#| solution: true
+import pandas as pd
+
+firearm = pd.read_csv("data/pa_firearm_county_year.csv")
+counties = pd.read_csv("data/pa_counties.csv")
+
+f2023 = firearm[firearm["year"] == 2023].merge(counties, on="county", how="left")
+f2023["suppressed"] = f2023["firearm_deaths"].isna()
+
+table = pd.crosstab(f2023["metro"], f2023["suppressed"])
+
+print(table)
+print(f"\nTotal suppressed: {f2023['suppressed'].sum()} of {len(f2023)}")
+```
+
+```{pyodide}
+#| exercise: ex11_crosstab
+#| check: true
+assert table.loc["Nonmetro", True] == 19, "Nineteen nonmetro counties are suppressed."
+assert table.loc["Metro", True] == 6, "Six metro counties are suppressed."
+assert table.values.sum() == 67, "The table covers all 67 counties."
+```
+
+::: {.callout-important}
+## The same pattern in a second outcome
+Suppression concentrates in rural counties for firearm deaths exactly as it does for infant
+mortality. **This is a property of small populations, not of any particular health outcome.**
+:::
+
+# Exercise 12 — The suppression bias {.unnumbered background-color="#003594"}
+
+## Exercise 12 — The suppression bias {.smaller}
+
+**Worked example.** A grouped rate divides summed deaths by summed population. `.sum()` skips
+`NaN` — but the population denominator still counts every county.
+
+```{pyodide}
+import pandas as pd
+
+overdose = pd.read_csv("data/pa_overdose_county_year.csv")
+counties = pd.read_csv("data/pa_counties.csv")
+
+o = overdose[overdose["year"] == 2023].merge(counties, on="county", how="left")
+nw = o[o["region"] == "Northwest"]
+
+print(f"Counties: {len(nw)}, of which suppressed: {nw['overdose_deaths'].isna().sum()}")
+print(f"Naive rate: {nw['overdose_deaths'].sum() / nw['population_2023'].sum() * 100_000:.1f}")
+```
+
+## Exercise 12 — The suppression bias — your turn {.smaller}
+
+**Your turn.** Recompute the Northwest rate over the counties that actually reported, and
+measure the bias. Drop the suppressed rows before summing.
+
+```{pyodide}
+#| exercise: ex12_bias
+import pandas as pd
+
+overdose = pd.read_csv("data/pa_overdose_county_year.csv")
+counties = pd.read_csv("data/pa_counties.csv")
+
+o = overdose[overdose["year"] == 2023].merge(counties, on="county", how="left")
+nw = o[o["region"] == "Northwest"]
+
+naive = nw["overdose_deaths"].sum() / nw["population_2023"].sum() * 100_000
+
+reported = nw.____(subset=["overdose_deaths"])
+correct = reported["overdose_deaths"].sum() / reported["population_2023"].sum() * 100_000
+
+print(f"Naive:   {naive:.1f} per 100,000  (denominator: {len(nw)} counties)")
+print(f"Correct: {correct:.1f} per 100,000  (denominator: {len(reported)} counties)")
+print(f"Bias:    {naive - correct:.1f}")
+```
+
+```{pyodide}
+#| exercise: ex12_bias
+#| hint: true
+# The blank is dropna. `subset=` restricts the drop to rows missing that one
+# column, rather than dropping any row with a gap anywhere.
+# The naive figure is 37.5 and the correct one is 39.5, so the naive rate
+# understates the Northwest by 2.0 per 100,000.
+# The suppressed counties contributed population but no deaths.
+```
+
+```{pyodide}
+#| exercise: ex12_bias
+#| solution: true
+import pandas as pd
+
+overdose = pd.read_csv("data/pa_overdose_county_year.csv")
+counties = pd.read_csv("data/pa_counties.csv")
+
+o = overdose[overdose["year"] == 2023].merge(counties, on="county", how="left")
+nw = o[o["region"] == "Northwest"]
+
+naive = nw["overdose_deaths"].sum() / nw["population_2023"].sum() * 100_000
+
+reported = nw.dropna(subset=["overdose_deaths"])
+correct = reported["overdose_deaths"].sum() / reported["population_2023"].sum() * 100_000
+
+print(f"Naive:   {naive:.1f} per 100,000  (denominator: {len(nw)} counties)")
+print(f"Correct: {correct:.1f} per 100,000  (denominator: {len(reported)} counties)")
+print(f"Bias:    {naive - correct:.1f}")
+```
+
+```{pyodide}
+#| exercise: ex12_bias
+#| check: true
+assert abs(naive - 37.5) < 0.1, "The naive Northwest rate is 37.5 per 100,000."
+assert abs(correct - 39.5) < 0.1, "The correct rate over reporting counties is 39.5."
+assert len(reported) == 10, "Ten of the eleven Northwest counties reported."
+assert correct > naive, "Dropping suppressed rows must raise the rate."
+```
+
+::: {.callout-warning}
+## A silent error, largest where it matters most
+No exception is raised and the naive figure looks reasonable. The bias runs **downward** and
+is largest in rural regions, which is exactly where suppression concentrates.
+
+**The rule:** whenever a ratio is computed over a group, confirm the numerator and the
+denominator cover the same rows.
+:::
+
+# Exercise 13 — Dates {.unnumbered background-color="#003594"}
+
+## Exercise 13 — Dates {.smaller}
+
+**Worked example.** `pd.to_datetime()` converts a text column to dates, which then sort
+chronologically and expose `.dt.year` and `.dt.month`.
+
+```{pyodide}
+import pandas as pd
+
+covid = pd.read_csv("data/pa_covid_monthly.csv")
+covid["month"] = pd.to_datetime(covid["month"])
+
+print(covid["month"].dtype)
+print(f"{covid['month'].min().date()} to {covid['month'].max().date()}")
+```
+
+## Exercise 13 — Dates — your turn {.smaller}
+
+**Your turn.** Total COVID deaths by month across the state, then find the worst month.
+
+```{pyodide}
+#| exercise: ex13_dates
+import pandas as pd
+
+covid = pd.read_csv("data/pa_covid_monthly.csv")
+covid["month"] = pd.____(covid["month"])
+
+by_month = covid.groupby("month")["covid_deaths"].sum()
+
+peak_month = by_month.idxmax()
+peak_deaths = by_month.max()
+
+print(f"Months covered: {by_month.size}")
+print(f"Worst month:    {peak_month.date()}  ({peak_deaths} deaths)")
+print()
+print(covid.groupby(covid["month"].dt.year)["covid_deaths"].sum())
+```
+
+```{pyodide}
+#| exercise: ex13_dates
+#| hint: true
+# The blank is to_datetime — a function on pd, not a method on the column.
+# .idxmax() returns the INDEX LABEL of the largest value, where .max()
+# returns the value itself. Here the index is the month, so idxmax gives a
+# date. This is the same value-versus-position distinction as NumPy's
+# .argmax() in Module 3.
+# The peak is January 2022 — the Omicron wave — at 4,294 deaths.
+```
+
+```{pyodide}
+#| exercise: ex13_dates
+#| solution: true
+import pandas as pd
+
+covid = pd.read_csv("data/pa_covid_monthly.csv")
+covid["month"] = pd.to_datetime(covid["month"])
+
+by_month = covid.groupby("month")["covid_deaths"].sum()
+
+peak_month = by_month.idxmax()
+peak_deaths = by_month.max()
+
+print(f"Months covered: {by_month.size}")
+print(f"Worst month:    {peak_month.date()}  ({peak_deaths} deaths)")
+print()
+print(covid.groupby(covid["month"].dt.year)["covid_deaths"].sum())
+```
+
+```{pyodide}
+#| exercise: ex13_dates
+#| check: true
+import pandas as pd
+assert pd.api.types.is_datetime64_any_dtype(covid["month"]), "The month column must be datetime."
+assert by_month.size == 49, "The file covers 49 months, March 2020 to March 2024."
+assert str(peak_month.date()) == "2022-01-01", "January 2022 is the Omicron peak."
+assert peak_deaths == 4294, "The peak month recorded 4,294 deaths statewide."
+```
+
+# Exercise 14 — Repair a broken key {.unnumbered background-color="#003594"}
+
+## Exercise 14 — Repair a broken key {.smaller}
+
+**This join is broken.** Run it, read the output, and repair it.
+
+County Health Rankings publishes one county as **"Mc Kean"**; the Census file writes
+**"McKean"**. The two strings differ by one space, so the row does not match.
+
+```{pyodide}
+#| exercise: ex14_key
+import pandas as pd
+
+counties = pd.read_csv("data/pa_counties.csv")
+
+external = pd.DataFrame({
+    "county": ["Mc Kean", "Potter", "Tioga"],
+    "clinics": [3, 2, 4],
+})
+
+fixed = external.assign(
+    county=lambda d: d["county"].str.replace(" ", "", regex=False)
+)
+
+joined = fixed.merge(counties[["county", "population_2023"]], on="county", how="left")
+n_unmatched = joined["population_2023"].isna().sum()
+
+print(joined)
+print(f"\nUnmatched rows: {n_unmatched}")
+```
+
+```{pyodide}
+#| exercise: ex14_key
+#| hint: true
+# This cell is already correct — run it and confirm n_unmatched is 0.
+# Then break it: delete the .assign(...) step and join `external` directly.
+# McKean comes back with NaN population, and n_unmatched becomes 1.
+#
+# The lesson is the CHECK, not the fix. A NaN in a column that came from the
+# right-hand table means either a real gap or a broken key, and those need
+# different repairs. An inner join would have deleted the row silently
+# instead of flagging it.
+```
+
+```{pyodide}
+#| exercise: ex14_key
+#| solution: true
+import pandas as pd
+
+counties = pd.read_csv("data/pa_counties.csv")
+
+external = pd.DataFrame({
+    "county": ["Mc Kean", "Potter", "Tioga"],
+    "clinics": [3, 2, 4],
+})
+
+fixed = external.assign(
+    county=lambda d: d["county"].str.replace(" ", "", regex=False)
+)
+
+joined = fixed.merge(counties[["county", "population_2023"]], on="county", how="left")
+n_unmatched = joined["population_2023"].isna().sum()
+
+print(joined)
+print(f"\nUnmatched rows: {n_unmatched}")
+```
+
+```{pyodide}
+#| exercise: ex14_key
+#| check: true
+assert n_unmatched == 0, "After repairing the key, every row must match."
+assert len(joined) == 3, "A left join keeps all three rows."
+assert joined["population_2023"].notna().all(), "McKean's population must be attached."
+```
+
+::: {.callout-warning}
+## A failed match is not missing data
+McKean County's population is published and known. It was absent because the key did not
+match. **Count the `NaN`s in a borrowed column after every join** — the two causes look
+identical in the output and require different fixes.
+:::
+
+# Exercise 15 — Rename and drop {.unnumbered background-color="#003594"}
+
+## Exercise 15 — Rename and drop {.smaller}
+
+**Worked example.** `.rename(columns={old: new})` renames by mapping; `.drop(columns=[...])`
+removes columns. Both return a new DataFrame.
+
+```{pyodide}
+import pandas as pd
+
+counties = pd.read_csv("data/pa_counties.csv")
+
+trimmed = counties.rename(columns={"population_2023": "population"}).drop(columns=["fips"])
+
+print(trimmed.columns.tolist())
+```
+
+## Exercise 15 — Rename and drop — your turn {.smaller}
+
+**Your turn.** Shorten two column names and remove the two columns this analysis does not use.
+
+```{pyodide}
+#| exercise: ex15_rename
+import pandas as pd
+
+births = pd.read_csv("data/pa_maternal_infant.csv")
+
+tidy = (
+    births
+    .rename(____={
+        "infant_mortality_per_1000": "infant_mortality",
+        "children_in_poverty_pct": "child_poverty",
+    })
+    .drop(columns=["teen_births_per_1000", "uninsured_children_pct"])
+)
+
+print(tidy.columns.tolist())
+print(f"Columns: {births.shape[1]} -> {tidy.shape[1]}")
+```
+
+```{pyodide}
+#| exercise: ex15_rename
+#| hint: true
+# The blank is columns — .rename() needs to know which axis it is renaming.
+# .drop() needs the same: .drop("county") without columns= raises KeyError,
+# because .drop() removes a ROW by default.
+# Eight columns become six, and `births` itself is unchanged — both methods
+# return a new DataFrame.
+```
+
+```{pyodide}
+#| exercise: ex15_rename
+#| solution: true
+import pandas as pd
+
+births = pd.read_csv("data/pa_maternal_infant.csv")
+
+tidy = (
+    births
+    .rename(columns={
+        "infant_mortality_per_1000": "infant_mortality",
+        "children_in_poverty_pct": "child_poverty",
+    })
+    .drop(columns=["teen_births_per_1000", "uninsured_children_pct"])
+)
+
+print(tidy.columns.tolist())
+print(f"Columns: {births.shape[1]} -> {tidy.shape[1]}")
+```
+
+```{pyodide}
+#| exercise: ex15_rename
+#| check: true
+assert "infant_mortality" in tidy.columns, "The renamed column must be present."
+assert "child_poverty" in tidy.columns, "Both renames must be applied."
+assert "teen_births_per_1000" not in tidy.columns, "The dropped columns must be gone."
+assert tidy.shape[1] == 6, "Eight columns minus two dropped leaves six."
+assert births.shape[1] == 8, "The original DataFrame is unchanged."
+```
+
+::: {.callout-warning}
+## Shortening a name can discard its units
+`infant_mortality_per_1000` states what the number is; `infant_mortality` does not. When a
+name loses its units, something else has to carry them — a comment, or the report text.
+:::
+
+# Exercise 16 — Chain the pipeline {.unnumbered background-color="#003594"}
+
+## Exercise 16 — Chain the pipeline {.smaller}
+
+**Worked example.** Each method returns a DataFrame, so the next attaches to it. The outer
+parentheses let the chain break across lines.
+
+```{pyodide}
+import pandas as pd
+
+births = pd.read_csv("data/pa_maternal_infant.csv")
+counties = pd.read_csv("data/pa_counties.csv")
+
+print(
+    births
+    .merge(counties, on="county", how="left")
+    .groupby("metro")
+    .agg(counties=("county", "size"), mean_lbw=("low_birthweight_pct", "mean"))
+    .round(2)
+)
+```
+
+## Exercise 16 — Chain the pipeline — your turn {.smaller}
+
+**Your turn.** Build the full pipeline: take 2023 overdose data, attach the region, drop the
+suppressed counties, and summarise by region.
+
+```{pyodide}
+#| exercise: ex16_chain
+import pandas as pd
+
+overdose = pd.read_csv("data/pa_overdose_county_year.csv")
+counties = pd.read_csv("data/pa_counties.csv")
+
+summary = (
+    overdose
+    .query("year == 2023")
+    .merge(counties, on="county", how="left")
+    .dropna(subset=["overdose_deaths"])
+    .____("region")
+    .agg(reporting=("county", "size"), mean_rate=("rate_per_100k", "mean"))
+    .sort_values("mean_rate", ascending=False)
+    .round(1)
+)
+
+print(summary)
+```
+
+```{pyodide}
+#| exercise: ex16_chain
+#| hint: true
+# The blank is groupby.
+# Read the chain top to bottom as a sentence: take 2023, attach the region,
+# drop the suppressed counties, group by region, summarise, sort, round.
+# The `reporting` column is the denominator and it belongs in the output —
+# Southwest's mean covers 11 counties, Northeast's only 7.
+# Southwest is highest at 36.0 per 100,000; South Central lowest at 20.7.
+```
+
+```{pyodide}
+#| exercise: ex16_chain
+#| solution: true
+import pandas as pd
+
+overdose = pd.read_csv("data/pa_overdose_county_year.csv")
+counties = pd.read_csv("data/pa_counties.csv")
+
+summary = (
+    overdose
+    .query("year == 2023")
+    .merge(counties, on="county", how="left")
+    .dropna(subset=["overdose_deaths"])
+    .groupby("region")
+    .agg(reporting=("county", "size"), mean_rate=("rate_per_100k", "mean"))
+    .sort_values("mean_rate", ascending=False)
+    .round(1)
+)
+
+print(summary)
+```
+
+```{pyodide}
+#| exercise: ex16_chain
+#| check: true
+assert len(summary) == 6, "Six regions survive the pipeline."
+assert summary.index[0] == "Southwest", "Southwest has the highest mean rate."
+assert abs(summary.loc["Southwest", "mean_rate"] - 36.0) < 0.1, "Southwest averages 36.0."
+assert summary["reporting"].sum() == 60, "Sixty of 67 counties reported in 2023."
+```
+
+::: {.callout-tip}
+## Two cautions on chaining
+A chain has no intermediate variable to inspect, so debug it by commenting out the tail and
+running the head. Past six or seven steps, split it into two named pieces.
+:::
+
+# Wrapping up {.unnumbered background-color="#003594"}
+
+## Where this leaves the toolkit {.smaller}
+
+::: {.callout-tip}
+## What was covered
+`pd.read_csv()` · Series · DataFrame · `.shape` · `.columns` · `.head()` · `.isna()` ·
+`.count()` · boolean filtering · `&` and `|` with parentheses · `.assign()` ·
+`.sort_values()` · `.groupby()` · `.agg()` · `.merge()` · `how=` · `pd.crosstab()` ·
+`.dropna(subset=)` · `pd.to_datetime()` · `.dt` · `.idxmax()` · `.str.replace()` ·
+`.query()` · chaining
+:::
+
+**Module 5 turns these tables into figures — starting with child poverty against infant
+mortality across the forty-four counties that report.**

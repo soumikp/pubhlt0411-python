@@ -1,0 +1,1284 @@
+---
+# =====================================================================
+# Module 4 — pandas and wrangling
+# PUBHLT 0411 · Python for Public Health Data Analysis
+#
+# THE PIVOTAL MODULE. It carries the R half's three wrangling modules.
+#
+# Register: HANDOFF v3 §2 as amended 2026-08-11.
+#   Slides = academic, impersonal. No "you"/"we".
+#   Notes  = conversational, second person. Load-bearing.
+#
+# Data: REAL. Five files mounted into the Pyodide VFS via
+#       `pyodide: resources:` below. Dropping a CSV in data/ is NOT
+#       enough; a file not listed there never reaches the browser.
+#       The lecture needs its OWN class/data/ copy (§7).
+#
+# ⚠️ §6 trap 3: suppression biases grouped rates DOWNWARD. .sum() skips
+#    NaN but the population denominator still counts every county, so a
+#    suppressed county contributes population and no deaths. The bias is
+#    largest in rural regions, exactly where suppression concentrates.
+#    This is a SILENT error and it is taught here as a check-in.
+#
+# ⚠️ §5 authoring rule 4: the maternal/infant disparity is framed
+#    STRUCTURALLY, never as individual choice.
+#
+# Required assets (same folder):
+#   pitt-theme.scss
+#   _extensions/r-wasm/live/
+#   data/pa_maternal_infant.csv   data/pa_counties.csv
+#   data/pa_overdose_county_year.csv   data/pa_covid_monthly.csv
+#   data/pa_firearm_county_year.csv
+# =====================================================================
+title: "Module 4: pandas and wrangling"
+subtitle: "PUBHLT 0411 · Python for Public Health Data Analysis"
+author:
+  - name: Soumik Purkayastha
+    affiliations:
+      - name: Dept. of Biostatistics and Health Data Science, University of Pittsburgh
+date: today
+date-format: long
+
+format:
+  live-revealjs:
+    theme: [white, pitt-theme.scss]
+    slide-number: c/t
+    show-slide-number: all
+    chalkboard: false
+    history: true
+    smaller: false
+    scrollable: true
+    incremental: false
+    fig-align: center
+    fig-cap-location: bottom
+    code-line-numbers: true
+    code-overflow: wrap
+    code-copy: hover
+    highlight-style: github
+    width: 1280
+    height: 720
+    margin: 0.08
+    footer: "soumik@pitt.edu  ·  PUBHLT 0411 · Module 4: pandas and wrangling"
+
+engine: knitr
+
+pyodide:
+  packages: [numpy, pandas]
+  resources:
+    - data/pa_maternal_infant.csv
+    - data/pa_counties.csv
+    - data/pa_overdose_county_year.csv
+    - data/pa_covid_monthly.csv
+    - data/pa_firearm_county_year.csv
+
+execute:
+  echo: true
+  warning: false
+  message: false
+  cache: false
+---
+
+{{< include _extensions/r-wasm/live/_knitr.qmd >}}
+
+# Twenty-three blanks. {.unnumbered background-color="#003594"}
+
+## In twenty-three Pennsylvania counties, no infant mortality rate is published {.smaller}
+
+The figure is not secret. It is **unstable** — too few births, too few deaths, and a rate
+computed from a handful of events moves wildly on one additional case.
+
+::: {.callout-important}
+## The question this session opens
+Which twenty-three counties, and what do they have in common?
+
+**This session establishes the DataFrame**: a table whose columns keep their names, whose
+rows stay aligned through every operation, and which can be filtered, grouped, and joined
+to a second table.
+:::
+
+**Required from Module 3:** vectorised arithmetic, boolean masks, `axis=`, and `np.nan`.
+
+::: {.notes}
+Read the number and stop for a second. Twenty-three of sixty-seven. More than a third of
+the state has no published infant mortality rate.
+
+The instinct in the room will be that somebody is hiding something, and that instinct is
+worth naming and then dismantling. Nobody is hiding anything. A county with four hundred
+births a year and two infant deaths has a rate of 5.0 per 1,000; one more death makes it
+7.5. The rate did not change because health changed, it changed because one family had the
+worst year of their lives. Publishing that number invites a reader to compare it to
+Allegheny's, and the comparison is meaningless.
+
+So the withholding is a statistical judgment, not an administrative one. That framing
+carries the whole module and it is the thing to keep coming back to.
+
+Do not answer which counties yet. The payoff slide has it, and the answer is more
+interesting than the list — the counties have something in common, and finding out what
+requires joining this table to a second one. That join is the reason pandas exists.
+
+Module 3 ended with two arrays held in alignment by nothing but care. Today that stops
+being the student's problem.
+:::
+
+## A DataFrame is a table with named columns {.smaller}
+
+```{pyodide}
+import pandas as pd
+
+births = pd.read_csv("data/pa_maternal_infant.csv")
+
+print(type(births))
+print(births.shape)
+print(births.columns.tolist())
+```
+
+`pd.read_csv()` reads an entire table in **one call**. The columns keep their names, and
+every column keeps its own type.
+
+::: {.callout-tip}
+## `import pandas as pd` is the universal convention
+As with `np`, the alias is not required by the language, and departing from it makes code
+harder for others to read.
+:::
+
+::: {.notes}
+Contrast this directly with Module 3 and be explicit about it. Reading two columns there
+took two `genfromtxt` calls, and keeping them aligned was a promise nothing enforced. Here
+one call reads eight columns, and the alignment is structural — it is what a DataFrame *is*.
+
+`.shape` returns `(67, 8)`, the same attribute name as NumPy, and that is deliberate: a
+DataFrame is built on arrays. Rows first, columns second.
+
+Say the source out loud: County Health Rankings 2024, all 67 Pennsylvania counties. Every
+number in this module is real and every one of them describes somewhere a student in the
+room is from.
+:::
+
+## Four methods describe a table before any analysis {.smaller}
+
+```{pyodide}
+import pandas as pd
+
+births = pd.read_csv("data/pa_maternal_infant.csv")
+
+print(births.head(3))
+print()
+print(births.dtypes)
+```
+
+- `.head(n)` shows the first rows; `.tail(n)` the last
+- `.shape` gives rows and columns
+- `.dtypes` gives the type of each column
+- `.info()` combines all three and adds the count of non-missing values
+
+::: {.callout-important}
+## Inspect before computing
+A column read as text when it should be numeric produces no error at read time. The failure
+appears later, when arithmetic on it returns something wrong or raises `TypeError`.
+:::
+
+::: {.notes}
+This is the habit to install today: read the file, then look at it, before doing anything
+else. Four keystrokes. It catches the class of bug that otherwise surfaces forty lines
+later when the numbers look strange and nobody knows why.
+
+`object` in the dtype output means text, and it is pandas' least helpful piece of naming.
+When a column that should be numeric shows up as `object`, something in it is not a number —
+a stray comma, a footnote marker, the word "suppressed." That is a real diagnostic and it
+comes back on the cleaning slide.
+
+`.info()` is the one to reach for in practice because the non-null count is where missing
+data first announces itself. Run it live on this file and let them see 44 where the others
+say 67.
+:::
+
+## `.info()` reports where values are missing {.smaller}
+
+```{pyodide}
+import pandas as pd
+
+births = pd.read_csv("data/pa_maternal_infant.csv")
+
+births.info()
+```
+
+Every column has 67 entries. **`infant_mortality_per_1000` has 44.**
+
+::: {.callout-warning}
+## The gap is the finding, not an obstacle
+Twenty-three counties are missing a rate. That count is the answer to the question this
+session opened, and it appears here in the second minute of inspection.
+:::
+
+::: {.notes}
+This is the moment to slow down. The cold open asked which twenty-three counties, and
+`.info()` just found the twenty-three without a single line of analysis. Point at the 44
+and let them do the subtraction.
+
+Two other columns have gaps worth naming: `teen_births_per_1000` is missing one, and
+`child_mortality_per_100k` is missing seven. Same reason, same suppression rule, different
+thresholds because the underlying counts differ.
+
+The general lesson is that `.info()` is a missingness report and most people skip past it
+looking for the dtypes. Reading the non-null column first is a better habit.
+:::
+
+## `.describe()` summarises every numeric column {.smaller}
+
+```{pyodide}
+import pandas as pd
+
+births = pd.read_csv("data/pa_maternal_infant.csv")
+
+print(births[["infant_mortality_per_1000", "children_in_poverty_pct"]].describe().round(2))
+```
+
+`count` is the number of **present** values, so it differs by column wherever data is
+missing.
+
+::: {.callout-important}
+## `count` is the first row for a reason
+Every other statistic in the table is computed over that count. A mean of 6.15 describes 44
+counties, not 67, and the number of counties it describes belongs in any sentence that
+reports it.
+:::
+
+::: {.notes}
+The `count` row is the one nobody reads and it is the most important one on the slide. This
+continues Module 3's rule about reporting the denominator, now with pandas printing the
+denominator unprompted.
+
+The numbers, if useful: infant mortality across the 44 reporting counties runs 3.4 to 10.2,
+mean 6.15, median 6.0. Child poverty across all 67 runs from single digits to 28.3% in
+Philadelphia.
+
+`.round(2)` is there because the raw output carries six decimal places of false precision.
+Formatting is graded in this course, so model it.
+:::
+
+## A single column is a Series {.smaller}
+
+```{pyodide}
+import pandas as pd
+
+births = pd.read_csv("data/pa_maternal_infant.csv")
+
+rates = births["infant_mortality_per_1000"]
+
+print(type(rates))
+print(rates.head(3))
+print(f"Mean: {rates.mean():.2f}   Reporting: {rates.count()} of {rates.size}")
+```
+
+A **Series** is one column: an array of values plus an **index** that labels them. A
+DataFrame is a set of Series sharing one index.
+
+::: {.callout-tip}
+## `.count()` and `.size` answer different questions
+`.size` is the number of rows. `.count()` is the number of rows with a value. Their
+difference is the number missing.
+:::
+
+::: {.notes}
+The index is the piece that makes a Series more than an array, and it is what keeps rows
+aligned through a sort or a filter. Module 3's parallel arrays had no index, which is
+exactly why sorting one and not the other broke them silently.
+
+Here the index is just 0 through 66, so it looks like decoration. It stops looking like
+decoration on the `.groupby()` slides, where the index becomes the region name.
+
+`.mean()` on a Series skips missing values by default — the opposite of NumPy's `.mean()`,
+which propagates `nan` and returns `nan`. That difference is worth stating plainly because
+it bites people who learned NumPy first, which is everyone in this room. pandas assumes
+skipping is what was wanted. It is a convenience with a cost, and the cost is that the
+denominator changes without saying so.
+:::
+
+## `.loc` selects by label and `.iloc` by position {.smaller}
+
+```{pyodide}
+import pandas as pd
+
+births = pd.read_csv("data/pa_maternal_infant.csv")
+births = births.set_index("county")
+
+print(births.loc["Allegheny", "infant_mortality_per_1000"])
+print(births.loc["Centre", ["infant_mortality_per_1000", "children_in_poverty_pct"]])
+print()
+print(births.iloc[0, 0])
+```
+
+`.loc[row_label, column_label]` uses names. `.iloc[row_number, column_number]` uses
+positions, following Module 3's zero-indexing.
+
+::: {.callout-warning}
+## `.loc` includes its endpoint; `.iloc` excludes it
+`.loc["Adams":"Beaver"]` returns Beaver. `.iloc[0:3]` stops at position 2. Slicing by label
+and slicing by position follow different rules, and this is a documented inconsistency in
+pandas rather than a mistake in the reading.
+:::
+
+::: {.notes}
+`.set_index("county")` is what makes `.loc` worth using here. Without it the row labels are
+0 through 66 and `.loc` and `.iloc` do nearly the same thing, which teaches nothing.
+
+The endpoint inconsistency is genuinely confusing and the honest framing is that label
+slicing includes the endpoint because a reader asking for Adams through Beaver means to
+include Beaver, while position slicing follows Python's universal exclusive rule from
+Module 1. Both are defensible; together they are a trap.
+
+Allegheny is 6.2 per 1,000. Centre is 4.6 with child poverty at 9.9%. Those two counties
+have appeared in every module since Module 1 and they will appear again on the correlation
+slide.
+
+If someone asks whether `births["Allegheny"]` works: it does not. Square brackets on a
+DataFrame select *columns*, and asking for a row that way raises `KeyError`. That is the
+next slide's error.
+:::
+
+## `KeyError` names a label that is not there {.smaller}
+
+```{pyodide}
+import pandas as pd
+
+births = pd.read_csv("data/pa_maternal_infant.csv")
+
+print(births["infant_mortality"])
+```
+
+**`KeyError: 'infant_mortality'`** — square brackets on a DataFrame select a column by name,
+and no column carries that name. The actual column is `infant_mortality_per_1000`.
+
+::: {.callout-warning}
+## `KeyError` is a spelling error nine times in ten
+The interpreter reports the label it was given, not the label that was meant.
+**Resolution:** print `df.columns.tolist()` and copy the name from the output.
+:::
+
+::: {.notes}
+Run this one broken on the projector. It is thirty seconds and the traceback is ugly enough
+to be memorable.
+
+The reason it earns a slide is that `KeyError` is the single most common pandas error and
+the message looks more alarming than it is. Once they know it means "that name is not in
+this table," it stops costing them time.
+
+The units suffix in these column names is deliberate on the data side and it is what makes
+the error likely here. `infant_mortality_per_1000` is unambiguous about what the number
+means, and the cost of that clarity is more typing. That trade is the right one — a column
+called `rate` in a file you open in six months is worthless.
+
+Tell them to copy column names rather than type them. `df.columns.tolist()` exists for this.
+:::
+
+## A boolean mask filters rows {.smaller}
+
+```{pyodide}
+import pandas as pd
+
+births = pd.read_csv("data/pa_maternal_infant.csv")
+
+high_poverty = births[births["children_in_poverty_pct"] > 20]
+
+print(high_poverty.shape)
+print(high_poverty[["county", "children_in_poverty_pct"]].head())
+```
+
+The mask is Module 3's boolean array. Passing it to `[]` keeps the rows where it is `True`,
+and **every column comes along**.
+
+::: {.callout-tip}
+## This is what the DataFrame buys
+Module 3's mask filtered one array and left the names behind. Here the county names, the
+rates, and the incomes all move together, because they are rows of one object.
+:::
+
+::: {.notes}
+Eleven counties have child poverty above 20%. Philadelphia is the highest at 28.3%.
+
+Make the Module 3 comparison explicit, because this is the payoff for the complaint that
+module ended on. There, filtering `pm25` gave 22 numbers and no way to know which counties
+they were without applying the same mask to a second array and trusting the alignment. Here
+the answer arrives labelled.
+
+The mask itself is worth printing once. `births["children_in_poverty_pct"] > 20` is a Series
+of 67 `True`/`False` values with the same index, and it is the identical construct from last
+week wearing a label.
+:::
+
+## Combining conditions requires `&`, `|`, and parentheses {.smaller}
+
+```{pyodide}
+import pandas as pd
+
+births = pd.read_csv("data/pa_maternal_infant.csv")
+
+both = births[
+    (births["children_in_poverty_pct"] > 20) & (births["infant_mortality_per_1000"] > 7)
+]
+
+print(both[["county", "children_in_poverty_pct", "infant_mortality_per_1000"]])
+```
+
+::: {.callout-warning}
+## The parentheses are mandatory
+`&` binds more tightly than `>`. Without parentheses, Python evaluates `20 & births[...]`
+first and raises `TypeError`. This is the most common pandas error after `KeyError`.
+
+**Resolution:** parenthesise every comparison. `(a > 1) & (b < 2)`, never `a > 1 & b < 2`.
+:::
+
+::: {.notes}
+This is a check-in. Put the unparenthesised version on the screen, ask what it does, and run
+it. The error is loud, which is a mercy, but the message mentions ambiguous truth values and
+points at nothing useful.
+
+Four counties clear both thresholds: Fayette, Mifflin, Philadelphia, and Venango. Mifflin has
+the highest infant mortality in the state at 10.2 per 1,000 with child poverty at 20.6%.
+
+This is the same `&`-not-`and` rule from Module 3, and it is on the spec twice because the
+parentheses make it harder here than it was there. Last week the operands were bare array
+names. Here they are bracketed column selections, so the expression is already busy and the
+missing parentheses are harder to see.
+
+Handle the substance carefully. Four counties appearing in both lists is a structural
+observation about where poverty and infant death occur together, and it is not a statement
+about any family. Keep it at the county level and keep it structural — §5 is explicit about
+this and the room will follow the framing that gets modelled.
+:::
+
+## `.isin()` matches against a list of values {.smaller}
+
+```{pyodide}
+import pandas as pd
+
+births = pd.read_csv("data/pa_maternal_infant.csv")
+
+watch = ["Allegheny", "Philadelphia", "Schuylkill", "Centre"]
+
+print(births[births["county"].isin(watch)][
+    ["county", "infant_mortality_per_1000", "children_in_poverty_pct"]
+])
+```
+
+`.isin()` replaces a chain of `==` comparisons joined by `|`.
+
+::: {.notes}
+These four counties have run through the whole course. Schuylkill and Centre are the Module 1
+pair — 41.7 against 4.4 overdose deaths per 100,000 at almost identical population — and they
+turn up here at 7.5 and 4.6 infant deaths per 1,000. The same two counties, a different
+outcome, the same direction.
+
+Point that out and then stop, because a four-county comparison is an anecdote. The
+correlation slide is where it becomes evidence.
+
+Written without `.isin()` this filter is four `==` comparisons and three pipes, all inside
+parentheses. Show that once so the shortcut looks like a shortcut.
+:::
+
+## `.assign()` adds a derived column {.smaller}
+
+```{pyodide}
+import pandas as pd
+
+overdose = pd.read_csv("data/pa_overdose_county_year.csv")
+
+recent = overdose[overdose["year"] == 2023].assign(
+    rate_check=lambda d: d["overdose_deaths"] / d["population"] * 100_000
+)
+
+print(recent[["county", "overdose_deaths", "population", "rate_per_100k", "rate_check"]].head())
+```
+
+A rate is deaths divided by population, times 100,000. The arithmetic is vectorised — one
+expression over every row.
+
+::: {.callout-tip}
+## `.assign()` returns a new DataFrame
+The original is unchanged. `births["new"] = ...` modifies in place; `.assign()` does not,
+which is what makes it safe to chain.
+:::
+
+::: {.notes}
+Recomputing a column the file already contains looks pointless and it is the opposite. This
+is a **data check**: `rate_check` should match `rate_per_100k` to rounding, and if it does
+not, either the population column is the wrong year or the published rate uses a different
+denominator. Do this to any file before trusting it.
+
+They match here, so the file is internally consistent. Say so — a check that passes is still
+a check.
+
+The `lambda` is the part to explain slowly. Inside `.assign()`, `lambda d:` means "the
+DataFrame as it exists at this point in the chain," which matters because the previous step
+filtered it to 2023. Writing `overdose["overdose_deaths"]` instead would reach back to the
+unfiltered table and the lengths would not match.
+
+The underscore in `100_000` is Python's digit separator. Purely for reading; the interpreter
+ignores it.
+:::
+
+## `.sort_values()` orders rows {.smaller}
+
+```{pyodide}
+import pandas as pd
+
+births = pd.read_csv("data/pa_maternal_infant.csv")
+
+worst = births.sort_values("infant_mortality_per_1000", ascending=False)
+
+print(worst[["county", "infant_mortality_per_1000"]].head())
+```
+
+`ascending=False` sorts high to low. Missing values sort to the end regardless of direction.
+
+::: {.callout-important}
+## Sorting moves whole rows
+Every column travels with its row. This is the guarantee Module 3's parallel arrays could
+not make.
+:::
+
+::: {.notes}
+Mifflin 10.2, Huntingdon 9.1, Venango 8.9, Crawford 8.8, Clearfield 8.1. All five are
+nonmetro, and that is the first quiet hint of where this module is going.
+
+The point on the slide is the one to stress. Sorting a NumPy array of rates and forgetting to
+sort the names alongside it produces a table that looks right and is wrong in every row.
+Here it cannot happen.
+
+Worth asking: is this list the five worst counties in Pennsylvania for infant mortality? No.
+It is the five worst *of the forty-four that report*. Twenty-three counties are not in this
+ranking at all, and nothing about the sort announces that. Missing data does not raise its
+hand.
+:::
+
+## `.groupby()` splits, applies, and combines {.smaller}
+
+```{pyodide}
+import pandas as pd
+
+overdose = pd.read_csv("data/pa_overdose_county_year.csv")
+
+by_year = overdose.groupby("year")["rate_per_100k"].agg(["count", "mean", "median"])
+
+print(by_year.round(2))
+```
+
+`.groupby(column)` splits the rows into groups, applies the aggregation to each, and combines
+the results into a table indexed by the grouping value.
+
+::: {.callout-tip}
+## `.agg()` takes several functions at once
+`["count", "mean", "median"]` produces three columns. `count` reports how many rows carried a
+value in each group, which is the denominator for the other two.
+:::
+
+::: {.notes}
+This is Module 3's `axis=` generalized, and saying so connects the two modules. There the
+collapse ran along a fixed dimension of a rectangle. Here the groups are defined by the
+*contents* of a column, so there can be six of them or sixty-seven, and pandas works it out.
+
+Read the count column across the years. It is not constant — the number of counties reporting
+changes year to year, because suppression depends on that year's counts. The mean of a
+different set of counties each year is not a time series, and comparing 2019 to 2023 as if it
+were is a mistake the table invites.
+
+Split-apply-combine is the name for this pattern and it is worth giving them the phrase. It
+is the same idea as R's `group_by()` plus `summarise()`, which half of them have already seen
+in the other half of this course.
+:::
+
+## Grouping by a second table's column requires a join {.smaller}
+
+The overdose file has no `region` column. The county reference table does.
+
+```{pyodide}
+import pandas as pd
+
+counties = pd.read_csv("data/pa_counties.csv")
+
+print(counties.head(3))
+print()
+print(counties["region"].value_counts())
+print(counties["metro"].value_counts())
+```
+
+::: {.callout-important}
+## The grouping variables live in a different file
+Neither `region` nor `metro` appears in any outcome file. **Every grouped comparison in this
+module is possible only after a join**, which is the honest reason `.merge()` is taught.
+:::
+
+::: {.notes}
+This is the motivating slide for the rest of the session, so do not rush it.
+
+Six regions, unevenly sized: South Central and North Central have 14 counties each, Northeast
+has 8. Thirty-seven metro counties against thirty nonmetro, using the NCHS urban–rural
+classification rather than anything invented for this course.
+
+`.value_counts()` is the categorical counterpart to `.describe()` and it is how a text column
+gets inspected. It sorts by frequency, which is usually what is wanted and occasionally
+surprising.
+
+The design point worth stating: this separation is good practice, not an inconvenience. The
+county attributes live in one file, each outcome lives in its own, and they are joined on
+demand. Storing region alongside every outcome in every file means updating it in six places
+when a definition changes.
+:::
+
+## `.merge()` joins two tables on a shared key {.smaller}
+
+```{pyodide}
+import pandas as pd
+
+births = pd.read_csv("data/pa_maternal_infant.csv")
+counties = pd.read_csv("data/pa_counties.csv")
+
+joined = births.merge(counties, on="county", how="inner")
+
+print(f"births:   {births.shape}")
+print(f"counties: {counties.shape}")
+print(f"joined:   {joined.shape}")
+print(joined[["county", "infant_mortality_per_1000", "region", "metro"]].head(3))
+```
+
+`on=` names the key column. The result carries the columns of both tables for every row whose
+key matched.
+
+::: {.notes}
+Eight columns plus seven columns, minus the shared key, gives fourteen. Sixty-seven rows in,
+sixty-seven rows out, which means every county matched.
+
+That clean result is the thing to be suspicious of, and the next two slides are about why.
+
+The word for the shared column is the **key**. It has to identify a row uniquely in at least
+one of the tables, and here `county` does that in both — sixty-seven distinct names on each
+side.
+
+For the R half: this is `left_join()` and friends, same concept, same four join types,
+different spelling.
+:::
+
+## The join type decides what happens to unmatched rows {.smaller}
+
+```{pyodide}
+import pandas as pd
+
+counties = pd.read_csv("data/pa_counties.csv")
+firearm = pd.read_csv("data/pa_firearm_county_year.csv")
+
+f2023 = firearm[firearm["year"] == 2023]
+
+print(f"inner: {f2023.merge(counties, on='county', how='inner').shape[0]} rows")
+print(f"left:  {f2023.merge(counties, on='county', how='left').shape[0]} rows")
+print(f"outer: {f2023.merge(counties, on='county', how='outer').shape[0]} rows")
+```
+
+- **`inner`** keeps only keys present in both — the default
+- **`left`** keeps every row of the left table, filling unmatched columns with `NaN`
+- **`outer`** keeps every row of both
+
+::: {.callout-warning}
+## An `inner` join deletes rows silently
+Rows whose key fails to match are dropped with no warning. **Compare the row count before and
+after every join.** A join that loses rows has either found a real gap or a spelling problem.
+:::
+
+::: {.notes}
+All three give 67 here because the keys agree perfectly, which makes this a poor
+demonstration of the difference and an excellent demonstration of the check. The habit is
+what matters: print the shape before, print it after, and know why any difference exists.
+
+The default being `inner` is the dangerous part. A student who never passes `how=` is
+silently dropping unmatched rows in every join they will ever write, and in a real analysis
+that is how counties disappear.
+
+`left` is the right default in practice for this kind of work: keep every row of the analysis
+table, attach what reference data exists, and let the `NaN`s show where it did not. Recommend
+it.
+
+The next slide is where the keys stop agreeing.
+:::
+
+## A key that differs by one character does not match {.smaller}
+
+```{pyodide}
+import pandas as pd
+
+counties = pd.read_csv("data/pa_counties.csv")
+
+# County Health Rankings publishes this county as "Mc Kean";
+# the Census file used here writes "McKean".
+external = pd.DataFrame({
+    "county": ["Mc Kean", "Potter", "Tioga"],
+    "clinics": [3, 2, 4],
+})
+
+joined = external.merge(counties[["county", "population_2023"]], on="county", how="left")
+
+print(joined)
+```
+
+**"Mc Kean" and "McKean" are different strings.** The row survives a `left` join with `NaN`
+in every borrowed column, and an `inner` join deletes it outright.
+
+::: {.callout-warning}
+## `NaN` in a joined column is a failed match, not missing data
+The population of McKean County is published and known. It is absent here because the key did
+not match, and the two causes require different fixes.
+:::
+
+::: {.notes}
+This is a real spelling mismatch between County Health Rankings and the Census, not an
+invented example. The version of the file in `data/` has already been cleaned, which is why
+the earlier joins were tidy; this slide puts the original spelling back so the failure is
+visible.
+
+The failure mode is the lesson. Potter and Tioga match, McKean does not, and the output looks
+almost entirely correct. One `NaN` in a table of three is easy to see. One in a table of
+sixty-seven is not, and nothing raises.
+
+The fix is `.str.replace(" ", "")` on both sides before joining, or a lookup table of known
+variants. What matters more than the fix is the check that finds it: after any join, count
+the `NaN`s in a column that came from the right-hand table. Any count above zero is either a
+real gap or a broken key, and it has to be one or the other.
+
+Other keys that break the same way: county names with and without the word "County", FIPS
+codes read as integers on one side and strings with leading zeros on the other, and dates as
+text against dates as dates. Every one of those has cost somebody a day.
+:::
+
+## `.isna()` counts what is missing {.smaller}
+
+```{pyodide}
+import pandas as pd
+
+births = pd.read_csv("data/pa_maternal_infant.csv")
+
+print(births.isna().sum())
+```
+
+`.isna()` returns a table of booleans; `.sum()` counts the `True` values in each column,
+because `True` equals 1.
+
+::: {.callout-tip}
+## `df.isna().sum()` is the standard missingness report
+One line, every column, run immediately after every read and every join.
+:::
+
+::: {.notes}
+Twenty-three, seven, and one. Infant mortality, child mortality, teen births — three columns,
+three different suppression thresholds, all applied to the same 67 counties.
+
+Why they differ: the threshold is on the underlying count, not on the county. Infant deaths
+are rarer than child deaths, so more counties fall below the cutoff for the infant measure.
+That is worth a sentence because it explains why missingness is not a property of a county.
+
+The chain is worth reading aloud in pieces. `.isna()` gives a 67-by-8 grid of `True` and
+`False`. `.sum()` on a DataFrame collapses down the rows by default and returns one number
+per column. Same `True`-is-1 arithmetic as Module 3's mask counting.
+:::
+
+## Missing is not zero {.smaller}
+
+```{pyodide}
+import pandas as pd
+
+births = pd.read_csv("data/pa_maternal_infant.csv")
+
+reported = births["infant_mortality_per_1000"]
+
+print(f"Mean, skipping missing:  {reported.mean():.2f}  over {reported.count()} counties")
+print(f"Mean, filling with zero: {reported.fillna(0).mean():.2f}  over {reported.size} counties")
+```
+
+Filling with zero asserts that **no infant died** in those twenty-three counties. The state
+withheld the figure precisely because it is not zero.
+
+::: {.callout-important}
+## `.fillna()` writes a claim into the data
+Every fill value is an assertion about the world. Zero asserts absence. The mean asserts the
+county is typical. Both may be defensible; neither is neutral, and both belong in the
+writeup.
+:::
+
+::: {.notes}
+6.15 against 4.04. A third of the state filled with a false zero drags the state figure down
+by more than two points, and the resulting number is not wrong in a subtle way — it is a
+claim that twenty-three counties had no infant deaths.
+
+The instinct to fill with zero is nearly universal and it comes from spreadsheets, where a
+blank cell and a zero look similar and behave similarly. Name that and correct it once,
+firmly. This is the third module in a row where the same rule has appeared: Module 2's
+`.get(key, 0)`, Module 3's `np.nanmean()`, and now this. It is the most important
+non-syntactic idea in the course.
+
+`.dropna()` is the honest default and it is what pandas does silently in `.mean()`. The
+subtlety is that dropping is also a decision — it produces a mean over the counties that
+reported, which is a different population than the one asked about, and the count is what
+makes that visible.
+
+There is no fill value that is right here. The right move is to report the 44 and say which
+counties are absent.
+:::
+
+## Grouped rates are biased downward by suppression {.smaller}
+
+```{pyodide}
+import pandas as pd
+
+overdose = pd.read_csv("data/pa_overdose_county_year.csv")
+counties = pd.read_csv("data/pa_counties.csv")
+
+o2023 = overdose[overdose["year"] == 2023].merge(counties, on="county", how="left")
+
+naive = o2023.groupby("region").apply(
+    lambda g: g["overdose_deaths"].sum() / g["population_2023"].sum() * 100_000,
+    include_groups=False,
+)
+
+complete = o2023.dropna(subset=["overdose_deaths"]).groupby("region").apply(
+    lambda g: g["overdose_deaths"].sum() / g["population_2023"].sum() * 100_000,
+    include_groups=False,
+)
+
+print(pd.DataFrame({"naive": naive.round(1), "correct": complete.round(1)}))
+```
+
+::: {.callout-warning}
+## `.sum()` skips `NaN`, but the denominator counts every county
+A suppressed county contributes its **population** and none of its **deaths**. The rate is
+therefore too low, and no error is raised.
+:::
+
+::: {.notes}
+This is the most important slide in the module and it is a silent error, so give it the time.
+
+Look at where the bias lands. Southwest and Southeast are unaffected — 42.9 and 41.3 either
+way — because no county in them is suppressed. Northwest is off by 2.0 and North Central by
+1.8. **The bias is largest in rural regions, which is exactly where suppression concentrates,
+and exactly where an underestimate does the most harm.**
+
+Say what that means outside the code. A published regional rate computed the naive way makes
+rural Pennsylvania look better than it is, in a dataset used to allocate resources. Nobody
+had to be careless for that to happen. `.sum()` skipping `NaN` is a reasonable default that
+becomes a systematic error the moment it appears in a ratio.
+
+The fix is on the slide: drop the suppressed rows from the numerator *and* the denominator,
+so the rate describes the counties that actually reported. Then say how many were dropped.
+
+The general rule, and write it down: **whenever a ratio is computed over a group, confirm that
+the numerator and the denominator cover the same rows.** That sentence catches this whole
+class of bug.
+:::
+
+## `pd.crosstab()` counts one categorical against another {.smaller}
+
+```{pyodide}
+import pandas as pd
+
+births = pd.read_csv("data/pa_maternal_infant.csv")
+counties = pd.read_csv("data/pa_counties.csv")
+
+joined = births.merge(counties, on="county", how="left")
+joined["suppressed"] = joined["infant_mortality_per_1000"].isna()
+
+print(pd.crosstab(joined["metro"], joined["suppressed"]))
+```
+
+::: {.callout-important}
+## The pattern in the table
+Five of thirty-seven metro counties are suppressed. **Eighteen of thirty nonmetro counties
+are.** Suppression is not distributed at random across Pennsylvania.
+:::
+
+::: {.notes}
+Here is the payoff assembling itself. The cold open asked what the twenty-three counties have
+in common, and this two-by-two answers it: they are rural.
+
+Work the proportions out loud, because the raw counts understate it. Thirteen and a half
+percent of metro counties are suppressed against sixty percent of nonmetro ones. Two out of
+three rural Pennsylvania counties have no published infant mortality rate.
+
+Note what had to happen to see this. The suppression flag came from the outcome file, the
+metro classification came from the reference file, and the two were joined a slide ago.
+Neither file can produce this table alone. That is the argument for `.merge()` in one
+sentence, and it is worth making it out loud.
+
+`pd.crosstab()` takes two Series and returns counts. Adding `normalize="index"` gives row
+proportions, which is often the more readable form — mention it, and let the lab use it.
+:::
+
+## `pd.to_datetime()` makes a date column behave like a date {.smaller}
+
+```{pyodide}
+import pandas as pd
+
+covid = pd.read_csv("data/pa_covid_monthly.csv")
+covid["month"] = pd.to_datetime(covid["month"])
+
+by_month = covid.groupby("month")["covid_deaths"].sum()
+
+print(f"Months covered: {by_month.size}")
+print(f"Peak month:     {by_month.idxmax().date()}  ({by_month.max()} deaths)")
+print()
+print(covid.groupby(covid["month"].dt.year)["covid_deaths"].sum())
+```
+
+A text column sorts alphabetically. A datetime column sorts chronologically and exposes
+`.dt.year`, `.dt.month`, and `.dt.day_name()`.
+
+::: {.notes}
+Forty-nine months, March 2020 through March 2024. The peak is January 2022 at 4,294 deaths
+statewide — the Omicron wave, and it is the largest single month in the file.
+
+The yearly totals tell the shape of the pandemic in five lines: 975 in a partial 2020, then
+10,875 and 11,109 in the two full years, then 3,647, then 916. Let that sit for a second
+without commentary. This is Module 2's COVID story returning with a real date column
+underneath it.
+
+Why `to_datetime()` matters beyond convenience: as text, `"2020-03-01"` sorts before
+`"2020-12-01"` correctly but `"3/1/2020"` does not, and nothing warns. ISO format hides the
+problem. Converting makes the ordering a property of the type rather than a property of the
+formatting.
+
+`.dt` is the accessor for datetime methods, the same way `.str` is the accessor for text
+methods on the next slide. Both exist because a Series holds many values and the method has
+to apply to all of them.
+:::
+
+## `.str` applies string methods to a whole column {.smaller}
+
+```{pyodide}
+import pandas as pd
+
+messy = pd.DataFrame({
+    "county": ["  Allegheny ", "PHILADELPHIA", "Mc Kean", "Centre  "],
+    "deaths": ["712", "1,204", "8", "23"],
+})
+
+clean = messy.assign(
+    county=lambda d: d["county"].str.strip().str.title().str.replace(" ", "", regex=False),
+    deaths=lambda d: d["deaths"].str.replace(",", "", regex=False).astype(int),
+)
+
+print(clean)
+print(clean.dtypes)
+```
+
+Module 1's string methods, applied through `.str` to every value in the column at once.
+
+::: {.callout-warning}
+## A numeric column read as text is the most common import defect
+A thousands separator is enough to make pandas read a whole column as `object`. Arithmetic on
+it either raises `TypeError` or, worse, concatenates.
+:::
+
+::: {.notes}
+Every defect on this slide is one that turns up in real public health files: leading
+whitespace from a spreadsheet export, inconsistent capitalisation, the McKean spelling, and
+comma-separated thousands.
+
+The `deaths` column is the one to demonstrate. Before `.astype(int)` it is text, and
+`"712" + "8"` gives `"7128"` rather than 720. That is a **silent** wrong answer, not an error,
+which makes it more dangerous than the `TypeError`. Run it if there is time.
+
+`.str.title()` is a rough tool and it is worth being honest about its limits. It fixes
+"PHILADELPHIA" cleanly, and here it happens to leave "Mc Kean" as "Mc Kean" — capitalising
+each word — so the space removal that follows is what actually repairs the key. Change the
+input slightly and it misbehaves: `"MCKEAN"` comes back as `"Mckean"`, because `title()`
+capitalises after a space and nowhere else. Automated cleaning gets most of the way and the
+residue needs a human. Do not promise them a one-liner that always works.
+
+Chaining reads left to right: strip the whitespace, fix the case, remove the internal space.
+Each step returns a Series, so the next method attaches to it.
+:::
+
+## `.rename()` and `.drop()` tidy the columns {.smaller}
+
+```{pyodide}
+import pandas as pd
+
+births = pd.read_csv("data/pa_maternal_infant.csv")
+
+tidy = (
+    births
+    .rename(columns={
+        "infant_mortality_per_1000": "infant_mortality",
+        "children_in_poverty_pct": "child_poverty",
+    })
+    .drop(columns=["teen_births_per_1000", "uninsured_children_pct"])
+)
+
+print(tidy.columns.tolist())
+print(tidy.shape)
+```
+
+`.rename(columns={old: new})` renames by mapping. `.drop(columns=[...])` removes columns.
+Both return a **new** DataFrame and leave the original unchanged.
+
+::: {.callout-warning}
+## `.drop()` needs `columns=` or `index=`
+`.drop("county")` alone raises `KeyError`, because `.drop()` defaults to removing a *row* with
+that label. Naming the axis explicitly avoids the ambiguity.
+:::
+
+::: {.notes}
+Eight columns become six. Nothing was computed here; this is housekeeping, and it earns a
+slide because unnamed and unwanted columns are what make a printed table unreadable.
+
+The judgment call worth flagging: renaming away the units is a real loss.
+`infant_mortality_per_1000` says what the number *is*, and `infant_mortality` does not. Shorten
+a name for typing convenience and something has to carry the units instead — a comment, a
+docstring, the report text. Trading clarity for brevity is a choice, not an improvement.
+
+`.drop()` defaulting to rows surprises everyone, because dropping a column is the far more
+common operation. Always pass `columns=`.
+
+The other thing to name: both methods return copies, which is why the chain works and why
+`births` still has eight columns afterwards. There is an `inplace=True` argument on most pandas
+methods and it is going away — do not teach it, and tell them to ignore it when they find it in
+older answers online.
+:::
+
+## `.melt()` turns wide data into long {.smaller}
+
+```{pyodide}
+import pandas as pd
+
+wide = pd.DataFrame({
+    "county": ["Allegheny", "Philadelphia", "Centre"],
+    "2021": [58.5, 82.4, 7.6],
+    "2022": [56.6, 91.4, 8.9],
+    "2023": [54.7, 84.8, 4.4],
+})
+
+long = wide.melt(id_vars="county", var_name="year", value_name="rate_per_100k")
+
+print(long)
+```
+
+**Wide**: one row per county, one column per year. **Long**: one row per county-year, with
+the year as data.
+
+::: {.callout-tip}
+## Long form is what `.groupby()` and plotting expect
+`.pivot()` reverses the operation. Published tables arrive wide because wide is readable;
+analysis wants long because long is groupable.
+:::
+
+::: {.notes}
+Three rows become nine. `id_vars` names the columns that stay as identifiers, and everything
+else gets folded into a name column and a value column.
+
+The reason this matters: grouping by year is impossible in the wide table, because the year is
+not a variable there — it is spread across three column *names*. In the long table the year is
+a column of data and `.groupby("year")` works. Same numbers, different shape, and only one
+shape can answer the question.
+
+The overdose file already arrives long, one row per county-year, which is why nothing so far
+has needed this. Files from an agency's published tables usually arrive wide, and this is the
+first thing that happens to them.
+
+Note the year values come out as strings, because they were column names. `.astype(int)`
+fixes it and that is a good reason to look at `.dtypes` after any reshape.
+:::
+
+## Chaining expresses a pipeline as one expression {.smaller}
+
+```{pyodide}
+import pandas as pd
+
+overdose = pd.read_csv("data/pa_overdose_county_year.csv")
+counties = pd.read_csv("data/pa_counties.csv")
+
+summary = (
+    overdose
+    .query("year == 2023")
+    .merge(counties, on="county", how="left")
+    .dropna(subset=["overdose_deaths"])
+    .groupby("region")
+    .agg(counties_reporting=("county", "size"), mean_rate=("rate_per_100k", "mean"))
+    .sort_values("mean_rate", ascending=False)
+    .round(1)
+)
+
+print(summary)
+```
+
+Each method returns a DataFrame, so the next attaches to it. The outer parentheses allow the
+chain to break across lines.
+
+::: {.callout-tip}
+## Read a chain top to bottom as a sentence
+Take 2023, attach the region, drop the suppressed counties, group by region, summarise, sort.
+:::
+
+::: {.notes}
+This is the module assembling into one object, and it is worth saying that everything on this
+slide was taught separately in the last thirty minutes.
+
+`counties_reporting` is on the slide deliberately. It is the denominator, it is carried
+through the chain, and it is what makes the mean interpretable — the Northeast figure is over
+seven counties, North Central over eleven. Without that column the table invites a comparison
+it cannot support.
+
+The named-aggregation syntax, `name=("column", "function")`, is the readable form and it is
+worth preferring over the dictionary form they will find online. The column name says what the
+number is.
+
+Two cautions on chaining. It is harder to debug, because there is no intermediate variable to
+inspect — the fix is to comment out the tail of the chain and run the head. And past six or
+seven steps it stops being readable; break it into two named pieces at that point.
+
+`.query()` is a shorthand for boolean filtering with the condition as a string. It avoids the
+parenthesis problem entirely, which is either a convenience or a way to never learn the
+parentheses, so it appears here after the rule and not before it.
+:::
+
+# The twenty-three. {.unnumbered background-color="#003594"}
+
+## Exercise: who is missing, and what do they share? {.smaller}
+
+```{pyodide}
+#| exercise: m4_suppressed
+import pandas as pd
+
+births = pd.read_csv("data/pa_maternal_infant.csv")
+counties = pd.read_csv("data/pa_counties.csv")
+
+joined = births.merge(counties, on="county", how="______")
+
+joined["suppressed"] = joined["infant_mortality_per_1000"].isna()
+
+print(f"Suppressed counties: {joined['suppressed'].sum()} of {len(joined)}")
+print()
+print(joined.groupby("suppressed")["population_2023"].median())
+print()
+print(pd.crosstab(joined["metro"], joined["suppressed"]))
+```
+
+```{pyodide}
+#| exercise: m4_suppressed
+#| hint: true
+# The blank is left. Every county in the births table should survive the
+# join, whether or not it has a published rate — dropping rows here would
+# delete the very counties the question is about.
+#
+# inner returns the same 67 rows in this case, because the keys match
+# perfectly. left states the intent, and it is the join that stays correct
+# if a key ever stops matching.
+```
+
+```{pyodide}
+#| exercise: m4_suppressed
+#| solution: true
+import pandas as pd
+
+births = pd.read_csv("data/pa_maternal_infant.csv")
+counties = pd.read_csv("data/pa_counties.csv")
+
+joined = births.merge(counties, on="county", how="left")
+
+joined["suppressed"] = joined["infant_mortality_per_1000"].isna()
+
+print(f"Suppressed counties: {joined['suppressed'].sum()} of {len(joined)}")
+print()
+print(joined.groupby("suppressed")["population_2023"].median())
+print()
+print(pd.crosstab(joined["metro"], joined["suppressed"]))
+```
+
+::: {.notes}
+Fill this in with the room. It is the whole module in fifteen lines: two reads, a join, a
+derived flag, a grouped summary, and a cross-tab.
+
+Ask for the median population comparison before running it. The suppressed counties come in
+at 37,607 against 157,825 — a factor of four. That is the mechanism made numeric: fewer
+people, fewer births, fewer events, no publishable rate.
+
+The `how=` blank is the one worth arguing about. `inner` gives an identical answer here and is
+still the wrong choice, because the intent is to keep every county and the keys matching today
+is luck rather than design. Writing the join that expresses the intent is what makes the code
+survive a data update.
+:::
+
+## Twenty-three rural counties {.smaller}
+
+**Twenty-three of Pennsylvania's sixty-seven counties have no published infant mortality
+rate. Eighteen of them are nonmetro.**
+
+Their median population is **37,607**. The counties that do report have a median population of
+**157,825**.
+
+::: {.callout-important}
+## Why suppression is the honest answer
+An infant mortality rate is deaths per 1,000 live births. A county with roughly 400 births a
+year and two infant deaths reports 5.0. **One additional death moves it to 7.5** — a fifty
+percent increase driven by a single event.
+
+Publishing that figure invites a comparison it cannot support. Withholding it states that the
+data cannot answer the question at this resolution.
+:::
+
+::: {.notes}
+Land it and stop.
+
+Then make the second point, which is the one that outlasts the module. Suppression is not the
+absence of information. **That two-thirds of rural Pennsylvania counties cannot support a
+stable infant mortality rate is itself a finding** — it says the events are rare and the
+populations are small, and both of those are facts about rural Pennsylvania worth knowing.
+
+Where this leaves an analyst. The rate cannot be published county by county, so the options
+are to aggregate counties into regions until the counts are stable, to pool several years, or
+to report the raw counts alongside an explicit statement that no rate is computable. All three
+are honest. Filling the blanks with zero is not, and neither is quietly analysing the
+forty-four and calling the result "Pennsylvania."
+
+Keep the framing structural. These are counties with small populations, long distances to
+obstetric care, and hospitals that have closed maternity wards. That is a statement about
+infrastructure. §5 is explicit that this story is never framed as individual choice, and the
+room takes its cue from how the instructor says it.
+
+The correlation the data does support, if it comes up: child poverty against infant mortality
+is +0.646 across the counties that report, and median income against infant mortality is
+−0.602. Module 5 draws that scatter.
+:::
+
+## Session outcomes {.smaller}
+
+- Reading a table with `pd.read_csv()`; **Series**, **DataFrame**, and **Index**
+- Inspecting with `.head()`, `.info()`, `.describe()`, `.shape`, and `.dtypes`
+- Selecting with `.loc` by label and `.iloc` by position
+- Filtering with boolean masks, **`&` and `|` with parentheses**, and `.isin()`
+- Deriving columns with `.assign()`, ordering with `.sort_values()`
+- Summarising with **`.groupby()`** and `.agg()`, `.value_counts()`, and `pd.crosstab()`
+- Handling missing data with `.isna()`, `.dropna()`, and `.fillna()` — **missing is not zero**
+- Joining with **`.merge()`**: inner, left, and outer, and what a broken key does
+- Reshaping with `.melt()` and `.pivot()`; cleaning with `.astype()`, `.str`, and
+  `pd.to_datetime()` / `.dt`
+- **Chaining** a pipeline into one readable expression
+
+::: {.callout-tip}
+## Preparation for the lab, Thursday 11/5
+The lab is **six days after this lecture, across Election Day.** It restates each construct
+before exercising it, so returning to it cold is expected and planned for.
+:::
+
+**Module 5 turns these tables into figures.**
+
+::: {.notes}
+The single sentence for the whole module: a DataFrame keeps labelled columns aligned through
+every operation, so the question can be reshaped without the data coming apart.
+
+The second sentence, which matters more: every missing value is a decision waiting to be made,
+and the decision belongs in the writeup rather than in a `.fillna()` nobody reads.
+
+Flag the gap out loud. Six days and a holiday sit between this and the lab, and this is the
+densest module in the course. Tell them the lab restates everything and that they should come
+back to it without re-reading the slides first — if something has genuinely gone, the lab will
+surface it while there is still time to fix it.
+
+Module 5 opens with the scatter this module earned: child poverty against infant mortality,
++0.646, over the forty-four counties that report. The 44 will be in the caption, because by
+then that is not a caveat, it is the house style.
+:::

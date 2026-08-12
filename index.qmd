@@ -56,6 +56,15 @@ Replacing loops with whole-array arithmetic, then selecting with masks.
 - [Lecture slides](module3/class/module3_lecture.html)
 - [Lab 3](module3/lab/module3_lab.html)
 
+### Module 4 — pandas and Wrangling
+
+*Lecture Thursday, October 29 · Lab Thursday, November 5*
+
+Loading a real table, and reshaping the question.
+
+- [Lecture slides](module4/class/module4_lecture.html)
+- [Lab 4](module4/lab/module4_lab.html)
+
 ---
 
 ## About the data
