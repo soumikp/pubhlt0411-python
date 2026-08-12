@@ -1,0 +1,1412 @@
+---
+# =====================================================================
+# Py Lab 5 — Visualisation and description
+# PUBHLT 0411 · Python for Public Health Data Analysis
+#
+# CALENDAR: lecture Tue 11/10 -> lab Thu 11/12. The Tue/Thu pattern
+# INVERTS at M5 (§3); this is a 2-day gap, unlike M4's 6-day gap, so
+# the restatement load here is normal rather than maximal.
+#
+# Format: live-revealjs with smaller: true, one *task* per slide (§7):
+# the worked example and the `**Your turn.**` task are separate slides
+# sharing a heading, the task suffixed `— your turn`. See §2 labs clause.
+# Register: §2 "Labs — the third surface" — second person permitted in
+# task instructions and hints ONLY; framing prose stays academic.
+#
+# ⚠️ §7: M5 is the highest-risk module for accessibility. Every figure
+#    students build here is checked for labels; Ex 10 checks alt text
+#    explicitly and Ex 6 checks the second channel.
+#
+# ⚠️ §6 trap 1: counts track population (+0.946). Exercise 8.
+# ⚠️ §8: descriptive only. .corr() described as co-movement. No inference.
+# ⚠️ §6 trap 2: PM2.5 is NOT used in this lab. Never for disparity.
+#
+# Exercises 9-11 are the "misleading, not broken" repairs: each runs
+# without error and each is wrong. That is the point — a figure that
+# raises no exception can still be false.
+#
+# seaborn: NOT bundled. `import micropip; await micropip.install(...)`.
+# The await must be at cell top level. Verified in a real browser.
+#
+# Data: REAL, read from the Pyodide VFS. All five files are listed under
+#       `pyodide: resources:` below — a CSV in data/ that is not listed
+#       there never reaches the browser.
+# =====================================================================
+title: "Py Lab 5: Visualisation and description"
+subtitle: "PUBHLT 0411 · Python for Public Health Data Analysis"
+author: "Soumik Purkayastha"
+date: today
+date-format: long
+
+format:
+  live-revealjs:
+    theme: [white, pitt-theme.scss]
+    slide-number: c/t
+    show-slide-number: all
+    chalkboard: false
+    history: true
+    smaller: true
+    scrollable: true
+    incremental: false
+    code-copy: hover
+    highlight-style: github
+    width: 1280
+    height: 720
+    margin: 0.08
+    footer: "soumik@pitt.edu  ·  PUBHLT 0411 · Py Lab 5"
+
+engine: knitr
+
+pyodide:
+  packages: [numpy, pandas, matplotlib]
+  resources:
+    - data/pa_asthma_prevalence.csv
+    - data/pa_counties.csv
+    - data/pa_maternal_infant.csv
+    - data/pa_covid_monthly.csv
+    - data/pa_overdose_county_year.csv
+
+execute:
+  echo: true
+  warning: false
+  message: false
+  cache: false
+---
+
+{{< include _extensions/r-wasm/live/_knitr.qmd >}}
+
+# Py Lab 5 {.unnumbered background-color="#003594"}
+
+## Visualisation and description {.smaller}
+
+The lecture established that adult asthma prevalence barely varies across Pennsylvania
+counties — 9.7% to 11.6% — while smoking prevalence varies across eleven points, and that the
+two move together at **+0.659**.
+
+This lab builds twelve figures from five real files, then repairs three figures that run
+without error and mislead anyway.
+
+::: {.callout-note}
+## Lab mechanics
+- Each exercise supplies a worked example, then a similar problem to complete.
+- Click into a code block and press **Run**. Edit the blanks (`____`) and run again.
+- **Hint** gives the reasoning. **Solution** gives the answer.
+- Each exercise takes two slides: the worked example, then the task.
+- Arrow keys navigate between slides.
+:::
+
+::: {.callout-important}
+## Three of these exercises contain no error message
+Exercises 9, 10, and 11 supply figures that execute cleanly and state something false. A
+figure that raises no exception has not been checked — it has only been run.
+:::
+
+## The data {.smaller}
+
+Five real files, all mounted and readable with `pd.read_csv()`.
+
+| File | Rows | Contents |
+|---|---|---|
+| `data/pa_asthma_prevalence.csv` | 67 | Asthma, **smoking**, obesity prevalence — CDC PLACES 2024 |
+| `data/pa_counties.csv` | 67 | Population, **region**, **metro/nonmetro** — the join target |
+| `data/pa_maternal_infant.csv` | 67 | Infant mortality, poverty, income — 23 counties suppressed |
+| `data/pa_covid_monthly.csv` | 3,283 | COVID deaths by county and month, 2020–2024 |
+| `data/pa_overdose_county_year.csv` | 402 | Overdose deaths and rates, 2019–2024 |
+
+::: {.callout-tip}
+## Three facts that recur throughout
+**A rate is** `deaths / population * 100000`. **A blank is suppression**, not zero. Neither
+`region` nor `metro` appears in any outcome file, so every grouped figure below requires a
+join first.
+:::
+
+## The course figure palette {.smaller}
+
+Every colour below was measured against white with the WCAG relative luminance formula. A
+mark that carries data needs **3:1**; text needs **4.5:1**.
+
+| Colour | Ratio | Use |
+|---|---|---|
+| `#003594` royal | **10.84 : 1** | The primary series |
+| `#8a6400` dark gold | **5.38 : 1** | The second series |
+| `#6b7280` gray | **4.83 : 1** | Annotation and source notes |
+
+::: {.callout-warning}
+## No two of these separate from each other by 3:1
+Royal against dark gold is **2.02:1**. Each is readable against the page; they are not
+reliably distinguishable from one another. **Every two-series figure in this lab therefore
+carries a second channel** — a marker shape, a dash pattern, or a direct label.
+:::
+
+# Exercise 1 — A figure is a figure and an axes {.unnumbered background-color="#003594"}
+
+## Exercise 1 — A figure is a figure and an axes {.smaller}
+
+**Worked example.** `plt.subplots()` returns two objects: the **figure** is the canvas, and the
+**axes** is one set of coordinates drawn on it. Nearly every figure begins with this call.
+
+```{pyodide}
+#| fig-alt: "Histogram of adult smoking prevalence across 67 Pennsylvania counties, spread from about 10.6 to 21.8 percent with most counties between 15 and 19 percent."
+import pandas as pd
+import matplotlib.pyplot as plt
+
+asthma = pd.read_csv("data/pa_asthma_prevalence.csv")
+
+fig, ax = plt.subplots(figsize=(7, 3))
+ax.hist(asthma["smoking_prev_pct"], bins=10, color="#003594", edgecolor="white")
+ax.set_xlabel("Adult smoking prevalence (%)")
+ax.set_ylabel("Number of counties")
+ax.set_title("Smoking prevalence across 67 PA counties")
+plt.tight_layout()
+plt.show()
+```
+
+## Exercise 1 — A figure is a figure and an axes — your turn {.smaller}
+
+**Your turn.** Draw the same histogram for **obesity** prevalence. Label both axes and give it
+a title.
+
+```{pyodide}
+#| exercise: ex1_figure_axes
+import pandas as pd
+import matplotlib.pyplot as plt
+
+asthma = pd.read_csv("data/pa_asthma_prevalence.csv")
+
+fig, ax = plt.____(figsize=(7, 3))
+ax.hist(asthma["obesity_prev_pct"], bins=10, color="#003594", edgecolor="white")
+ax.set_xlabel("Adult obesity prevalence (%)")
+ax.set_ylabel("Number of counties")
+ax.set_title("Obesity prevalence across 67 PA counties")
+plt.tight_layout()
+plt.show()
+
+print("x label:", ax.get_xlabel())
+print("title:  ", ax.get_title())
+```
+
+```{pyodide}
+#| exercise: ex1_figure_axes
+#| hint: true
+# The blank is subplots.
+#
+# plt.subplots() hands back two things at once, which is why the line
+# starts `fig, ax =` — that is tuple unpacking, from Module 2.
+# You will draw on `ax` and save from `fig`.
+```
+
+```{pyodide}
+#| exercise: ex1_figure_axes
+#| solution: true
+import pandas as pd
+import matplotlib.pyplot as plt
+
+asthma = pd.read_csv("data/pa_asthma_prevalence.csv")
+
+fig, ax = plt.subplots(figsize=(7, 3))
+ax.hist(asthma["obesity_prev_pct"], bins=10, color="#003594", edgecolor="white")
+ax.set_xlabel("Adult obesity prevalence (%)")
+ax.set_ylabel("Number of counties")
+ax.set_title("Obesity prevalence across 67 PA counties")
+plt.tight_layout()
+plt.show()
+
+print("x label:", ax.get_xlabel())
+print("title:  ", ax.get_title())
+```
+
+```{pyodide}
+#| exercise: ex1_figure_axes
+#| check: true
+import matplotlib
+assert isinstance(fig, matplotlib.figure.Figure), "plt.subplots returns a Figure first."
+assert isinstance(ax, matplotlib.axes.Axes), "plt.subplots returns an Axes second."
+assert ax.get_xlabel() != "", "Label the x-axis."
+assert ax.get_ylabel() != "", "Label the y-axis."
+assert ax.get_title() != "", "Give the figure a title."
+assert len(ax.patches) > 0, "The histogram must actually draw bars."
+```
+
+# Exercise 2 — Bars compare categories {.unnumbered background-color="#003594"}
+
+## Exercise 2 — Bars compare categories {.smaller}
+
+**Worked example.** `ax.bar()` compares one value across named categories. Sorting before
+plotting delivers the ranking to the reader for free.
+
+```{pyodide}
+#| fig-alt: "Horizontal bar chart of the five Pennsylvania counties with the highest adult smoking prevalence, ranging from about 20.7 to 21.8 percent."
+import pandas as pd
+import matplotlib.pyplot as plt
+
+asthma = pd.read_csv("data/pa_asthma_prevalence.csv")
+top5 = asthma.nlargest(5, "smoking_prev_pct").sort_values("smoking_prev_pct")
+
+fig, ax = plt.subplots(figsize=(7, 3))
+ax.barh(top5["county"], top5["smoking_prev_pct"], color="#003594")
+ax.set_xlabel("Adult smoking prevalence (%)")
+ax.set_title("Five highest county smoking rates")
+plt.tight_layout()
+plt.show()
+```
+
+## Exercise 2 — Bars compare categories — your turn {.smaller}
+
+**Your turn.** Draw the five counties with the **lowest** smoking prevalence. Use
+`.nsmallest()`, and sort so the bars run in order.
+
+```{pyodide}
+#| exercise: ex2_bars
+import pandas as pd
+import matplotlib.pyplot as plt
+
+asthma = pd.read_csv("data/pa_asthma_prevalence.csv")
+bottom5 = asthma.____(5, "smoking_prev_pct").sort_values("smoking_prev_pct")
+
+fig, ax = plt.subplots(figsize=(7, 3))
+ax.barh(bottom5["county"], bottom5["smoking_prev_pct"], color="#003594")
+ax.set_xlabel("Adult smoking prevalence (%)")
+ax.set_title("Five lowest county smoking rates")
+plt.tight_layout()
+plt.show()
+
+print(bottom5[["county", "smoking_prev_pct"]].to_string(index=False))
+```
+
+```{pyodide}
+#| exercise: ex2_bars
+#| hint: true
+# The blank is nsmallest.
+#
+# .nlargest(n, col) and .nsmallest(n, col) both return whole rows, not
+# just the column — which is why `bottom5["county"]` still works.
+# Chester should come out at the bottom, at 10.6%.
+```
+
+```{pyodide}
+#| exercise: ex2_bars
+#| solution: true
+import pandas as pd
+import matplotlib.pyplot as plt
+
+asthma = pd.read_csv("data/pa_asthma_prevalence.csv")
+bottom5 = asthma.nsmallest(5, "smoking_prev_pct").sort_values("smoking_prev_pct")
+
+fig, ax = plt.subplots(figsize=(7, 3))
+ax.barh(bottom5["county"], bottom5["smoking_prev_pct"], color="#003594")
+ax.set_xlabel("Adult smoking prevalence (%)")
+ax.set_title("Five lowest county smoking rates")
+plt.tight_layout()
+plt.show()
+
+print(bottom5[["county", "smoking_prev_pct"]].to_string(index=False))
+```
+
+```{pyodide}
+#| exercise: ex2_bars
+#| check: true
+assert len(bottom5) == 5, "Five counties."
+assert bottom5["county"].iloc[0] == "Chester", "Chester has the lowest smoking prevalence, 10.6%."
+assert abs(bottom5["smoking_prev_pct"].min() - 10.6) < 0.001, "The minimum is 10.6%."
+assert bottom5["smoking_prev_pct"].is_monotonic_increasing, "Sort before plotting."
+assert len(ax.patches) == 5, "Five bars must be drawn."
+```
+
+# Exercise 3 — A histogram shows a distribution {.unnumbered background-color="#003594"}
+
+## Exercise 3 — A histogram shows a distribution {.smaller}
+
+**Worked example.** A histogram bins a continuous variable and counts what lands in each bin.
+`ax.axvline()` adds a reference line, identified in the title so colour is not the only cue.
+
+```{pyodide}
+#| fig-alt: "Histogram of adult smoking prevalence across 67 counties with a dashed vertical line marking the state mean of 17.1 percent."
+import pandas as pd
+import matplotlib.pyplot as plt
+
+asthma = pd.read_csv("data/pa_asthma_prevalence.csv")
+state_mean = asthma["smoking_prev_pct"].mean()
+
+fig, ax = plt.subplots(figsize=(7, 3))
+ax.hist(asthma["smoking_prev_pct"], bins=12, color="#003594", edgecolor="white")
+ax.axvline(state_mean, color="#8a6400", linestyle="--", linewidth=2)
+ax.set_xlabel("Adult smoking prevalence (%)")
+ax.set_ylabel("Number of counties")
+ax.set_title(f"Smoking prevalence (dashed line = mean, {state_mean:.1f}%)")
+plt.tight_layout()
+plt.show()
+```
+
+## Exercise 3 — A histogram shows a distribution — your turn {.smaller}
+
+**Your turn.** Draw the distribution of **infant mortality** across the counties that publish a
+rate, and mark the **median** with a dashed line.
+
+```{pyodide}
+#| exercise: ex3_histogram
+import pandas as pd
+import matplotlib.pyplot as plt
+
+births = pd.read_csv("data/pa_maternal_infant.csv")
+reporting = births.dropna(subset=["infant_mortality_per_1000"])
+
+state_median = reporting["infant_mortality_per_1000"].____()
+
+fig, ax = plt.subplots(figsize=(7, 3))
+ax.hist(reporting["infant_mortality_per_1000"], bins=10, color="#003594", edgecolor="white")
+ax.axvline(state_median, color="#8a6400", linestyle="--", linewidth=2)
+ax.set_xlabel("Infant deaths per 1,000 live births")
+ax.set_ylabel("Number of counties")
+ax.set_title(f"Infant mortality, 44 reporting counties (dashed = median, {state_median:.1f})")
+plt.tight_layout()
+plt.show()
+
+print("counties plotted:", len(reporting))
+print("median:", round(state_median, 2))
+```
+
+```{pyodide}
+#| exercise: ex3_histogram
+#| hint: true
+# The blank is median.
+#
+# .dropna(subset=[...]) removes only the rows missing that column, so 44
+# counties survive — the 23 suppressed ones are gone. Say so in the title,
+# as the code already does. A figure that silently drops a third of the
+# state is the kind of figure this course is trying not to produce.
+```
+
+```{pyodide}
+#| exercise: ex3_histogram
+#| solution: true
+import pandas as pd
+import matplotlib.pyplot as plt
+
+births = pd.read_csv("data/pa_maternal_infant.csv")
+reporting = births.dropna(subset=["infant_mortality_per_1000"])
+
+state_median = reporting["infant_mortality_per_1000"].median()
+
+fig, ax = plt.subplots(figsize=(7, 3))
+ax.hist(reporting["infant_mortality_per_1000"], bins=10, color="#003594", edgecolor="white")
+ax.axvline(state_median, color="#8a6400", linestyle="--", linewidth=2)
+ax.set_xlabel("Infant deaths per 1,000 live births")
+ax.set_ylabel("Number of counties")
+ax.set_title(f"Infant mortality, 44 reporting counties (dashed = median, {state_median:.1f})")
+plt.tight_layout()
+plt.show()
+
+print("counties plotted:", len(reporting))
+print("median:", round(state_median, 2))
+```
+
+```{pyodide}
+#| exercise: ex3_histogram
+#| check: true
+assert len(reporting) == 44, "44 counties publish an infant mortality rate."
+assert abs(state_median - 6.0) < 0.001, "The median is 6.0 per 1,000."
+assert len(ax.lines) >= 1, "Draw the median as a vertical line."
+assert ax.get_xlabel() != "" and ax.get_ylabel() != "", "Label both axes."
+```
+
+::: {.callout-warning}
+## The 44 belongs in the title
+Twenty-three counties are absent from this figure, and they are disproportionately rural.
+A reader who is not told that will read it as a picture of Pennsylvania.
+:::
+
+# Exercise 4 — Scatter shows co-movement {.unnumbered background-color="#003594"}
+
+## Exercise 4 — Scatter shows co-movement {.smaller}
+
+**Worked example.** `ax.scatter()` places one point per row, using two columns as coordinates.
+It is the figure to draw before trusting any correlation.
+
+```{pyodide}
+#| fig-alt: "Scatter plot of adult asthma prevalence against adult smoking prevalence across 67 Pennsylvania counties, rising from left to right with a correlation of 0.659."
+import pandas as pd
+import matplotlib.pyplot as plt
+
+asthma = pd.read_csv("data/pa_asthma_prevalence.csv")
+r = asthma["smoking_prev_pct"].corr(asthma["asthma_prev_pct"])
+
+fig, ax = plt.subplots(figsize=(7, 3.2))
+ax.scatter(asthma["smoking_prev_pct"], asthma["asthma_prev_pct"],
+           color="#003594", s=40, alpha=0.8, edgecolor="white", linewidth=0.5)
+ax.set_xlabel("Adult smoking prevalence (%)")
+ax.set_ylabel("Adult asthma prevalence (%)")
+ax.set_title(f"Asthma against smoking, 67 counties (r = {r:.3f})")
+plt.tight_layout()
+plt.show()
+```
+
+## Exercise 4 — Scatter shows co-movement — your turn {.smaller}
+
+**Your turn.** Draw infant mortality against **child poverty** for the reporting counties, and
+put the correlation in the title.
+
+```{pyodide}
+#| exercise: ex4_scatter
+import pandas as pd
+import matplotlib.pyplot as plt
+
+births = pd.read_csv("data/pa_maternal_infant.csv")
+reporting = births.dropna(subset=["infant_mortality_per_1000"])
+
+r = reporting["children_in_poverty_pct"].____(reporting["infant_mortality_per_1000"])
+
+fig, ax = plt.subplots(figsize=(7, 3.2))
+ax.scatter(reporting["children_in_poverty_pct"], reporting["infant_mortality_per_1000"],
+           color="#003594", s=40, alpha=0.8, edgecolor="white", linewidth=0.5)
+ax.set_xlabel("Children in poverty (%)")
+ax.set_ylabel("Infant deaths per 1,000 live births")
+ax.set_title(f"Infant mortality against child poverty, 44 counties (r = {r:.3f})")
+plt.tight_layout()
+plt.show()
+
+print("r =", round(r, 3))
+```
+
+```{pyodide}
+#| exercise: ex4_scatter
+#| hint: true
+# The blank is corr.
+#
+# series_a.corr(series_b) returns a single number between -1 and +1.
+# You should get +0.646 — a strong positive relationship for county-level
+# public health data. Remember what it does not say: these are counties,
+# not families, and the figure cannot establish a cause.
+```
+
+```{pyodide}
+#| exercise: ex4_scatter
+#| solution: true
+import pandas as pd
+import matplotlib.pyplot as plt
+
+births = pd.read_csv("data/pa_maternal_infant.csv")
+reporting = births.dropna(subset=["infant_mortality_per_1000"])
+
+r = reporting["children_in_poverty_pct"].corr(reporting["infant_mortality_per_1000"])
+
+fig, ax = plt.subplots(figsize=(7, 3.2))
+ax.scatter(reporting["children_in_poverty_pct"], reporting["infant_mortality_per_1000"],
+           color="#003594", s=40, alpha=0.8, edgecolor="white", linewidth=0.5)
+ax.set_xlabel("Children in poverty (%)")
+ax.set_ylabel("Infant deaths per 1,000 live births")
+ax.set_title(f"Infant mortality against child poverty, 44 counties (r = {r:.3f})")
+plt.tight_layout()
+plt.show()
+
+print("r =", round(r, 3))
+```
+
+```{pyodide}
+#| exercise: ex4_scatter
+#| check: true
+assert abs(r - 0.6465) < 0.01, "Child poverty and infant mortality correlate at +0.646."
+assert len(ax.collections) >= 1, "ax.scatter must draw the points."
+assert "0.6" in ax.get_title(), "Put the correlation in the title."
+```
+
+::: {.callout-warning}
+## This is a statement about counties
+Counties with more children in poverty bury more infants. The mechanism is structural —
+prenatal care access, distance to obstetric services, housing, and food security. The figure
+describes counties, never individual families.
+:::
+
+# Exercise 5 — A line needs an ordered axis {.unnumbered background-color="#003594"}
+
+## Exercise 5 — A line needs an ordered axis {.smaller}
+
+**Worked example.** A line asserts that consecutive points are connected. That claim is only
+meaningful when the x-axis has an order, such as time. `pd.to_datetime()` supplies it.
+
+```{pyodide}
+#| fig-alt: "Line chart of monthly COVID-19 deaths in Allegheny County from March 2020 through March 2024, with peaks in winter 2020 and winter 2021 and a decline to near zero afterwards."
+import pandas as pd
+import matplotlib.pyplot as plt
+
+covid = pd.read_csv("data/pa_covid_monthly.csv")
+covid["month"] = pd.to_datetime(covid["month"])
+
+allegheny = covid[covid["county"] == "Allegheny"].sort_values("month")
+
+fig, ax = plt.subplots(figsize=(7.5, 3))
+ax.plot(allegheny["month"], allegheny["covid_deaths"], color="#003594", linewidth=2)
+ax.set_xlabel("Month")
+ax.set_ylabel("COVID-19 deaths")
+ax.set_title("Monthly COVID-19 deaths, Allegheny County")
+plt.tight_layout()
+plt.show()
+```
+
+## Exercise 5 — A line needs an ordered axis — your turn {.smaller}
+
+**Your turn.** Draw the **statewide** monthly total. Group by month and sum across all counties.
+
+```{pyodide}
+#| exercise: ex5_line
+import pandas as pd
+import matplotlib.pyplot as plt
+
+covid = pd.read_csv("data/pa_covid_monthly.csv")
+covid["month"] = pd.to_datetime(covid["month"])
+
+statewide = covid.____("month")["covid_deaths"].sum()
+
+fig, ax = plt.subplots(figsize=(7.5, 3))
+ax.plot(statewide.index, statewide.values, color="#003594", linewidth=2)
+ax.set_xlabel("Month")
+ax.set_ylabel("COVID-19 deaths")
+ax.set_title("Statewide monthly COVID-19 deaths")
+plt.tight_layout()
+plt.show()
+
+print("months:", len(statewide))
+print("peak:", statewide.idxmax().date(), "=", statewide.max())
+```
+
+```{pyodide}
+#| exercise: ex5_line
+#| hint: true
+# The blank is groupby.
+#
+# Grouping by month and summing gives one number per month across all 67
+# counties. The result is a Series whose index is the month, which is why
+# the plot call uses .index and .values.
+# The peak is January 2022 — Omicron — at 4,294 deaths.
+```
+
+```{pyodide}
+#| exercise: ex5_line
+#| solution: true
+import pandas as pd
+import matplotlib.pyplot as plt
+
+covid = pd.read_csv("data/pa_covid_monthly.csv")
+covid["month"] = pd.to_datetime(covid["month"])
+
+statewide = covid.groupby("month")["covid_deaths"].sum()
+
+fig, ax = plt.subplots(figsize=(7.5, 3))
+ax.plot(statewide.index, statewide.values, color="#003594", linewidth=2)
+ax.set_xlabel("Month")
+ax.set_ylabel("COVID-19 deaths")
+ax.set_title("Statewide monthly COVID-19 deaths")
+plt.tight_layout()
+plt.show()
+
+print("months:", len(statewide))
+print("peak:", statewide.idxmax().date(), "=", statewide.max())
+```
+
+```{pyodide}
+#| exercise: ex5_line
+#| check: true
+assert len(statewide) == 49, "The file covers 49 months."
+assert statewide.max() == 4294, "The peak month is 4,294 deaths."
+assert str(statewide.idxmax().date()) == "2022-01-01", "The peak is January 2022."
+assert len(ax.lines) >= 1, "ax.plot must draw the line."
+```
+
+# Exercise 6 — Two series need two channels {.unnumbered background-color="#003594"}
+
+## Exercise 6 — Two series need two channels {.smaller}
+
+**Worked example.** Royal and dark gold each pass contrast against the page, but separate from
+each other by only 2.02:1. A second channel — here a marker shape plus a legend — is what makes
+the groups distinguishable.
+
+```{pyodide}
+#| fig-alt: "Scatter plot of adult obesity against adult smoking prevalence for 67 Pennsylvania counties, with metro counties drawn as circles and nonmetro counties as triangles, plus a legend."
+import pandas as pd
+import matplotlib.pyplot as plt
+
+asthma = pd.read_csv("data/pa_asthma_prevalence.csv")
+counties = pd.read_csv("data/pa_counties.csv")
+joined = asthma.merge(counties[["county", "metro"]], on="county", how="left")
+
+fig, ax = plt.subplots(figsize=(7, 3.2))
+for group, colour, marker in [("Metro", "#003594", "o"), ("Nonmetro", "#8a6400", "^")]:
+    subset = joined[joined["metro"] == group]
+    ax.scatter(subset["smoking_prev_pct"], subset["obesity_prev_pct"],
+               color=colour, marker=marker, s=42, label=group)
+ax.set_xlabel("Adult smoking prevalence (%)")
+ax.set_ylabel("Adult obesity prevalence (%)")
+ax.set_title("Obesity against smoking, by metro status")
+ax.legend(frameon=False)
+plt.tight_layout()
+plt.show()
+```
+
+## Exercise 6 — Two series need two channels — your turn {.smaller}
+
+**Your turn.** Draw **asthma** against smoking with the same two-channel treatment. Add the
+legend that makes the markers readable.
+
+```{pyodide}
+#| exercise: ex6_two_channels
+import pandas as pd
+import matplotlib.pyplot as plt
+
+asthma = pd.read_csv("data/pa_asthma_prevalence.csv")
+counties = pd.read_csv("data/pa_counties.csv")
+joined = asthma.merge(counties[["county", "metro"]], on="county", how="left")
+
+fig, ax = plt.subplots(figsize=(7, 3.2))
+for group, colour, marker in [("Metro", "#003594", "o"), ("Nonmetro", "#8a6400", "^")]:
+    subset = joined[joined["metro"] == group]
+    ax.scatter(subset["smoking_prev_pct"], subset["asthma_prev_pct"],
+               color=colour, marker=marker, s=42, label=group)
+
+ax.set_xlabel("Adult smoking prevalence (%)")
+ax.set_ylabel("Adult asthma prevalence (%)")
+ax.set_title("Asthma against smoking, by metro status")
+ax.____(frameon=False)
+plt.tight_layout()
+plt.show()
+
+print("legend entries:", [t.get_text() for t in ax.get_legend().get_texts()])
+```
+
+```{pyodide}
+#| exercise: ex6_two_channels
+#| hint: true
+# The blank is legend.
+#
+# The legend is what turns `label=group` into something the reader can see.
+# Without it the markers differ and nobody knows what they mean — half an
+# accessibility fix is not a fix.
+# Watch where the triangles sit: nonmetro counties cluster to the right.
+```
+
+```{pyodide}
+#| exercise: ex6_two_channels
+#| solution: true
+import pandas as pd
+import matplotlib.pyplot as plt
+
+asthma = pd.read_csv("data/pa_asthma_prevalence.csv")
+counties = pd.read_csv("data/pa_counties.csv")
+joined = asthma.merge(counties[["county", "metro"]], on="county", how="left")
+
+fig, ax = plt.subplots(figsize=(7, 3.2))
+for group, colour, marker in [("Metro", "#003594", "o"), ("Nonmetro", "#8a6400", "^")]:
+    subset = joined[joined["metro"] == group]
+    ax.scatter(subset["smoking_prev_pct"], subset["asthma_prev_pct"],
+               color=colour, marker=marker, s=42, label=group)
+
+ax.set_xlabel("Adult smoking prevalence (%)")
+ax.set_ylabel("Adult asthma prevalence (%)")
+ax.set_title("Asthma against smoking, by metro status")
+ax.legend(frameon=False)
+plt.tight_layout()
+plt.show()
+
+print("legend entries:", [t.get_text() for t in ax.get_legend().get_texts()])
+```
+
+```{pyodide}
+#| exercise: ex6_two_channels
+#| check: true
+assert ax.get_legend() is not None, "A legend is required — the markers must be identified."
+labels = [t.get_text() for t in ax.get_legend().get_texts()]
+assert "Metro" in labels and "Nonmetro" in labels, "Both groups must appear in the legend."
+assert len(ax.collections) == 2, "Two scatter series, one per group."
+markers = {c.get_paths()[0].vertices.shape for c in ax.collections}
+assert len(markers) == 2, "The two series must use different marker shapes, not colour alone."
+```
+
+# Exercise 7 — Multi-panel figures {.unnumbered background-color="#003594"}
+
+## Exercise 7 — Multi-panel figures {.smaller}
+
+**Worked example.** `plt.subplots(rows, cols)` returns a 2-D array of axes, indexed
+`axes[row, col]` — the NumPy indexing from Module 3. Building the panels in a loop prevents the
+copy-paste errors that hand-written panels breed.
+
+```{pyodide}
+#| fig-alt: "Two side-by-side histograms of Pennsylvania county distributions: adult smoking prevalence on the left and adult obesity prevalence on the right."
+import pandas as pd
+import matplotlib.pyplot as plt
+
+asthma = pd.read_csv("data/pa_asthma_prevalence.csv")
+
+fig, axes = plt.subplots(1, 2, figsize=(9, 3))
+
+panels = [
+    (axes[0], asthma["smoking_prev_pct"], "Adult smoking (%)"),
+    (axes[1], asthma["obesity_prev_pct"], "Adult obesity (%)"),
+]
+
+for panel, values, label in panels:
+    panel.hist(values, bins=10, color="#003594", edgecolor="white")
+    panel.set_title(label, fontsize=9)
+    panel.set_ylabel("Counties", fontsize=8)
+
+fig.suptitle("Two county-level distributions", fontsize=11)
+plt.tight_layout()
+plt.show()
+```
+
+## Exercise 7 — Multi-panel figures — your turn {.smaller}
+
+**Your turn.** Build a **2 × 2** grid of the four distributions listed below. Index the bottom
+row correctly.
+
+```{pyodide}
+#| exercise: ex7_subplots
+import pandas as pd
+import matplotlib.pyplot as plt
+
+asthma = pd.read_csv("data/pa_asthma_prevalence.csv")
+births = pd.read_csv("data/pa_maternal_infant.csv")
+
+fig, axes = plt.subplots(2, 2, figsize=(9, 4.4))
+
+panels = [
+    (axes[0, 0], asthma["asthma_prev_pct"],           "Adult asthma (%)"),
+    (axes[0, 1], asthma["smoking_prev_pct"],          "Adult smoking (%)"),
+    (axes[____, 0], births["infant_mortality_per_1000"], "Infant deaths per 1,000"),
+    (axes[1, 1], births["children_in_poverty_pct"],   "Children in poverty (%)"),
+]
+
+for panel, values, label in panels:
+    panel.hist(values.dropna(), bins=10, color="#003594", edgecolor="white")
+    panel.set_title(label, fontsize=9)
+    panel.tick_params(labelsize=7)
+
+fig.suptitle("Four county-level distributions, Pennsylvania", fontsize=11)
+plt.tight_layout()
+plt.show()
+
+print("grid shape:", axes.shape)
+print("panels drawn:", sum(1 for a in axes.flat if len(a.patches) > 0))
+```
+
+```{pyodide}
+#| exercise: ex7_subplots
+#| hint: true
+# The blank is 1.
+#
+# axes is a 2-D NumPy array. Row 0 is the top, row 1 is the bottom, and
+# the column index comes second — axes[1, 0] is bottom-left.
+# .flat walks every panel regardless of shape, which is how the count
+# at the end works.
+```
+
+```{pyodide}
+#| exercise: ex7_subplots
+#| solution: true
+import pandas as pd
+import matplotlib.pyplot as plt
+
+asthma = pd.read_csv("data/pa_asthma_prevalence.csv")
+births = pd.read_csv("data/pa_maternal_infant.csv")
+
+fig, axes = plt.subplots(2, 2, figsize=(9, 4.4))
+
+panels = [
+    (axes[0, 0], asthma["asthma_prev_pct"],           "Adult asthma (%)"),
+    (axes[0, 1], asthma["smoking_prev_pct"],          "Adult smoking (%)"),
+    (axes[1, 0], births["infant_mortality_per_1000"], "Infant deaths per 1,000"),
+    (axes[1, 1], births["children_in_poverty_pct"],   "Children in poverty (%)"),
+]
+
+for panel, values, label in panels:
+    panel.hist(values.dropna(), bins=10, color="#003594", edgecolor="white")
+    panel.set_title(label, fontsize=9)
+    panel.tick_params(labelsize=7)
+
+fig.suptitle("Four county-level distributions, Pennsylvania", fontsize=11)
+plt.tight_layout()
+plt.show()
+
+print("grid shape:", axes.shape)
+print("panels drawn:", sum(1 for a in axes.flat if len(a.patches) > 0))
+```
+
+```{pyodide}
+#| exercise: ex7_subplots
+#| check: true
+assert axes.shape == (2, 2), "A 2 x 2 grid."
+assert all(len(a.patches) > 0 for a in axes.flat), "All four panels must draw."
+titles = [a.get_title() for a in axes.flat]
+assert all(t != "" for t in titles), "Every panel needs its own title."
+assert len(set(titles)) == 4, "Four distinct titles — each panel shows a different variable."
+```
+
+# Exercise 8 — Rates against counts {.unnumbered background-color="#003594"}
+
+## Exercise 8 — Rates against counts {.smaller}
+
+**Worked example.** A count of events largely measures how many people live somewhere. Ranking
+counties by total COVID deaths returns the five largest counties.
+
+```{pyodide}
+import pandas as pd
+
+covid = pd.read_csv("data/pa_covid_monthly.csv")
+counties = pd.read_csv("data/pa_counties.csv")
+
+totals = (covid.groupby("county", as_index=False)["covid_deaths"].sum()
+               .merge(counties[["county", "population_2023"]], on="county"))
+
+print(totals.nlargest(5, "covid_deaths")[["county", "covid_deaths", "population_2023"]]
+            .to_string(index=False))
+print()
+print("deaths vs population:", round(totals["covid_deaths"].corr(totals["population_2023"]), 3))
+```
+
+## Exercise 8 — Rates against counts — your turn {.smaller}
+
+**Your turn.** Compute deaths per 100,000 and rank by the **rate**. Compare the two lists.
+
+```{pyodide}
+#| exercise: ex8_rates
+import pandas as pd
+
+covid = pd.read_csv("data/pa_covid_monthly.csv")
+counties = pd.read_csv("data/pa_counties.csv")
+
+totals = (covid.groupby("county", as_index=False)["covid_deaths"].sum()
+               .merge(counties[["county", "population_2023"]], on="county"))
+
+totals["rate_per_100k"] = totals["covid_deaths"] / totals["____"] * 100000
+
+by_count = totals.nlargest(5, "covid_deaths")["county"].tolist()
+by_rate  = totals.nlargest(5, "rate_per_100k")["county"].tolist()
+
+print("by count:", by_count)
+print("by rate: ", by_rate)
+print("shared:  ", set(by_count) & set(by_rate))
+print()
+print("rate vs population:", round(totals["rate_per_100k"].corr(totals["population_2023"]), 3))
+```
+
+```{pyodide}
+#| exercise: ex8_rates
+#| hint: true
+# The blank is population_2023.
+#
+# The two lists have no county in common. Counts correlate with population
+# at +0.946 — a chart of counts is close to a chart of where people live.
+# Dividing by population takes that out; the rate correlates at -0.232.
+# Neither ranking is wrong. They answer different questions, and the error
+# is choosing without noticing there was a choice.
+```
+
+```{pyodide}
+#| exercise: ex8_rates
+#| solution: true
+import pandas as pd
+
+covid = pd.read_csv("data/pa_covid_monthly.csv")
+counties = pd.read_csv("data/pa_counties.csv")
+
+totals = (covid.groupby("county", as_index=False)["covid_deaths"].sum()
+               .merge(counties[["county", "population_2023"]], on="county"))
+
+totals["rate_per_100k"] = totals["covid_deaths"] / totals["population_2023"] * 100000
+
+by_count = totals.nlargest(5, "covid_deaths")["county"].tolist()
+by_rate  = totals.nlargest(5, "rate_per_100k")["county"].tolist()
+
+print("by count:", by_count)
+print("by rate: ", by_rate)
+print("shared:  ", set(by_count) & set(by_rate))
+print()
+print("rate vs population:", round(totals["rate_per_100k"].corr(totals["population_2023"]), 3))
+```
+
+```{pyodide}
+#| exercise: ex8_rates
+#| check: true
+assert "Philadelphia" in by_count, "Philadelphia leads on total deaths."
+assert "Potter" in by_rate, "Potter County leads on deaths per 100,000."
+assert len(set(by_count) & set(by_rate)) == 0, "The two lists share no counties."
+assert abs(totals["rate_per_100k"].max() - 556.3) < 1.0, "Potter reaches 556 per 100,000."
+```
+
+::: {.callout-important}
+## The question to ask of every figure of counts
+**Does this bar get longer simply because more people live there?** If the answer is yes, the
+figure is a population map wearing a health label.
+:::
+
+# Exercise 9 — Repair a truncated axis {.unnumbered background-color="#003594"}
+
+## Exercise 9 — Repair a truncated axis {.smaller}
+
+**This figure runs without error and it is misleading.** A bar encodes value by length, so its
+baseline must be zero. `set_ylim(10.2, 10.9)` breaks the correspondence between length and value.
+
+```{pyodide}
+#| fig-alt: "Misleading bar chart of mean adult asthma prevalence for six Pennsylvania regions with the y-axis truncated to the range 10.2 to 10.9 percent, which makes a 0.36 point spread look like a large difference."
+import pandas as pd
+import matplotlib.pyplot as plt
+
+asthma = pd.read_csv("data/pa_asthma_prevalence.csv")
+counties = pd.read_csv("data/pa_counties.csv")
+joined = asthma.merge(counties[["county", "region"]], on="county", how="left")
+
+by_region = joined.groupby("region")["asthma_prev_pct"].mean().sort_values()
+
+fig, ax = plt.subplots(figsize=(7, 3))
+ax.bar(by_region.index, by_region.values, color="#003594")
+ax.set_ylim(10.2, 10.9)          # <- the distortion
+ax.set_ylabel("Mean adult asthma (%)")
+ax.set_title("MISLEADING: regional asthma differences look large")
+ax.tick_params(axis="x", labelrotation=30, labelsize=7)
+plt.tight_layout()
+plt.show()
+```
+
+## Exercise 9 — Repair a truncated axis — your turn {.smaller}
+
+**Your turn.** Repair it. Set the lower limit to zero so the bar lengths match the values.
+
+```{pyodide}
+#| exercise: ex9_truncated
+import pandas as pd
+import matplotlib.pyplot as plt
+
+asthma = pd.read_csv("data/pa_asthma_prevalence.csv")
+counties = pd.read_csv("data/pa_counties.csv")
+joined = asthma.merge(counties[["county", "region"]], on="county", how="left")
+
+by_region = joined.groupby("region")["asthma_prev_pct"].mean().sort_values()
+
+fig, ax = plt.subplots(figsize=(7, 3))
+ax.bar(by_region.index, by_region.values, color="#003594")
+ax.set_ylim(____, 12)
+ax.set_ylabel("Mean adult asthma (%)")
+ax.set_title("Mean county asthma prevalence by region")
+ax.tick_params(axis="x", labelrotation=30, labelsize=7)
+plt.tight_layout()
+plt.show()
+
+spread = by_region.max() - by_region.min()
+print("baseline:", ax.get_ylim()[0])
+print("true spread across six regions:", round(spread, 2), "percentage points")
+```
+
+```{pyodide}
+#| exercise: ex9_truncated
+#| hint: true
+# The blank is 0.
+#
+# Compare the two figures. The truncated version implies the North Central
+# region has a dramatically higher asthma burden than the Southeast. The
+# real difference is 0.36 percentage points across all six regions.
+# Nobody has to intend this: a plotting library that auto-scales to the
+# data range produces the top panel by default.
+```
+
+```{pyodide}
+#| exercise: ex9_truncated
+#| solution: true
+import pandas as pd
+import matplotlib.pyplot as plt
+
+asthma = pd.read_csv("data/pa_asthma_prevalence.csv")
+counties = pd.read_csv("data/pa_counties.csv")
+joined = asthma.merge(counties[["county", "region"]], on="county", how="left")
+
+by_region = joined.groupby("region")["asthma_prev_pct"].mean().sort_values()
+
+fig, ax = plt.subplots(figsize=(7, 3))
+ax.bar(by_region.index, by_region.values, color="#003594")
+ax.set_ylim(0, 12)
+ax.set_ylabel("Mean adult asthma (%)")
+ax.set_title("Mean county asthma prevalence by region")
+ax.tick_params(axis="x", labelrotation=30, labelsize=7)
+plt.tight_layout()
+plt.show()
+
+spread = by_region.max() - by_region.min()
+print("baseline:", ax.get_ylim()[0])
+print("true spread across six regions:", round(spread, 2), "percentage points")
+```
+
+```{pyodide}
+#| exercise: ex9_truncated
+#| check: true
+assert ax.get_ylim()[0] == 0, "A bar chart's baseline must be zero."
+assert abs(spread - 0.36) < 0.01, "The true spread across six regions is 0.36 points."
+assert len(ax.patches) == 6, "Six regions, six bars."
+```
+
+# Exercise 10 — Repair a figure with no alt text {.unnumbered background-color="#003594"}
+
+## Exercise 10 — Repair a figure with no alt text {.smaller}
+
+**This figure runs without error and it is inaccessible.** It carries no axis labels, no title,
+no source, and no alt text. To a screen reader it is nothing at all.
+
+```{pyodide}
+#| fig-alt: "Unlabelled scatter plot of adult asthma against adult obesity prevalence with no axis labels, no title, and no source note."
+import pandas as pd
+import matplotlib.pyplot as plt
+
+asthma = pd.read_csv("data/pa_asthma_prevalence.csv")
+
+fig, ax = plt.subplots(figsize=(7, 3))
+ax.scatter(asthma["obesity_prev_pct"], asthma["asthma_prev_pct"], color="#003594", s=36)
+plt.tight_layout()
+plt.show()
+```
+
+::: {.callout-important}
+## Alt text states what the figure shows
+✗ "Scatter plot of the data."
+✓ "Asthma prevalence rises with obesity prevalence across 67 counties, from 9.7% to 11.6%."
+:::
+
+## Exercise 10 — Repair a figure with no alt text — your turn {.smaller}
+
+**Your turn.** Add both axis labels, a title carrying the finding, a source note, and the
+`fig-alt` line at the top of the cell.
+
+```{pyodide}
+#| exercise: ex10_alt_text
+#| fig-alt: "Scatter plot of adult asthma prevalence against adult obesity prevalence across 67 Pennsylvania counties, rising from left to right with a correlation of 0.476."
+import pandas as pd
+import matplotlib.pyplot as plt
+
+asthma = pd.read_csv("data/pa_asthma_prevalence.csv")
+r = asthma["obesity_prev_pct"].corr(asthma["asthma_prev_pct"])
+
+fig, ax = plt.subplots(figsize=(7, 3.2))
+ax.scatter(asthma["obesity_prev_pct"], asthma["asthma_prev_pct"],
+           color="#003594", s=36, alpha=0.8, edgecolor="white", linewidth=0.5)
+
+ax.set_xlabel("Adult obesity prevalence (%)")
+ax.____("Adult asthma prevalence (%)")
+ax.set_title(f"Asthma against obesity, 67 PA counties (r = {r:.3f})")
+ax.text(0.01, 0.98, "Source: CDC PLACES 2024", transform=ax.transAxes,
+        fontsize=7, color="#6b7280", verticalalignment="top")
+
+plt.tight_layout()
+plt.show()
+
+print("x:", ax.get_xlabel())
+print("y:", ax.get_ylabel())
+print("r:", round(r, 3))
+```
+
+```{pyodide}
+#| exercise: ex10_alt_text
+#| hint: true
+# The blank is set_ylabel.
+#
+# Look at the top of this cell: the `#| fig-alt:` line is a normal part of
+# the cell header, not special infrastructure. Write it the way you would
+# describe the figure to someone over the phone — direction and magnitude,
+# in one or two sentences, so they could argue with the finding.
+# This one is +0.476: real, and weaker than smoking's +0.659.
+```
+
+```{pyodide}
+#| exercise: ex10_alt_text
+#| solution: true
+import pandas as pd
+import matplotlib.pyplot as plt
+
+asthma = pd.read_csv("data/pa_asthma_prevalence.csv")
+r = asthma["obesity_prev_pct"].corr(asthma["asthma_prev_pct"])
+
+fig, ax = plt.subplots(figsize=(7, 3.2))
+ax.scatter(asthma["obesity_prev_pct"], asthma["asthma_prev_pct"],
+           color="#003594", s=36, alpha=0.8, edgecolor="white", linewidth=0.5)
+
+ax.set_xlabel("Adult obesity prevalence (%)")
+ax.set_ylabel("Adult asthma prevalence (%)")
+ax.set_title(f"Asthma against obesity, 67 PA counties (r = {r:.3f})")
+ax.text(0.01, 0.98, "Source: CDC PLACES 2024", transform=ax.transAxes,
+        fontsize=7, color="#6b7280", verticalalignment="top")
+
+plt.tight_layout()
+plt.show()
+
+print("x:", ax.get_xlabel())
+print("y:", ax.get_ylabel())
+print("r:", round(r, 3))
+```
+
+```{pyodide}
+#| exercise: ex10_alt_text
+#| check: true
+assert ax.get_xlabel() != "", "Label the x-axis."
+assert ax.get_ylabel() != "", "Label the y-axis."
+assert "%" in ax.get_xlabel() and "%" in ax.get_ylabel(), "Axis labels carry units."
+assert ax.get_title() != "", "The title must carry the finding."
+assert len(ax.texts) >= 1, "Add the source note."
+assert abs(r - 0.4758) < 0.01, "Obesity and asthma correlate at +0.476."
+```
+
+# Exercise 11 — Repair a misleading denominator {.unnumbered background-color="#003594"}
+
+## Exercise 11 — Repair a misleading denominator {.smaller}
+
+**This figure runs without error and it states something false.** It is titled as a map of
+where overdose deaths hit hardest, and it plots raw counts — so it ranks counties by population.
+
+```{pyodide}
+#| fig-alt: "Misleading horizontal bar chart of raw overdose death counts for six Pennsylvania counties in 2023, which ranks the counties by population rather than by mortality burden."
+import pandas as pd
+import matplotlib.pyplot as plt
+
+overdose = pd.read_csv("data/pa_overdose_county_year.csv")
+recent = overdose[overdose["year"] == 2023].dropna(subset=["overdose_deaths"])
+
+top = recent.nlargest(6, "overdose_deaths").sort_values("overdose_deaths")
+
+fig, ax = plt.subplots(figsize=(7, 3))
+ax.barh(top["county"], top["overdose_deaths"], color="#003594")
+ax.set_xlabel("Overdose deaths")
+ax.set_title("MISLEADING: 'where the overdose crisis hit hardest', 2023")
+plt.tight_layout()
+plt.show()
+```
+
+## Exercise 11 — Repair a misleading denominator — your turn {.smaller}
+
+**Your turn.** Rank by `rate_per_100k` instead, and title the figure for the question it
+actually answers.
+
+```{pyodide}
+#| exercise: ex11_denominator
+import pandas as pd
+import matplotlib.pyplot as plt
+
+overdose = pd.read_csv("data/pa_overdose_county_year.csv")
+recent = overdose[overdose["year"] == 2023].dropna(subset=["overdose_deaths"])
+
+top = recent.nlargest(6, "____").sort_values("rate_per_100k")
+
+fig, ax = plt.subplots(figsize=(7, 3))
+ax.barh(top["county"], top["rate_per_100k"], color="#003594")
+ax.set_xlabel("Overdose deaths per 100,000 residents")
+ax.set_title("Highest overdose mortality rates, 2023")
+plt.tight_layout()
+plt.show()
+
+by_count = recent.nlargest(6, "overdose_deaths")["county"].tolist()
+print("by count:", by_count)
+print("by rate: ", top["county"].tolist()[::-1])
+```
+
+```{pyodide}
+#| exercise: ex11_denominator
+#| hint: true
+# The blank is rate_per_100k.
+#
+# The county file already carries this column, so no division is needed —
+# but check what changes. Philadelphia and Allegheny dominate the count
+# ranking because roughly a fifth of Pennsylvania lives there.
+# Note also the .dropna(): counties with suppressed counts are excluded,
+# and a suppressed county is one with very few deaths, not zero deaths.
+```
+
+```{pyodide}
+#| exercise: ex11_denominator
+#| solution: true
+import pandas as pd
+import matplotlib.pyplot as plt
+
+overdose = pd.read_csv("data/pa_overdose_county_year.csv")
+recent = overdose[overdose["year"] == 2023].dropna(subset=["overdose_deaths"])
+
+top = recent.nlargest(6, "rate_per_100k").sort_values("rate_per_100k")
+
+fig, ax = plt.subplots(figsize=(7, 3))
+ax.barh(top["county"], top["rate_per_100k"], color="#003594")
+ax.set_xlabel("Overdose deaths per 100,000 residents")
+ax.set_title("Highest overdose mortality rates, 2023")
+plt.tight_layout()
+plt.show()
+
+by_count = recent.nlargest(6, "overdose_deaths")["county"].tolist()
+print("by count:", by_count)
+print("by rate: ", top["county"].tolist()[::-1])
+```
+
+```{pyodide}
+#| exercise: ex11_denominator
+#| check: true
+assert "per 100,000" in ax.get_xlabel(), "The x-axis must state the denominator."
+assert "MISLEADING" not in ax.get_title(), "Retitle the figure for the question it answers."
+assert top["rate_per_100k"].is_monotonic_increasing, "Sort before plotting."
+assert set(top["county"]) != set(by_count), "Ranking by rate returns different counties."
+assert len(ax.patches) == 6, "Six bars."
+```
+
+# Exercise 12 — The closing figure {.unnumbered background-color="#003594"}
+
+## Exercise 12 — The closing figure {.smaller}
+
+**Worked example.** Every requirement in this lab, applied at once: labelled axes with units, a
+title carrying the finding, a source note, two channels for the grouping, and annotation for
+orientation. This is the standard for figures submitted in this course.
+
+```{pyodide}
+#| fig-alt: "Box plot of adult smoking prevalence for metro and nonmetro Pennsylvania counties, with nonmetro counties centred higher at about 18.6 percent against 16.0 percent for metro counties."
+import micropip
+await micropip.install("seaborn")
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+asthma = pd.read_csv("data/pa_asthma_prevalence.csv")
+counties = pd.read_csv("data/pa_counties.csv")
+joined = asthma.merge(counties[["county", "metro"]], on="county", how="left")
+
+fig, ax = plt.subplots(figsize=(6.5, 3))
+sns.boxplot(data=joined, x="metro", y="smoking_prev_pct",
+            hue="metro", legend=False,
+            palette=["#003594", "#8a6400"], ax=ax)
+ax.set_xlabel("")
+ax.set_ylabel("Adult smoking prevalence (%)")
+ax.set_title("Smoking prevalence by metro status")
+plt.tight_layout()
+plt.show()
+```
+
+## Exercise 12 — The closing figure — your turn {.smaller}
+
+**Your turn.** Build the module's closing figure: asthma against smoking, two channels, both
+labelled counties, the correlation in the title, and a source note.
+
+```{pyodide}
+#| exercise: ex12_closing
+#| fig-alt: "Scatter plot of adult asthma prevalence against adult smoking prevalence across 67 Pennsylvania counties, with metro counties as circles and nonmetro counties as triangles. Points rise from left to right, correlation 0.659. Chester sits at the lower left and Sullivan at the upper right."
+import pandas as pd
+import matplotlib.pyplot as plt
+
+asthma = pd.read_csv("data/pa_asthma_prevalence.csv")
+counties = pd.read_csv("data/pa_counties.csv")
+joined = asthma.merge(counties[["county", "metro"]], on="county", how="left")
+
+r = joined["smoking_prev_pct"].corr(joined["asthma_prev_pct"])
+
+fig, ax = plt.subplots(figsize=(7.5, 3.6))
+for group, colour, marker in [("Metro", "#003594", "o"), ("Nonmetro", "#8a6400", "^")]:
+    subset = joined[joined["metro"] == group]
+    ax.scatter(subset["smoking_prev_pct"], subset["asthma_prev_pct"],
+               color=colour, marker=marker, s=44, alpha=0.85,
+               edgecolor="white", linewidth=0.5, label=group)
+
+for name in ["Chester", "____"]:
+    row = joined[joined["county"] == name].iloc[0]
+    ax.annotate(name, (row["smoking_prev_pct"], row["asthma_prev_pct"]),
+                xytext=(6, -9), textcoords="offset points", fontsize=8)
+
+ax.set_xlabel("Adult smoking prevalence (%)")
+ax.set_ylabel("Adult asthma prevalence (%)")
+ax.set_title(f"Asthma against smoking, 67 PA counties (r = {r:.3f})")
+ax.legend(frameon=False, loc="lower right", fontsize=8)
+ax.text(0.01, 0.98, "Source: CDC PLACES 2024", transform=ax.transAxes,
+        fontsize=7, color="#6b7280", verticalalignment="top")
+plt.tight_layout()
+plt.show()
+
+print("r =", round(r, 3))
+```
+
+```{pyodide}
+#| exercise: ex12_closing
+#| hint: true
+# The blank is Sullivan.
+#
+# Chester and Sullivan are the two ends of this figure. Chester: 10.6%
+# smoking, 9.7% asthma — lowest in the state on both. Sullivan: 21.1%
+# smoking, 11.3% asthma.
+# Watch where the triangles fall. Nonmetro counties sit to the right,
+# which is why the earlier box plot showed nonmetro asthma slightly
+# higher: metro status was never the driver, it travels with smoking.
+```
+
+```{pyodide}
+#| exercise: ex12_closing
+#| solution: true
+import pandas as pd
+import matplotlib.pyplot as plt
+
+asthma = pd.read_csv("data/pa_asthma_prevalence.csv")
+counties = pd.read_csv("data/pa_counties.csv")
+joined = asthma.merge(counties[["county", "metro"]], on="county", how="left")
+
+r = joined["smoking_prev_pct"].corr(joined["asthma_prev_pct"])
+
+fig, ax = plt.subplots(figsize=(7.5, 3.6))
+for group, colour, marker in [("Metro", "#003594", "o"), ("Nonmetro", "#8a6400", "^")]:
+    subset = joined[joined["metro"] == group]
+    ax.scatter(subset["smoking_prev_pct"], subset["asthma_prev_pct"],
+               color=colour, marker=marker, s=44, alpha=0.85,
+               edgecolor="white", linewidth=0.5, label=group)
+
+for name in ["Chester", "Sullivan"]:
+    row = joined[joined["county"] == name].iloc[0]
+    ax.annotate(name, (row["smoking_prev_pct"], row["asthma_prev_pct"]),
+                xytext=(6, -9), textcoords="offset points", fontsize=8)
+
+ax.set_xlabel("Adult smoking prevalence (%)")
+ax.set_ylabel("Adult asthma prevalence (%)")
+ax.set_title(f"Asthma against smoking, 67 PA counties (r = {r:.3f})")
+ax.legend(frameon=False, loc="lower right", fontsize=8)
+ax.text(0.01, 0.98, "Source: CDC PLACES 2024", transform=ax.transAxes,
+        fontsize=7, color="#6b7280", verticalalignment="top")
+plt.tight_layout()
+plt.show()
+
+print("r =", round(r, 3))
+```
+
+```{pyodide}
+#| exercise: ex12_closing
+#| check: true
+assert abs(r - 0.6593) < 0.01, "Smoking and asthma correlate at +0.659."
+assert ax.get_legend() is not None, "Two series require a legend."
+assert len(ax.collections) == 2, "One scatter series per metro group."
+annotations = [t.get_text() for t in ax.texts]
+assert "Chester" in annotations, "Annotate Chester."
+assert "Sullivan" in annotations, "Annotate Sullivan — the opposite corner of the figure."
+assert any("Source" in t for t in annotations), "Keep the source note."
+assert ax.get_xlabel() != "" and ax.get_ylabel() != "", "Label both axes."
+```
+
+::: {.callout-important}
+## What this figure earns, and what it does not
+Asthma prevalence and smoking prevalence move together across Pennsylvania counties at
+**+0.659**. That is co-movement between **county averages**. It is consistent with smoking
+causing asthma, with both sharing upstream causes such as income, occupation, and housing, and
+with combinations of the two. **The figure earns the relationship. It does not earn the
+mechanism.**
+:::
+
+# Done {.unnumbered background-color="#003594"}
+
+## What this lab covered {.smaller}
+
+- `plt.subplots()`, and the **figure/axes** distinction
+- `ax.bar()`, `ax.hist()`, `ax.scatter()`, `ax.plot()` — and the question each answers
+- **Zero baselines** for bars; the ordered axis a line requires
+- Labels with units, titles carrying the finding, source notes, legends
+- **Multi-panel grids** indexed `axes[row, col]`
+- seaborn via `micropip`, with an **explicit palette** rather than the default
+- **Accessibility**: alt text, marks at 3:1, and a second channel for every grouping
+- `.corr()` as co-movement between counties, never as cause
+- **Rates against counts** — the denominator question
+
+::: {.callout-tip}
+## Three of these figures raised no error and were wrong
+Exercises 9, 10, and 11 executed cleanly. One truncated an axis, one was unreadable to a
+screen reader, and one ranked counties by population while claiming to rank them by burden.
+**Running is not checking.**
+:::
+
+**Module 6 assembles the whole pipeline — import, clean, join, group, summarise, visualise,
+report — into one reproducible document, and it is where the final project begins.**

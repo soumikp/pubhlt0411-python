@@ -1,0 +1,1895 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="module5_lecture_files/libs/clipboard/clipboard.min.js"></script>
+<script src="module5_lecture_files/libs/quarto-html/tabby.min.js"></script>
+<script src="module5_lecture_files/libs/quarto-html/popper.min.js"></script>
+<script src="module5_lecture_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="module5_lecture_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="module5_lecture_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="module5_lecture_files/libs/quarto-html/quarto-syntax-highlighting-acf12a64177840b8d86f2d4f01b2e9fb.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="module5_lecture_files/libs/quarto-contrib/live-runtime/live-runtime.js" type="module"></script>
+<link href="module5_lecture_files/libs/quarto-contrib/live-runtime/live-runtime.css" rel="stylesheet"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.9.37">
+
+  <meta name="author" content="Soumik Purkayastha">
+  <meta name="dcterms.date" content="2026-08-12">
+  <title>Module 5: Visualisation and description</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="module5_lecture_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="module5_lecture_files/libs/revealjs/dist/reveal.css">
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+      }
+    pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+    div.sourceCode
+      { color: #24292e;  }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #24292e; } /* Normal */
+    code span.al { color: #ff5555; font-weight: bold; } /* Alert */
+    code span.an { color: #6a737d; } /* Annotation */
+    code span.at { color: #d73a49; } /* Attribute */
+    code span.bn { color: #005cc5; } /* BaseN */
+    code span.bu { color: #d73a49; } /* BuiltIn */
+    code span.cf { color: #d73a49; } /* ControlFlow */
+    code span.ch { color: #032f62; } /* Char */
+    code span.cn { color: #005cc5; } /* Constant */
+    code span.co { color: #6a737d; } /* Comment */
+    code span.cv { color: #6a737d; } /* CommentVar */
+    code span.do { color: #6a737d; } /* Documentation */
+    code span.dt { color: #d73a49; } /* DataType */
+    code span.dv { color: #005cc5; } /* DecVal */
+    code span.er { color: #ff5555; text-decoration: underline; } /* Error */
+    code span.ex { color: #d73a49; font-weight: bold; } /* Extension */
+    code span.fl { color: #005cc5; } /* Float */
+    code span.fu { color: #6f42c1; } /* Function */
+    code span.im { color: #032f62; } /* Import */
+    code span.in { color: #6a737d; } /* Information */
+    code span.kw { color: #d73a49; } /* Keyword */
+    code span.op { color: #24292e; } /* Operator */
+    code span.ot { color: #6f42c1; } /* Other */
+    code span.pp { color: #d73a49; } /* Preprocessor */
+    code span.re { color: #6a737d; } /* RegionMarker */
+    code span.sc { color: #005cc5; } /* SpecialChar */
+    code span.ss { color: #032f62; } /* SpecialString */
+    code span.st { color: #032f62; } /* String */
+    code span.va { color: #e36209; } /* Variable */
+    code span.vs { color: #032f62; } /* VerbatimString */
+    code span.wa { color: #ff5555; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="module5_lecture_files/libs/revealjs/dist/theme/quarto-9fa7b1445c4131f435e2d8b4886606e0.css">
+  <link href="module5_lecture_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="module5_lecture_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="module5_lecture_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="module5_lecture_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+  <script type="module" src="module5_lecture_files/libs/quarto-ojs/quarto-ojs-runtime.js"></script>
+  <link href="module5_lecture_files/libs/quarto-ojs/quarto-ojs.css" rel="stylesheet">
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title">Module 5: Visualisation and description</h1>
+  <p class="subtitle">PUBHLT 0411 · Python for Public Health Data Analysis</p>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Soumik Purkayastha 
+</div>
+        <p class="quarto-title-affiliation">
+            Dept. of Biostatistics and Health Data Science, University of Pittsburgh
+          </p>
+    </div>
+</div>
+
+  <p class="date">August 12, 2026</p>
+</section>
+<section>
+<section id="a-rate-that-refuses-to-move." class="title-slide slide level1 unnumbered center" data-background-color="#003594">
+<h1>A rate that refuses to move.</h1>
+
+</section>
+<section id="one-in-ten-pennsylvania-adults-has-asthma-and-the-rate-barely-moves-between-counties" class="slide level2 smaller">
+<h2>One in ten Pennsylvania adults has asthma, and the rate barely moves between counties</h2>
+<p>Across all sixty-seven counties, adult asthma prevalence runs from <strong>9.7%</strong> to <strong>11.6%</strong>. The entire state fits inside two percentage points.</p>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>The question this session opens</strong></p>
+</div>
+<div class="callout-content">
+<p>A variable that hardly varies looks like a dead end. What else moves with it?</p>
+<p><strong>This session establishes the figure as an instrument</strong>: a chart is built to answer a question, read for what it shows, and checked for what it hides.</p>
+</div>
+</div>
+</div>
+<p><strong>Required from Module 4:</strong> <code>pd.read_csv()</code>, boolean filtering, <code>.groupby()</code>, <code>.merge()</code>, and <code>.isna()</code>.</p>
+<aside class="notes">
+<p>Put the range on the board and let it sit there. Nine point seven to eleven point six. If you had asked the room to guess before showing it, half of them would have said some county runs at twenty-five percent and some other county at three.</p>
+<p>The instinct when a variable does not vary is to conclude there is nothing here and move on. That instinct is wrong often enough to be worth breaking today. A flat variable is not a boring variable — it is a variable whose signal is somewhere other than in its own spread.</p>
+<p>There is a real reason this one is flat, and it is worth saying now because a student will ask. These are modelled small-area estimates from CDC PLACES, built by borrowing strength across areas, and that modelling smooths county-to-county differences by construction. So part of the flatness is asthma, and part of it is the estimator. Both are true.</p>
+<p>Do not answer the question yet. The closing figure of this module answers it, and the answer is the strongest relationship in the whole course — but the point of today is that they get there by drawing, not by being told.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="module-4-ended-with-a-promise" class="slide level2 smaller">
+<h2>Module 4 ended with a promise</h2>
+<p>Forty-four counties publish an infant mortality rate. Child poverty and infant mortality move together at <strong>+0.646</strong> across them.</p>
+<div class="cell">
+<div>
+<div id="pyodide-1" class="exercise-cell">
+
+</div>
+<script type="pyodide-1-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImZpZy1hbHQiOiJTY2F0dGVyIHBsb3Qgb2YgaW5mYW50IG1vcnRhbGl0eSBwZXIgMSwwMDAgbGl2ZSBiaXJ0aHMgYWdhaW5zdCBwZXJjZW50IG9mIGNoaWxkcmVuIGluIHBvdmVydHksIGZvciB0aGUgNDQgUGVubnN5bHZhbmlhIGNvdW50aWVzIHRoYXQgcHVibGlzaCBhIHJhdGUuIFBvaW50cyByaXNlIGZyb20gbGVmdCB0byByaWdodCwgZnJvbSByb3VnaGx5IDMuNCBwZXIgMSwwMDAgYXQgNiBwZXJjZW50IHBvdmVydHkgdG8gYWJvdmUgMTAgcGVyIDEsMDAwIG5lYXIgMjggcGVyY2VudCBwb3ZlcnR5LiJ9LCJjb2RlIjoiaW1wb3J0IHBhbmRhcyBhcyBwZFxuaW1wb3J0IG1hdHBsb3RsaWIucHlwbG90IGFzIHBsdFxuXG5iaXJ0aHMgPSBwZC5yZWFkX2NzdihcImRhdGEvcGFfbWF0ZXJuYWxfaW5mYW50LmNzdlwiKVxucmVwb3J0aW5nID0gYmlydGhzLmRyb3BuYShzdWJzZXQ9W1wiaW5mYW50X21vcnRhbGl0eV9wZXJfMTAwMFwiXSlcblxuZmlnLCBheCA9IHBsdC5zdWJwbG90cyhmaWdzaXplPSg3LCAzLjYpKVxuYXguc2NhdHRlcihyZXBvcnRpbmdbXCJjaGlsZHJlbl9pbl9wb3ZlcnR5X3BjdFwiXSxcbiAgICAgICAgICAgcmVwb3J0aW5nW1wiaW5mYW50X21vcnRhbGl0eV9wZXJfMTAwMFwiXSxcbiAgICAgICAgICAgY29sb3I9XCIjMDAzNTk0XCIsIHM9NDUsIGFscGhhPTAuODUsIGVkZ2Vjb2xvcj1cIndoaXRlXCIsIGxpbmV3aWR0aD0wLjYpXG5heC5zZXRfeGxhYmVsKFwiQ2hpbGRyZW4gaW4gcG92ZXJ0eSAoJSlcIilcbmF4LnNldF95bGFiZWwoXCJJbmZhbnQgZGVhdGhzIHBlciAxLDAwMCBsaXZlIGJpcnRoc1wiKVxuYXguc2V0X3RpdGxlKFwiSW5mYW50IG1vcnRhbGl0eSBhZ2FpbnN0IGNoaWxkIHBvdmVydHksIDQ0IHJlcG9ydGluZyBQQSBjb3VudGllc1wiKVxucGx0LnRpZ2h0X2xheW91dCgpXG5wbHQuc2hvdygpIn0=
+</script>
+</div>
+</div>
+<aside class="notes">
+<p>This is the figure Module 4 promised at its close, and opening with it pays that debt in the first two minutes.</p>
+<p>Point at the caption before the points. Forty-four, not sixty-seven. The twenty-three counties that could not support a stable rate are not in this picture, and they are the rural ones — so this scatter describes the <em>reporting</em> half of Pennsylvania. By now that sentence should be house style rather than a caveat: say what is in the figure and what is not, every time, in the caption.</p>
+<p>The relationship is real and it is structural. Counties where more children are poor bury more infants. That is about prenatal care access, obstetric deserts, housing, and food, and §5 is explicit that this story is never framed as individual choice.</p>
+<p>Nobody needs to understand the code yet. It is here so they see the destination on slide two and then spend forty minutes learning to build it.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="session-plan" class="slide level2 smaller">
+<h2>Session plan</h2>
+<ul>
+<li>The <strong>figure/axes model</strong> — the two objects every matplotlib figure is made of</li>
+<li>Bar, histogram, scatter, and line, and <strong>the question each one answers</strong></li>
+<li>Labels, titles, ticks, legends, and <strong>saving a figure to a file</strong></li>
+<li>Multi-panel figures with <code>plt.subplots()</code></li>
+<li>The pandas <code>.plot()</code> shortcut, and <strong>seaborn</strong> for grouped figures</li>
+<li><strong>Accessibility as a requirement</strong>: alt text, contrast, and never colour alone</li>
+<li><code>.describe()</code>, grouped summaries, and <strong><code>.corr()</code></strong> as co-movement</li>
+<li><strong>Rates against counts</strong> — the error that survives every other check</li>
+<li><strong>EDA as a method</strong>: question → figure → better question</li>
+</ul>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Descriptive statistics only</strong></p>
+</div>
+<div class="callout-content">
+<p>This course computes and interprets summaries, distributions, and correlations. It does not perform statistical inference — no p-values, no significance tests, no models.</p>
+</div>
+</div>
+</div>
+<aside class="notes">
+<p>Flag the last bullet in the list and the callout under it together, because a few students will have seen a t-test in another course and will wonder where it is.</p>
+<p>The honest answer, said plainly: this half of the course is eight weeks and inference is not in it. What is in it is the part practising analysts get wrong more often — describing a distribution accurately, choosing a denominator that means something, and drawing a figure that does not mislead. A p-value on top of a bad denominator is a confident wrong answer.</p>
+<p>The rates-against-counts item near the bottom is the one to promise them now. It is the single most common error in published public-health graphics, it survives peer review routinely, and by the end of today they will catch it in a figure that looks completely reasonable.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section></section>
+<section>
+<section id="the-figure-and-the-axes" class="title-slide slide level1 unnumbered center" data-background-color="#003594">
+<h1>The figure and the axes</h1>
+
+</section>
+<section id="every-matplotlib-figure-is-two-objects" class="slide level2 smaller">
+<h2>Every matplotlib figure is two objects</h2>
+<div class="cell">
+<div>
+<div id="pyodide-2" class="exercise-cell">
+
+</div>
+<script type="pyodide-2-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiaW1wb3J0IG1hdHBsb3RsaWIucHlwbG90IGFzIHBsdFxuXG5maWcsIGF4ID0gcGx0LnN1YnBsb3RzKGZpZ3NpemU9KDcsIDMpKVxuXG5wcmludCh0eXBlKGZpZykpXG5wcmludCh0eXBlKGF4KSkifQ==
+</script>
+</div>
+</div>
+<ul>
+<li>The <strong>figure</strong> is the canvas: its size, its resolution, and the file it saves to</li>
+<li>The <strong>axes</strong> is one set of coordinates drawn on that canvas: the data, the labels, the ticks</li>
+</ul>
+<p><code>plt.subplots()</code> returns both, and nearly every figure in practice begins with that call.</p>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong><code>ax</code> is not “axis”</strong></p>
+</div>
+<div class="callout-content">
+<p>An <strong>axes</strong> is an entire plotting area. An <strong>axis</strong> is one of its edges, reached as <code>ax.xaxis</code> or <code>ax.yaxis</code>. The naming is unfortunate and permanent.</p>
+</div>
+</div>
+</div>
+<aside class="notes">
+<p>Draw this on the board once and it stops being confusing for the rest of the course. The figure is a sheet of paper. The axes is one chart drawn on that sheet. A sheet can hold four charts, which is what the multi-panel slide is about.</p>
+<p>The naming collision is genuinely bad and worth naming out loud rather than hoping nobody notices. Axes-singular is the whole plot. Axis is an edge. Everyone trips on it, including people who have written matplotlib for a decade.</p>
+<p>Two styles exist in the wild and mixing them is the source of most confusing matplotlib code online. There is <code>plt.plot()</code>, which draws on whatever axes happens to be current, and there is <code>ax.plot()</code>, which draws on the axes named. This course uses <code>ax.</code> for everything. Say why: it is the style that survives contact with a second panel, and it is the one where the code says where the thing is going.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="ax.bar-compares-a-value-across-categories" class="slide level2 smaller">
+<h2><code>ax.bar()</code> compares a value across categories</h2>
+<div class="cell">
+<div>
+<div id="pyodide-3" class="exercise-cell">
+
+</div>
+<script type="pyodide-3-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImZpZy1hbHQiOiJCYXIgY2hhcnQgb2YgYWR1bHQgYXN0aG1hIHByZXZhbGVuY2UgZm9yIHRoZSBmaXZlIFBlbm5zeWx2YW5pYSBjb3VudGllcyB3aXRoIHRoZSBoaWdoZXN0IHJhdGVzOiBQaGlsYWRlbHBoaWEgYXQgMTEuNiBwZXJjZW50LCB0aGVuIEZheWV0dGUsIFN1bGxpdmFuLCBCbGFpciwgYW5kIENsaW50b24gYmV0d2VlbiAxMS4yIGFuZCAxMS4zIHBlcmNlbnQuIFRoZSBiYXJzIGFyZSBuZWFybHkgdGhlIHNhbWUgaGVpZ2h0LiJ9LCJjb2RlIjoiaW1wb3J0IHBhbmRhcyBhcyBwZFxuaW1wb3J0IG1hdHBsb3RsaWIucHlwbG90IGFzIHBsdFxuXG5hc3RobWEgPSBwZC5yZWFkX2NzdihcImRhdGEvcGFfYXN0aG1hX3ByZXZhbGVuY2UuY3N2XCIpXG50b3A1ID0gYXN0aG1hLm5sYXJnZXN0KDUsIFwiYXN0aG1hX3ByZXZfcGN0XCIpXG5cbmZpZywgYXggPSBwbHQuc3VicGxvdHMoZmlnc2l6ZT0oNywgMy4yKSlcbmF4LmJhcih0b3A1W1wiY291bnR5XCJdLCB0b3A1W1wiYXN0aG1hX3ByZXZfcGN0XCJdLCBjb2xvcj1cIiMwMDM1OTRcIilcbmF4LnNldF95bGFiZWwoXCJBZHVsdCBhc3RobWEgKCUpXCIpXG5heC5zZXRfdGl0bGUoXCJGaXZlIGhpZ2hlc3QgY291bnR5IGFzdGhtYSByYXRlcywgUGVubnN5bHZhbmlhXCIpXG5wbHQudGlnaHRfbGF5b3V0KClcbnBsdC5zaG93KCkifQ==
+</script>
+</div>
+</div>
+<aside class="notes">
+<p>Ask the room what this figure shows before saying anything. Somebody will say Philadelphia is the worst, which is true, and then somebody sharper will notice the bars are all essentially the same height.</p>
+<p>That second observation is the real content. Philadelphia at 11.6 against Clinton at 11.2 is four tenths of a percentage point, and treating that as a ranking worth acting on is overreading the data. The chart type is fine. The interpretation is where the danger is.</p>
+<p>There is a specific trap sitting in this figure that the next slide detonates deliberately, so resist fixing it now. The y-axis starts at zero here, which is correct for bars, and that is exactly why the differences look as small as they actually are.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="a-truncated-axis-manufactures-a-difference-that-is-not-there" class="slide level2 smaller">
+<h2>A truncated axis manufactures a difference that is not there</h2>
+<div class="cell">
+<div>
+<div id="pyodide-4" class="exercise-cell">
+
+</div>
+<script type="pyodide-4-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImZpZy1hbHQiOiJUd28gYmFyIGNoYXJ0cyBvZiB0aGUgc2FtZSBmaXZlIGNvdW50eSBhc3RobWEgcmF0ZXMgc2lkZSBieSBzaWRlLiBUaGUgbGVmdCBwYW5lbCBoYXMgYSB5LWF4aXMgc3RhcnRpbmcgYXQgemVybyBhbmQgdGhlIGZpdmUgYmFycyBsb29rIG5lYXJseSBpZGVudGljYWwuIFRoZSByaWdodCBwYW5lbCBoYXMgYSB5LWF4aXMgc3RhcnRpbmcgYXQgMTEgcGVyY2VudCBhbmQgdGhlIHNhbWUgZml2ZSBiYXJzIG5vdyBsb29rIGRyYW1hdGljYWxseSBkaWZmZXJlbnQgaW4gaGVpZ2h0LiJ9LCJjb2RlIjoiaW1wb3J0IHBhbmRhcyBhcyBwZFxuaW1wb3J0IG1hdHBsb3RsaWIucHlwbG90IGFzIHBsdFxuXG5hc3RobWEgPSBwZC5yZWFkX2NzdihcImRhdGEvcGFfYXN0aG1hX3ByZXZhbGVuY2UuY3N2XCIpXG50b3A1ID0gYXN0aG1hLm5sYXJnZXN0KDUsIFwiYXN0aG1hX3ByZXZfcGN0XCIpXG5cbmZpZywgKGF4X2xlZnQsIGF4X3JpZ2h0KSA9IHBsdC5zdWJwbG90cygxLCAyLCBmaWdzaXplPSg5LCAzLjIpKVxuXG5heF9sZWZ0LmJhcih0b3A1W1wiY291bnR5XCJdLCB0b3A1W1wiYXN0aG1hX3ByZXZfcGN0XCJdLCBjb2xvcj1cIiMwMDM1OTRcIilcbmF4X2xlZnQuc2V0X3RpdGxlKFwiWmVybyBiYXNlbGluZSDigJQgaG9uZXN0XCIpXG5heF9sZWZ0LnNldF95bGFiZWwoXCJBZHVsdCBhc3RobWEgKCUpXCIpXG5cbmF4X3JpZ2h0LmJhcih0b3A1W1wiY291bnR5XCJdLCB0b3A1W1wiYXN0aG1hX3ByZXZfcGN0XCJdLCBjb2xvcj1cIiM4YTY0MDBcIilcbmF4X3JpZ2h0LnNldF95bGltKDExLjAsIDExLjcpXG5heF9yaWdodC5zZXRfdGl0bGUoXCJUcnVuY2F0ZWQgYXQgMTEuMCDigJQgbWlzbGVhZGluZ1wiKVxuXG5mb3IgYXhpcyBpbiAoYXhfbGVmdCwgYXhfcmlnaHQpOlxuICAgIGF4aXMudGlja19wYXJhbXMoYXhpcz1cInhcIiwgbGFiZWxyb3RhdGlvbj00NSwgbGFiZWxzaXplPTgpXG5cbnBsdC50aWdodF9sYXlvdXQoKVxucGx0LnNob3coKSJ9
+</script>
+</div>
+</div>
+<p><strong>Identical data. The right panel implies Philadelphia has roughly four times the asthma burden of Clinton County. The true difference is 0.4 percentage points.</strong></p>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>The rule for bars</strong></p>
+</div>
+<div class="callout-content">
+<p>A bar encodes value by <strong>length</strong>, so its baseline must be zero. Truncating the axis breaks the correspondence between length and value.</p>
+</div>
+</div>
+</div>
+<aside class="notes">
+<p>Run both panels and then stop talking for a moment. The right-hand panel is the single most effective slide in this module because the deception is so complete and the code is so innocent — one call to <code>set_ylim</code> and the story changes entirely.</p>
+<p>Say clearly that nobody has to be dishonest to produce the right-hand panel. The usual route is a plotting library that auto-scales to the data range, or an analyst who zoomed in to see the differences and then never zoomed back out. The intent is irrelevant to the reader, who sees a fourfold difference that does not exist.</p>
+<p>The rule is specifically about bars, and it is worth being precise so they do not overgeneralise. Bars encode by length, so the baseline must be zero. A line chart or a scatter encodes by position, and those can legitimately start anywhere — a temperature series does not need to include absolute zero to be honest.</p>
+<p>If somebody asks whether the left panel is “wasting space,” that is a good question with a firm answer: yes, and it is worth it. The empty space is the honest statement that these counties are nearly the same.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="ax.hist-shows-the-shape-of-one-variable" class="slide level2 smaller">
+<h2><code>ax.hist()</code> shows the shape of one variable</h2>
+<div class="cell">
+<div>
+<div id="pyodide-5" class="exercise-cell">
+
+</div>
+<script type="pyodide-5-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImZpZy1hbHQiOiJIaXN0b2dyYW0gb2YgYWR1bHQgYXN0aG1hIHByZXZhbGVuY2UgYWNyb3NzIGFsbCA2NyBQZW5uc3lsdmFuaWEgY291bnRpZXMsIHdpdGggYmFycyBjb25jZW50cmF0ZWQgYmV0d2VlbiAxMCBhbmQgMTEuMiBwZXJjZW50IGFuZCBhIHNpbmdsZSB2ZXJ0aWNhbCBkYXNoZWQgbGluZSBtYXJraW5nIHRoZSBzdGF0ZSBtZWFuIG9mIDEwLjcgcGVyY2VudC4gVGhlIGRpc3RyaWJ1dGlvbiBpcyByb3VnaGx5IHN5bW1ldHJpYyBhbmQgdGlnaHRseSBjbHVzdGVyZWQuIn0sImNvZGUiOiJpbXBvcnQgcGFuZGFzIGFzIHBkXG5pbXBvcnQgbWF0cGxvdGxpYi5weXBsb3QgYXMgcGx0XG5cbmFzdGhtYSA9IHBkLnJlYWRfY3N2KFwiZGF0YS9wYV9hc3RobWFfcHJldmFsZW5jZS5jc3ZcIilcblxuZmlnLCBheCA9IHBsdC5zdWJwbG90cyhmaWdzaXplPSg3LCAzLjIpKVxuYXguaGlzdChhc3RobWFbXCJhc3RobWFfcHJldl9wY3RcIl0sIGJpbnM9MTIsXG4gICAgICAgIGNvbG9yPVwiIzAwMzU5NFwiLCBlZGdlY29sb3I9XCJ3aGl0ZVwiKVxuYXguYXh2bGluZShhc3RobWFbXCJhc3RobWFfcHJldl9wY3RcIl0ubWVhbigpLFxuICAgICAgICAgICBjb2xvcj1cIiM4YTY0MDBcIiwgbGluZXN0eWxlPVwiLS1cIiwgbGluZXdpZHRoPTIpXG5heC5zZXRfeGxhYmVsKFwiQWR1bHQgYXN0aG1hIHByZXZhbGVuY2UgKCUpXCIpXG5heC5zZXRfeWxhYmVsKFwiTnVtYmVyIG9mIGNvdW50aWVzXCIpXG5heC5zZXRfdGl0bGUoXCJBc3RobWEgcHJldmFsZW5jZSBhY3Jvc3MgNjcgY291bnRpZXMgKGRhc2hlZCBsaW5lID0gbWVhbiwgMTAuNyUpXCIpXG5wbHQudGlnaHRfbGF5b3V0KClcbnBsdC5zaG93KCkifQ==
+</script>
+</div>
+</div>
+<p>A bar chart compares <strong>named categories</strong>. A histogram bins a <strong>continuous variable</strong> and counts what falls in each bin.</p>
+<aside class="notes">
+<p>The distinction between this and the previous slide is the one students blur most, so make it concrete. On the bar chart, the x-axis was five county names and the order was a choice. Here the x-axis is a number line, the order is fixed by arithmetic, and the bars touch because the bins are adjacent intervals.</p>
+<p>Notice what the dashed mean line is doing beyond decoration. It is a second channel — the line is identified in the title, not only by its colour, which is the accessibility rule arriving early and without ceremony.</p>
+<p>The shape itself is the cold open restated. Everything piles up between ten and eleven and a half. Nothing is out in a tail. Whatever explains asthma in Pennsylvania is not producing dramatic county-level differences in asthma, which is precisely why the closing figure has to bring in a second variable.</p>
+<p>Bin count is a real choice and worth thirty seconds. Twelve bins here; try three and the structure disappears into a block, try fifty and every county gets its own spike. The default is a guess by the library, not a finding, and it is worth changing once to see the picture move.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="ax.scatter-shows-how-two-variables-move-together" class="slide level2 smaller">
+<h2><code>ax.scatter()</code> shows how two variables move together</h2>
+<div class="cell">
+<div>
+<div id="pyodide-6" class="exercise-cell">
+
+</div>
+<script type="pyodide-6-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImZpZy1hbHQiOiJTY2F0dGVyIHBsb3Qgb2YgYWR1bHQgYXN0aG1hIHByZXZhbGVuY2UgYWdhaW5zdCBhZHVsdCBzbW9raW5nIHByZXZhbGVuY2UgYWNyb3NzIDY3IFBlbm5zeWx2YW5pYSBjb3VudGllcy4gUG9pbnRzIHJpc2UgZnJvbSBsZWZ0IHRvIHJpZ2h0OiBjb3VudGllcyBuZWFyIDExIHBlcmNlbnQgc21va2luZyBzaXQgY2xvc2UgdG8gOS44IHBlcmNlbnQgYXN0aG1hLCBhbmQgY291bnRpZXMgbmVhciAyMSBwZXJjZW50IHNtb2tpbmcgc2l0IG5lYXIgMTEuMyBwZXJjZW50IGFzdGhtYS4ifSwiY29kZSI6ImltcG9ydCBwYW5kYXMgYXMgcGRcbmltcG9ydCBtYXRwbG90bGliLnB5cGxvdCBhcyBwbHRcblxuYXN0aG1hID0gcGQucmVhZF9jc3YoXCJkYXRhL3BhX2FzdGhtYV9wcmV2YWxlbmNlLmNzdlwiKVxuXG5maWcsIGF4ID0gcGx0LnN1YnBsb3RzKGZpZ3NpemU9KDcsIDMuNCkpXG5heC5zY2F0dGVyKGFzdGhtYVtcInNtb2tpbmdfcHJldl9wY3RcIl0sIGFzdGhtYVtcImFzdGhtYV9wcmV2X3BjdFwiXSxcbiAgICAgICAgICAgY29sb3I9XCIjMDAzNTk0XCIsIHM9NDIsIGFscGhhPTAuOCxcbiAgICAgICAgICAgZWRnZWNvbG9yPVwid2hpdGVcIiwgbGluZXdpZHRoPTAuNilcbmF4LnNldF94bGFiZWwoXCJBZHVsdCBzbW9raW5nIHByZXZhbGVuY2UgKCUpXCIpXG5heC5zZXRfeWxhYmVsKFwiQWR1bHQgYXN0aG1hIHByZXZhbGVuY2UgKCUpXCIpXG5heC5zZXRfdGl0bGUoXCJBc3RobWEgYWdhaW5zdCBzbW9raW5nLCA2NyBQZW5uc3lsdmFuaWEgY291bnRpZXNcIilcbnBsdC50aWdodF9sYXlvdXQoKVxucGx0LnNob3coKSJ9
+</script>
+</div>
+</div>
+<aside class="notes">
+<p>This is the closing figure arriving early, and that is deliberate. They should see it once here as a plain scatter, then meet it again at the end fully annotated, once the tools to read it properly are in place.</p>
+<p>Read the axes aloud in the order that matters. The x-axis, smoking, runs from about ten and a half to nearly twenty-two — an eleven-point spread. The y-axis, asthma, runs across two points. The cold open said asthma barely moves, and this figure shows what it moves <em>with</em>.</p>
+<p>Hold the number back a little longer. The correlation slide gives it, and it lands harder as a number that confirms a picture they have already read than as a number announced first.</p>
+<p>If somebody says “so smoking causes asthma” — and somebody will — take it seriously and then be precise. These are county averages, not people. A county where more adults smoke also has more adults with asthma, and that is entirely consistent with smoking causing asthma, with asthma and smoking sharing causes like income and occupation, or with both. The figure cannot separate those. Saying so is not hedging; it is the accurate reading.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="ax.plot-draws-a-value-that-moves-through-time" class="slide level2 smaller">
+<h2><code>ax.plot()</code> draws a value that moves through time</h2>
+<div class="cell">
+<div>
+<div id="pyodide-7" class="exercise-cell">
+
+</div>
+<script type="pyodide-7-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImZpZy1hbHQiOiJMaW5lIGNoYXJ0IG9mIG1vbnRobHkgQ09WSUQtMTkgZGVhdGhzIGFjcm9zcyBhbGwgUGVubnN5bHZhbmlhIGNvdW50aWVzIGZyb20gTWFyY2ggMjAyMCB0aHJvdWdoIE1hcmNoIDIwMjQuIFR3byBsYXJnZSBwZWFrcyBhcHBlYXIgaW4gd2ludGVyIDIwMjAgYW5kIHdpbnRlciAyMDIxLCB3aXRoIHRoZSB0YWxsZXN0IGF0IDQsMjk0IGRlYXRocyBpbiBKYW51YXJ5IDIwMjIsIGFmdGVyIHdoaWNoIHRoZSBsaW5lIGZhbGxzIGNsb3NlIHRvIHplcm8uIn0sImNvZGUiOiJpbXBvcnQgcGFuZGFzIGFzIHBkXG5pbXBvcnQgbWF0cGxvdGxpYi5weXBsb3QgYXMgcGx0XG5cbmNvdmlkID0gcGQucmVhZF9jc3YoXCJkYXRhL3BhX2NvdmlkX21vbnRobHkuY3N2XCIpXG5jb3ZpZFtcIm1vbnRoXCJdID0gcGQudG9fZGF0ZXRpbWUoY292aWRbXCJtb250aFwiXSlcbnN0YXRld2lkZSA9IGNvdmlkLmdyb3VwYnkoXCJtb250aFwiKVtcImNvdmlkX2RlYXRoc1wiXS5zdW0oKVxuXG5maWcsIGF4ID0gcGx0LnN1YnBsb3RzKGZpZ3NpemU9KDcuNSwgMy4yKSlcbmF4LnBsb3Qoc3RhdGV3aWRlLmluZGV4LCBzdGF0ZXdpZGUudmFsdWVzLFxuICAgICAgICBjb2xvcj1cIiMwMDM1OTRcIiwgbGluZXdpZHRoPTIpXG5heC5zZXRfeGxhYmVsKFwiTW9udGhcIilcbmF4LnNldF95bGFiZWwoXCJDT1ZJRC0xOSBkZWF0aHNcIilcbmF4LnNldF90aXRsZShcIlN0YXRld2lkZSBtb250aGx5IENPVklELTE5IGRlYXRocywgNDkgbW9udGhzXCIpXG5wbHQudGlnaHRfbGF5b3V0KClcbnBsdC5zaG93KCkifQ==
+</script>
+</div>
+</div>
+<p>A line asserts that consecutive points are <strong>connected</strong> — that the value moved from one to the next. Categories are never connected by a line.</p>
+<aside class="notes">
+<p>The <code>.dt</code> conversion on the second line is doing quiet but essential work. Without <code>to_datetime</code>, those months are strings, and the x-axis would place them in alphabetical order with even spacing. With it, matplotlib knows January 2022 comes after December 2021 and that the gap is one month.</p>
+<p>The peaks are worth naming because the room lived through them. The tallest is January 2022 at 4,294 deaths, which is Omicron. The earlier one is winter 2020, before vaccines. The right-hand third of the chart is the part people forget: deaths did not stop, they became small enough to leave the news.</p>
+<p>The rule under the figure has teeth. A line between two county names claims the value moved from Adams to Allegheny, which is meaningless — counties have no order. Time and dose have an order. That is the test.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section></section>
+<section>
+<section id="making-a-figure-readable" class="title-slide slide level1 unnumbered center" data-background-color="#003594">
+<h1>Making a figure readable</h1>
+
+</section>
+<section id="an-unlabelled-figure-states-nothing" class="slide level2 smaller">
+<h2>An unlabelled figure states nothing</h2>
+<div class="cell">
+<div>
+<div id="pyodide-8" class="exercise-cell">
+
+</div>
+<script type="pyodide-8-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImZpZy1hbHQiOiJUd28gcGFuZWxzIG9mIHRoZSBzYW1lIHNjYXR0ZXIgb2YgYXN0aG1hIGFnYWluc3Qgc21va2luZy4gVGhlIGxlZnQgcGFuZWwgaGFzIG5vIGF4aXMgbGFiZWxzIG9yIHRpdGxlIGFuZCBpcyB1bmludGVycHJldGFibGUuIFRoZSByaWdodCBwYW5lbCBpcyBmdWxseSBsYWJlbGxlZCB3aXRoIGF4aXMgbmFtZXMsIHVuaXRzLCBhIHRpdGxlLCBhbmQgYSBzb3VyY2Ugbm90ZS4ifSwiY29kZSI6ImltcG9ydCBwYW5kYXMgYXMgcGRcbmltcG9ydCBtYXRwbG90bGliLnB5cGxvdCBhcyBwbHRcblxuYXN0aG1hID0gcGQucmVhZF9jc3YoXCJkYXRhL3BhX2FzdGhtYV9wcmV2YWxlbmNlLmNzdlwiKVxuXG5maWcsIChiYXJlLCBsYWJlbGxlZCkgPSBwbHQuc3VicGxvdHMoMSwgMiwgZmlnc2l6ZT0oOS41LCAzLjQpKVxuXG5mb3IgcGFuZWwgaW4gKGJhcmUsIGxhYmVsbGVkKTpcbiAgICBwYW5lbC5zY2F0dGVyKGFzdGhtYVtcInNtb2tpbmdfcHJldl9wY3RcIl0sIGFzdGhtYVtcImFzdGhtYV9wcmV2X3BjdFwiXSxcbiAgICAgICAgICAgICAgICAgIGNvbG9yPVwiIzAwMzU5NFwiLCBzPTMwLCBhbHBoYT0wLjgpXG5cbmxhYmVsbGVkLnNldF94bGFiZWwoXCJBZHVsdCBzbW9raW5nIHByZXZhbGVuY2UgKCUpXCIpXG5sYWJlbGxlZC5zZXRfeWxhYmVsKFwiQWR1bHQgYXN0aG1hIHByZXZhbGVuY2UgKCUpXCIpXG5sYWJlbGxlZC5zZXRfdGl0bGUoXCJBc3RobWEgYWdhaW5zdCBzbW9raW5nLCA2NyBQQSBjb3VudGllc1wiKVxubGFiZWxsZWQudGV4dCgwLjAyLCAwLjk1LCBcIlNvdXJjZTogQ0RDIFBMQUNFUyAyMDI0XCIsXG4gICAgICAgICAgICAgIHRyYW5zZm9ybT1sYWJlbGxlZC50cmFuc0F4ZXMsIGZvbnRzaXplPTcsIGNvbG9yPVwiIzZiNzI4MFwiLFxuICAgICAgICAgICAgICB2ZXJ0aWNhbGFsaWdubWVudD1cInRvcFwiKVxuXG5wbHQudGlnaHRfbGF5b3V0KClcbnBsdC5zaG93KCkifQ==
+</script>
+</div>
+</div>
+<p><strong>Both panels plot identical data.</strong> Only one of them can be read by someone who was not in the room when it was made.</p>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>The minimum for any figure that leaves a notebook</strong></p>
+</div>
+<div class="callout-content">
+<p>An x-label with units, a y-label with units, a title stating the claim, and a source.</p>
+</div>
+</div>
+</div>
+<aside class="notes">
+<p>The left panel is what every first draft looks like, including the instructor’s. That is worth admitting rather than pretending otherwise — exploratory figures are unlabelled because the analyst knows what they plotted, and that is fine while the figure lives in a notebook that nobody else opens.</p>
+<p>The moment it goes into a slide, a report, or an email, the analyst is no longer the reader. The left panel then becomes two clouds of ink.</p>
+<p>The source note is the part people skip and the part that matters most six months later. Which extract, which year. A figure without a source cannot be checked, and a figure that cannot be checked will eventually be wrong in a way nobody catches.</p>
+<p>Point out <code>transform=labelled.transAxes</code> briefly. It places the text in axes coordinates, where 0,0 is the bottom-left of the plotting area and 1,1 is the top-right, so the note stays put regardless of the data range. Without it the coordinates would be smoking percentages, and the note would land somewhere random.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="savefig-writes-the-figure-to-a-file" class="slide level2 smaller">
+<h2><code>savefig()</code> writes the figure to a file</h2>
+<div class="cell">
+<div>
+<div id="pyodide-9" class="exercise-cell">
+
+</div>
+<script type="pyodide-9-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiaW1wb3J0IHBhbmRhcyBhcyBwZFxuaW1wb3J0IG1hdHBsb3RsaWIucHlwbG90IGFzIHBsdFxuXG5hc3RobWEgPSBwZC5yZWFkX2NzdihcImRhdGEvcGFfYXN0aG1hX3ByZXZhbGVuY2UuY3N2XCIpXG5cbmZpZywgYXggPSBwbHQuc3VicGxvdHMoZmlnc2l6ZT0oNiwgMykpXG5heC5oaXN0KGFzdGhtYVtcImFzdGhtYV9wcmV2X3BjdFwiXSwgYmlucz0xMiwgY29sb3I9XCIjMDAzNTk0XCIsIGVkZ2Vjb2xvcj1cIndoaXRlXCIpXG5heC5zZXRfeGxhYmVsKFwiQWR1bHQgYXN0aG1hIHByZXZhbGVuY2UgKCUpXCIpXG5heC5zZXRfeWxhYmVsKFwiTnVtYmVyIG9mIGNvdW50aWVzXCIpXG5cbmZpZy5zYXZlZmlnKFwiYXN0aG1hX2Rpc3RyaWJ1dGlvbi5wbmdcIiwgZHBpPTIwMCwgYmJveF9pbmNoZXM9XCJ0aWdodFwiKVxuXG5pbXBvcnQgb3NcbnByaW50KFwid3JpdHRlbjpcIiwgb3MucGF0aC5leGlzdHMoXCJhc3RobWFfZGlzdHJpYnV0aW9uLnBuZ1wiKSlcbnByaW50KFwiYnl0ZXM6XCIsIG9zLnBhdGguZ2V0c2l6ZShcImFzdGhtYV9kaXN0cmlidXRpb24ucG5nXCIpKSJ9
+</script>
+</div>
+</div>
+<ul>
+<li><code>dpi=200</code> sets the resolution; the default of 100 looks soft in a document</li>
+<li><code>bbox_inches="tight"</code> trims the surrounding whitespace and rescues cut-off labels</li>
+<li>The extension chooses the format: <code>.png</code> for slides and documents, <code>.pdf</code> for print</li>
+</ul>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong><code>savefig()</code> before <code>show()</code></strong></p>
+</div>
+<div class="callout-content">
+<p><code>plt.show()</code> renders and then clears the figure. Calling <code>savefig()</code> afterwards writes a blank image.</p>
+</div>
+</div>
+</div>
+<aside class="notes">
+<p>This cell writes a real file into the browser’s virtual filesystem, which is why the existence check prints True. In Colab the same call puts a real PNG in the session folder, and it can be downloaded from the file browser on the left.</p>
+<p>The callout is a bug students hit within about a week of starting their project, and the symptom is baffling if the rule is unknown — the figure looked perfect on screen and the saved file is blank. Order matters because <code>show()</code> flushes the canvas.</p>
+<p><code>bbox_inches="tight"</code> deserves its own sentence. The classic failure is a long y-axis label sliced off at the left edge of the saved file while looking fine in the notebook. That one argument fixes it permanently.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="plt.subplots-builds-a-grid-of-panels" class="slide level2 smaller">
+<h2><code>plt.subplots()</code> builds a grid of panels</h2>
+<div class="cell">
+<div>
+<div id="pyodide-10" class="exercise-cell">
+
+</div>
+<script type="pyodide-10-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImZpZy1hbHQiOiJGb3VyLXBhbmVsIGdyaWQgb2YgUGVubnN5bHZhbmlhIGNvdW50eSBoZWFsdGggZGlzdHJpYnV0aW9uczogYWR1bHQgYXN0aG1hIHByZXZhbGVuY2UsIGFkdWx0IHNtb2tpbmcgcHJldmFsZW5jZSwgaW5mYW50IG1vcnRhbGl0eSBwZXIgMSwwMDAgYmlydGhzLCBhbmQgY2hpbGQgcG92ZXJ0eSBwZXJjZW50LiBBc3RobWEgaXMgdGlnaHRseSBjbHVzdGVyZWQgd2hpbGUgdGhlIG90aGVyIHRocmVlIGFyZSB2aXNpYmx5IHdpZGVyIGFuZCBtb3JlIHNrZXdlZC4ifSwiY29kZSI6ImltcG9ydCBwYW5kYXMgYXMgcGRcbmltcG9ydCBtYXRwbG90bGliLnB5cGxvdCBhcyBwbHRcblxuYXN0aG1hID0gcGQucmVhZF9jc3YoXCJkYXRhL3BhX2FzdGhtYV9wcmV2YWxlbmNlLmNzdlwiKVxuYmlydGhzID0gcGQucmVhZF9jc3YoXCJkYXRhL3BhX21hdGVybmFsX2luZmFudC5jc3ZcIilcblxuZmlnLCBheGVzID0gcGx0LnN1YnBsb3RzKDIsIDIsIGZpZ3NpemU9KDksIDQuNikpXG5cbnBhbmVscyA9IFtcbiAgICAoYXhlc1swLCAwXSwgYXN0aG1hW1wiYXN0aG1hX3ByZXZfcGN0XCJdLCAgICAgICAgICAgIFwiQWR1bHQgYXN0aG1hICglKVwiKSxcbiAgICAoYXhlc1swLCAxXSwgYXN0aG1hW1wic21va2luZ19wcmV2X3BjdFwiXSwgICAgICAgICAgIFwiQWR1bHQgc21va2luZyAoJSlcIiksXG4gICAgKGF4ZXNbMSwgMF0sIGJpcnRoc1tcImluZmFudF9tb3J0YWxpdHlfcGVyXzEwMDBcIl0sICBcIkluZmFudCBkZWF0aHMgcGVyIDEsMDAwXCIpLFxuICAgIChheGVzWzEsIDFdLCBiaXJ0aHNbXCJjaGlsZHJlbl9pbl9wb3ZlcnR5X3BjdFwiXSwgICAgXCJDaGlsZHJlbiBpbiBwb3ZlcnR5ICglKVwiKSxcbl1cblxuZm9yIHBhbmVsLCB2YWx1ZXMsIGxhYmVsIGluIHBhbmVsczpcbiAgICBwYW5lbC5oaXN0KHZhbHVlcy5kcm9wbmEoKSwgYmlucz0xMCwgY29sb3I9XCIjMDAzNTk0XCIsIGVkZ2Vjb2xvcj1cIndoaXRlXCIpXG4gICAgcGFuZWwuc2V0X3RpdGxlKGxhYmVsLCBmb250c2l6ZT05KVxuICAgIHBhbmVsLnRpY2tfcGFyYW1zKGxhYmVsc2l6ZT03KVxuXG5maWcuc3VwdGl0bGUoXCJGb3VyIGNvdW50eS1sZXZlbCBkaXN0cmlidXRpb25zLCBQZW5uc3lsdmFuaWFcIiwgZm9udHNpemU9MTEpXG5wbHQudGlnaHRfbGF5b3V0KClcbnBsdC5zaG93KCkifQ==
+</script>
+</div>
+</div>
+<p><code>plt.subplots(2, 2)</code> returns a <strong>2-D array of axes</strong>, indexed <code>axes[row, col]</code> — the same indexing NumPy introduced in Module 3.</p>
+<aside class="notes">
+<p>The indexing connection is worth making explicit because it is a genuine reuse of Module 3 rather than a coincidence. <code>axes</code> is a NumPy array of axes objects, so <code>axes[1, 0]</code> is row one, column zero, exactly as it would be for numbers.</p>
+<p>The loop over a list of tuples is the pattern to steal. Four nearly identical panels written out four times is where copy-paste errors breed — the classic being the fourth panel still carrying the third panel’s title because one line did not get edited. Build a list, loop, and the bug cannot occur.</p>
+<p>Now read the four panels together, because the comparison is the point. Asthma is a spike. The other three are spread out, and infant mortality and poverty both trail to the right. Asthma is the flattest variable on this slide by a wide margin, which is the cold open holding up under scrutiny.</p>
+<p><code>suptitle</code> titles the figure; <code>set_title</code> titles one axes. Figure versus axes again, and this is where that distinction earns its keep.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section></section>
+<section>
+<section id="accessibility" class="title-slide slide level1 unnumbered center" data-background-color="#003594">
+<h1>Accessibility</h1>
+
+</section>
+<section id="alt-text-is-required-on-every-figure" class="slide level2 smaller">
+<h2>Alt text is required on every figure</h2>
+<p>A figure is invisible to a screen reader. Its alt text is the only description that reaches a reader who cannot see it.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb1-1"><a href=""></a><span class="co">#| fig-alt: "Scatter plot of adult asthma prevalence against adult smoking</span></span>
+<span id="cb1-2"><a href=""></a><span class="co">#|   prevalence across 67 Pennsylvania counties. Points rise from left to</span></span>
+<span id="cb1-3"><a href=""></a><span class="co">#|   right, from about 9.8% asthma at 11% smoking to 11.3% at 21% smoking."</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Alt text states what the figure shows, not that it exists</strong></p>
+</div>
+<div class="callout-content">
+<p>✗ “Scatter plot of the data.” ✓ “Asthma prevalence rises with smoking prevalence across 67 counties, from 9.8% to 11.3%.”</p>
+</div>
+</div>
+</div>
+<p><strong>University of Pittsburgh policy and the ADA Title II compliance date of April 2027 both require this.</strong> It applies to every figure submitted in this course, including the final project.</p>
+<aside class="notes">
+<p>Give this the two minutes it deserves, because it is graded and because the reason is not bureaucratic.</p>
+<p>The test that actually works: describe the figure to somebody over the phone, in one or two sentences, so they could argue with the finding. If the description is “a scatter plot,” the person on the phone has nothing. If it is “asthma rises with smoking across sixty-seven counties, from about nine point eight to eleven point three,” they can now disagree, and disagreement requires access.</p>
+<p>Direction and magnitude are the two things to include. What moves which way, and by how much. That is nearly always enough.</p>
+<p>Every fig-alt in this deck was written that way, and it is worth clicking one open in the page source so they see it is a normal line of the cell header rather than special infrastructure.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="colour-is-never-the-only-channel" class="slide level2 smaller">
+<h2>Colour is never the only channel</h2>
+<div class="cell">
+<div>
+<div id="pyodide-11" class="exercise-cell">
+
+</div>
+<script type="pyodide-11-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImZpZy1hbHQiOiJUd28gcGFuZWxzIGNvbXBhcmluZyBtZXRybyBhbmQgbm9ubWV0cm8gY291bnRpZXMgb24gc21va2luZyBhbmQgYXN0aG1hLiBUaGUgbGVmdCBwYW5lbCBzZXBhcmF0ZXMgdGhlIGdyb3VwcyBieSBjb2xvdXIgYWxvbmUuIFRoZSByaWdodCBwYW5lbCB1c2VzIGNvbG91ciwgZGlzdGluY3QgbWFya2VyIHNoYXBlcywgYW5kIGEgbGVnZW5kLCBzbyB0aGUgZ3JvdXBzIHJlbWFpbiBkaXN0aW5ndWlzaGFibGUgd2l0aG91dCBjb2xvdXIuIn0sImNvZGUiOiJpbXBvcnQgcGFuZGFzIGFzIHBkXG5pbXBvcnQgbWF0cGxvdGxpYi5weXBsb3QgYXMgcGx0XG5cbmFzdGhtYSA9IHBkLnJlYWRfY3N2KFwiZGF0YS9wYV9hc3RobWFfcHJldmFsZW5jZS5jc3ZcIilcbmNvdW50aWVzID0gcGQucmVhZF9jc3YoXCJkYXRhL3BhX2NvdW50aWVzLmNzdlwiKVxuam9pbmVkID0gYXN0aG1hLm1lcmdlKGNvdW50aWVzW1tcImNvdW50eVwiLCBcIm1ldHJvXCJdXSwgb249XCJjb3VudHlcIiwgaG93PVwibGVmdFwiKVxuXG5tZXRybyAgICA9IGpvaW5lZFtqb2luZWRbXCJtZXRyb1wiXSA9PSBcIk1ldHJvXCJdXG5ub25tZXRybyA9IGpvaW5lZFtqb2luZWRbXCJtZXRyb1wiXSA9PSBcIk5vbm1ldHJvXCJdXG5cbmZpZywgKGNvbG91cl9vbmx5LCB0d29fY2hhbm5lbCkgPSBwbHQuc3VicGxvdHMoMSwgMiwgZmlnc2l6ZT0oOS41LCAzLjQpKVxuXG5jb2xvdXJfb25seS5zY2F0dGVyKG1ldHJvW1wic21va2luZ19wcmV2X3BjdFwiXSwgbWV0cm9bXCJhc3RobWFfcHJldl9wY3RcIl0sIGNvbG9yPVwiIzAwMzU5NFwiLCBzPTM0KVxuY29sb3VyX29ubHkuc2NhdHRlcihub25tZXRyb1tcInNtb2tpbmdfcHJldl9wY3RcIl0sIG5vbm1ldHJvW1wiYXN0aG1hX3ByZXZfcGN0XCJdLCBjb2xvcj1cIiM4YTY0MDBcIiwgcz0zNClcbmNvbG91cl9vbmx5LnNldF90aXRsZShcIkNvbG91ciBvbmx5IOKAlCBmYWlsc1wiKVxuXG50d29fY2hhbm5lbC5zY2F0dGVyKG1ldHJvW1wic21va2luZ19wcmV2X3BjdFwiXSwgbWV0cm9bXCJhc3RobWFfcHJldl9wY3RcIl0sXG4gICAgICAgICAgICAgICAgICAgIGNvbG9yPVwiIzAwMzU5NFwiLCBtYXJrZXI9XCJvXCIsIHM9MzQsIGxhYmVsPVwiTWV0cm9cIilcbnR3b19jaGFubmVsLnNjYXR0ZXIobm9ubWV0cm9bXCJzbW9raW5nX3ByZXZfcGN0XCJdLCBub25tZXRyb1tcImFzdGhtYV9wcmV2X3BjdFwiXSxcbiAgICAgICAgICAgICAgICAgICAgY29sb3I9XCIjOGE2NDAwXCIsIG1hcmtlcj1cIl5cIiwgcz00MiwgbGFiZWw9XCJOb25tZXRyb1wiKVxudHdvX2NoYW5uZWwubGVnZW5kKGZvbnRzaXplPTgsIGZyYW1lb249RmFsc2UpXG50d29fY2hhbm5lbC5zZXRfdGl0bGUoXCJDb2xvdXIgKyBzaGFwZSArIGxlZ2VuZCDigJQgcGFzc2VzXCIpXG5cbmZvciBwYW5lbCBpbiAoY29sb3VyX29ubHksIHR3b19jaGFubmVsKTpcbiAgICBwYW5lbC5zZXRfeGxhYmVsKFwiU21va2luZyAoJSlcIiwgZm9udHNpemU9OClcbiAgICBwYW5lbC5zZXRfeWxhYmVsKFwiQXN0aG1hICglKVwiLCBmb250c2l6ZT04KVxuICAgIHBhbmVsLnRpY2tfcGFyYW1zKGxhYmVsc2l6ZT03KVxuXG5wbHQudGlnaHRfbGF5b3V0KClcbnBsdC5zaG93KCkifQ==
+</script>
+</div>
+</div>
+<aside class="notes">
+<p>The left panel is not a hypothetical failure. Roughly one in twelve men has a colour vision deficiency, and a figure that encodes group membership in hue alone is unreadable to them — along with anyone who prints it in greyscale, which is still how documents get read in meetings.</p>
+<p>There is a measured fact behind this rule that makes it concrete. Royal blue reads at 10.8:1 against white and this bronze at 5.4:1, so both are perfectly legible marks. But against <em>each other</em> they separate by only 2.0:1, which is below the 3:1 threshold. Two colours can each be readable and still be indistinguishable from one another. That is why the second channel is a rule rather than a preference.</p>
+<p>The fix costs one argument. <code>marker="^"</code> and a legend, and the figure now works in greyscale, in print, and for a reader with deuteranopia.</p>
+<p>The same principle applies beyond scatter plots: line charts get dash patterns, bar charts get direct labels or hatching.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="marks-must-reach-31-against-the-background" class="slide level2 smaller">
+<h2>Marks must reach 3:1 against the background</h2>
+<p>Text needs <strong>4.5:1</strong>. A meaningful graphic — a bar, a point, a line that carries data — needs <strong>3:1</strong>.</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Colour</th>
+<th>Ratio on white</th>
+<th>Verdict</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>#003594</code> Pitt royal</td>
+<td><strong>10.84 : 1</strong></td>
+<td>Passes as text and as a mark</td>
+</tr>
+<tr class="even">
+<td><code>#8a6400</code> dark gold</td>
+<td><strong>5.38 : 1</strong></td>
+<td>Passes as text and as a mark</td>
+</tr>
+<tr class="odd">
+<td><code>#6b7280</code> gray</td>
+<td><strong>4.83 : 1</strong></td>
+<td>Passes; reserved for annotation</td>
+</tr>
+<tr class="even">
+<td><code>#B87333</code> Pitt bronze</td>
+<td>3.79 : 1</td>
+<td>Mark only — fails as text</td>
+</tr>
+<tr class="odd">
+<td><code>#FFB81C</code> Pitt gold</td>
+<td><strong>1.73 : 1</strong></td>
+<td><strong>Fails both. Never on white.</strong></td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Pitt gold is a brand colour, not a data colour</strong></p>
+</div>
+<div class="callout-content">
+<p><code>#FFB81C</code> on white reaches 1.73:1. It is legible only as a fill behind dark text, or on the royal blue background used by the section dividers in this deck.</p>
+</div>
+</div>
+</div>
+<aside class="notes">
+<p>The gold row is the one that surprises people, and it is worth dwelling on because students will reach for it — it is the university’s colour and it is right there in the template.</p>
+<p>On a white slide it is nearly invisible as data. A gold bar on white is decoration, not a measurement. It works on this deck’s blue section dividers because the background changed, which is the whole point: contrast is a property of a pair, never of a colour by itself.</p>
+<p>These numbers are not estimates. They come from the WCAG relative luminance formula, and the script that produced this table is in the repository as <code>scratchpad_contrast.py</code>. Anyone can check any pair in about ten seconds, and for the final project they should.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section></section>
+<section>
+<section id="pandas-and-seaborn-shortcuts" class="title-slide slide level1 unnumbered center" data-background-color="#003594">
+<h1>pandas and seaborn shortcuts</h1>
+
+</section>
+<section id="plot-draws-directly-from-a-dataframe" class="slide level2 smaller">
+<h2><code>.plot()</code> draws directly from a DataFrame</h2>
+<div class="cell">
+<div>
+<div id="pyodide-12" class="exercise-cell">
+
+</div>
+<script type="pyodide-12-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImZpZy1hbHQiOiJIb3Jpem9udGFsIGJhciBjaGFydCBvZiBtZWFuIGFkdWx0IGFzdGhtYSBwcmV2YWxlbmNlIGZvciBzaXggUGVubnN5bHZhbmlhIHJlZ2lvbnMsIHJhbmdpbmcgZnJvbSBhYm91dCAxMC40IHBlcmNlbnQgaW4gdGhlIFNvdXRoZWFzdCB0byAxMC44IHBlcmNlbnQgaW4gTm9ydGggQ2VudHJhbC4gVGhlIGJhcnMgYXJlIGNsb3NlIHRvIGVxdWFsIGluIGxlbmd0aC4ifSwiY29kZSI6ImltcG9ydCBwYW5kYXMgYXMgcGRcbmltcG9ydCBtYXRwbG90bGliLnB5cGxvdCBhcyBwbHRcblxuYXN0aG1hID0gcGQucmVhZF9jc3YoXCJkYXRhL3BhX2FzdGhtYV9wcmV2YWxlbmNlLmNzdlwiKVxuY291bnRpZXMgPSBwZC5yZWFkX2NzdihcImRhdGEvcGFfY291bnRpZXMuY3N2XCIpXG5qb2luZWQgPSBhc3RobWEubWVyZ2UoY291bnRpZXNbW1wiY291bnR5XCIsIFwicmVnaW9uXCJdXSwgb249XCJjb3VudHlcIiwgaG93PVwibGVmdFwiKVxuXG5ieV9yZWdpb24gPSBqb2luZWQuZ3JvdXBieShcInJlZ2lvblwiKVtcImFzdGhtYV9wcmV2X3BjdFwiXS5tZWFuKCkuc29ydF92YWx1ZXMoKVxuXG5heCA9IGJ5X3JlZ2lvbi5wbG90LmJhcmgoZmlnc2l6ZT0oNywgMyksIGNvbG9yPVwiIzAwMzU5NFwiKVxuYXguc2V0X3hsYWJlbChcIk1lYW4gYWR1bHQgYXN0aG1hIHByZXZhbGVuY2UgKCUpXCIpXG5heC5zZXRfeWxhYmVsKFwiXCIpXG5heC5zZXRfdGl0bGUoXCJNZWFuIGNvdW50eSBhc3RobWEgcHJldmFsZW5jZSBieSByZWdpb25cIilcbnBsdC50aWdodF9sYXlvdXQoKVxucGx0LnNob3coKSJ9
+</script>
+</div>
+</div>
+<p><code>.plot()</code> on a Series or DataFrame calls matplotlib underneath and <strong>returns an axes</strong>, so every <code>ax.set_*()</code> method remains available.</p>
+<aside class="notes">
+<p>This is the fastest route from a groupby to a picture, and it is the right tool during exploration. The index becomes the category labels and the values become the bars, with no intermediate step.</p>
+<p>The important structural point is that nothing new is happening. <code>.plot()</code> builds a matplotlib axes and hands it back, which is why the labelling calls on the following lines are the same ones from twenty minutes ago. Nothing learned is being replaced.</p>
+<p><code>.sort_values()</code> before plotting is not cosmetic. An unsorted bar chart forces the reader to scan and compare; a sorted one delivers the ranking for free. Sorting is one of the few choices that improves a figure at zero cost.</p>
+<p>Read the result honestly, though. The spread across six regions is four tenths of a percentage point. This figure’s real message is again that asthma does not vary much — which is the third time today that answer has come back, and it is the setup for the payoff.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="seaborn-draws-grouped-statistical-figures-in-one-call" class="slide level2 smaller">
+<h2>seaborn draws grouped statistical figures in one call</h2>
+<div class="cell">
+<div>
+<div id="pyodide-13" class="exercise-cell">
+
+</div>
+<script type="pyodide-13-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiaW1wb3J0IG1pY3JvcGlwXG5hd2FpdCBtaWNyb3BpcC5pbnN0YWxsKFwic2VhYm9yblwiKVxuXG5pbXBvcnQgc2VhYm9ybiBhcyBzbnNcbnByaW50KFwic2VhYm9yblwiLCBzbnMuX192ZXJzaW9uX18pIn0=
+</script>
+</div>
+</div>
+<p>seaborn is <strong>not bundled</strong> with this browser’s Python. <code>micropip</code> fetches it at runtime, and the download takes a few seconds on first use.</p>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>In Colab, seaborn is already installed</strong></p>
+</div>
+<div class="callout-content">
+<p><code>import seaborn as sns</code> is enough there. The <code>micropip</code> step is specific to Python running inside a browser.</p>
+</div>
+</div>
+</div>
+<aside class="notes">
+<p>Run this cell early in the session and let it finish in the background, because the first download costs several seconds and it is better spent while talking than while waiting.</p>
+<p>Explain the <code>await</code> briefly and without going into async Python. The install has to reach the network, so the cell has to be able to pause. <code>await</code> is the keyword that says “wait for this before continuing.” It is required here and nowhere else in the course.</p>
+<p>If the network blocks it, the fallback is real and worth stating: everything in the next few slides can be drawn with matplotlib and pandas, which are already loaded. seaborn is convenience, not capability.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="sns.boxplot-compares-distributions-across-groups" class="slide level2 smaller">
+<h2><code>sns.boxplot()</code> compares distributions across groups</h2>
+<div class="cell">
+<div>
+<div id="pyodide-14" class="exercise-cell">
+
+</div>
+<script type="pyodide-14-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImZpZy1hbHQiOiJCb3ggcGxvdCBvZiBhZHVsdCBhc3RobWEgcHJldmFsZW5jZSBmb3IgbWV0cm8gYW5kIG5vbm1ldHJvIFBlbm5zeWx2YW5pYSBjb3VudGllcy4gVGhlIHR3byBib3hlcyBvdmVybGFwIGhlYXZpbHksIHdpdGggbm9ubWV0cm8gY291bnRpZXMgY2VudHJlZCBzbGlnaHRseSBoaWdoZXIgYXQgMTAuNyBwZXJjZW50IGFnYWluc3QgMTAuNSBwZXJjZW50IGZvciBtZXRybyBjb3VudGllcy4ifSwiY29kZSI6ImltcG9ydCBtaWNyb3BpcFxuYXdhaXQgbWljcm9waXAuaW5zdGFsbChcInNlYWJvcm5cIilcbmltcG9ydCBwYW5kYXMgYXMgcGRcbmltcG9ydCBzZWFib3JuIGFzIHNuc1xuaW1wb3J0IG1hdHBsb3RsaWIucHlwbG90IGFzIHBsdFxuXG5hc3RobWEgPSBwZC5yZWFkX2NzdihcImRhdGEvcGFfYXN0aG1hX3ByZXZhbGVuY2UuY3N2XCIpXG5jb3VudGllcyA9IHBkLnJlYWRfY3N2KFwiZGF0YS9wYV9jb3VudGllcy5jc3ZcIilcbmpvaW5lZCA9IGFzdGhtYS5tZXJnZShjb3VudGllc1tbXCJjb3VudHlcIiwgXCJtZXRyb1wiXV0sIG9uPVwiY291bnR5XCIsIGhvdz1cImxlZnRcIilcblxuZmlnLCBheCA9IHBsdC5zdWJwbG90cyhmaWdzaXplPSg2LjUsIDMuMikpXG5zbnMuYm94cGxvdChkYXRhPWpvaW5lZCwgeD1cIm1ldHJvXCIsIHk9XCJhc3RobWFfcHJldl9wY3RcIixcbiAgICAgICAgICAgIGh1ZT1cIm1ldHJvXCIsIGxlZ2VuZD1GYWxzZSxcbiAgICAgICAgICAgIHBhbGV0dGU9W1wiIzAwMzU5NFwiLCBcIiM4YTY0MDBcIl0sIGF4PWF4KVxuYXguc2V0X3hsYWJlbChcIlwiKVxuYXguc2V0X3lsYWJlbChcIkFkdWx0IGFzdGhtYSBwcmV2YWxlbmNlICglKVwiKVxuYXguc2V0X3RpdGxlKFwiQXN0aG1hIHByZXZhbGVuY2UgYnkgbWV0cm8gc3RhdHVzXCIpXG5wbHQudGlnaHRfbGF5b3V0KClcbnBsdC5zaG93KCkifQ==
+</script>
+</div>
+</div>
+<p>A box marks the <strong>median</strong> and the <strong>interquartile range</strong>; the whiskers reach the furthest points within 1.5 × IQR, and anything beyond is drawn individually.</p>
+<aside class="notes">
+<p>seaborn takes a DataFrame and column names and does the grouping itself. Doing this in bare matplotlib means splitting the frame, computing quartiles, and positioning boxes by hand.</p>
+<p>Make sure the box is actually understood rather than nodded at, because it is the most information-dense summary in the course. Line is the median, box holds the middle half of the counties, whiskers reach the rest, individual points are the far ones. Four numbers and a picture in a single glance.</p>
+<p>Read this one out loud: the boxes overlap almost entirely. Nonmetro sits slightly higher, 10.7 against 10.5, and the overlap is far larger than the gap. The honest statement is that metro status barely separates asthma prevalence.</p>
+<p>That matters for the payoff. Region did not explain it, metro status does not explain it, and the variable that does is coming.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="histplot-and-scatterplot-take-the-grouping-as-an-argument" class="slide level2 smaller">
+<h2><code>histplot</code> and <code>scatterplot</code> take the grouping as an argument</h2>
+<div class="cell">
+<div>
+<div id="pyodide-15" class="exercise-cell">
+
+</div>
+<script type="pyodide-15-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImZpZy1hbHQiOiJUd28gc2VhYm9ybiBwYW5lbHMuIFRoZSBsZWZ0IGlzIGEgaGlzdG9ncmFtIG9mIGFkdWx0IHNtb2tpbmcgcHJldmFsZW5jZSBzcGxpdCBieSBtZXRybyBzdGF0dXMsIHdpdGggbWV0cm8gY291bnRpZXMgY29uY2VudHJhdGVkIGF0IGxvd2VyIHZhbHVlcy4gVGhlIHJpZ2h0IGlzIGEgc2NhdHRlciBvZiBhc3RobWEgYWdhaW5zdCBzbW9raW5nLCBtZXRybyBhcyBjaXJjbGVzIGFuZCBub25tZXRybyBhcyB0cmlhbmdsZXMsIHJpc2luZyBsZWZ0IHRvIHJpZ2h0LiJ9LCJjb2RlIjoiaW1wb3J0IG1pY3JvcGlwXG5hd2FpdCBtaWNyb3BpcC5pbnN0YWxsKFwic2VhYm9yblwiKVxuaW1wb3J0IHBhbmRhcyBhcyBwZFxuaW1wb3J0IHNlYWJvcm4gYXMgc25zXG5pbXBvcnQgbWF0cGxvdGxpYi5weXBsb3QgYXMgcGx0XG5cbmFzdGhtYSA9IHBkLnJlYWRfY3N2KFwiZGF0YS9wYV9hc3RobWFfcHJldmFsZW5jZS5jc3ZcIilcbmNvdW50aWVzID0gcGQucmVhZF9jc3YoXCJkYXRhL3BhX2NvdW50aWVzLmNzdlwiKVxuam9pbmVkID0gYXN0aG1hLm1lcmdlKGNvdW50aWVzW1tcImNvdW50eVwiLCBcIm1ldHJvXCJdXSwgb249XCJjb3VudHlcIiwgaG93PVwibGVmdFwiKVxuXG5wYWxldHRlID0ge1wiTWV0cm9cIjogXCIjMDAzNTk0XCIsIFwiTm9ubWV0cm9cIjogXCIjOGE2NDAwXCJ9XG5cbmZpZywgKGxlZnQsIHJpZ2h0KSA9IHBsdC5zdWJwbG90cygxLCAyLCBmaWdzaXplPSg5LjUsIDMuMikpXG5cbnNucy5oaXN0cGxvdChkYXRhPWpvaW5lZCwgeD1cInNtb2tpbmdfcHJldl9wY3RcIiwgaHVlPVwibWV0cm9cIixcbiAgICAgICAgICAgICBwYWxldHRlPXBhbGV0dGUsIGJpbnM9MTAsIGF4PWxlZnQpXG5sZWZ0LnNldF94bGFiZWwoXCJBZHVsdCBzbW9raW5nIHByZXZhbGVuY2UgKCUpXCIpXG5cbnNucy5zY2F0dGVycGxvdChkYXRhPWpvaW5lZCwgeD1cInNtb2tpbmdfcHJldl9wY3RcIiwgeT1cImFzdGhtYV9wcmV2X3BjdFwiLFxuICAgICAgICAgICAgICAgIGh1ZT1cIm1ldHJvXCIsIHN0eWxlPVwibWV0cm9cIiwgcGFsZXR0ZT1wYWxldHRlLCBzPTU1LCBheD1yaWdodClcbnJpZ2h0LnNldF94bGFiZWwoXCJBZHVsdCBzbW9raW5nIHByZXZhbGVuY2UgKCUpXCIpXG5yaWdodC5zZXRfeWxhYmVsKFwiQWR1bHQgYXN0aG1hIHByZXZhbGVuY2UgKCUpXCIpXG5cbnBsdC50aWdodF9sYXlvdXQoKVxucGx0LnNob3coKSJ9
+</script>
+</div>
+</div>
+<p><code>style="metro"</code> varies the <strong>marker shape</strong> alongside the colour — the second channel, supplied by one argument.</p>
+<aside class="notes">
+<p>These are the two figures already built by hand, written the seaborn way. The saving is real: the grouped histogram would otherwise mean splitting the frame and calling <code>hist</code> twice with matching bins, and the scatter would mean the explicit loop from earlier.</p>
+<p><code>style="metro"</code> is the argument worth remembering out of this entire slide. It does the accessibility job automatically — same column drives colour and shape, so the figure is readable in greyscale without extra work. Passing <code>hue=</code> alone is the failure mode from the accessibility slide, and it is the default people reach for.</p>
+<p>Note the palette is passed as a dictionary here rather than a list, which maps each group name to its colour explicitly. That is worth preferring: with a list, the colours attach in whatever order seaborn encounters the categories, and a filtered dataset can silently swap them between two figures in the same report.</p>
+<p>seaborn also adds the legend on its own, which is convenient and worth checking rather than trusting — the title it picks is the column name, and <code>metro</code> is rarely what a reader should see.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="seaborns-default-palettes-fail-the-contrast-threshold" class="slide level2 smaller">
+<h2>seaborn’s default palettes fail the contrast threshold</h2>
+<p>Every seaborn default palette contains colours below <strong>3:1</strong> against white:</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Palette</th>
+<th>Lowest ratio</th>
+<th>Failing colours</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>deep</code> (the default)</td>
+<td>2.80 : 1</td>
+<td><code>#DD8452</code>, <code>#55A868</code></td>
+</tr>
+<tr class="even">
+<td><code>colorblind</code></td>
+<td><strong>2.61 : 1</strong></td>
+<td><code>#DE8F05</code>, <code>#CA9161</code></td>
+</tr>
+<tr class="odd">
+<td><code>muted</code></td>
+<td>2.01 : 1</td>
+<td><code>#EE854A</code>, <code>#6ACC64</code></td>
+</tr>
+<tr class="even">
+<td><code>tab10</code></td>
+<td>2.53 : 1</td>
+<td><code>#FF7F0E</code></td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>A palette named <code>colorblind</code> is not an accessible palette</strong></p>
+</div>
+<div class="callout-content">
+<p><code>colorblind</code> is designed so its hues stay <strong>distinguishable from one another</strong> under colour vision deficiency. That is a different property from <strong>contrast against the background</strong>, and it does not imply it.</p>
+</div>
+</div>
+</div>
+<p><strong>This course passes an explicit <code>palette=</code> argument to every seaborn call.</strong></p>
+<aside class="notes">
+<p>This table is the reason the previous slide passed a palette by hand instead of accepting the default, and it is worth showing rather than asserting.</p>
+<p>The <code>colorblind</code> row is the one that teaches something general. It is a good palette that solves a real problem — those hues stay separable for a reader with deuteranopia. It just does not solve <em>this</em> problem, which is whether a mark is visible against the paper at all. Two different accessibility properties, one reassuring name.</p>
+<p>The lesson to generalise: a default is a guess made by someone who never saw this figure, on a background they never chose. Defaults are a starting point.</p>
+<p>These numbers were measured against the seaborn version this course runs, using the same WCAG formula as the previous table. The method is in the repository and takes seconds.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="sns.heatmap-shows-a-matrix-of-relationships" class="slide level2 smaller">
+<h2><code>sns.heatmap()</code> shows a matrix of relationships</h2>
+<div class="cell">
+<div>
+<div id="pyodide-16" class="exercise-cell">
+
+</div>
+<script type="pyodide-16-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImZpZy1hbHQiOiJIZWF0IG1hcCBvZiBjb3JyZWxhdGlvbnMgYW1vbmcgZml2ZSBtYXRlcm5hbCBhbmQgaW5mYW50IGhlYWx0aCBtZWFzdXJlcyBhY3Jvc3MgNDQgUGVubnN5bHZhbmlhIGNvdW50aWVzLCB3aXRoIG51bWVyaWMgdmFsdWVzIHByaW50ZWQgaW4gZXZlcnkgY2VsbC4gQ2hpbGQgcG92ZXJ0eSBhbmQgaW5mYW50IG1vcnRhbGl0eSBjb3JyZWxhdGUgYXQgMC42NSwgaW5jb21lIGFuZCBwb3ZlcnR5IGF0IG5lZ2F0aXZlIDAuODEsIGFuZCBpbmZhbnQgbW9ydGFsaXR5IHdpdGggaW5jb21lIGF0IG5lZ2F0aXZlIDAuNjAuIn0sImNvZGUiOiJpbXBvcnQgbWljcm9waXBcbmF3YWl0IG1pY3JvcGlwLmluc3RhbGwoXCJzZWFib3JuXCIpXG5pbXBvcnQgcGFuZGFzIGFzIHBkXG5pbXBvcnQgc2VhYm9ybiBhcyBzbnNcbmltcG9ydCBtYXRwbG90bGliLnB5cGxvdCBhcyBwbHRcblxuYmlydGhzID0gcGQucmVhZF9jc3YoXCJkYXRhL3BhX21hdGVybmFsX2luZmFudC5jc3ZcIilcbnJlcG9ydGluZyA9IGJpcnRocy5kcm9wbmEoc3Vic2V0PVtcImluZmFudF9tb3J0YWxpdHlfcGVyXzEwMDBcIl0pXG5cbm1lYXN1cmVzID0gcmVwb3J0aW5nW1tcImluZmFudF9tb3J0YWxpdHlfcGVyXzEwMDBcIiwgXCJsb3dfYmlydGh3ZWlnaHRfcGN0XCIsXG4gICAgICAgICAgICAgICAgICAgICAgXCJ0ZWVuX2JpcnRoc19wZXJfMTAwMFwiLCBcImNoaWxkcmVuX2luX3BvdmVydHlfcGN0XCIsXG4gICAgICAgICAgICAgICAgICAgICAgXCJtZWRpYW5faG91c2Vob2xkX2luY29tZVwiXV1cblxuZmlnLCBheCA9IHBsdC5zdWJwbG90cyhmaWdzaXplPSg3LCAzLjYpKVxuc25zLmhlYXRtYXAobWVhc3VyZXMuY29ycigpLCBhbm5vdD1UcnVlLCBmbXQ9XCIuMmZcIixcbiAgICAgICAgICAgIGNtYXA9XCJCckJHXCIsIHZtaW49LTEsIHZtYXg9MSxcbiAgICAgICAgICAgIGFubm90X2t3cz17XCJzaXplXCI6IDh9LCBheD1heClcbmF4LnNldF90aXRsZShcIkNvcnJlbGF0aW9ucyBhbW9uZyBjb3VudHkgaGVhbHRoIG1lYXN1cmVzICg0NCBjb3VudGllcylcIilcbnBsdC50aWdodF9sYXlvdXQoKVxucGx0LnNob3coKSJ9
+</script>
+</div>
+</div>
+<p><code>annot=True</code> prints the value in every cell — <strong>the numbers are the second channel</strong>, so the figure survives being read without colour.</p>
+<aside class="notes">
+<p>Three deliberate choices here, each worth a sentence.</p>
+<p><code>vmin=-1, vmax=1</code> fixes the scale. Without it the colours stretch to whatever range happens to be present, and two heatmaps from the same project become uncomparable — a 0.4 could be the darkest cell in one and the palest in another.</p>
+<p><code>cmap="BrBG"</code> is diverging, which is correct because correlation has a meaningful centre at zero. A sequential map like <code>viridis</code> would make −0.8 and +0.1 look like two rungs of one ladder, when they are opposite findings.</p>
+<p><code>annot=True</code> is the accessibility rule again. The numbers are printed, so the reader never has to convert a colour into a value by eye.</p>
+<p>Read the diagonal first — it is 1.00 everywhere, because a variable correlates perfectly with itself, and that is a sanity check rather than a finding. Then the substance: poverty and infant mortality at +0.65, income and poverty at −0.81. The strongest cell on this map is income against poverty, and that one is nearly a definition rather than a discovery.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section></section>
+<section>
+<section id="describing-what-the-figure-shows" class="title-slide slide level1 unnumbered center" data-background-color="#003594">
+<h1>Describing what the figure shows</h1>
+
+</section>
+<section id="describe-summarises-every-numeric-column-at-once" class="slide level2 smaller">
+<h2><code>.describe()</code> summarises every numeric column at once</h2>
+<div class="cell">
+<div>
+<div id="pyodide-17" class="exercise-cell">
+
+</div>
+<script type="pyodide-17-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiaW1wb3J0IHBhbmRhcyBhcyBwZFxuXG5hc3RobWEgPSBwZC5yZWFkX2NzdihcImRhdGEvcGFfYXN0aG1hX3ByZXZhbGVuY2UuY3N2XCIpXG5cbnByaW50KGFzdGhtYVtbXCJhc3RobWFfcHJldl9wY3RcIiwgXCJzbW9raW5nX3ByZXZfcGN0XCIsIFwib2Jlc2l0eV9wcmV2X3BjdFwiXV0uZGVzY3JpYmUoKS5yb3VuZCgyKSkifQ==
+</script>
+</div>
+</div>
+<p>Eight numbers per column: the count, the mean, the standard deviation, the minimum, the three quartiles, and the maximum.</p>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong><code>count</code> is the first number to read</strong></p>
+</div>
+<div class="callout-content">
+<p>It reports <strong>non-missing</strong> values. A count below the number of rows means missing data is present in that column.</p>
+</div>
+</div>
+</div>
+<aside class="notes">
+<p>Read this table across rather than down, because the comparison is the finding. Asthma has a standard deviation of 0.38. Smoking has 2.32 — six times as wide. Obesity has 2.26.</p>
+<p>That single comparison is the cold open expressed as a number, and it is the most precise statement of the module’s premise: asthma does not vary much across Pennsylvania counties, while the things that might explain it vary a great deal.</p>
+<p>The callout is the habit worth installing. <code>count</code> first, every time. It is the cheapest missing-data check available, and in this file all three columns read 67, which means CDC PLACES models an estimate for every county — no suppression here, unlike the births file from Module 4.</p>
+<p>Compare the mean and the median — the 50% row — while the table is up. They sit at 10.66 and 10.60, which are close, and that closeness says the distribution is roughly symmetric with no extreme outlier dragging the mean. When those two numbers diverge sharply, the mean is being pulled by a tail and the median is the more honest summary.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="groupby-and-.agg-describe-each-group" class="slide level2 smaller">
+<h2><code>.groupby()</code> and <code>.agg()</code> describe each group</h2>
+<div class="cell">
+<div>
+<div id="pyodide-18" class="exercise-cell">
+
+</div>
+<script type="pyodide-18-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiaW1wb3J0IHBhbmRhcyBhcyBwZFxuXG5hc3RobWEgPSBwZC5yZWFkX2NzdihcImRhdGEvcGFfYXN0aG1hX3ByZXZhbGVuY2UuY3N2XCIpXG5jb3VudGllcyA9IHBkLnJlYWRfY3N2KFwiZGF0YS9wYV9jb3VudGllcy5jc3ZcIilcbmpvaW5lZCA9IGFzdGhtYS5tZXJnZShjb3VudGllc1tbXCJjb3VudHlcIiwgXCJtZXRyb1wiXV0sIG9uPVwiY291bnR5XCIsIGhvdz1cImxlZnRcIilcblxuc3VtbWFyeSA9IGpvaW5lZC5ncm91cGJ5KFwibWV0cm9cIikuYWdnKFxuICAgIGNvdW50aWVzPShcImNvdW50eVwiLCBcImNvdW50XCIpLFxuICAgIG1lYW5fYXN0aG1hPShcImFzdGhtYV9wcmV2X3BjdFwiLCBcIm1lYW5cIiksXG4gICAgbWVhbl9zbW9raW5nPShcInNtb2tpbmdfcHJldl9wY3RcIiwgXCJtZWFuXCIpLFxuKVxuXG5wcmludChzdW1tYXJ5LnJvdW5kKDIpKSJ9
+</script>
+</div>
+</div>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>The comparison this table makes</strong></p>
+</div>
+<div class="callout-content">
+<p>Metro and nonmetro counties differ by <strong>0.17</strong> percentage points in asthma prevalence, and by <strong>2.34</strong> percentage points in smoking prevalence.</p>
+</div>
+</div>
+</div>
+<aside class="notes">
+<p>This is the box plot as a table, and the numbers say what the overlapping boxes implied. Asthma: 10.58 metro against 10.75 nonmetro. Smoking: 16.08 against 18.42.</p>
+<p>The asthma difference is a seventh of a percentage point and it means very little. The smoking difference is more than two full points across thirty-seven and thirty counties. Same table, and one column is carrying nearly all of the signal.</p>
+<p>Always print the group sizes. The <code>counties=("county", "count")</code> line is not decoration — a difference in means computed over four counties and a difference computed over thirty-seven deserve very different levels of confidence, and without the count nobody can tell which one they are looking at.</p>
+<p>The named-aggregation syntax is worth a moment because the output is self-documenting. The column is called <code>mean_asthma</code>, not <code>asthma_prev_pct</code> with an invisible mean applied. Three weeks later, that naming is the difference between readable code and a guess.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="corr-measures-how-two-columns-move-together" class="slide level2 smaller">
+<h2><code>.corr()</code> measures how two columns move together</h2>
+<div class="cell">
+<div>
+<div id="pyodide-19" class="exercise-cell">
+
+</div>
+<script type="pyodide-19-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiaW1wb3J0IHBhbmRhcyBhcyBwZFxuXG5hc3RobWEgPSBwZC5yZWFkX2NzdihcImRhdGEvcGFfYXN0aG1hX3ByZXZhbGVuY2UuY3N2XCIpXG5cbnByaW50KFwic21va2luZyB2cyBhc3RobWE6XCIsIHJvdW5kKGFzdGhtYVtcInNtb2tpbmdfcHJldl9wY3RcIl0uY29ycihhc3RobWFbXCJhc3RobWFfcHJldl9wY3RcIl0pLCAzKSlcbnByaW50KFwib2Jlc2l0eSB2cyBhc3RobWE6XCIsIHJvdW5kKGFzdGhtYVtcIm9iZXNpdHlfcHJldl9wY3RcIl0uY29ycihhc3RobWFbXCJhc3RobWFfcHJldl9wY3RcIl0pLCAzKSkifQ==
+</script>
+</div>
+</div>
+<p>A correlation runs from <strong>−1</strong> to <strong>+1</strong>. It reports the strength and direction of a <strong>straight-line</strong> relationship, and nothing else.</p>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>What a correlation cannot establish</strong></p>
+</div>
+<div class="callout-content">
+<p>It cannot establish cause. It cannot detect a curved relationship. It is distorted by outliers. <strong>And these are county averages, so it describes counties, not people.</strong></p>
+</div>
+</div>
+</div>
+<aside class="notes">
+<p>The number to say out loud is +0.659, smoking against asthma. That is a strong relationship by the standards of county-level public health data, and it is the strongest in this course.</p>
+<p>Obesity comes in at +0.476, which is real but weaker, and worth mentioning so the room does not conclude that everything correlates with everything.</p>
+<p>Now the caveat that carries the most weight, and it deserves a full sentence rather than a clause. These are county averages. A correlation across counties describes counties. It does not establish that the individual people who smoke are the individual people with asthma — that is a different question requiring individual-level data, and inferring the second from the first has a name in epidemiology, the ecological fallacy. They will meet the term formally elsewhere; today they meet the caution.</p>
+<p>Say plainly what this course does not do: no p-value, no significance test, no model. Not because those are unimportant, but because a correlation that is described accurately is worth more than one that is tested and misread.</p>
+<p>Always draw the scatter before trusting the number. The next slide shows why.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="a-correlation-without-its-scatter-can-be-a-fiction" class="slide level2 smaller">
+<h2>A correlation without its scatter can be a fiction</h2>
+<div class="cell">
+<div>
+<div id="pyodide-20" class="exercise-cell">
+
+</div>
+<script type="pyodide-20-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImZpZy1hbHQiOiJUd28gc2NhdHRlciBwbG90cy4gVGhlIGxlZnQgcGFuZWwgc2hvd3MgYWR1bHQgc21va2luZyBhZ2FpbnN0IGFzdGhtYSBhY3Jvc3MgNjcgY291bnRpZXMsIGFuIGV2ZW4gdXB3YXJkIGNsb3VkIHdpdGggY29ycmVsYXRpb24gMC42NTkuIFRoZSByaWdodCBwYW5lbCBzaG93cyB0aGUgc2FtZSBkYXRhIHdpdGggb25lIGZhYnJpY2F0ZWQgZXh0cmVtZSBwb2ludCBhZGRlZCBhdCB0aGUgdG9wIHJpZ2h0LCBhbmQgdGhlIGNvcnJlbGF0aW9uIHJpc2VzIHRvIDAuODI3IG9uIHRoZSBzdHJlbmd0aCBvZiB0aGF0IHNpbmdsZSBwb2ludC4ifSwiY29kZSI6ImltcG9ydCBwYW5kYXMgYXMgcGRcbmltcG9ydCBudW1weSBhcyBucFxuaW1wb3J0IG1hdHBsb3RsaWIucHlwbG90IGFzIHBsdFxuXG5hc3RobWEgPSBwZC5yZWFkX2NzdihcImRhdGEvcGFfYXN0aG1hX3ByZXZhbGVuY2UuY3N2XCIpXG5cbnNtb2tpbmcgID0gYXN0aG1hW1wic21va2luZ19wcmV2X3BjdFwiXS50b19udW1weSgpXG5wcmV2ICAgICA9IGFzdGhtYVtcImFzdGhtYV9wcmV2X3BjdFwiXS50b19udW1weSgpXG5cbiMgT25lIGZhYnJpY2F0ZWQgcG9pbnQsIGFwcGVuZGVkIHRvIGRlbW9uc3RyYXRlIGxldmVyYWdlLiBOb3QgcmVhbCBkYXRhLlxuc21va2luZ19wbHVzID0gbnAuYXBwZW5kKHNtb2tpbmcsIDM0LjApXG5wcmV2X3BsdXMgICAgPSBucC5hcHBlbmQocHJldiwgMTUuMClcblxuZmlnLCAocmVhbCwgZGlzdG9ydGVkKSA9IHBsdC5zdWJwbG90cygxLCAyLCBmaWdzaXplPSg5LjUsIDMuNCkpXG5cbnJlYWwuc2NhdHRlcihzbW9raW5nLCBwcmV2LCBjb2xvcj1cIiMwMDM1OTRcIiwgcz0yOCwgYWxwaGE9MC44KVxucmVhbC5zZXRfdGl0bGUoZlwiNjcgcmVhbCBjb3VudGllczogciA9IHtucC5jb3JyY29lZihzbW9raW5nLCBwcmV2KVswLCAxXTouM2Z9XCIsIGZvbnRzaXplPTEwKVxuXG5kaXN0b3J0ZWQuc2NhdHRlcihzbW9raW5nX3BsdXNbOi0xXSwgcHJldl9wbHVzWzotMV0sIGNvbG9yPVwiIzAwMzU5NFwiLCBzPTI4LCBhbHBoYT0wLjgpXG5kaXN0b3J0ZWQuc2NhdHRlcihzbW9raW5nX3BsdXNbLTE6XSwgcHJldl9wbHVzWy0xOl0sIGNvbG9yPVwiIzhhNjQwMFwiLCBzPTkwLCBtYXJrZXI9XCJYXCIpXG5kaXN0b3J0ZWQuYW5ub3RhdGUoXCJvbmUgZmFicmljYXRlZCBwb2ludFwiLCB4eT0oMzQuMCwgMTUuMCksIHh5dGV4dD0oMTkuNSwgMTQuMCksXG4gICAgICAgICAgICAgICAgICAgZm9udHNpemU9OCwgY29sb3I9XCIjOGE2NDAwXCIsXG4gICAgICAgICAgICAgICAgICAgYXJyb3dwcm9wcz1kaWN0KGFycm93c3R5bGU9XCItPlwiLCBjb2xvcj1cIiM4YTY0MDBcIikpXG5kaXN0b3J0ZWQuc2V0X3RpdGxlKGZcIldpdGggb25lIGFkZGVkIHBvaW50OiByID0ge25wLmNvcnJjb2VmKHNtb2tpbmdfcGx1cywgcHJldl9wbHVzKVswLCAxXTouM2Z9XCIsXG4gICAgICAgICAgICAgICAgICAgIGZvbnRzaXplPTEwKVxuXG5mb3IgcGFuZWwgaW4gKHJlYWwsIGRpc3RvcnRlZCk6XG4gICAgcGFuZWwuc2V0X3hsYWJlbChcIlNtb2tpbmcgKCUpXCIsIGZvbnRzaXplPTgpXG4gICAgcGFuZWwuc2V0X3lsYWJlbChcIkFzdGhtYSAoJSlcIiwgZm9udHNpemU9OClcbiAgICBwYW5lbC50aWNrX3BhcmFtcyhsYWJlbHNpemU9NylcblxucGx0LnRpZ2h0X2xheW91dCgpXG5wbHQuc2hvdygpIn0=
+</script>
+</div>
+</div>
+<aside class="notes">
+<p>The right-hand panel adds exactly one point out of sixty-eight and the correlation climbs from 0.659 to 0.827. That is leverage: a point far from the cloud pulls the summary toward itself with force out of all proportion to its weight in the data — one point in sixty-eight moved the headline number by more than a sixth of its range.</p>
+<p>State clearly that this point is fabricated and labelled as such on the figure. Never put an invented number into a real analysis; here it exists solely to make the mechanism visible, and the annotation on the chart says so.</p>
+<p>Now the practical version. A real analysis rarely fabricates a point — it acquires one. A county with a data entry error, a rate computed from three events, a placeholder like −99 that was never cleaned. Any of those produce this figure without anyone intending it.</p>
+<p>The habit: draw the scatter, then read the correlation. In that order, always. A correlation reported without its scatter is an assertion nobody in the room can check, and once the scatter is up, a point like the gold X is impossible to miss.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section></section>
+<section>
+<section id="rates-against-counts" class="title-slide slide level1 unnumbered center" data-background-color="#003594">
+<h1>Rates against counts</h1>
+
+</section>
+<section id="a-figure-of-counts-often-draws-a-map-of-population" class="slide level2 smaller">
+<h2>A figure of counts often draws a map of population</h2>
+<div class="cell">
+<div>
+<div id="pyodide-21" class="exercise-cell">
+
+</div>
+<script type="pyodide-21-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImZpZy1hbHQiOiJUd28gaG9yaXpvbnRhbCBiYXIgY2hhcnRzIG9mIFBlbm5zeWx2YW5pYSBDT1ZJRC0xOSBtb3J0YWxpdHkuIFRoZSBsZWZ0IHJhbmtzIGNvdW50aWVzIGJ5IHRvdGFsIGRlYXRocyBhbmQgbGlzdHMgUGhpbGFkZWxwaGlhLCBBbGxlZ2hlbnksIE1vbnRnb21lcnksIExhbmNhc3RlciwgYW5kIEJ1Y2tzIOKAlCB0aGUgZml2ZSBsYXJnZXN0IGNvdW50aWVzLiBUaGUgcmlnaHQgcmFua3MgYnkgZGVhdGhzIHBlciAxMDAsMDAwIGFuZCBsaXN0cyBQb3R0ZXIsIE1jS2VhbiwgSnVuaWF0YSwgSmVmZmVyc29uLCBhbmQgQXJtc3Ryb25nIOKAlCBmaXZlIHNtYWxsIHJ1cmFsIGNvdW50aWVzLiBUaGUgdHdvIGxpc3RzIHNoYXJlIG5vIGNvdW50aWVzLiJ9LCJjb2RlIjoiaW1wb3J0IHBhbmRhcyBhcyBwZFxuaW1wb3J0IG1hdHBsb3RsaWIucHlwbG90IGFzIHBsdFxuXG5jb3ZpZCA9IHBkLnJlYWRfY3N2KFwiZGF0YS9wYV9jb3ZpZF9tb250aGx5LmNzdlwiKVxuY291bnRpZXMgPSBwZC5yZWFkX2NzdihcImRhdGEvcGFfY291bnRpZXMuY3N2XCIpXG5cbnRvdGFscyA9IChjb3ZpZC5ncm91cGJ5KFwiY291bnR5XCIsIGFzX2luZGV4PUZhbHNlKVtcImNvdmlkX2RlYXRoc1wiXS5zdW0oKVxuICAgICAgICAgICAgICAgLm1lcmdlKGNvdW50aWVzW1tcImNvdW50eVwiLCBcInBvcHVsYXRpb25fMjAyM1wiXV0sIG9uPVwiY291bnR5XCIpKVxudG90YWxzW1wicmF0ZV9wZXJfMTAwa1wiXSA9IHRvdGFsc1tcImNvdmlkX2RlYXRoc1wiXSAvIHRvdGFsc1tcInBvcHVsYXRpb25fMjAyM1wiXSAqIDEwMDAwMFxuXG5ieV9jb3VudCA9IHRvdGFscy5ubGFyZ2VzdCg1LCBcImNvdmlkX2RlYXRoc1wiKS5zb3J0X3ZhbHVlcyhcImNvdmlkX2RlYXRoc1wiKVxuYnlfcmF0ZSAgPSB0b3RhbHMubmxhcmdlc3QoNSwgXCJyYXRlX3Blcl8xMDBrXCIpLnNvcnRfdmFsdWVzKFwicmF0ZV9wZXJfMTAwa1wiKVxuXG5maWcsIChjb3VudHMsIHJhdGVzKSA9IHBsdC5zdWJwbG90cygxLCAyLCBmaWdzaXplPSg5LjUsIDMuMikpXG5cbmNvdW50cy5iYXJoKGJ5X2NvdW50W1wiY291bnR5XCJdLCBieV9jb3VudFtcImNvdmlkX2RlYXRoc1wiXSwgY29sb3I9XCIjMDAzNTk0XCIpXG5jb3VudHMuc2V0X3RpdGxlKFwiVG9wIDUgYnkgdG90YWwgZGVhdGhzXCIsIGZvbnRzaXplPTEwKVxuY291bnRzLnNldF94bGFiZWwoXCJDT1ZJRC0xOSBkZWF0aHNcIiwgZm9udHNpemU9OClcblxucmF0ZXMuYmFyaChieV9yYXRlW1wiY291bnR5XCJdLCBieV9yYXRlW1wicmF0ZV9wZXJfMTAwa1wiXSwgY29sb3I9XCIjOGE2NDAwXCIpXG5yYXRlcy5zZXRfdGl0bGUoXCJUb3AgNSBieSBkZWF0aHMgcGVyIDEwMCwwMDBcIiwgZm9udHNpemU9MTApXG5yYXRlcy5zZXRfeGxhYmVsKFwiRGVhdGhzIHBlciAxMDAsMDAwXCIsIGZvbnRzaXplPTgpXG5cbmZvciBwYW5lbCBpbiAoY291bnRzLCByYXRlcyk6XG4gICAgcGFuZWwudGlja19wYXJhbXMobGFiZWxzaXplPTgpXG5cbnBsdC50aWdodF9sYXlvdXQoKVxucGx0LnNob3coKSJ9
+</script>
+</div>
+</div>
+<p><strong>The two lists share no counties.</strong></p>
+<aside class="notes">
+<p>Ask for predictions before running it. Most of the room expects some overlap between the two lists, and there is none at all.</p>
+<p>The left panel is Philadelphia, Allegheny, Montgomery, Lancaster, Bucks — which is, in order, a list of Pennsylvania’s largest counties. That chart is a population map wearing a mortality label. Across all sixty-seven counties, deaths and population correlate at <strong>+0.946</strong>.</p>
+<p>The right panel is Potter, McKean, Juniata, Jefferson, Armstrong. Rural counties, and Potter tops it at 556 per 100,000 with eighty-nine deaths — a number so small it would never appear on the left panel.</p>
+<p>Which is correct? Both, for different questions. Total deaths is the right answer for planning a morgue or allocating staff, because that is a question about absolute burden. The rate is the right answer for asking where the pandemic hit hardest per resident. The failure is not choosing one; it is choosing without noticing there was a choice.</p>
+<p>This is the most common error in published public-health graphics and it clears peer review regularly, because the figure looks entirely reasonable. The check is one question: <strong>does this bar get longer simply because more people live there?</strong></p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="the-check-in-which-figure-answers-which-question" class="slide level2 smaller">
+<h2>The check-in: which figure answers which question</h2>
+<div class="cell" data-exercise="m5_rates_counts">
+<div>
+<div id="pyodide-22" class="exercise-cell">
+
+</div>
+<script type="pyodide-22-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoibTVfcmF0ZXNfY291bnRzIn0sImNvZGUiOiJpbXBvcnQgcGFuZGFzIGFzIHBkXG5cbmNvdmlkID0gcGQucmVhZF9jc3YoXCJkYXRhL3BhX2NvdmlkX21vbnRobHkuY3N2XCIpXG5jb3VudGllcyA9IHBkLnJlYWRfY3N2KFwiZGF0YS9wYV9jb3VudGllcy5jc3ZcIilcblxudG90YWxzID0gKGNvdmlkLmdyb3VwYnkoXCJjb3VudHlcIiwgYXNfaW5kZXg9RmFsc2UpW1wiY292aWRfZGVhdGhzXCJdLnN1bSgpXG4gICAgICAgICAgICAgICAubWVyZ2UoY291bnRpZXNbW1wiY291bnR5XCIsIFwicG9wdWxhdGlvbl8yMDIzXCJdXSwgb249XCJjb3VudHlcIikpXG5cbiMgQ29tcGxldGUgdGhlIHJhdGU6IGRlYXRocyBwZXIgMTAwLDAwMCByZXNpZGVudHMuXG50b3RhbHNbXCJyYXRlX3Blcl8xMDBrXCJdID0gdG90YWxzW1wiY292aWRfZGVhdGhzXCJdIC8gdG90YWxzW1wiX19fX19fXCJdICogMTAwMDAwXG5cbnByaW50KFwiZGVhdGhzIHZzIHBvcHVsYXRpb246XCIsIHJvdW5kKHRvdGFsc1tcImNvdmlkX2RlYXRoc1wiXS5jb3JyKHRvdGFsc1tcInBvcHVsYXRpb25fMjAyM1wiXSksIDMpKVxucHJpbnQoXCJyYXRlICAgdnMgcG9wdWxhdGlvbjpcIiwgcm91bmQodG90YWxzW1wicmF0ZV9wZXJfMTAwa1wiXS5jb3JyKHRvdGFsc1tcInBvcHVsYXRpb25fMjAyM1wiXSksIDMpKSJ9
+</script>
+</div>
+</div>
+<div class="cell" data-exercise="m5_rates_counts" data-hint="true">
+<div class="pyodide-ojs-exercise exercise-hint d-none" data-exercise="m5_rates_counts">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="interpolate-24"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="interpolate-24-1"><a href="#interpolate-24-1"></a><span class="co"># The blank is population_2023.</span></span>
+<span id="interpolate-24-2"><a href="#interpolate-24-2"></a><span class="co">#</span></span>
+<span id="interpolate-24-3"><a href="#interpolate-24-3"></a><span class="co"># The two printed correlations are the point of the exercise. A count</span></span>
+<span id="interpolate-24-4"><a href="#interpolate-24-4"></a><span class="co"># correlates with population at +0.946 — it is very nearly a measure of</span></span>
+<span id="interpolate-24-5"><a href="#interpolate-24-5"></a><span class="co"># how many people live there. Dividing by population removes that, and</span></span>
+<span id="interpolate-24-6"><a href="#interpolate-24-6"></a><span class="co"># the rate correlates with population at -0.232.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<div class="cell" data-exercise="m5_rates_counts" data-solution="true">
+<div class="pyodide-ojs-exercise exercise-solution d-none" data-exercise="m5_rates_counts">
+<code id="interpolate-26" class="solution-code d-none">import pandas as pd
+
+covid = pd.read_csv("data/pa_covid_monthly.csv")
+counties = pd.read_csv("data/pa_counties.csv")
+
+totals = (covid.groupby("county", as_index=False)["covid_deaths"].sum()
+               .merge(counties[["county", "population_2023"]], on="county"))
+
+totals["rate_per_100k"] = totals["covid_deaths"] / totals["population_2023"] * 100000
+
+print("deaths vs population:", round(totals["covid_deaths"].corr(totals["population_2023"]), 3))
+print("rate   vs population:", round(totals["rate_per_100k"].corr(totals["population_2023"]), 3))</code>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="interpolate-27"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="interpolate-27-1"><a href="#interpolate-27-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="interpolate-27-2"><a href="#interpolate-27-2"></a></span>
+<span id="interpolate-27-3"><a href="#interpolate-27-3"></a>covid <span class="op">=</span> pd.read_csv(<span class="st">"data/pa_covid_monthly.csv"</span>)</span>
+<span id="interpolate-27-4"><a href="#interpolate-27-4"></a>counties <span class="op">=</span> pd.read_csv(<span class="st">"data/pa_counties.csv"</span>)</span>
+<span id="interpolate-27-5"><a href="#interpolate-27-5"></a></span>
+<span id="interpolate-27-6"><a href="#interpolate-27-6"></a>totals <span class="op">=</span> (covid.groupby(<span class="st">"county"</span>, as_index<span class="op">=</span><span class="va">False</span>)[<span class="st">"covid_deaths"</span>].<span class="bu">sum</span>()</span>
+<span id="interpolate-27-7"><a href="#interpolate-27-7"></a>               .merge(counties[[<span class="st">"county"</span>, <span class="st">"population_2023"</span>]], on<span class="op">=</span><span class="st">"county"</span>))</span>
+<span id="interpolate-27-8"><a href="#interpolate-27-8"></a></span>
+<span id="interpolate-27-9"><a href="#interpolate-27-9"></a>totals[<span class="st">"rate_per_100k"</span>] <span class="op">=</span> totals[<span class="st">"covid_deaths"</span>] <span class="op">/</span> totals[<span class="st">"population_2023"</span>] <span class="op">*</span> <span class="dv">100000</span></span>
+<span id="interpolate-27-10"><a href="#interpolate-27-10"></a></span>
+<span id="interpolate-27-11"><a href="#interpolate-27-11"></a><span class="bu">print</span>(<span class="st">"deaths vs population:"</span>, <span class="bu">round</span>(totals[<span class="st">"covid_deaths"</span>].corr(totals[<span class="st">"population_2023"</span>]), <span class="dv">3</span>))</span>
+<span id="interpolate-27-12"><a href="#interpolate-27-12"></a><span class="bu">print</span>(<span class="st">"rate   vs population:"</span>, <span class="bu">round</span>(totals[<span class="st">"rate_per_100k"</span>].corr(totals[<span class="st">"population_2023"</span>]), <span class="dv">3</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<aside class="notes">
+<p>Fill the blank with the room and then read the two numbers together, because the pair is the lesson.</p>
+<p>Counts against population: +0.946. That is very nearly a perfect straight line. A chart of COVID death counts across Pennsylvania counties is, to a first approximation, a chart of where people live.</p>
+<p>Rates against population: −0.232. The population signal is gone. What remains is faintly negative, and the honest reading is that smaller counties fared somewhat worse per resident here — consistent with the right-hand panel on the previous slide.</p>
+<p>There is a trap worth naming out loud because it recurs everywhere. Total firearm deaths and total COVID deaths correlate at <strong>+0.962</strong> across these counties, which looks like a striking finding and is pure artifact — both are counts, and both track population. Two counts will almost always correlate, because both are largely measuring how many people live there. That is a fact about counts, not about the world.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section></section>
+<section>
+<section id="eda-as-a-method" class="title-slide slide level1 unnumbered center" data-background-color="#003594">
+<h1>EDA as a method</h1>
+
+</section>
+<section id="a-figures-job-is-to-produce-a-better-question" class="slide level2 smaller scrollable">
+<h2>A figure’s job is to produce a better question</h2>
+<ol type="1">
+<li><strong>Ask</strong> — one question the data could answer</li>
+<li><strong>Draw</strong> — the simplest figure that addresses it</li>
+<li><strong>Read</strong> — what the figure shows, and what it excludes</li>
+<li><strong>Ask again</strong> — the sharper question the figure exposed</li>
+</ol>
+<p>This session has run that loop three times.</p>
+<table class="caption-top">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Question</th>
+<th>Figure</th>
+<th>What it produced</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>How much does asthma vary?</td>
+<td>Histogram</td>
+<td>Very little — 9.7% to 11.6%</td>
+</tr>
+<tr class="even">
+<td>Does region explain it?</td>
+<td>Bar chart by region</td>
+<td>No — 0.4 points across six regions</td>
+</tr>
+<tr class="odd">
+<td>Does metro status explain it?</td>
+<td>Box plot</td>
+<td>No — boxes overlap almost entirely</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Three negative answers narrowed the question to the one the data can answer.</strong></p>
+<aside class="notes">
+<p>Name what has actually been happening for the last forty minutes, because students often read exploratory work as aimless and it is not.</p>
+<p>Three figures, three answers of “no.” A student who expects analysis to produce findings reads that as failure. It is the opposite: each no removed a candidate explanation and made the remaining question sharper. Region is not it. Urbanicity is not it. So the variation must sit with something that varies more than asthma does.</p>
+<p>Say the uncomfortable part plainly. Most figures an analyst draws never appear in the final report. They are instruments for thinking, and the ratio of drawn to published is something like twenty to one. That is not waste, it is the method — the same way a search is not a failure for returning nothing.</p>
+<p>The step people skip is step three, reading what the figure <em>excludes</em>. The 44-county scatter excluded the rural counties. The count chart excluded the question of denominator. What is missing from a figure is usually more dangerous than what is in it, because absence is silent.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="the-closing-figure" class="slide level2 smaller">
+<h2>The closing figure</h2>
+<div class="cell">
+<div>
+<div id="pyodide-28" class="exercise-cell">
+
+</div>
+<script type="pyodide-28-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImZpZy1hbHQiOiJTY2F0dGVyIHBsb3Qgb2YgYWR1bHQgYXN0aG1hIHByZXZhbGVuY2UgYWdhaW5zdCBhZHVsdCBzbW9raW5nIHByZXZhbGVuY2UgYWNyb3NzIGFsbCA2NyBQZW5uc3lsdmFuaWEgY291bnRpZXMsIHdpdGggbWV0cm8gY291bnRpZXMgYXMgY2lyY2xlcyBhbmQgbm9ubWV0cm8gY291bnRpZXMgYXMgdHJpYW5nbGVzLiBQb2ludHMgcmlzZSBjbGVhcmx5IGZyb20gbGVmdCB0byByaWdodCwgY29ycmVsYXRpb24gMC42NTkuIENoZXN0ZXIgQ291bnR5IHNpdHMgYXQgdGhlIGxvdyBsZWZ0IHdpdGggMTAuNiBwZXJjZW50IHNtb2tpbmcgYW5kIDkuNyBwZXJjZW50IGFzdGhtYTsgU3VsbGl2YW4gQ291bnR5IHNpdHMgYXQgdGhlIHVwcGVyIHJpZ2h0IHdpdGggMjEuMSBwZXJjZW50IHNtb2tpbmcgYW5kIDExLjMgcGVyY2VudCBhc3RobWEuIn0sImNvZGUiOiJpbXBvcnQgcGFuZGFzIGFzIHBkXG5pbXBvcnQgbWF0cGxvdGxpYi5weXBsb3QgYXMgcGx0XG5cbmFzdGhtYSA9IHBkLnJlYWRfY3N2KFwiZGF0YS9wYV9hc3RobWFfcHJldmFsZW5jZS5jc3ZcIilcbmNvdW50aWVzID0gcGQucmVhZF9jc3YoXCJkYXRhL3BhX2NvdW50aWVzLmNzdlwiKVxuam9pbmVkID0gYXN0aG1hLm1lcmdlKGNvdW50aWVzW1tcImNvdW50eVwiLCBcIm1ldHJvXCJdXSwgb249XCJjb3VudHlcIiwgaG93PVwibGVmdFwiKVxuXG5yID0gam9pbmVkW1wic21va2luZ19wcmV2X3BjdFwiXS5jb3JyKGpvaW5lZFtcImFzdGhtYV9wcmV2X3BjdFwiXSlcblxuZmlnLCBheCA9IHBsdC5zdWJwbG90cyhmaWdzaXplPSg3LjYsIDMuOCkpXG5cbmZvciBncm91cCwgY29sb3VyLCBtYXJrZXIgaW4gWyhcIk1ldHJvXCIsIFwiIzAwMzU5NFwiLCBcIm9cIiksIChcIk5vbm1ldHJvXCIsIFwiIzhhNjQwMFwiLCBcIl5cIildOlxuICAgIHN1YnNldCA9IGpvaW5lZFtqb2luZWRbXCJtZXRyb1wiXSA9PSBncm91cF1cbiAgICBheC5zY2F0dGVyKHN1YnNldFtcInNtb2tpbmdfcHJldl9wY3RcIl0sIHN1YnNldFtcImFzdGhtYV9wcmV2X3BjdFwiXSxcbiAgICAgICAgICAgICAgIGNvbG9yPWNvbG91ciwgbWFya2VyPW1hcmtlciwgcz00NiwgYWxwaGE9MC44NSxcbiAgICAgICAgICAgICAgIGVkZ2Vjb2xvcj1cIndoaXRlXCIsIGxpbmV3aWR0aD0wLjYsIGxhYmVsPWdyb3VwKVxuXG5mb3IgbmFtZSBpbiBbXCJDaGVzdGVyXCIsIFwiU3VsbGl2YW5cIl06XG4gICAgcm93ID0gam9pbmVkW2pvaW5lZFtcImNvdW50eVwiXSA9PSBuYW1lXS5pbG9jWzBdXG4gICAgYXguYW5ub3RhdGUobmFtZSwgKHJvd1tcInNtb2tpbmdfcHJldl9wY3RcIl0sIHJvd1tcImFzdGhtYV9wcmV2X3BjdFwiXSksXG4gICAgICAgICAgICAgICAgeHl0ZXh0PSg2LCAtOSksIHRleHRjb29yZHM9XCJvZmZzZXQgcG9pbnRzXCIsIGZvbnRzaXplPTgpXG5cbmF4LnNldF94bGFiZWwoXCJBZHVsdCBzbW9raW5nIHByZXZhbGVuY2UgKCUpXCIpXG5heC5zZXRfeWxhYmVsKFwiQWR1bHQgYXN0aG1hIHByZXZhbGVuY2UgKCUpXCIpXG5heC5zZXRfdGl0bGUoZlwiQXN0aG1hIGFnYWluc3Qgc21va2luZywgNjcgUEEgY291bnRpZXMgKHIgPSB7cjouM2Z9KVwiKVxuYXgubGVnZW5kKGZvbnRzaXplPTgsIGZyYW1lb249RmFsc2UsIGxvYz1cImxvd2VyIHJpZ2h0XCIpXG5heC50ZXh0KDAuMDEsIDAuOTgsIFwiU291cmNlOiBDREMgUExBQ0VTIDIwMjRcIiwgdHJhbnNmb3JtPWF4LnRyYW5zQXhlcyxcbiAgICAgICAgZm9udHNpemU9NywgY29sb3I9XCIjNmI3MjgwXCIsIHZlcnRpY2FsYWxpZ25tZW50PVwidG9wXCIpXG5wbHQudGlnaHRfbGF5b3V0KClcbnBsdC5zaG93KCkifQ==
+</script>
+</div>
+</div>
+<aside class="notes">
+<p>This is the figure the whole session was built to produce, and every requirement taught today is visible in it at once: axis labels with units, a title carrying the finding, a source note, two channels for the grouping, two annotated counties for orientation, and alt text stating direction and magnitude.</p>
+<p>Read it out loud as the answer to the cold open. Asthma prevalence barely moves between Pennsylvania counties — under two percentage points across all sixty-seven. Smoking prevalence moves across eleven points. And they move together at <strong>+0.659</strong>, the strongest relationship in this course.</p>
+<p>The two labelled counties make it concrete. Chester at the bottom left: 10.6% smoking, 9.7% asthma, the lowest in the state on both. Sullivan at the top right: 21.1% smoking, 11.3% asthma. Two Pennsylvania counties, opposite corners of one picture.</p>
+<p>The markers do a second job worth pointing out. Nonmetro triangles cluster to the right, which is the earlier finding reappearing — rural counties smoke more — and it explains why the box plot showed nonmetro asthma slightly higher. Metro status was never the cause; it travels with smoking.</p>
+<p>Then close on the discipline. This is a relationship between county averages. It is consistent with smoking causing asthma, with both sharing upstream causes — income, occupation, housing, air quality indoors — and with combinations of those. The figure earns the relationship. It does not earn the mechanism. Stating exactly that much, and no more, is the skill this course is actually teaching.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="session-outcomes" class="slide level2 smaller">
+<h2>Session outcomes</h2>
+<ul>
+<li>The <strong>figure/axes model</strong>, and <code>plt.subplots()</code> as the entry point to every figure</li>
+<li><code>ax.bar()</code>, <code>ax.hist()</code>, <code>ax.scatter()</code>, <code>ax.plot()</code> — and the question each answers</li>
+<li><strong>Zero baselines for bars</strong>; axis truncation as a distortion</li>
+<li>Labels, units, titles, sources, legends, and <code>savefig()</code> with <code>bbox_inches="tight"</code></li>
+<li><strong>Multi-panel figures</strong> indexed <code>axes[row, col]</code></li>
+<li>pandas <code>.plot()</code>; <strong>seaborn</strong> <code>boxplot</code> and <code>heatmap</code> via <code>micropip</code></li>
+<li><strong>Accessibility</strong>: alt text on every figure, marks at 3:1, and <strong>colour never alone</strong></li>
+<li><code>.describe()</code>, grouped <code>.agg()</code>, and <strong><code>.corr()</code></strong> as co-movement, never cause</li>
+<li><strong>Rates against counts</strong> — the denominator question</li>
+<li><strong>EDA</strong>: question → figure → better question</li>
+</ul>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Preparation for the lab, Thursday 11/12</strong></p>
+</div>
+<div class="callout-content">
+<p>The lab builds twelve figures from the five course datasets, including a full multi-panel figure with alt text, and repairs three figures that are misleading rather than broken.</p>
+</div>
+</div>
+</div>
+<p><strong>Module 6 assembles the entire pipeline — import, clean, join, group, summarise, visualise, report — into one reproducible document.</strong></p>
+<aside class="notes">
+<p>The single sentence for the module: a figure is an instrument for answering a question, and it must be built so a reader can check the answer.</p>
+<p>The second sentence, which is the one that transfers beyond this course: the most dangerous figures are not the broken ones. A figure with no axis labels is useless and everyone can tell. A bar chart of counts with a truncated axis is <em>persuasive</em>, and it is wrong. Today covered both, and only one of them is detectable by looking at whether the code ran.</p>
+<p>Flag the calendar. The pattern inverts here — this lecture is Tuesday and the lab is Thursday, two days out, and Module 6 then runs as a single combined session.</p>
+<p>Point at Module 6 concretely, since their project depends on it. It opens with a finding that will genuinely surprise them: everyone knows gun deaths are an urban problem, and Pennsylvania’s data disagrees. Nonmetro 18.5 per 100,000 against metro 14.1. They will build that whole analysis end to end, and then write it up — and the writing is thirty percent of the grade, so it is worth saying now rather than in the last week.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+
+<script type="pyodide-data">
+eyJvcHRpb25zIjp7ImVudiI6eyJQTE9UTFlfUkVOREVSRVIiOiJwbG90bHlfbWltZXR5cGUifSwiaW5kZXhVUkwiOiJodHRwczovL2Nkbi5qc2RlbGl2ci5uZXQvcHlvZGlkZS92MC4yOC4xL2Z1bGwvIn0sInBhY2thZ2VzIjp7InBrZ3MiOlsicHlvZGlkZV9odHRwIiwibWljcm9waXAiLCJpcHl0aG9uIiwibnVtcHkiLCJwYW5kYXMiLCJtYXRwbG90bGliIl19fQ==
+</script>
+<script type="ojs-module-contents">
+eyJjb250ZW50cyI6W3siY2VsbE5hbWUiOiJweW9kaWRlLTI4IiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldCIsInNvdXJjZSI6InZpZXdvZiBfcHlvZGlkZV9lZGl0b3JfMjggPSB7XG4gIGNvbnN0IHsgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yLCBiNjREZWNvZGUgfSA9IHdpbmRvdy5fZXhlcmNpc2Vfb2pzX3J1bnRpbWU7XG5cbiAgY29uc3Qgc2NyaXB0Q29udGVudCA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoYHNjcmlwdFt0eXBlPVxcXCJweW9kaWRlLTI4LWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtMjgtY29udGVudHNgIH0sIGJsb2NrLmF0dHIpO1xuICBjb25zdCBlZGl0b3IgPSBuZXcgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yKFxuICAgIHB5b2RpZGVPanMucHlvZGlkZVByb21pc2UsXG4gICAgYmxvY2suY29kZSxcbiAgICBvcHRpb25zXG4gICk7XG5cbiAgcmV0dXJuIGVkaXRvci5jb250YWluZXI7XG59XG5fcHlvZGlkZV92YWx1ZV8yOCA9IHB5b2RpZGVPanMucHJvY2VzcyhfcHlvZGlkZV9lZGl0b3JfMjgsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLTIyIiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldCIsInNvdXJjZSI6InZpZXdvZiBfcHlvZGlkZV9lZGl0b3JfMjIgPSB7XG4gIGNvbnN0IHsgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yLCBiNjREZWNvZGUgfSA9IHdpbmRvdy5fZXhlcmNpc2Vfb2pzX3J1bnRpbWU7XG5cbiAgY29uc3Qgc2NyaXB0Q29udGVudCA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoYHNjcmlwdFt0eXBlPVxcXCJweW9kaWRlLTIyLWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgLy8gRGVmYXVsdCBleGVyY2lzZSBjb25maWd1cmF0aW9uXG4gIGNvbnN0IG9wdGlvbnMgPSBPYmplY3QuYXNzaWduKFxuICAgIHtcbiAgICAgIGlkOiBcInB5b2RpZGUtMjItY29udGVudHNcIixcbiAgICAgIGVudmlyOiBgZXhlcmNpc2UtZW52LSR7YmxvY2suYXR0ci5leGVyY2lzZX1gLFxuICAgICAgZXJyb3I6IGZhbHNlLFxuICAgICAgY2FwdGlvbjogJ0V4ZXJjaXNlJyxcbiAgICB9LFxuICAgIGJsb2NrLmF0dHJcbiAgKTtcblxuICBjb25zdCBlZGl0b3IgPSBuZXcgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yKHB5b2RpZGVPanMucHlvZGlkZVByb21pc2UsIGJsb2NrLmNvZGUsIG9wdGlvbnMpO1xuICByZXR1cm4gZWRpdG9yLmNvbnRhaW5lcjtcbn1cbnZpZXdvZiBfcHlvZGlkZV92YWx1ZV8yMiA9IHB5b2RpZGVPanMucHJvY2VzcyhfcHlvZGlkZV9lZGl0b3JfMjIsIHt9KTtcbl9weW9kaWRlX2ZlZWRiYWNrXzIyID0ge1xuICBjb25zdCB7IFB5b2RpZGVHcmFkZXIgfSA9IHdpbmRvdy5fZXhlcmNpc2Vfb2pzX3J1bnRpbWU7XG4gIGNvbnN0IGVtcHR5RmVlZGJhY2sgPSBkb2N1bWVudC5jcmVhdGVFbGVtZW50KCdkaXYnKTtcblxuICBjb25zdCBncmFkZXIgPSBuZXcgUHlvZGlkZUdyYWRlcihfcHlvZGlkZV92YWx1ZV8yMi5ldmFsdWF0b3IpO1xuICBjb25zdCBmZWVkYmFjayA9IGF3YWl0IGdyYWRlci5ncmFkZUV4ZXJjaXNlKCk7XG4gIGlmICghZmVlZGJhY2spIHJldHVybiBlbXB0eUZlZWRiYWNrO1xuICByZXR1cm4gZmVlZGJhY2s7XG59XG4ifSx7ImNlbGxOYW1lIjoicHlvZGlkZS0yMSIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJzb3VyY2UiOiJ2aWV3b2YgX3B5b2RpZGVfZWRpdG9yXzIxID0ge1xuICBjb25zdCB7IFB5b2RpZGVFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS0yMS1jb250ZW50c1xcXCJdYCkudGV4dENvbnRlbnQ7XG4gIGNvbnN0IGJsb2NrID0gSlNPTi5wYXJzZShiNjREZWNvZGUoc2NyaXB0Q29udGVudCkpO1xuXG4gIGNvbnN0IG9wdGlvbnMgPSBPYmplY3QuYXNzaWduKHsgaWQ6IGBweW9kaWRlLTIxLWNvbnRlbnRzYCB9LCBibG9jay5hdHRyKTtcbiAgY29uc3QgZWRpdG9yID0gbmV3IFB5b2RpZGVFeGVyY2lzZUVkaXRvcihcbiAgICBweW9kaWRlT2pzLnB5b2RpZGVQcm9taXNlLFxuICAgIGJsb2NrLmNvZGUsXG4gICAgb3B0aW9uc1xuICApO1xuXG4gIHJldHVybiBlZGl0b3IuY29udGFpbmVyO1xufVxuX3B5b2RpZGVfdmFsdWVfMjEgPSBweW9kaWRlT2pzLnByb2Nlc3MoX3B5b2RpZGVfZWRpdG9yXzIxLCB7fSk7XG4ifSx7ImNlbGxOYW1lIjoicHlvZGlkZS0yMCIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJzb3VyY2UiOiJ2aWV3b2YgX3B5b2RpZGVfZWRpdG9yXzIwID0ge1xuICBjb25zdCB7IFB5b2RpZGVFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS0yMC1jb250ZW50c1xcXCJdYCkudGV4dENvbnRlbnQ7XG4gIGNvbnN0IGJsb2NrID0gSlNPTi5wYXJzZShiNjREZWNvZGUoc2NyaXB0Q29udGVudCkpO1xuXG4gIGNvbnN0IG9wdGlvbnMgPSBPYmplY3QuYXNzaWduKHsgaWQ6IGBweW9kaWRlLTIwLWNvbnRlbnRzYCB9LCBibG9jay5hdHRyKTtcbiAgY29uc3QgZWRpdG9yID0gbmV3IFB5b2RpZGVFeGVyY2lzZUVkaXRvcihcbiAgICBweW9kaWRlT2pzLnB5b2RpZGVQcm9taXNlLFxuICAgIGJsb2NrLmNvZGUsXG4gICAgb3B0aW9uc1xuICApO1xuXG4gIHJldHVybiBlZGl0b3IuY29udGFpbmVyO1xufVxuX3B5b2RpZGVfdmFsdWVfMjAgPSBweW9kaWRlT2pzLnByb2Nlc3MoX3B5b2RpZGVfZWRpdG9yXzIwLCB7fSk7XG4ifSx7ImNlbGxOYW1lIjoicHlvZGlkZS0xOSIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJzb3VyY2UiOiJ2aWV3b2YgX3B5b2RpZGVfZWRpdG9yXzE5ID0ge1xuICBjb25zdCB7IFB5b2RpZGVFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS0xOS1jb250ZW50c1xcXCJdYCkudGV4dENvbnRlbnQ7XG4gIGNvbnN0IGJsb2NrID0gSlNPTi5wYXJzZShiNjREZWNvZGUoc2NyaXB0Q29udGVudCkpO1xuXG4gIGNvbnN0IG9wdGlvbnMgPSBPYmplY3QuYXNzaWduKHsgaWQ6IGBweW9kaWRlLTE5LWNvbnRlbnRzYCB9LCBibG9jay5hdHRyKTtcbiAgY29uc3QgZWRpdG9yID0gbmV3IFB5b2RpZGVFeGVyY2lzZUVkaXRvcihcbiAgICBweW9kaWRlT2pzLnB5b2RpZGVQcm9taXNlLFxuICAgIGJsb2NrLmNvZGUsXG4gICAgb3B0aW9uc1xuICApO1xuXG4gIHJldHVybiBlZGl0b3IuY29udGFpbmVyO1xufVxuX3B5b2RpZGVfdmFsdWVfMTkgPSBweW9kaWRlT2pzLnByb2Nlc3MoX3B5b2RpZGVfZWRpdG9yXzE5LCB7fSk7XG4ifSx7ImNlbGxOYW1lIjoicHlvZGlkZS0xOCIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJzb3VyY2UiOiJ2aWV3b2YgX3B5b2RpZGVfZWRpdG9yXzE4ID0ge1xuICBjb25zdCB7IFB5b2RpZGVFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS0xOC1jb250ZW50c1xcXCJdYCkudGV4dENvbnRlbnQ7XG4gIGNvbnN0IGJsb2NrID0gSlNPTi5wYXJzZShiNjREZWNvZGUoc2NyaXB0Q29udGVudCkpO1xuXG4gIGNvbnN0IG9wdGlvbnMgPSBPYmplY3QuYXNzaWduKHsgaWQ6IGBweW9kaWRlLTE4LWNvbnRlbnRzYCB9LCBibG9jay5hdHRyKTtcbiAgY29uc3QgZWRpdG9yID0gbmV3IFB5b2RpZGVFeGVyY2lzZUVkaXRvcihcbiAgICBweW9kaWRlT2pzLnB5b2RpZGVQcm9taXNlLFxuICAgIGJsb2NrLmNvZGUsXG4gICAgb3B0aW9uc1xuICApO1xuXG4gIHJldHVybiBlZGl0b3IuY29udGFpbmVyO1xufVxuX3B5b2RpZGVfdmFsdWVfMTggPSBweW9kaWRlT2pzLnByb2Nlc3MoX3B5b2RpZGVfZWRpdG9yXzE4LCB7fSk7XG4ifSx7ImNlbGxOYW1lIjoicHlvZGlkZS0xNyIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJzb3VyY2UiOiJ2aWV3b2YgX3B5b2RpZGVfZWRpdG9yXzE3ID0ge1xuICBjb25zdCB7IFB5b2RpZGVFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS0xNy1jb250ZW50c1xcXCJdYCkudGV4dENvbnRlbnQ7XG4gIGNvbnN0IGJsb2NrID0gSlNPTi5wYXJzZShiNjREZWNvZGUoc2NyaXB0Q29udGVudCkpO1xuXG4gIGNvbnN0IG9wdGlvbnMgPSBPYmplY3QuYXNzaWduKHsgaWQ6IGBweW9kaWRlLTE3LWNvbnRlbnRzYCB9LCBibG9jay5hdHRyKTtcbiAgY29uc3QgZWRpdG9yID0gbmV3IFB5b2RpZGVFeGVyY2lzZUVkaXRvcihcbiAgICBweW9kaWRlT2pzLnB5b2RpZGVQcm9taXNlLFxuICAgIGJsb2NrLmNvZGUsXG4gICAgb3B0aW9uc1xuICApO1xuXG4gIHJldHVybiBlZGl0b3IuY29udGFpbmVyO1xufVxuX3B5b2RpZGVfdmFsdWVfMTcgPSBweW9kaWRlT2pzLnByb2Nlc3MoX3B5b2RpZGVfZWRpdG9yXzE3LCB7fSk7XG4ifSx7ImNlbGxOYW1lIjoicHlvZGlkZS0xNiIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJzb3VyY2UiOiJ2aWV3b2YgX3B5b2RpZGVfZWRpdG9yXzE2ID0ge1xuICBjb25zdCB7IFB5b2RpZGVFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS0xNi1jb250ZW50c1xcXCJdYCkudGV4dENvbnRlbnQ7XG4gIGNvbnN0IGJsb2NrID0gSlNPTi5wYXJzZShiNjREZWNvZGUoc2NyaXB0Q29udGVudCkpO1xuXG4gIGNvbnN0IG9wdGlvbnMgPSBPYmplY3QuYXNzaWduKHsgaWQ6IGBweW9kaWRlLTE2LWNvbnRlbnRzYCB9LCBibG9jay5hdHRyKTtcbiAgY29uc3QgZWRpdG9yID0gbmV3IFB5b2RpZGVFeGVyY2lzZUVkaXRvcihcbiAgICBweW9kaWRlT2pzLnB5b2RpZGVQcm9taXNlLFxuICAgIGJsb2NrLmNvZGUsXG4gICAgb3B0aW9uc1xuICApO1xuXG4gIHJldHVybiBlZGl0b3IuY29udGFpbmVyO1xufVxuX3B5b2RpZGVfdmFsdWVfMTYgPSBweW9kaWRlT2pzLnByb2Nlc3MoX3B5b2RpZGVfZWRpdG9yXzE2LCB7fSk7XG4ifSx7ImNlbGxOYW1lIjoicHlvZGlkZS0xNSIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJzb3VyY2UiOiJ2aWV3b2YgX3B5b2RpZGVfZWRpdG9yXzE1ID0ge1xuICBjb25zdCB7IFB5b2RpZGVFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS0xNS1jb250ZW50c1xcXCJdYCkudGV4dENvbnRlbnQ7XG4gIGNvbnN0IGJsb2NrID0gSlNPTi5wYXJzZShiNjREZWNvZGUoc2NyaXB0Q29udGVudCkpO1xuXG4gIGNvbnN0IG9wdGlvbnMgPSBPYmplY3QuYXNzaWduKHsgaWQ6IGBweW9kaWRlLTE1LWNvbnRlbnRzYCB9LCBibG9jay5hdHRyKTtcbiAgY29uc3QgZWRpdG9yID0gbmV3IFB5b2RpZGVFeGVyY2lzZUVkaXRvcihcbiAgICBweW9kaWRlT2pzLnB5b2RpZGVQcm9taXNlLFxuICAgIGJsb2NrLmNvZGUsXG4gICAgb3B0aW9uc1xuICApO1xuXG4gIHJldHVybiBlZGl0b3IuY29udGFpbmVyO1xufVxuX3B5b2RpZGVfdmFsdWVfMTUgPSBweW9kaWRlT2pzLnByb2Nlc3MoX3B5b2RpZGVfZWRpdG9yXzE1LCB7fSk7XG4ifSx7ImNlbGxOYW1lIjoicHlvZGlkZS0xNCIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJzb3VyY2UiOiJ2aWV3b2YgX3B5b2RpZGVfZWRpdG9yXzE0ID0ge1xuICBjb25zdCB7IFB5b2RpZGVFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS0xNC1jb250ZW50c1xcXCJdYCkudGV4dENvbnRlbnQ7XG4gIGNvbnN0IGJsb2NrID0gSlNPTi5wYXJzZShiNjREZWNvZGUoc2NyaXB0Q29udGVudCkpO1xuXG4gIGNvbnN0IG9wdGlvbnMgPSBPYmplY3QuYXNzaWduKHsgaWQ6IGBweW9kaWRlLTE0LWNvbnRlbnRzYCB9LCBibG9jay5hdHRyKTtcbiAgY29uc3QgZWRpdG9yID0gbmV3IFB5b2RpZGVFeGVyY2lzZUVkaXRvcihcbiAgICBweW9kaWRlT2pzLnB5b2RpZGVQcm9taXNlLFxuICAgIGJsb2NrLmNvZGUsXG4gICAgb3B0aW9uc1xuICApO1xuXG4gIHJldHVybiBlZGl0b3IuY29udGFpbmVyO1xufVxuX3B5b2RpZGVfdmFsdWVfMTQgPSBweW9kaWRlT2pzLnByb2Nlc3MoX3B5b2RpZGVfZWRpdG9yXzE0LCB7fSk7XG4ifSx7ImNlbGxOYW1lIjoicHlvZGlkZS0xMyIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJzb3VyY2UiOiJ2aWV3b2YgX3B5b2RpZGVfZWRpdG9yXzEzID0ge1xuICBjb25zdCB7IFB5b2RpZGVFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS0xMy1jb250ZW50c1xcXCJdYCkudGV4dENvbnRlbnQ7XG4gIGNvbnN0IGJsb2NrID0gSlNPTi5wYXJzZShiNjREZWNvZGUoc2NyaXB0Q29udGVudCkpO1xuXG4gIGNvbnN0IG9wdGlvbnMgPSBPYmplY3QuYXNzaWduKHsgaWQ6IGBweW9kaWRlLTEzLWNvbnRlbnRzYCB9LCBibG9jay5hdHRyKTtcbiAgY29uc3QgZWRpdG9yID0gbmV3IFB5b2RpZGVFeGVyY2lzZUVkaXRvcihcbiAgICBweW9kaWRlT2pzLnB5b2RpZGVQcm9taXNlLFxuICAgIGJsb2NrLmNvZGUsXG4gICAgb3B0aW9uc1xuICApO1xuXG4gIHJldHVybiBlZGl0b3IuY29udGFpbmVyO1xufVxuX3B5b2RpZGVfdmFsdWVfMTMgPSBweW9kaWRlT2pzLnByb2Nlc3MoX3B5b2RpZGVfZWRpdG9yXzEzLCB7fSk7XG4ifSx7ImNlbGxOYW1lIjoicHlvZGlkZS0xMiIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJzb3VyY2UiOiJ2aWV3b2YgX3B5b2RpZGVfZWRpdG9yXzEyID0ge1xuICBjb25zdCB7IFB5b2RpZGVFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS0xMi1jb250ZW50c1xcXCJdYCkudGV4dENvbnRlbnQ7XG4gIGNvbnN0IGJsb2NrID0gSlNPTi5wYXJzZShiNjREZWNvZGUoc2NyaXB0Q29udGVudCkpO1xuXG4gIGNvbnN0IG9wdGlvbnMgPSBPYmplY3QuYXNzaWduKHsgaWQ6IGBweW9kaWRlLTEyLWNvbnRlbnRzYCB9LCBibG9jay5hdHRyKTtcbiAgY29uc3QgZWRpdG9yID0gbmV3IFB5b2RpZGVFeGVyY2lzZUVkaXRvcihcbiAgICBweW9kaWRlT2pzLnB5b2RpZGVQcm9taXNlLFxuICAgIGJsb2NrLmNvZGUsXG4gICAgb3B0aW9uc1xuICApO1xuXG4gIHJldHVybiBlZGl0b3IuY29udGFpbmVyO1xufVxuX3B5b2RpZGVfdmFsdWVfMTIgPSBweW9kaWRlT2pzLnByb2Nlc3MoX3B5b2RpZGVfZWRpdG9yXzEyLCB7fSk7XG4ifSx7ImNlbGxOYW1lIjoicHlvZGlkZS0xMSIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJzb3VyY2UiOiJ2aWV3b2YgX3B5b2RpZGVfZWRpdG9yXzExID0ge1xuICBjb25zdCB7IFB5b2RpZGVFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS0xMS1jb250ZW50c1xcXCJdYCkudGV4dENvbnRlbnQ7XG4gIGNvbnN0IGJsb2NrID0gSlNPTi5wYXJzZShiNjREZWNvZGUoc2NyaXB0Q29udGVudCkpO1xuXG4gIGNvbnN0IG9wdGlvbnMgPSBPYmplY3QuYXNzaWduKHsgaWQ6IGBweW9kaWRlLTExLWNvbnRlbnRzYCB9LCBibG9jay5hdHRyKTtcbiAgY29uc3QgZWRpdG9yID0gbmV3IFB5b2RpZGVFeGVyY2lzZUVkaXRvcihcbiAgICBweW9kaWRlT2pzLnB5b2RpZGVQcm9taXNlLFxuICAgIGJsb2NrLmNvZGUsXG4gICAgb3B0aW9uc1xuICApO1xuXG4gIHJldHVybiBlZGl0b3IuY29udGFpbmVyO1xufVxuX3B5b2RpZGVfdmFsdWVfMTEgPSBweW9kaWRlT2pzLnByb2Nlc3MoX3B5b2RpZGVfZWRpdG9yXzExLCB7fSk7XG4ifSx7ImNlbGxOYW1lIjoicHlvZGlkZS0xMCIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJzb3VyY2UiOiJ2aWV3b2YgX3B5b2RpZGVfZWRpdG9yXzEwID0ge1xuICBjb25zdCB7IFB5b2RpZGVFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS0xMC1jb250ZW50c1xcXCJdYCkudGV4dENvbnRlbnQ7XG4gIGNvbnN0IGJsb2NrID0gSlNPTi5wYXJzZShiNjREZWNvZGUoc2NyaXB0Q29udGVudCkpO1xuXG4gIGNvbnN0IG9wdGlvbnMgPSBPYmplY3QuYXNzaWduKHsgaWQ6IGBweW9kaWRlLTEwLWNvbnRlbnRzYCB9LCBibG9jay5hdHRyKTtcbiAgY29uc3QgZWRpdG9yID0gbmV3IFB5b2RpZGVFeGVyY2lzZUVkaXRvcihcbiAgICBweW9kaWRlT2pzLnB5b2RpZGVQcm9taXNlLFxuICAgIGJsb2NrLmNvZGUsXG4gICAgb3B0aW9uc1xuICApO1xuXG4gIHJldHVybiBlZGl0b3IuY29udGFpbmVyO1xufVxuX3B5b2RpZGVfdmFsdWVfMTAgPSBweW9kaWRlT2pzLnByb2Nlc3MoX3B5b2RpZGVfZWRpdG9yXzEwLCB7fSk7XG4ifSx7ImNlbGxOYW1lIjoicHlvZGlkZS05IiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldCIsInNvdXJjZSI6InZpZXdvZiBfcHlvZGlkZV9lZGl0b3JfOSA9IHtcbiAgY29uc3QgeyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IsIGI2NERlY29kZSB9ID0gd2luZG93Ll9leGVyY2lzZV9vanNfcnVudGltZTtcblxuICBjb25zdCBzY3JpcHRDb250ZW50ID0gZG9jdW1lbnQucXVlcnlTZWxlY3Rvcihgc2NyaXB0W3R5cGU9XFxcInB5b2RpZGUtOS1jb250ZW50c1xcXCJdYCkudGV4dENvbnRlbnQ7XG4gIGNvbnN0IGJsb2NrID0gSlNPTi5wYXJzZShiNjREZWNvZGUoc2NyaXB0Q29udGVudCkpO1xuXG4gIGNvbnN0IG9wdGlvbnMgPSBPYmplY3QuYXNzaWduKHsgaWQ6IGBweW9kaWRlLTktY29udGVudHNgIH0sIGJsb2NrLmF0dHIpO1xuICBjb25zdCBlZGl0b3IgPSBuZXcgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yKFxuICAgIHB5b2RpZGVPanMucHlvZGlkZVByb21pc2UsXG4gICAgYmxvY2suY29kZSxcbiAgICBvcHRpb25zXG4gICk7XG5cbiAgcmV0dXJuIGVkaXRvci5jb250YWluZXI7XG59XG5fcHlvZGlkZV92YWx1ZV85ID0gcHlvZGlkZU9qcy5wcm9jZXNzKF9weW9kaWRlX2VkaXRvcl85LCB7fSk7XG4ifSx7ImNlbGxOYW1lIjoicHlvZGlkZS04IiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldCIsInNvdXJjZSI6InZpZXdvZiBfcHlvZGlkZV9lZGl0b3JfOCA9IHtcbiAgY29uc3QgeyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IsIGI2NERlY29kZSB9ID0gd2luZG93Ll9leGVyY2lzZV9vanNfcnVudGltZTtcblxuICBjb25zdCBzY3JpcHRDb250ZW50ID0gZG9jdW1lbnQucXVlcnlTZWxlY3Rvcihgc2NyaXB0W3R5cGU9XFxcInB5b2RpZGUtOC1jb250ZW50c1xcXCJdYCkudGV4dENvbnRlbnQ7XG4gIGNvbnN0IGJsb2NrID0gSlNPTi5wYXJzZShiNjREZWNvZGUoc2NyaXB0Q29udGVudCkpO1xuXG4gIGNvbnN0IG9wdGlvbnMgPSBPYmplY3QuYXNzaWduKHsgaWQ6IGBweW9kaWRlLTgtY29udGVudHNgIH0sIGJsb2NrLmF0dHIpO1xuICBjb25zdCBlZGl0b3IgPSBuZXcgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yKFxuICAgIHB5b2RpZGVPanMucHlvZGlkZVByb21pc2UsXG4gICAgYmxvY2suY29kZSxcbiAgICBvcHRpb25zXG4gICk7XG5cbiAgcmV0dXJuIGVkaXRvci5jb250YWluZXI7XG59XG5fcHlvZGlkZV92YWx1ZV84ID0gcHlvZGlkZU9qcy5wcm9jZXNzKF9weW9kaWRlX2VkaXRvcl84LCB7fSk7XG4ifSx7ImNlbGxOYW1lIjoicHlvZGlkZS03IiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldCIsInNvdXJjZSI6InZpZXdvZiBfcHlvZGlkZV9lZGl0b3JfNyA9IHtcbiAgY29uc3QgeyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IsIGI2NERlY29kZSB9ID0gd2luZG93Ll9leGVyY2lzZV9vanNfcnVudGltZTtcblxuICBjb25zdCBzY3JpcHRDb250ZW50ID0gZG9jdW1lbnQucXVlcnlTZWxlY3Rvcihgc2NyaXB0W3R5cGU9XFxcInB5b2RpZGUtNy1jb250ZW50c1xcXCJdYCkudGV4dENvbnRlbnQ7XG4gIGNvbnN0IGJsb2NrID0gSlNPTi5wYXJzZShiNjREZWNvZGUoc2NyaXB0Q29udGVudCkpO1xuXG4gIGNvbnN0IG9wdGlvbnMgPSBPYmplY3QuYXNzaWduKHsgaWQ6IGBweW9kaWRlLTctY29udGVudHNgIH0sIGJsb2NrLmF0dHIpO1xuICBjb25zdCBlZGl0b3IgPSBuZXcgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yKFxuICAgIHB5b2RpZGVPanMucHlvZGlkZVByb21pc2UsXG4gICAgYmxvY2suY29kZSxcbiAgICBvcHRpb25zXG4gICk7XG5cbiAgcmV0dXJuIGVkaXRvci5jb250YWluZXI7XG59XG5fcHlvZGlkZV92YWx1ZV83ID0gcHlvZGlkZU9qcy5wcm9jZXNzKF9weW9kaWRlX2VkaXRvcl83LCB7fSk7XG4ifSx7ImNlbGxOYW1lIjoicHlvZGlkZS02IiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldCIsInNvdXJjZSI6InZpZXdvZiBfcHlvZGlkZV9lZGl0b3JfNiA9IHtcbiAgY29uc3QgeyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IsIGI2NERlY29kZSB9ID0gd2luZG93Ll9leGVyY2lzZV9vanNfcnVudGltZTtcblxuICBjb25zdCBzY3JpcHRDb250ZW50ID0gZG9jdW1lbnQucXVlcnlTZWxlY3Rvcihgc2NyaXB0W3R5cGU9XFxcInB5b2RpZGUtNi1jb250ZW50c1xcXCJdYCkudGV4dENvbnRlbnQ7XG4gIGNvbnN0IGJsb2NrID0gSlNPTi5wYXJzZShiNjREZWNvZGUoc2NyaXB0Q29udGVudCkpO1xuXG4gIGNvbnN0IG9wdGlvbnMgPSBPYmplY3QuYXNzaWduKHsgaWQ6IGBweW9kaWRlLTYtY29udGVudHNgIH0sIGJsb2NrLmF0dHIpO1xuICBjb25zdCBlZGl0b3IgPSBuZXcgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yKFxuICAgIHB5b2RpZGVPanMucHlvZGlkZVByb21pc2UsXG4gICAgYmxvY2suY29kZSxcbiAgICBvcHRpb25zXG4gICk7XG5cbiAgcmV0dXJuIGVkaXRvci5jb250YWluZXI7XG59XG5fcHlvZGlkZV92YWx1ZV82ID0gcHlvZGlkZU9qcy5wcm9jZXNzKF9weW9kaWRlX2VkaXRvcl82LCB7fSk7XG4ifSx7ImNlbGxOYW1lIjoicHlvZGlkZS01IiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldCIsInNvdXJjZSI6InZpZXdvZiBfcHlvZGlkZV9lZGl0b3JfNSA9IHtcbiAgY29uc3QgeyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IsIGI2NERlY29kZSB9ID0gd2luZG93Ll9leGVyY2lzZV9vanNfcnVudGltZTtcblxuICBjb25zdCBzY3JpcHRDb250ZW50ID0gZG9jdW1lbnQucXVlcnlTZWxlY3Rvcihgc2NyaXB0W3R5cGU9XFxcInB5b2RpZGUtNS1jb250ZW50c1xcXCJdYCkudGV4dENvbnRlbnQ7XG4gIGNvbnN0IGJsb2NrID0gSlNPTi5wYXJzZShiNjREZWNvZGUoc2NyaXB0Q29udGVudCkpO1xuXG4gIGNvbnN0IG9wdGlvbnMgPSBPYmplY3QuYXNzaWduKHsgaWQ6IGBweW9kaWRlLTUtY29udGVudHNgIH0sIGJsb2NrLmF0dHIpO1xuICBjb25zdCBlZGl0b3IgPSBuZXcgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yKFxuICAgIHB5b2RpZGVPanMucHlvZGlkZVByb21pc2UsXG4gICAgYmxvY2suY29kZSxcbiAgICBvcHRpb25zXG4gICk7XG5cbiAgcmV0dXJuIGVkaXRvci5jb250YWluZXI7XG59XG5fcHlvZGlkZV92YWx1ZV81ID0gcHlvZGlkZU9qcy5wcm9jZXNzKF9weW9kaWRlX2VkaXRvcl81LCB7fSk7XG4ifSx7ImNlbGxOYW1lIjoicHlvZGlkZS00IiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldCIsInNvdXJjZSI6InZpZXdvZiBfcHlvZGlkZV9lZGl0b3JfNCA9IHtcbiAgY29uc3QgeyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IsIGI2NERlY29kZSB9ID0gd2luZG93Ll9leGVyY2lzZV9vanNfcnVudGltZTtcblxuICBjb25zdCBzY3JpcHRDb250ZW50ID0gZG9jdW1lbnQucXVlcnlTZWxlY3Rvcihgc2NyaXB0W3R5cGU9XFxcInB5b2RpZGUtNC1jb250ZW50c1xcXCJdYCkudGV4dENvbnRlbnQ7XG4gIGNvbnN0IGJsb2NrID0gSlNPTi5wYXJzZShiNjREZWNvZGUoc2NyaXB0Q29udGVudCkpO1xuXG4gIGNvbnN0IG9wdGlvbnMgPSBPYmplY3QuYXNzaWduKHsgaWQ6IGBweW9kaWRlLTQtY29udGVudHNgIH0sIGJsb2NrLmF0dHIpO1xuICBjb25zdCBlZGl0b3IgPSBuZXcgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yKFxuICAgIHB5b2RpZGVPanMucHlvZGlkZVByb21pc2UsXG4gICAgYmxvY2suY29kZSxcbiAgICBvcHRpb25zXG4gICk7XG5cbiAgcmV0dXJuIGVkaXRvci5jb250YWluZXI7XG59XG5fcHlvZGlkZV92YWx1ZV80ID0gcHlvZGlkZU9qcy5wcm9jZXNzKF9weW9kaWRlX2VkaXRvcl80LCB7fSk7XG4ifSx7ImNlbGxOYW1lIjoicHlvZGlkZS0zIiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldCIsInNvdXJjZSI6InZpZXdvZiBfcHlvZGlkZV9lZGl0b3JfMyA9IHtcbiAgY29uc3QgeyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IsIGI2NERlY29kZSB9ID0gd2luZG93Ll9leGVyY2lzZV9vanNfcnVudGltZTtcblxuICBjb25zdCBzY3JpcHRDb250ZW50ID0gZG9jdW1lbnQucXVlcnlTZWxlY3Rvcihgc2NyaXB0W3R5cGU9XFxcInB5b2RpZGUtMy1jb250ZW50c1xcXCJdYCkudGV4dENvbnRlbnQ7XG4gIGNvbnN0IGJsb2NrID0gSlNPTi5wYXJzZShiNjREZWNvZGUoc2NyaXB0Q29udGVudCkpO1xuXG4gIGNvbnN0IG9wdGlvbnMgPSBPYmplY3QuYXNzaWduKHsgaWQ6IGBweW9kaWRlLTMtY29udGVudHNgIH0sIGJsb2NrLmF0dHIpO1xuICBjb25zdCBlZGl0b3IgPSBuZXcgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yKFxuICAgIHB5b2RpZGVPanMucHlvZGlkZVByb21pc2UsXG4gICAgYmxvY2suY29kZSxcbiAgICBvcHRpb25zXG4gICk7XG5cbiAgcmV0dXJuIGVkaXRvci5jb250YWluZXI7XG59XG5fcHlvZGlkZV92YWx1ZV8zID0gcHlvZGlkZU9qcy5wcm9jZXNzKF9weW9kaWRlX2VkaXRvcl8zLCB7fSk7XG4ifSx7ImNlbGxOYW1lIjoicHlvZGlkZS0yIiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldCIsInNvdXJjZSI6InZpZXdvZiBfcHlvZGlkZV9lZGl0b3JfMiA9IHtcbiAgY29uc3QgeyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IsIGI2NERlY29kZSB9ID0gd2luZG93Ll9leGVyY2lzZV9vanNfcnVudGltZTtcblxuICBjb25zdCBzY3JpcHRDb250ZW50ID0gZG9jdW1lbnQucXVlcnlTZWxlY3Rvcihgc2NyaXB0W3R5cGU9XFxcInB5b2RpZGUtMi1jb250ZW50c1xcXCJdYCkudGV4dENvbnRlbnQ7XG4gIGNvbnN0IGJsb2NrID0gSlNPTi5wYXJzZShiNjREZWNvZGUoc2NyaXB0Q29udGVudCkpO1xuXG4gIGNvbnN0IG9wdGlvbnMgPSBPYmplY3QuYXNzaWduKHsgaWQ6IGBweW9kaWRlLTItY29udGVudHNgIH0sIGJsb2NrLmF0dHIpO1xuICBjb25zdCBlZGl0b3IgPSBuZXcgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yKFxuICAgIHB5b2RpZGVPanMucHlvZGlkZVByb21pc2UsXG4gICAgYmxvY2suY29kZSxcbiAgICBvcHRpb25zXG4gICk7XG5cbiAgcmV0dXJuIGVkaXRvci5jb250YWluZXI7XG59XG5fcHlvZGlkZV92YWx1ZV8yID0gcHlvZGlkZU9qcy5wcm9jZXNzKF9weW9kaWRlX2VkaXRvcl8yLCB7fSk7XG4ifSx7ImNlbGxOYW1lIjoicHlvZGlkZS0xIiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldCIsInNvdXJjZSI6InZpZXdvZiBfcHlvZGlkZV9lZGl0b3JfMSA9IHtcbiAgY29uc3QgeyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IsIGI2NERlY29kZSB9ID0gd2luZG93Ll9leGVyY2lzZV9vanNfcnVudGltZTtcblxuICBjb25zdCBzY3JpcHRDb250ZW50ID0gZG9jdW1lbnQucXVlcnlTZWxlY3Rvcihgc2NyaXB0W3R5cGU9XFxcInB5b2RpZGUtMS1jb250ZW50c1xcXCJdYCkudGV4dENvbnRlbnQ7XG4gIGNvbnN0IGJsb2NrID0gSlNPTi5wYXJzZShiNjREZWNvZGUoc2NyaXB0Q29udGVudCkpO1xuXG4gIGNvbnN0IG9wdGlvbnMgPSBPYmplY3QuYXNzaWduKHsgaWQ6IGBweW9kaWRlLTEtY29udGVudHNgIH0sIGJsb2NrLmF0dHIpO1xuICBjb25zdCBlZGl0b3IgPSBuZXcgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yKFxuICAgIHB5b2RpZGVPanMucHlvZGlkZVByb21pc2UsXG4gICAgYmxvY2suY29kZSxcbiAgICBvcHRpb25zXG4gICk7XG5cbiAgcmV0dXJuIGVkaXRvci5jb250YWluZXI7XG59XG5fcHlvZGlkZV92YWx1ZV8xID0gcHlvZGlkZU9qcy5wcm9jZXNzKF9weW9kaWRlX2VkaXRvcl8xLCB7fSk7XG4ifSx7ImNlbGxOYW1lIjoiaW50ZXJwb2xhdGUtMjQiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0UXVpZXQiLCJzb3VyY2UiOiJ7XG4gIGNvbnN0IHsgaW50ZXJwb2xhdGUgfSA9IHdpbmRvdy5fZXhlcmNpc2Vfb2pzX3J1bnRpbWU7XG4gIGNvbnN0IGJsb2NrX2lkID0gXCIyNFwiO1xuICBjb25zdCBsYW5ndWFnZSA9IFwicHl0aG9uXCI7XG4gIGNvbnN0IGRlZl9tYXAgPSB7XG59O1xuICBjb25zdCBlbGVtID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoYGludGVycG9sYXRlLSR7YmxvY2tfaWR9YCk7XG5cbiAgLy8gU3RvcmUgb3JpZ2luYWwgdGVtcGxhdGVkIEhUTUwgZm9yIHJlZmVyZW5jZSBpbiBmdXR1cmUgcmVhY3RpdmUgdXBkYXRlc1xuICBpZiAoIWVsZW0ub3JpZ0hUTUwpIGVsZW0ub3JpZ0hUTUwgPSBlbGVtLmlubmVySFRNTDtcblxuICAvLyBJbnRlcnBvbGF0ZSByZWFjdGl2ZSBPSlMgdmFyaWFibGVzIGludG8gZXN0YWJsaXNoZWQgSFRNTCBlbGVtZW50XG4gIGVsZW0uaW5uZXJIVE1MID0gZWxlbS5vcmlnSFRNTDtcbiAgT2JqZWN0LmtleXMoZGVmX21hcCkuZm9yRWFjaCgoZGVmKSA9PlxuICAgIGludGVycG9sYXRlKGVsZW0sIFwiJHtcIiArIGRlZiArIFwifVwiLCBkZWZfbWFwW2RlZl0sIGxhbmd1YWdlKVxuICApO1xufVxuIn0seyJjZWxsTmFtZSI6ImludGVycG9sYXRlLTI2IiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldFF1aWV0Iiwic291cmNlIjoie1xuICBjb25zdCB7IGludGVycG9sYXRlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuICBjb25zdCBibG9ja19pZCA9IFwiMjZcIjtcbiAgY29uc3QgbGFuZ3VhZ2UgPSBcIm5vbmVcIjtcbiAgY29uc3QgZGVmX21hcCA9IHtcbn07XG4gIGNvbnN0IGVsZW0gPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZChgaW50ZXJwb2xhdGUtJHtibG9ja19pZH1gKTtcblxuICAvLyBTdG9yZSBvcmlnaW5hbCB0ZW1wbGF0ZWQgSFRNTCBmb3IgcmVmZXJlbmNlIGluIGZ1dHVyZSByZWFjdGl2ZSB1cGRhdGVzXG4gIGlmICghZWxlbS5vcmlnSFRNTCkgZWxlbS5vcmlnSFRNTCA9IGVsZW0uaW5uZXJIVE1MO1xuXG4gIC8vIEludGVycG9sYXRlIHJlYWN0aXZlIE9KUyB2YXJpYWJsZXMgaW50byBlc3RhYmxpc2hlZCBIVE1MIGVsZW1lbnRcbiAgZWxlbS5pbm5lckhUTUwgPSBlbGVtLm9yaWdIVE1MO1xuICBPYmplY3Qua2V5cyhkZWZfbWFwKS5mb3JFYWNoKChkZWYpID0+XG4gICAgaW50ZXJwb2xhdGUoZWxlbSwgXCIke1wiICsgZGVmICsgXCJ9XCIsIGRlZl9tYXBbZGVmXSwgbGFuZ3VhZ2UpXG4gICk7XG59XG4ifSx7ImNlbGxOYW1lIjoiaW50ZXJwb2xhdGUtMjciLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0UXVpZXQiLCJzb3VyY2UiOiJ7XG4gIGNvbnN0IHsgaW50ZXJwb2xhdGUgfSA9IHdpbmRvdy5fZXhlcmNpc2Vfb2pzX3J1bnRpbWU7XG4gIGNvbnN0IGJsb2NrX2lkID0gXCIyN1wiO1xuICBjb25zdCBsYW5ndWFnZSA9IFwicHl0aG9uXCI7XG4gIGNvbnN0IGRlZl9tYXAgPSB7XG59O1xuICBjb25zdCBlbGVtID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoYGludGVycG9sYXRlLSR7YmxvY2tfaWR9YCk7XG5cbiAgLy8gU3RvcmUgb3JpZ2luYWwgdGVtcGxhdGVkIEhUTUwgZm9yIHJlZmVyZW5jZSBpbiBmdXR1cmUgcmVhY3RpdmUgdXBkYXRlc1xuICBpZiAoIWVsZW0ub3JpZ0hUTUwpIGVsZW0ub3JpZ0hUTUwgPSBlbGVtLmlubmVySFRNTDtcblxuICAvLyBJbnRlcnBvbGF0ZSByZWFjdGl2ZSBPSlMgdmFyaWFibGVzIGludG8gZXN0YWJsaXNoZWQgSFRNTCBlbGVtZW50XG4gIGVsZW0uaW5uZXJIVE1MID0gZWxlbS5vcmlnSFRNTDtcbiAgT2JqZWN0LmtleXMoZGVmX21hcCkuZm9yRWFjaCgoZGVmKSA9PlxuICAgIGludGVycG9sYXRlKGVsZW0sIFwiJHtcIiArIGRlZiArIFwifVwiLCBkZWZfbWFwW2RlZl0sIGxhbmd1YWdlKVxuICApO1xufVxuIn0seyJjZWxsTmFtZSI6InB5b2RpZGUtcHJlbHVkZSIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsInNvdXJjZSI6InB5b2RpZGVPanMgPSB7XG4gIGNvbnN0IHtcbiAgICBQeW9kaWRlRXZhbHVhdG9yLFxuICAgIFB5b2RpZGVFbnZpcm9ubWVudE1hbmFnZXIsXG4gICAgc2V0dXBQeXRob24sXG4gICAgc3RhcnRQeW9kaWRlV29ya2VyLFxuICAgIGI2NERlY29kZSxcbiAgICBjb2xsYXBzZVBhdGgsXG4gIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHN0YXR1c0NvbnRhaW5lciA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKFwiZXhlcmNpc2UtbG9hZGluZy1zdGF0dXNcIik7XG4gIGNvbnN0IGluZGljYXRvckNvbnRhaW5lciA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKFwiZXhlcmNpc2UtbG9hZGluZy1pbmRpY2F0b3JcIik7XG4gIGluZGljYXRvckNvbnRhaW5lci5jbGFzc0xpc3QucmVtb3ZlKFwiZC1ub25lXCIpO1xuXG4gIGxldCBzdGF0dXNUZXh0ID0gZG9jdW1lbnQuY3JlYXRlRWxlbWVudChcImRpdlwiKVxuICBzdGF0dXNUZXh0LmNsYXNzTGlzdCA9IFwiZXhlcmNpc2UtbG9hZGluZy1kZXRhaWxzXCI7XG4gIHN0YXR1c1RleHQgPSBzdGF0dXNDb250YWluZXIuYXBwZW5kQ2hpbGQoc3RhdHVzVGV4dCk7XG4gIHN0YXR1c1RleHQudGV4dENvbnRlbnQgPSBgSW5pdGlhbGlzZWA7XG5cbiAgLy8gSG9pc3QgaW5kaWNhdG9yIG91dCBmcm9tIGZpbmFsIHNsaWRlIHdoZW4gcnVubmluZyB1bmRlciByZXZlYWxcbiAgY29uc3QgcmV2ZWFsU3RhdHVzID0gZG9jdW1lbnQucXVlcnlTZWxlY3RvcihcIi5yZXZlYWwgLmV4ZXJjaXNlLWxvYWRpbmctaW5kaWNhdG9yXCIpO1xuICBpZiAocmV2ZWFsU3RhdHVzKSB7XG4gICAgcmV2ZWFsU3RhdHVzLnJlbW92ZSgpO1xuICAgIGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoXCIucmV2ZWFsID4gLnNsaWRlc1wiKS5hcHBlbmRDaGlsZChyZXZlYWxTdGF0dXMpO1xuICB9XG5cbiAgLy8gTWFrZSBhbnkgcmV2ZWFsIHNsaWRlcyB3aXRoIGxpdmUgY2VsbHMgc2Nyb2xsYWJsZVxuICBkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKFwiLnJldmVhbCAuZXhlcmNpc2UtY2VsbFwiKS5mb3JFYWNoKChlbCkgPT4ge1xuICAgIGVsLmNsb3Nlc3QoJ3NlY3Rpb24uc2xpZGUnKS5jbGFzc0xpc3QuYWRkKFwic2Nyb2xsYWJsZVwiKTtcbiAgfSlcblxuICAvLyBQeW9kaWRlIHN1cHBsZW1lbnRhbCBkYXRhIGFuZCBvcHRpb25zXG4gIGNvbnN0IGRhdGFDb250ZW50ID0gZG9jdW1lbnQucXVlcnlTZWxlY3Rvcihgc2NyaXB0W3R5cGU9XFxcInB5b2RpZGUtZGF0YVxcXCJdYCkudGV4dENvbnRlbnQ7XG4gIGNvbnN0IGRhdGEgPSBKU09OLnBhcnNlKGI2NERlY29kZShkYXRhQ29udGVudCkpO1xuXG4gIC8vIEdyYWIgbGlzdCBvZiByZXNvdXJjZXMgdG8gYmUgZG93bmxvYWRlZFxuICBjb25zdCBmaWxlc0NvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwidmZzLWZpbGVcXFwiXWApLnRleHRDb250ZW50O1xuICBjb25zdCBmaWxlcyA9IEpTT04ucGFyc2UoYjY0RGVjb2RlKGZpbGVzQ29udGVudCkpO1xuXG4gIGxldCBweW9kaWRlUHJvbWlzZSA9IChhc3luYyAoKSA9PiB7XG4gICAgc3RhdHVzVGV4dC50ZXh0Q29udGVudCA9IGBEb3dubG9hZGluZyBQeW9kaWRlYDtcbiAgICBjb25zdCBweW9kaWRlID0gYXdhaXQgc3RhcnRQeW9kaWRlV29ya2VyKGRhdGEub3B0aW9ucyk7XG5cbiAgICBzdGF0dXNUZXh0LnRleHRDb250ZW50ID0gYERvd25sb2FkaW5nIHBhY2thZ2U6IG1pY3JvcGlwYDtcbiAgICBhd2FpdCBweW9kaWRlLmxvYWRQYWNrYWdlKFwibWljcm9waXBcIik7XG4gICAgY29uc3QgbWljcm9waXAgPSBhd2FpdCBweW9kaWRlLnB5aW1wb3J0KFwibWljcm9waXBcIik7XG4gICAgYXdhaXQgZGF0YS5wYWNrYWdlcy5wa2dzLm1hcCgocGtnKSA9PiAoKSA9PiB7XG4gICAgICBzdGF0dXNUZXh0LnRleHRDb250ZW50ID0gYERvd25sb2FkaW5nIHBhY2thZ2U6ICR7cGtnfWA7XG4gICAgICByZXR1cm4gbWljcm9waXAuaW5zdGFsbChwa2cpO1xuICAgIH0pLnJlZHVjZSgoY3VyLCBuZXh0KSA9PiBjdXIudGhlbihuZXh0KSwgUHJvbWlzZS5yZXNvbHZlKCkpO1xuICAgIGF3YWl0IG1pY3JvcGlwLmRlc3Ryb3koKTtcblxuICAgIC8vIERvd25sb2FkIGFuZCBpbnN0YWxsIHJlc291cmNlc1xuICAgIGF3YWl0IGZpbGVzLm1hcCgoZmlsZSkgPT4gYXN5bmMgKCkgPT4ge1xuICAgICAgY29uc3QgbmFtZSA9IGZpbGUuc3Vic3RyaW5nKGZpbGUubGFzdEluZGV4T2YoJy8nKSArIDEpO1xuICAgICAgc3RhdHVzVGV4dC50ZXh0Q29udGVudCA9IGBEb3dubG9hZGluZyByZXNvdXJjZTogJHtuYW1lfWA7XG4gICAgICBjb25zdCByZXNwb25zZSA9IGF3YWl0IGZldGNoKGZpbGUpO1xuICAgICAgaWYgKCFyZXNwb25zZS5vaykge1xuICAgICAgICB0aHJvdyBuZXcgRXJyb3IoYENhbid0IGRvd25sb2FkIFxcYCR7ZmlsZX1cXGAuIEVycm9yICR7cmVzcG9uc2Uuc3RhdHVzfTogXCIke3Jlc3BvbnNlLnN0YXR1c1RleHR9XCIuYCk7XG4gICAgICB9XG4gICAgICBjb25zdCBkYXRhID0gYXdhaXQgcmVzcG9uc2UuYXJyYXlCdWZmZXIoKTtcblxuICAgICAgLy8gU3RvcmUgVVJMcyBpbiB0aGUgY3dkIHdpdGhvdXQgYW55IHN1YmRpcmVjdG9yeSBzdHJ1Y3R1cmVcbiAgICAgIGlmIChmaWxlLmluY2x1ZGVzKFwiOi8vXCIpKSB7XG4gICAgICAgIGZpbGUgPSBuYW1lO1xuICAgICAgfVxuXG4gICAgICAvLyBDb2xsYXBzZSBoaWdoZXIgZGlyZWN0b3J5IHN0cnVjdHVyZVxuICAgICAgZmlsZSA9IGNvbGxhcHNlUGF0aChmaWxlKTtcblxuICAgICAgLy8gQ3JlYXRlIGRpcmVjdG9yeSB0cmVlLCBpZ25vcmluZyBcImRpcmVjdG9yeSBleGlzdHNcIiBWRlMgZXJyb3JzXG4gICAgICBjb25zdCBwYXJ0cyA9IGZpbGUuc3BsaXQoJy8nKS5zbGljZSgwLCAtMSk7XG4gICAgICBsZXQgcGF0aCA9ICcnO1xuICAgICAgd2hpbGUgKHBhcnRzLmxlbmd0aCA+IDApIHtcbiAgICAgICAgcGF0aCArPSBwYXJ0cy5zaGlmdCgpICsgJy8nO1xuICAgICAgICB0cnkge1xuICAgICAgICAgIGF3YWl0IHB5b2RpZGUuRlMubWtkaXIocGF0aCk7XG4gICAgICAgIH0gY2F0Y2ggKGUpIHtcbiAgICAgICAgICBpZiAoZS5uYW1lICE9PSBcIkVycm5vRXJyb3JcIikgdGhyb3cgZTtcbiAgICAgICAgICBpZiAoZS5lcnJubyAhPT0gMjApIHtcbiAgICAgICAgICAgIGNvbnN0IGVycm9yVGV4dFB0ciA9IGF3YWl0IHB5b2RpZGUuX21vZHVsZS5fc3RyZXJyb3IoZS5lcnJubyk7XG4gICAgICAgICAgICBjb25zdCBlcnJvclRleHQgPSBhd2FpdCBweW9kaWRlLl9tb2R1bGUuVVRGOFRvU3RyaW5nKGVycm9yVGV4dFB0cik7XG4gICAgICAgICAgICB0aHJvdyBuZXcgRXJyb3IoYEZpbGVzeXN0ZW0gRXJyb3IgJHtlLmVycm5vfSBcIiR7ZXJyb3JUZXh0fVwiLmApO1xuICAgICAgICAgIH1cbiAgICAgICAgfVxuICAgICAgfVxuXG4gICAgICAvLyBXcml0ZSB0aGlzIGZpbGUgdG8gdGhlIFZGU1xuICAgICAgdHJ5IHtcbiAgICAgICAgcmV0dXJuIGF3YWl0IHB5b2RpZGUuRlMud3JpdGVGaWxlKGZpbGUsIG5ldyBVaW50OEFycmF5KGRhdGEpKTtcbiAgICAgIH0gY2F0Y2ggKGUpIHtcbiAgICAgICAgaWYgKGUubmFtZSAhPT0gXCJFcnJub0Vycm9yXCIpIHRocm93IGU7XG4gICAgICAgIGNvbnN0IGVycm9yVGV4dFB0ciA9IGF3YWl0IHB5b2RpZGUuX21vZHVsZS5fc3RyZXJyb3IoZS5lcnJubyk7XG4gICAgICAgIGNvbnN0IGVycm9yVGV4dCA9IGF3YWl0IHB5b2RpZGUuX21vZHVsZS5VVEY4VG9TdHJpbmcoZXJyb3JUZXh0UHRyKTtcbiAgICAgICAgdGhyb3cgbmV3IEVycm9yKGBGaWxlc3lzdGVtIEVycm9yICR7ZS5lcnJub30gXCIke2Vycm9yVGV4dH1cIi5gKTtcbiAgICAgIH1cbiAgICB9KS5yZWR1Y2UoKGN1ciwgbmV4dCkgPT4gY3VyLnRoZW4obmV4dCksIFByb21pc2UucmVzb2x2ZSgpKTtcblxuICAgIHN0YXR1c1RleHQudGV4dENvbnRlbnQgPSBgUHlvZGlkZSBlbnZpcm9ubWVudCBzZXR1cGA7XG4gICAgYXdhaXQgc2V0dXBQeXRob24ocHlvZGlkZSk7XG5cbiAgICBzdGF0dXNUZXh0LnJlbW92ZSgpO1xuICAgIGlmIChzdGF0dXNDb250YWluZXIuY2hpbGRyZW4ubGVuZ3RoID09IDApIHtcbiAgICAgIHN0YXR1c0NvbnRhaW5lci5wYXJlbnROb2RlLnJlbW92ZSgpO1xuICAgIH1cbiAgICByZXR1cm4gcHlvZGlkZTtcbiAgfSkoKS5jYXRjaCgoZXJyKSA9PiB7XG4gICAgc3RhdHVzVGV4dC5zdHlsZS5jb2xvciA9IFwidmFyKC0tZXhlcmNpc2UtZWRpdG9yLWhsLWVyLCAjQUQwMDAwKVwiO1xuICAgIHN0YXR1c1RleHQudGV4dENvbnRlbnQgPSBlcnIubWVzc2FnZTtcbiAgICAvL2luZGljYXRvckNvbnRhaW5lci5xdWVyeVNlbGVjdG9yKFwiLnNwaW5uZXItZ3Jvd1wiKS5jbGFzc0xpc3QuYWRkKFwiZC1ub25lXCIpO1xuICAgIHRocm93IGVycjtcbiAgfSk7XG5cbiAgLy8gS2VlcCB0cmFjayBvZiBpbml0aWFsIE9KUyBibG9jayByZW5kZXJcbiAgY29uc3QgcmVuZGVyZWRPanMgPSB7fTtcblxuICBjb25zdCBwcm9jZXNzID0gYXN5bmMgKGNvbnRleHQsIGlucHV0cykgPT4ge1xuICAgIGNvbnN0IHB5b2RpZGUgPSBhd2FpdCBweW9kaWRlUHJvbWlzZTtcbiAgICBjb25zdCBldmFsdWF0b3IgPSBuZXcgUHlvZGlkZUV2YWx1YXRvcihweW9kaWRlLCBjb250ZXh0KTtcbiAgICBhd2FpdCBldmFsdWF0b3IucHJvY2VzcyhpbnB1dHMpO1xuICAgIHJldHVybiBldmFsdWF0b3IuY29udGFpbmVyO1xuICB9XG5cbiAgcmV0dXJuIHtcbiAgICBweW9kaWRlUHJvbWlzZSxcbiAgICByZW5kZXJlZE9qcyxcbiAgICBwcm9jZXNzLFxuICB9O1xufVxuIn1dfQ==
+</script>
+<div id="exercise-loading-indicator" class="exercise-loading-indicator d-none d-flex align-items-center gap-2">
+<div id="exercise-loading-status" class="d-flex gap-2">
+
+</div>
+<div class="spinner-grow spinner-grow-sm">
+
+</div>
+</div>
+<script type="vfs-file">
+WyJkYXRhL3BhX2FzdGhtYV9wcmV2YWxlbmNlLmNzdiIsImRhdGEvcGFfY291bnRpZXMuY3N2IiwiZGF0YS9wYV9tYXRlcm5hbF9pbmZhbnQuY3N2IiwiZGF0YS9wYV9jb3ZpZF9tb250aGx5LmNzdiIsImRhdGEvcGFfb3ZlcmRvc2VfY291bnR5X3llYXIuY3N2Il0=
+</script>
+</section></section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<div class="footer footer-default">
+<p>soumik@pitt.edu · PUBHLT 0411 · Module 5: Visualisation and description</p>
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="module5_lecture_files/libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="module5_lecture_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="module5_lecture_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="module5_lecture_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="module5_lecture_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="module5_lecture_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="module5_lecture_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="module5_lecture_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="module5_lecture_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="module5_lecture_files/libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'none',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1280,
+
+        height: 720,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 8.0e-2,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    <script type="ojs-module-contents">
+    eyJjb250ZW50cyI6W119
+    </script>
+    <script type="module">
+    if (window.location.protocol === "file:") { alert("The OJS runtime does not work with file:// URLs. Please use a web server to view this document."); }
+    window._ojs.paths.runtimeToDoc = "../../..";
+    window._ojs.paths.runtimeToRoot = "../../..";
+    window._ojs.paths.docToRoot = "";
+    window._ojs.selfContained = false;
+    window._ojs.runtime.interpretFromScriptTags();
+    </script>
+    
+    <script>
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+      // slide changes (different for each slide format).
+      (function () {
+        // dispatch for htmlwidgets
+        function fireSlideEnter() {
+          const event = window.document.createEvent("Event");
+          event.initEvent("slideenter", true, true);
+          window.document.dispatchEvent(event);
+        }
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+          fireSlideEnter();
+
+          // dispatch for shiny
+          if (window.jQuery) {
+            if (previousSlide) {
+              window.jQuery(previousSlide).trigger("hidden");
+            }
+            if (currentSlide) {
+              window.jQuery(currentSlide).trigger("shown");
+            }
+          }
+        }
+
+        // hookup for slidy
+        if (window.w3c_slidy) {
+          window.w3c_slidy.add_observer(function (slide_num) {
+            // slide_num starts at position 1
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+          });
+        }
+
+      })();
+    </script>
+
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp('/' + window.location.host + '/');
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    
+
+</body></html>

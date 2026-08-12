@@ -1,0 +1,68 @@
+county,fips,population_2023,region,urbanicity_code,urbanicity,metro
+Adams,42001,106748,South Central,4,Small metro,Metro
+Allegheny,42003,1224825,Southwest,1,Large central metro,Metro
+Armstrong,42005,64074,Southwest,2,Large fringe metro,Metro
+Beaver,42007,165631,Southwest,2,Large fringe metro,Metro
+Bedford,42009,47350,South Central,6,Noncore,Nonmetro
+Berks,42011,432821,Southeast,3,Medium metro,Metro
+Blair,42013,120273,South Central,4,Small metro,Metro
+Bradford,42015,59695,North Central,5,Micropolitan,Nonmetro
+Bucks,42017,645984,Southeast,2,Large fringe metro,Metro
+Butler,42019,198413,Southwest,2,Large fringe metro,Metro
+Cambria,42021,130668,Southwest,4,Small metro,Metro
+Cameron,42023,4380,North Central,6,Noncore,Nonmetro
+Carbon,42025,65458,Northeast,3,Medium metro,Metro
+Centre,42027,157795,North Central,4,Small metro,Metro
+Chester,42029,549784,Southeast,2,Large fringe metro,Metro
+Clarion,42031,36970,Northwest,6,Noncore,Nonmetro
+Clearfield,42033,77090,North Central,5,Micropolitan,Nonmetro
+Clinton,42035,37607,North Central,5,Micropolitan,Nonmetro
+Columbia,42037,65439,North Central,4,Small metro,Metro
+Crawford,42039,82001,Northwest,5,Micropolitan,Nonmetro
+Cumberland,42041,270738,South Central,3,Medium metro,Metro
+Dauphin,42043,289234,South Central,3,Medium metro,Metro
+Delaware,42045,576720,Southeast,2,Large fringe metro,Metro
+Elk,42047,30198,Northwest,6,Noncore,Nonmetro
+Erie,42049,267571,Northwest,3,Medium metro,Metro
+Fayette,42051,123915,Southwest,2,Large fringe metro,Metro
+Forest,42053,6449,Northwest,6,Noncore,Nonmetro
+Franklin,42055,157854,South Central,4,Small metro,Metro
+Fulton,42057,14468,South Central,6,Noncore,Nonmetro
+Greene,42059,34357,Southwest,6,Noncore,Nonmetro
+Huntingdon,42061,43514,South Central,5,Micropolitan,Nonmetro
+Indiana,42063,83094,Southwest,5,Micropolitan,Nonmetro
+Jefferson,42065,43612,Northwest,6,Noncore,Nonmetro
+Juniata,42067,23243,South Central,6,Noncore,Nonmetro
+Lackawanna,42069,216123,Northeast,3,Medium metro,Metro
+Lancaster,42071,558589,South Central,3,Medium metro,Metro
+Lawrence,42073,84472,Northwest,5,Micropolitan,Nonmetro
+Lebanon,42075,144252,South Central,4,Small metro,Metro
+Lehigh,42077,377754,Southeast,3,Medium metro,Metro
+Luzerne,42079,327388,Northeast,3,Medium metro,Metro
+Lycoming,42081,112724,North Central,4,Small metro,Metro
+McKean,42083,39519,Northwest,5,Micropolitan,Nonmetro
+Mercer,42085,108503,Northwest,3,Medium metro,Metro
+Mifflin,42087,45922,South Central,5,Micropolitan,Nonmetro
+Monroe,42089,166053,Northeast,4,Small metro,Metro
+Montgomery,42091,868742,Southeast,2,Large fringe metro,Metro
+Montour,42093,17860,North Central,4,Small metro,Metro
+Northampton,42095,319091,Southeast,3,Medium metro,Metro
+Northumberland,42097,90120,North Central,5,Micropolitan,Nonmetro
+Perry,42099,46083,South Central,3,Medium metro,Metro
+Philadelphia,42101,1550542,Southeast,1,Large central metro,Metro
+Pike,42103,61247,Northeast,2,Large fringe metro,Metro
+Potter,42105,15999,North Central,6,Noncore,Nonmetro
+Schuylkill,42107,143786,Southeast,5,Micropolitan,Nonmetro
+Snyder,42109,39717,North Central,5,Micropolitan,Nonmetro
+Somerset,42111,72197,Southwest,5,Micropolitan,Nonmetro
+Sullivan,42113,5834,North Central,6,Noncore,Nonmetro
+Susquehanna,42115,38109,Northeast,6,Noncore,Nonmetro
+Tioga,42117,40840,North Central,6,Noncore,Nonmetro
+Union,42119,42042,North Central,5,Micropolitan,Nonmetro
+Venango,42121,49431,Northwest,5,Micropolitan,Nonmetro
+Warren,42123,37572,Northwest,5,Micropolitan,Nonmetro
+Washington,42125,210232,Southwest,2,Large fringe metro,Metro
+Wayne,42127,51262,Northeast,6,Noncore,Nonmetro
+Westmoreland,42129,351163,Southwest,2,Large fringe metro,Metro
+Wyoming,42131,25902,Northeast,3,Medium metro,Metro
+York,42133,464640,South Central,3,Medium metro,Metro

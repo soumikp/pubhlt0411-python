@@ -1,0 +1,1452 @@
+---
+# =====================================================================
+# Module 5 — Visualisation and description
+# PUBHLT 0411 · Python for Public Health Data Analysis
+#
+# Register: HANDOFF v3 §2 as amended 2026-08-11.
+#   Slides = academic, impersonal. No "you"/"we".
+#   Notes  = conversational, second person. Load-bearing.
+#
+# ⚠️ §7: "M5 IS THE HIGHEST-RISK MODULE — it is all figures."
+#    Accessibility is therefore taught as course content, not bolted on:
+#      - every figure carries alt text (fig-alt on the cell)
+#      - colour is NEVER the only channel (marker/label/annotation too)
+#      - marks >= 3:1 against white
+#    MEASURED for this build with scratchpad_contrast.py:
+#      #003594 royal  10.84:1   #8a6400 bronze 5.38:1   #6b7280 gray 4.83:1
+#    ⚠️ MEASURED AND IMPORTANT: no two of those separate from EACH OTHER by
+#    3:1 (royal vs bronze = 2.02). That is WHY the second channel is
+#    mandatory, and it is taught explicitly on the accessibility slide.
+#    ⚠️ MEASURED: seaborn's default palettes ALL fail 3:1 on white —
+#    deep 2.80, colorblind 2.61, muted 2.01, tab10 2.53. Even the palette
+#    NAMED "colorblind" fails. This is a real slide, not a footnote.
+#
+# ⚠️ §6 trap 1: COUNTS TRACK POPULATION. COVID deaths x population =
+#    +0.946. Taught here as the rates-vs-counts check-in: the top-5-by-count
+#    is just the five biggest counties; the top-5-by-rate is five rural ones.
+#
+# ⚠️ §8: DESCRIPTIVE ONLY. .corr() is described as co-movement. No
+#    p-values, no regression, no scipy.stats, no scikit-learn.
+#
+# ⚠️ §6 trap 2: PM2.5 is NOT used here at all. Never for disparity.
+#
+# ⚠️ CALENDAR (§3): the Tue/Thu pattern INVERTS at M5. Lecture Tue 11/10,
+#    lab Thu 11/12.
+#
+# seaborn is NOT bundled in Pyodide. It installs at runtime:
+#     import micropip; await micropip.install("seaborn")
+#   Verified working in a real browser (seaborn 0.13.2). The await MUST be
+#   at cell top level — quarto-live runs cells in an async context.
+#
+# Data: REAL. Five files mounted into the Pyodide VFS via
+#       `pyodide: resources:` below. Dropping a CSV in data/ is NOT
+#       enough; the lecture needs its OWN class/data/ copy (§7).
+#
+# Required assets (same folder):
+#   pitt-theme.scss
+#   _extensions/r-wasm/live/
+#   data/pa_asthma_prevalence.csv   data/pa_counties.csv
+#   data/pa_maternal_infant.csv     data/pa_covid_monthly.csv
+#   data/pa_overdose_county_year.csv
+# =====================================================================
+title: "Module 5: Visualisation and description"
+subtitle: "PUBHLT 0411 · Python for Public Health Data Analysis"
+author:
+  - name: Soumik Purkayastha
+    affiliations:
+      - name: Dept. of Biostatistics and Health Data Science, University of Pittsburgh
+date: today
+date-format: long
+
+format:
+  live-revealjs:
+    theme: [white, pitt-theme.scss]
+    slide-number: c/t
+    show-slide-number: all
+    chalkboard: false
+    history: true
+    smaller: false
+    scrollable: true
+    incremental: false
+    fig-align: center
+    fig-cap-location: bottom
+    code-line-numbers: true
+    code-overflow: wrap
+    code-copy: hover
+    highlight-style: github
+    width: 1280
+    height: 720
+    margin: 0.08
+    footer: "soumik@pitt.edu  ·  PUBHLT 0411 · Module 5: Visualisation and description"
+
+engine: knitr
+
+pyodide:
+  packages: [numpy, pandas, matplotlib]
+  resources:
+    - data/pa_asthma_prevalence.csv
+    - data/pa_counties.csv
+    - data/pa_maternal_infant.csv
+    - data/pa_covid_monthly.csv
+    - data/pa_overdose_county_year.csv
+
+execute:
+  echo: true
+  warning: false
+  message: false
+  cache: false
+---
+
+{{< include _extensions/r-wasm/live/_knitr.qmd >}}
+
+# A rate that refuses to move. {.unnumbered background-color="#003594"}
+
+## One in ten Pennsylvania adults has asthma, and the rate barely moves between counties {.smaller}
+
+Across all sixty-seven counties, adult asthma prevalence runs from **9.7%** to **11.6%**.
+The entire state fits inside two percentage points.
+
+::: {.callout-important}
+## The question this session opens
+A variable that hardly varies looks like a dead end. What else moves with it?
+
+**This session establishes the figure as an instrument**: a chart is built to answer a
+question, read for what it shows, and checked for what it hides.
+:::
+
+**Required from Module 4:** `pd.read_csv()`, boolean filtering, `.groupby()`, `.merge()`,
+and `.isna()`.
+
+::: {.notes}
+Put the range on the board and let it sit there. Nine point seven to eleven point six. If
+you had asked the room to guess before showing it, half of them would have said some county
+runs at twenty-five percent and some other county at three.
+
+The instinct when a variable does not vary is to conclude there is nothing here and move on.
+That instinct is wrong often enough to be worth breaking today. A flat variable is not a
+boring variable — it is a variable whose signal is somewhere other than in its own spread.
+
+There is a real reason this one is flat, and it is worth saying now because a student will
+ask. These are modelled small-area estimates from CDC PLACES, built by borrowing strength
+across areas, and that modelling smooths county-to-county differences by construction. So
+part of the flatness is asthma, and part of it is the estimator. Both are true.
+
+Do not answer the question yet. The closing figure of this module answers it, and the answer
+is the strongest relationship in the whole course — but the point of today is that they get
+there by drawing, not by being told.
+:::
+
+## Module 4 ended with a promise {.smaller}
+
+Forty-four counties publish an infant mortality rate. Child poverty and infant mortality
+move together at **+0.646** across them.
+
+```{pyodide}
+#| fig-alt: "Scatter plot of infant mortality per 1,000 live births against percent of children in poverty, for the 44 Pennsylvania counties that publish a rate. Points rise from left to right, from roughly 3.4 per 1,000 at 6 percent poverty to above 10 per 1,000 near 28 percent poverty."
+import pandas as pd
+import matplotlib.pyplot as plt
+
+births = pd.read_csv("data/pa_maternal_infant.csv")
+reporting = births.dropna(subset=["infant_mortality_per_1000"])
+
+fig, ax = plt.subplots(figsize=(7, 3.6))
+ax.scatter(reporting["children_in_poverty_pct"],
+           reporting["infant_mortality_per_1000"],
+           color="#003594", s=45, alpha=0.85, edgecolor="white", linewidth=0.6)
+ax.set_xlabel("Children in poverty (%)")
+ax.set_ylabel("Infant deaths per 1,000 live births")
+ax.set_title("Infant mortality against child poverty, 44 reporting PA counties")
+plt.tight_layout()
+plt.show()
+```
+
+::: {.notes}
+This is the figure Module 4 promised at its close, and opening with it pays that debt in the
+first two minutes.
+
+Point at the caption before the points. Forty-four, not sixty-seven. The twenty-three
+counties that could not support a stable rate are not in this picture, and they are the
+rural ones — so this scatter describes the *reporting* half of Pennsylvania. By now that
+sentence should be house style rather than a caveat: say what is in the figure and what is
+not, every time, in the caption.
+
+The relationship is real and it is structural. Counties where more children are poor bury
+more infants. That is about prenatal care access, obstetric deserts, housing, and food, and
+§5 is explicit that this story is never framed as individual choice.
+
+Nobody needs to understand the code yet. It is here so they see the destination on slide two
+and then spend forty minutes learning to build it.
+:::
+
+## Session plan {.smaller}
+
+- The **figure/axes model** — the two objects every matplotlib figure is made of
+- Bar, histogram, scatter, and line, and **the question each one answers**
+- Labels, titles, ticks, legends, and **saving a figure to a file**
+- Multi-panel figures with `plt.subplots()`
+- The pandas `.plot()` shortcut, and **seaborn** for grouped figures
+- **Accessibility as a requirement**: alt text, contrast, and never colour alone
+- `.describe()`, grouped summaries, and **`.corr()`** as co-movement
+- **Rates against counts** — the error that survives every other check
+- **EDA as a method**: question → figure → better question
+
+::: {.callout-note}
+## Descriptive statistics only
+This course computes and interprets summaries, distributions, and correlations. It does not
+perform statistical inference — no p-values, no significance tests, no models.
+:::
+
+::: {.notes}
+Flag the last bullet in the list and the callout under it together, because a few students
+will have seen a t-test in another course and will wonder where it is.
+
+The honest answer, said plainly: this half of the course is eight weeks and inference is not
+in it. What is in it is the part practising analysts get wrong more often — describing a
+distribution accurately, choosing a denominator that means something, and drawing a figure
+that does not mislead. A p-value on top of a bad denominator is a confident wrong answer.
+
+The rates-against-counts item near the bottom is the one to promise them now. It is the
+single most common error in published public-health graphics, it survives peer review
+routinely, and by the end of today they will catch it in a figure that looks completely
+reasonable.
+:::
+
+# The figure and the axes {.unnumbered background-color="#003594"}
+
+## Every matplotlib figure is two objects {.smaller}
+
+```{pyodide}
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(7, 3))
+
+print(type(fig))
+print(type(ax))
+```
+
+- The **figure** is the canvas: its size, its resolution, and the file it saves to
+- The **axes** is one set of coordinates drawn on that canvas: the data, the labels, the ticks
+
+`plt.subplots()` returns both, and nearly every figure in practice begins with that call.
+
+::: {.callout-tip}
+## `ax` is not "axis"
+An **axes** is an entire plotting area. An **axis** is one of its edges, reached as
+`ax.xaxis` or `ax.yaxis`. The naming is unfortunate and permanent.
+:::
+
+::: {.notes}
+Draw this on the board once and it stops being confusing for the rest of the course. The
+figure is a sheet of paper. The axes is one chart drawn on that sheet. A sheet can hold four
+charts, which is what the multi-panel slide is about.
+
+The naming collision is genuinely bad and worth naming out loud rather than hoping nobody
+notices. Axes-singular is the whole plot. Axis is an edge. Everyone trips on it, including
+people who have written matplotlib for a decade.
+
+Two styles exist in the wild and mixing them is the source of most confusing matplotlib code
+online. There is `plt.plot()`, which draws on whatever axes happens to be current, and there
+is `ax.plot()`, which draws on the axes named. This course uses `ax.` for everything. Say
+why: it is the style that survives contact with a second panel, and it is the one where the
+code says where the thing is going.
+:::
+
+## `ax.bar()` compares a value across categories {.smaller}
+
+```{pyodide}
+#| fig-alt: "Bar chart of adult asthma prevalence for the five Pennsylvania counties with the highest rates: Philadelphia at 11.6 percent, then Fayette, Sullivan, Blair, and Clinton between 11.2 and 11.3 percent. The bars are nearly the same height."
+import pandas as pd
+import matplotlib.pyplot as plt
+
+asthma = pd.read_csv("data/pa_asthma_prevalence.csv")
+top5 = asthma.nlargest(5, "asthma_prev_pct")
+
+fig, ax = plt.subplots(figsize=(7, 3.2))
+ax.bar(top5["county"], top5["asthma_prev_pct"], color="#003594")
+ax.set_ylabel("Adult asthma (%)")
+ax.set_title("Five highest county asthma rates, Pennsylvania")
+plt.tight_layout()
+plt.show()
+```
+
+::: {.notes}
+Ask the room what this figure shows before saying anything. Somebody will say Philadelphia
+is the worst, which is true, and then somebody sharper will notice the bars are all
+essentially the same height.
+
+That second observation is the real content. Philadelphia at 11.6 against Clinton at 11.2 is
+four tenths of a percentage point, and treating that as a ranking worth acting on is
+overreading the data. The chart type is fine. The interpretation is where the danger is.
+
+There is a specific trap sitting in this figure that the next slide detonates deliberately,
+so resist fixing it now. The y-axis starts at zero here, which is correct for bars, and that
+is exactly why the differences look as small as they actually are.
+:::
+
+## A truncated axis manufactures a difference that is not there {.smaller}
+
+```{pyodide}
+#| fig-alt: "Two bar charts of the same five county asthma rates side by side. The left panel has a y-axis starting at zero and the five bars look nearly identical. The right panel has a y-axis starting at 11 percent and the same five bars now look dramatically different in height."
+import pandas as pd
+import matplotlib.pyplot as plt
+
+asthma = pd.read_csv("data/pa_asthma_prevalence.csv")
+top5 = asthma.nlargest(5, "asthma_prev_pct")
+
+fig, (ax_left, ax_right) = plt.subplots(1, 2, figsize=(9, 3.2))
+
+ax_left.bar(top5["county"], top5["asthma_prev_pct"], color="#003594")
+ax_left.set_title("Zero baseline — honest")
+ax_left.set_ylabel("Adult asthma (%)")
+
+ax_right.bar(top5["county"], top5["asthma_prev_pct"], color="#8a6400")
+ax_right.set_ylim(11.0, 11.7)
+ax_right.set_title("Truncated at 11.0 — misleading")
+
+for axis in (ax_left, ax_right):
+    axis.tick_params(axis="x", labelrotation=45, labelsize=8)
+
+plt.tight_layout()
+plt.show()
+```
+
+**Identical data. The right panel implies Philadelphia has roughly four times the asthma
+burden of Clinton County. The true difference is 0.4 percentage points.**
+
+::: {.callout-important}
+## The rule for bars
+A bar encodes value by **length**, so its baseline must be zero. Truncating the axis breaks
+the correspondence between length and value.
+:::
+
+::: {.notes}
+Run both panels and then stop talking for a moment. The right-hand panel is the single most
+effective slide in this module because the deception is so complete and the code is so
+innocent — one call to `set_ylim` and the story changes entirely.
+
+Say clearly that nobody has to be dishonest to produce the right-hand panel. The usual route
+is a plotting library that auto-scales to the data range, or an analyst who zoomed in to see
+the differences and then never zoomed back out. The intent is irrelevant to the reader, who
+sees a fourfold difference that does not exist.
+
+The rule is specifically about bars, and it is worth being precise so they do not
+overgeneralise. Bars encode by length, so the baseline must be zero. A line chart or a
+scatter encodes by position, and those can legitimately start anywhere — a temperature
+series does not need to include absolute zero to be honest.
+
+If somebody asks whether the left panel is "wasting space," that is a good question with a
+firm answer: yes, and it is worth it. The empty space is the honest statement that these
+counties are nearly the same.
+:::
+
+## `ax.hist()` shows the shape of one variable {.smaller}
+
+```{pyodide}
+#| fig-alt: "Histogram of adult asthma prevalence across all 67 Pennsylvania counties, with bars concentrated between 10 and 11.2 percent and a single vertical dashed line marking the state mean of 10.7 percent. The distribution is roughly symmetric and tightly clustered."
+import pandas as pd
+import matplotlib.pyplot as plt
+
+asthma = pd.read_csv("data/pa_asthma_prevalence.csv")
+
+fig, ax = plt.subplots(figsize=(7, 3.2))
+ax.hist(asthma["asthma_prev_pct"], bins=12,
+        color="#003594", edgecolor="white")
+ax.axvline(asthma["asthma_prev_pct"].mean(),
+           color="#8a6400", linestyle="--", linewidth=2)
+ax.set_xlabel("Adult asthma prevalence (%)")
+ax.set_ylabel("Number of counties")
+ax.set_title("Asthma prevalence across 67 counties (dashed line = mean, 10.7%)")
+plt.tight_layout()
+plt.show()
+```
+
+A bar chart compares **named categories**. A histogram bins a **continuous variable** and
+counts what falls in each bin.
+
+::: {.notes}
+The distinction between this and the previous slide is the one students blur most, so make
+it concrete. On the bar chart, the x-axis was five county names and the order was a choice.
+Here the x-axis is a number line, the order is fixed by arithmetic, and the bars touch
+because the bins are adjacent intervals.
+
+Notice what the dashed mean line is doing beyond decoration. It is a second channel — the
+line is identified in the title, not only by its colour, which is the accessibility rule
+arriving early and without ceremony.
+
+The shape itself is the cold open restated. Everything piles up between ten and eleven and a
+half. Nothing is out in a tail. Whatever explains asthma in Pennsylvania is not producing
+dramatic county-level differences in asthma, which is precisely why the closing figure has
+to bring in a second variable.
+
+Bin count is a real choice and worth thirty seconds. Twelve bins here; try three and the
+structure disappears into a block, try fifty and every county gets its own spike. The
+default is a guess by the library, not a finding, and it is worth changing once to see the
+picture move.
+:::
+
+## `ax.scatter()` shows how two variables move together {.smaller}
+
+```{pyodide}
+#| fig-alt: "Scatter plot of adult asthma prevalence against adult smoking prevalence across 67 Pennsylvania counties. Points rise from left to right: counties near 11 percent smoking sit close to 9.8 percent asthma, and counties near 21 percent smoking sit near 11.3 percent asthma."
+import pandas as pd
+import matplotlib.pyplot as plt
+
+asthma = pd.read_csv("data/pa_asthma_prevalence.csv")
+
+fig, ax = plt.subplots(figsize=(7, 3.4))
+ax.scatter(asthma["smoking_prev_pct"], asthma["asthma_prev_pct"],
+           color="#003594", s=42, alpha=0.8,
+           edgecolor="white", linewidth=0.6)
+ax.set_xlabel("Adult smoking prevalence (%)")
+ax.set_ylabel("Adult asthma prevalence (%)")
+ax.set_title("Asthma against smoking, 67 Pennsylvania counties")
+plt.tight_layout()
+plt.show()
+```
+
+::: {.notes}
+This is the closing figure arriving early, and that is deliberate. They should see it once
+here as a plain scatter, then meet it again at the end fully annotated, once the tools to
+read it properly are in place.
+
+Read the axes aloud in the order that matters. The x-axis, smoking, runs from about ten and
+a half to nearly twenty-two — an eleven-point spread. The y-axis, asthma, runs across two
+points. The cold open said asthma barely moves, and this figure shows what it moves *with*.
+
+Hold the number back a little longer. The correlation slide gives it, and it lands harder as
+a number that confirms a picture they have already read than as a number announced first.
+
+If somebody says "so smoking causes asthma" — and somebody will — take it seriously and then
+be precise. These are county averages, not people. A county where more adults smoke also has
+more adults with asthma, and that is entirely consistent with smoking causing asthma, with
+asthma and smoking sharing causes like income and occupation, or with both. The figure
+cannot separate those. Saying so is not hedging; it is the accurate reading.
+:::
+
+## `ax.plot()` draws a value that moves through time {.smaller}
+
+```{pyodide}
+#| fig-alt: "Line chart of monthly COVID-19 deaths across all Pennsylvania counties from March 2020 through March 2024. Two large peaks appear in winter 2020 and winter 2021, with the tallest at 4,294 deaths in January 2022, after which the line falls close to zero."
+import pandas as pd
+import matplotlib.pyplot as plt
+
+covid = pd.read_csv("data/pa_covid_monthly.csv")
+covid["month"] = pd.to_datetime(covid["month"])
+statewide = covid.groupby("month")["covid_deaths"].sum()
+
+fig, ax = plt.subplots(figsize=(7.5, 3.2))
+ax.plot(statewide.index, statewide.values,
+        color="#003594", linewidth=2)
+ax.set_xlabel("Month")
+ax.set_ylabel("COVID-19 deaths")
+ax.set_title("Statewide monthly COVID-19 deaths, 49 months")
+plt.tight_layout()
+plt.show()
+```
+
+A line asserts that consecutive points are **connected** — that the value moved from one to
+the next. Categories are never connected by a line.
+
+::: {.notes}
+The `.dt` conversion on the second line is doing quiet but essential work. Without
+`to_datetime`, those months are strings, and the x-axis would place them in alphabetical
+order with even spacing. With it, matplotlib knows January 2022 comes after December 2021
+and that the gap is one month.
+
+The peaks are worth naming because the room lived through them. The tallest is January 2022
+at 4,294 deaths, which is Omicron. The earlier one is winter 2020, before vaccines. The
+right-hand third of the chart is the part people forget: deaths did not stop, they became
+small enough to leave the news.
+
+The rule under the figure has teeth. A line between two county names claims the value moved
+from Adams to Allegheny, which is meaningless — counties have no order. Time and dose have
+an order. That is the test.
+:::
+
+# Making a figure readable {.unnumbered background-color="#003594"}
+
+## An unlabelled figure states nothing {.smaller}
+
+```{pyodide}
+#| fig-alt: "Two panels of the same scatter of asthma against smoking. The left panel has no axis labels or title and is uninterpretable. The right panel is fully labelled with axis names, units, a title, and a source note."
+import pandas as pd
+import matplotlib.pyplot as plt
+
+asthma = pd.read_csv("data/pa_asthma_prevalence.csv")
+
+fig, (bare, labelled) = plt.subplots(1, 2, figsize=(9.5, 3.4))
+
+for panel in (bare, labelled):
+    panel.scatter(asthma["smoking_prev_pct"], asthma["asthma_prev_pct"],
+                  color="#003594", s=30, alpha=0.8)
+
+labelled.set_xlabel("Adult smoking prevalence (%)")
+labelled.set_ylabel("Adult asthma prevalence (%)")
+labelled.set_title("Asthma against smoking, 67 PA counties")
+labelled.text(0.02, 0.95, "Source: CDC PLACES 2024",
+              transform=labelled.transAxes, fontsize=7, color="#6b7280",
+              verticalalignment="top")
+
+plt.tight_layout()
+plt.show()
+```
+
+**Both panels plot identical data.** Only one of them can be read by someone who was not in
+the room when it was made.
+
+::: {.callout-important}
+## The minimum for any figure that leaves a notebook
+An x-label with units, a y-label with units, a title stating the claim, and a source.
+:::
+
+::: {.notes}
+The left panel is what every first draft looks like, including the instructor's. That is
+worth admitting rather than pretending otherwise — exploratory figures are unlabelled
+because the analyst knows what they plotted, and that is fine while the figure lives in a
+notebook that nobody else opens.
+
+The moment it goes into a slide, a report, or an email, the analyst is no longer the reader.
+The left panel then becomes two clouds of ink.
+
+The source note is the part people skip and the part that matters most six months later.
+Which extract, which year. A figure without a source cannot be checked, and a figure that
+cannot be checked will eventually be wrong in a way nobody catches.
+
+Point out `transform=labelled.transAxes` briefly. It places the text in axes coordinates,
+where 0,0 is the bottom-left of the plotting area and 1,1 is the top-right, so the note
+stays put regardless of the data range. Without it the coordinates would be smoking
+percentages, and the note would land somewhere random.
+:::
+
+## `savefig()` writes the figure to a file {.smaller}
+
+```{pyodide}
+import pandas as pd
+import matplotlib.pyplot as plt
+
+asthma = pd.read_csv("data/pa_asthma_prevalence.csv")
+
+fig, ax = plt.subplots(figsize=(6, 3))
+ax.hist(asthma["asthma_prev_pct"], bins=12, color="#003594", edgecolor="white")
+ax.set_xlabel("Adult asthma prevalence (%)")
+ax.set_ylabel("Number of counties")
+
+fig.savefig("asthma_distribution.png", dpi=200, bbox_inches="tight")
+
+import os
+print("written:", os.path.exists("asthma_distribution.png"))
+print("bytes:", os.path.getsize("asthma_distribution.png"))
+```
+
+- `dpi=200` sets the resolution; the default of 100 looks soft in a document
+- `bbox_inches="tight"` trims the surrounding whitespace and rescues cut-off labels
+- The extension chooses the format: `.png` for slides and documents, `.pdf` for print
+
+::: {.callout-tip}
+## `savefig()` before `show()`
+`plt.show()` renders and then clears the figure. Calling `savefig()` afterwards writes a
+blank image.
+:::
+
+::: {.notes}
+This cell writes a real file into the browser's virtual filesystem, which is why the
+existence check prints True. In Colab the same call puts a real PNG in the session folder,
+and it can be downloaded from the file browser on the left.
+
+The callout is a bug students hit within about a week of starting their project, and the
+symptom is baffling if the rule is unknown — the figure looked perfect on screen and the
+saved file is blank. Order matters because `show()` flushes the canvas.
+
+`bbox_inches="tight"` deserves its own sentence. The classic failure is a long y-axis label
+sliced off at the left edge of the saved file while looking fine in the notebook. That one
+argument fixes it permanently.
+:::
+
+## `plt.subplots()` builds a grid of panels {.smaller}
+
+```{pyodide}
+#| fig-alt: "Four-panel grid of Pennsylvania county health distributions: adult asthma prevalence, adult smoking prevalence, infant mortality per 1,000 births, and child poverty percent. Asthma is tightly clustered while the other three are visibly wider and more skewed."
+import pandas as pd
+import matplotlib.pyplot as plt
+
+asthma = pd.read_csv("data/pa_asthma_prevalence.csv")
+births = pd.read_csv("data/pa_maternal_infant.csv")
+
+fig, axes = plt.subplots(2, 2, figsize=(9, 4.6))
+
+panels = [
+    (axes[0, 0], asthma["asthma_prev_pct"],            "Adult asthma (%)"),
+    (axes[0, 1], asthma["smoking_prev_pct"],           "Adult smoking (%)"),
+    (axes[1, 0], births["infant_mortality_per_1000"],  "Infant deaths per 1,000"),
+    (axes[1, 1], births["children_in_poverty_pct"],    "Children in poverty (%)"),
+]
+
+for panel, values, label in panels:
+    panel.hist(values.dropna(), bins=10, color="#003594", edgecolor="white")
+    panel.set_title(label, fontsize=9)
+    panel.tick_params(labelsize=7)
+
+fig.suptitle("Four county-level distributions, Pennsylvania", fontsize=11)
+plt.tight_layout()
+plt.show()
+```
+
+`plt.subplots(2, 2)` returns a **2-D array of axes**, indexed `axes[row, col]` — the same
+indexing NumPy introduced in Module 3.
+
+::: {.notes}
+The indexing connection is worth making explicit because it is a genuine reuse of Module 3
+rather than a coincidence. `axes` is a NumPy array of axes objects, so `axes[1, 0]` is row
+one, column zero, exactly as it would be for numbers.
+
+The loop over a list of tuples is the pattern to steal. Four nearly identical panels written
+out four times is where copy-paste errors breed — the classic being the fourth panel still
+carrying the third panel's title because one line did not get edited. Build a list, loop,
+and the bug cannot occur.
+
+Now read the four panels together, because the comparison is the point. Asthma is a spike.
+The other three are spread out, and infant mortality and poverty both trail to the right.
+Asthma is the flattest variable on this slide by a wide margin, which is the cold open
+holding up under scrutiny.
+
+`suptitle` titles the figure; `set_title` titles one axes. Figure versus axes again, and this
+is where that distinction earns its keep.
+:::
+
+# Accessibility {.unnumbered background-color="#003594"}
+
+## Alt text is required on every figure {.smaller}
+
+A figure is invisible to a screen reader. Its alt text is the only description that reaches
+a reader who cannot see it.
+
+```yaml
+#| fig-alt: "Scatter plot of adult asthma prevalence against adult smoking
+#|   prevalence across 67 Pennsylvania counties. Points rise from left to
+#|   right, from about 9.8% asthma at 11% smoking to 11.3% at 21% smoking."
+```
+
+::: {.callout-important}
+## Alt text states what the figure shows, not that it exists
+✗ "Scatter plot of the data."
+✓ "Asthma prevalence rises with smoking prevalence across 67 counties, from 9.8% to 11.3%."
+:::
+
+**University of Pittsburgh policy and the ADA Title II compliance date of April 2027 both
+require this.** It applies to every figure submitted in this course, including the final
+project.
+
+::: {.notes}
+Give this the two minutes it deserves, because it is graded and because the reason is not
+bureaucratic.
+
+The test that actually works: describe the figure to somebody over the phone, in one or two
+sentences, so they could argue with the finding. If the description is "a scatter plot," the
+person on the phone has nothing. If it is "asthma rises with smoking across sixty-seven
+counties, from about nine point eight to eleven point three," they can now disagree, and
+disagreement requires access.
+
+Direction and magnitude are the two things to include. What moves which way, and by how
+much. That is nearly always enough.
+
+Every fig-alt in this deck was written that way, and it is worth clicking one open in the
+page source so they see it is a normal line of the cell header rather than special
+infrastructure.
+:::
+
+## Colour is never the only channel {.smaller}
+
+```{pyodide}
+#| fig-alt: "Two panels comparing metro and nonmetro counties on smoking and asthma. The left panel separates the groups by colour alone. The right panel uses colour, distinct marker shapes, and a legend, so the groups remain distinguishable without colour."
+import pandas as pd
+import matplotlib.pyplot as plt
+
+asthma = pd.read_csv("data/pa_asthma_prevalence.csv")
+counties = pd.read_csv("data/pa_counties.csv")
+joined = asthma.merge(counties[["county", "metro"]], on="county", how="left")
+
+metro    = joined[joined["metro"] == "Metro"]
+nonmetro = joined[joined["metro"] == "Nonmetro"]
+
+fig, (colour_only, two_channel) = plt.subplots(1, 2, figsize=(9.5, 3.4))
+
+colour_only.scatter(metro["smoking_prev_pct"], metro["asthma_prev_pct"], color="#003594", s=34)
+colour_only.scatter(nonmetro["smoking_prev_pct"], nonmetro["asthma_prev_pct"], color="#8a6400", s=34)
+colour_only.set_title("Colour only — fails")
+
+two_channel.scatter(metro["smoking_prev_pct"], metro["asthma_prev_pct"],
+                    color="#003594", marker="o", s=34, label="Metro")
+two_channel.scatter(nonmetro["smoking_prev_pct"], nonmetro["asthma_prev_pct"],
+                    color="#8a6400", marker="^", s=42, label="Nonmetro")
+two_channel.legend(fontsize=8, frameon=False)
+two_channel.set_title("Colour + shape + legend — passes")
+
+for panel in (colour_only, two_channel):
+    panel.set_xlabel("Smoking (%)", fontsize=8)
+    panel.set_ylabel("Asthma (%)", fontsize=8)
+    panel.tick_params(labelsize=7)
+
+plt.tight_layout()
+plt.show()
+```
+
+::: {.notes}
+The left panel is not a hypothetical failure. Roughly one in twelve men has a colour vision
+deficiency, and a figure that encodes group membership in hue alone is unreadable to them —
+along with anyone who prints it in greyscale, which is still how documents get read in
+meetings.
+
+There is a measured fact behind this rule that makes it concrete. Royal blue reads at
+10.8:1 against white and this bronze at 5.4:1, so both are perfectly legible marks. But
+against *each other* they separate by only 2.0:1, which is below the 3:1 threshold. Two
+colours can each be readable and still be indistinguishable from one another. That is why
+the second channel is a rule rather than a preference.
+
+The fix costs one argument. `marker="^"` and a legend, and the figure now works in
+greyscale, in print, and for a reader with deuteranopia.
+
+The same principle applies beyond scatter plots: line charts get dash patterns, bar charts
+get direct labels or hatching.
+:::
+
+## Marks must reach 3:1 against the background {.smaller}
+
+Text needs **4.5:1**. A meaningful graphic — a bar, a point, a line that carries data —
+needs **3:1**.
+
+| Colour | Ratio on white | Verdict |
+|---|---|---|
+| `#003594` Pitt royal | **10.84 : 1** | Passes as text and as a mark |
+| `#8a6400` dark gold | **5.38 : 1** | Passes as text and as a mark |
+| `#6b7280` gray | **4.83 : 1** | Passes; reserved for annotation |
+| `#B87333` Pitt bronze | 3.79 : 1 | Mark only — fails as text |
+| `#FFB81C` Pitt gold | **1.73 : 1** | **Fails both. Never on white.** |
+
+::: {.callout-important}
+## Pitt gold is a brand colour, not a data colour
+`#FFB81C` on white reaches 1.73:1. It is legible only as a fill behind dark text, or on the
+royal blue background used by the section dividers in this deck.
+:::
+
+::: {.notes}
+The gold row is the one that surprises people, and it is worth dwelling on because students
+will reach for it — it is the university's colour and it is right there in the template.
+
+On a white slide it is nearly invisible as data. A gold bar on white is decoration, not a
+measurement. It works on this deck's blue section dividers because the background changed,
+which is the whole point: contrast is a property of a pair, never of a colour by itself.
+
+These numbers are not estimates. They come from the WCAG relative luminance formula, and the
+script that produced this table is in the repository as `scratchpad_contrast.py`. Anyone can
+check any pair in about ten seconds, and for the final project they should.
+:::
+
+# pandas and seaborn shortcuts {.unnumbered background-color="#003594"}
+
+## `.plot()` draws directly from a DataFrame {.smaller}
+
+```{pyodide}
+#| fig-alt: "Horizontal bar chart of mean adult asthma prevalence for six Pennsylvania regions, ranging from about 10.4 percent in the Southeast to 10.8 percent in North Central. The bars are close to equal in length."
+import pandas as pd
+import matplotlib.pyplot as plt
+
+asthma = pd.read_csv("data/pa_asthma_prevalence.csv")
+counties = pd.read_csv("data/pa_counties.csv")
+joined = asthma.merge(counties[["county", "region"]], on="county", how="left")
+
+by_region = joined.groupby("region")["asthma_prev_pct"].mean().sort_values()
+
+ax = by_region.plot.barh(figsize=(7, 3), color="#003594")
+ax.set_xlabel("Mean adult asthma prevalence (%)")
+ax.set_ylabel("")
+ax.set_title("Mean county asthma prevalence by region")
+plt.tight_layout()
+plt.show()
+```
+
+`.plot()` on a Series or DataFrame calls matplotlib underneath and **returns an axes**, so
+every `ax.set_*()` method remains available.
+
+::: {.notes}
+This is the fastest route from a groupby to a picture, and it is the right tool during
+exploration. The index becomes the category labels and the values become the bars, with no
+intermediate step.
+
+The important structural point is that nothing new is happening. `.plot()` builds a
+matplotlib axes and hands it back, which is why the labelling calls on the following lines
+are the same ones from twenty minutes ago. Nothing learned is being replaced.
+
+`.sort_values()` before plotting is not cosmetic. An unsorted bar chart forces the reader to
+scan and compare; a sorted one delivers the ranking for free. Sorting is one of the few
+choices that improves a figure at zero cost.
+
+Read the result honestly, though. The spread across six regions is four tenths of a
+percentage point. This figure's real message is again that asthma does not vary much —
+which is the third time today that answer has come back, and it is the setup for the payoff.
+:::
+
+## seaborn draws grouped statistical figures in one call {.smaller}
+
+```{pyodide}
+import micropip
+await micropip.install("seaborn")
+
+import seaborn as sns
+print("seaborn", sns.__version__)
+```
+
+seaborn is **not bundled** with this browser's Python. `micropip` fetches it at runtime, and
+the download takes a few seconds on first use.
+
+::: {.callout-tip}
+## In Colab, seaborn is already installed
+`import seaborn as sns` is enough there. The `micropip` step is specific to Python running
+inside a browser.
+:::
+
+::: {.notes}
+Run this cell early in the session and let it finish in the background, because the first
+download costs several seconds and it is better spent while talking than while waiting.
+
+Explain the `await` briefly and without going into async Python. The install has to reach
+the network, so the cell has to be able to pause. `await` is the keyword that says "wait for
+this before continuing." It is required here and nowhere else in the course.
+
+If the network blocks it, the fallback is real and worth stating: everything in the next few
+slides can be drawn with matplotlib and pandas, which are already loaded. seaborn is
+convenience, not capability.
+:::
+
+## `sns.boxplot()` compares distributions across groups {.smaller}
+
+```{pyodide}
+#| fig-alt: "Box plot of adult asthma prevalence for metro and nonmetro Pennsylvania counties. The two boxes overlap heavily, with nonmetro counties centred slightly higher at 10.7 percent against 10.5 percent for metro counties."
+import micropip
+await micropip.install("seaborn")
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+asthma = pd.read_csv("data/pa_asthma_prevalence.csv")
+counties = pd.read_csv("data/pa_counties.csv")
+joined = asthma.merge(counties[["county", "metro"]], on="county", how="left")
+
+fig, ax = plt.subplots(figsize=(6.5, 3.2))
+sns.boxplot(data=joined, x="metro", y="asthma_prev_pct",
+            hue="metro", legend=False,
+            palette=["#003594", "#8a6400"], ax=ax)
+ax.set_xlabel("")
+ax.set_ylabel("Adult asthma prevalence (%)")
+ax.set_title("Asthma prevalence by metro status")
+plt.tight_layout()
+plt.show()
+```
+
+A box marks the **median** and the **interquartile range**; the whiskers reach the furthest
+points within 1.5 × IQR, and anything beyond is drawn individually.
+
+::: {.notes}
+seaborn takes a DataFrame and column names and does the grouping itself. Doing this in bare
+matplotlib means splitting the frame, computing quartiles, and positioning boxes by hand.
+
+Make sure the box is actually understood rather than nodded at, because it is the most
+information-dense summary in the course. Line is the median, box holds the middle half of
+the counties, whiskers reach the rest, individual points are the far ones. Four numbers and
+a picture in a single glance.
+
+Read this one out loud: the boxes overlap almost entirely. Nonmetro sits slightly higher,
+10.7 against 10.5, and the overlap is far larger than the gap. The honest statement is that
+metro status barely separates asthma prevalence.
+
+That matters for the payoff. Region did not explain it, metro status does not explain it,
+and the variable that does is coming.
+:::
+
+## `histplot` and `scatterplot` take the grouping as an argument {.smaller}
+
+```{pyodide}
+#| fig-alt: "Two seaborn panels. The left is a histogram of adult smoking prevalence split by metro status, with metro counties concentrated at lower values. The right is a scatter of asthma against smoking, metro as circles and nonmetro as triangles, rising left to right."
+import micropip
+await micropip.install("seaborn")
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+asthma = pd.read_csv("data/pa_asthma_prevalence.csv")
+counties = pd.read_csv("data/pa_counties.csv")
+joined = asthma.merge(counties[["county", "metro"]], on="county", how="left")
+
+palette = {"Metro": "#003594", "Nonmetro": "#8a6400"}
+
+fig, (left, right) = plt.subplots(1, 2, figsize=(9.5, 3.2))
+
+sns.histplot(data=joined, x="smoking_prev_pct", hue="metro",
+             palette=palette, bins=10, ax=left)
+left.set_xlabel("Adult smoking prevalence (%)")
+
+sns.scatterplot(data=joined, x="smoking_prev_pct", y="asthma_prev_pct",
+                hue="metro", style="metro", palette=palette, s=55, ax=right)
+right.set_xlabel("Adult smoking prevalence (%)")
+right.set_ylabel("Adult asthma prevalence (%)")
+
+plt.tight_layout()
+plt.show()
+```
+
+`style="metro"` varies the **marker shape** alongside the colour — the second channel,
+supplied by one argument.
+
+::: {.notes}
+These are the two figures already built by hand, written the seaborn way. The saving is real:
+the grouped histogram would otherwise mean splitting the frame and calling `hist` twice with
+matching bins, and the scatter would mean the explicit loop from earlier.
+
+`style="metro"` is the argument worth remembering out of this entire slide. It does the
+accessibility job automatically — same column drives colour and shape, so the figure is
+readable in greyscale without extra work. Passing `hue=` alone is the failure mode from the
+accessibility slide, and it is the default people reach for.
+
+Note the palette is passed as a dictionary here rather than a list, which maps each group name
+to its colour explicitly. That is worth preferring: with a list, the colours attach in whatever
+order seaborn encounters the categories, and a filtered dataset can silently swap them between
+two figures in the same report.
+
+seaborn also adds the legend on its own, which is convenient and worth checking rather than
+trusting — the title it picks is the column name, and `metro` is rarely what a reader should
+see.
+:::
+
+## seaborn's default palettes fail the contrast threshold {.smaller}
+
+Every seaborn default palette contains colours below **3:1** against white:
+
+| Palette | Lowest ratio | Failing colours |
+|---|---|---|
+| `deep` (the default) | 2.80 : 1 | `#DD8452`, `#55A868` |
+| `colorblind` | **2.61 : 1** | `#DE8F05`, `#CA9161` |
+| `muted` | 2.01 : 1 | `#EE854A`, `#6ACC64` |
+| `tab10` | 2.53 : 1 | `#FF7F0E` |
+
+::: {.callout-important}
+## A palette named `colorblind` is not an accessible palette
+`colorblind` is designed so its hues stay **distinguishable from one another** under colour
+vision deficiency. That is a different property from **contrast against the background**,
+and it does not imply it.
+:::
+
+**This course passes an explicit `palette=` argument to every seaborn call.**
+
+::: {.notes}
+This table is the reason the previous slide passed a palette by hand instead of accepting
+the default, and it is worth showing rather than asserting.
+
+The `colorblind` row is the one that teaches something general. It is a good palette that
+solves a real problem — those hues stay separable for a reader with deuteranopia. It just
+does not solve *this* problem, which is whether a mark is visible against the paper at all.
+Two different accessibility properties, one reassuring name.
+
+The lesson to generalise: a default is a guess made by someone who never saw this figure, on
+a background they never chose. Defaults are a starting point.
+
+These numbers were measured against the seaborn version this course runs, using the same
+WCAG formula as the previous table. The method is in the repository and takes seconds.
+:::
+
+## `sns.heatmap()` shows a matrix of relationships {.smaller}
+
+```{pyodide}
+#| fig-alt: "Heat map of correlations among five maternal and infant health measures across 44 Pennsylvania counties, with numeric values printed in every cell. Child poverty and infant mortality correlate at 0.65, income and poverty at negative 0.81, and infant mortality with income at negative 0.60."
+import micropip
+await micropip.install("seaborn")
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+births = pd.read_csv("data/pa_maternal_infant.csv")
+reporting = births.dropna(subset=["infant_mortality_per_1000"])
+
+measures = reporting[["infant_mortality_per_1000", "low_birthweight_pct",
+                      "teen_births_per_1000", "children_in_poverty_pct",
+                      "median_household_income"]]
+
+fig, ax = plt.subplots(figsize=(7, 3.6))
+sns.heatmap(measures.corr(), annot=True, fmt=".2f",
+            cmap="BrBG", vmin=-1, vmax=1,
+            annot_kws={"size": 8}, ax=ax)
+ax.set_title("Correlations among county health measures (44 counties)")
+plt.tight_layout()
+plt.show()
+```
+
+`annot=True` prints the value in every cell — **the numbers are the second channel**, so the
+figure survives being read without colour.
+
+::: {.notes}
+Three deliberate choices here, each worth a sentence.
+
+`vmin=-1, vmax=1` fixes the scale. Without it the colours stretch to whatever range happens
+to be present, and two heatmaps from the same project become uncomparable — a 0.4 could be
+the darkest cell in one and the palest in another.
+
+`cmap="BrBG"` is diverging, which is correct because correlation has a meaningful centre at
+zero. A sequential map like `viridis` would make −0.8 and +0.1 look like two rungs of one
+ladder, when they are opposite findings.
+
+`annot=True` is the accessibility rule again. The numbers are printed, so the reader never
+has to convert a colour into a value by eye.
+
+Read the diagonal first — it is 1.00 everywhere, because a variable correlates perfectly
+with itself, and that is a sanity check rather than a finding. Then the substance: poverty
+and infant mortality at +0.65, income and poverty at −0.81. The strongest cell on this map
+is income against poverty, and that one is nearly a definition rather than a discovery.
+:::
+
+# Describing what the figure shows {.unnumbered background-color="#003594"}
+
+## `.describe()` summarises every numeric column at once {.smaller}
+
+```{pyodide}
+import pandas as pd
+
+asthma = pd.read_csv("data/pa_asthma_prevalence.csv")
+
+print(asthma[["asthma_prev_pct", "smoking_prev_pct", "obesity_prev_pct"]].describe().round(2))
+```
+
+Eight numbers per column: the count, the mean, the standard deviation, the minimum, the
+three quartiles, and the maximum.
+
+::: {.callout-tip}
+## `count` is the first number to read
+It reports **non-missing** values. A count below the number of rows means missing data is
+present in that column.
+:::
+
+::: {.notes}
+Read this table across rather than down, because the comparison is the finding. Asthma has a
+standard deviation of 0.38. Smoking has 2.32 — six times as wide. Obesity has 2.26.
+
+That single comparison is the cold open expressed as a number, and it is the most precise
+statement of the module's premise: asthma does not vary much across Pennsylvania counties,
+while the things that might explain it vary a great deal.
+
+The callout is the habit worth installing. `count` first, every time. It is the cheapest
+missing-data check available, and in this file all three columns read 67, which means CDC
+PLACES models an estimate for every county — no suppression here, unlike the births file
+from Module 4.
+
+Compare the mean and the median — the 50% row — while the table is up. They sit at 10.66 and
+10.60, which are close, and that closeness says the distribution is roughly symmetric with
+no extreme outlier dragging the mean. When those two numbers diverge sharply, the mean is
+being pulled by a tail and the median is the more honest summary.
+:::
+
+## `.groupby()` and `.agg()` describe each group {.smaller}
+
+```{pyodide}
+import pandas as pd
+
+asthma = pd.read_csv("data/pa_asthma_prevalence.csv")
+counties = pd.read_csv("data/pa_counties.csv")
+joined = asthma.merge(counties[["county", "metro"]], on="county", how="left")
+
+summary = joined.groupby("metro").agg(
+    counties=("county", "count"),
+    mean_asthma=("asthma_prev_pct", "mean"),
+    mean_smoking=("smoking_prev_pct", "mean"),
+)
+
+print(summary.round(2))
+```
+
+::: {.callout-note}
+## The comparison this table makes
+Metro and nonmetro counties differ by **0.17** percentage points in asthma prevalence, and by
+**2.34** percentage points in smoking prevalence.
+:::
+
+::: {.notes}
+This is the box plot as a table, and the numbers say what the overlapping boxes implied.
+Asthma: 10.58 metro against 10.75 nonmetro. Smoking: 16.08 against 18.42.
+
+The asthma difference is a seventh of a percentage point and it means very little. The
+smoking difference is more than two full points across thirty-seven and thirty counties.
+Same table, and one column is carrying nearly all of the signal.
+
+Always print the group sizes. The `counties=("county", "count")` line is not decoration —
+a difference in means computed over four counties and a difference computed over thirty-seven
+deserve very different levels of confidence, and without the count nobody can tell which one
+they are looking at.
+
+The named-aggregation syntax is worth a moment because the output is self-documenting. The
+column is called `mean_asthma`, not `asthma_prev_pct` with an invisible mean applied. Three
+weeks later, that naming is the difference between readable code and a guess.
+:::
+
+## `.corr()` measures how two columns move together {.smaller}
+
+```{pyodide}
+import pandas as pd
+
+asthma = pd.read_csv("data/pa_asthma_prevalence.csv")
+
+print("smoking vs asthma:", round(asthma["smoking_prev_pct"].corr(asthma["asthma_prev_pct"]), 3))
+print("obesity vs asthma:", round(asthma["obesity_prev_pct"].corr(asthma["asthma_prev_pct"]), 3))
+```
+
+A correlation runs from **−1** to **+1**. It reports the strength and direction of a
+**straight-line** relationship, and nothing else.
+
+::: {.callout-important}
+## What a correlation cannot establish
+It cannot establish cause. It cannot detect a curved relationship. It is distorted by
+outliers. **And these are county averages, so it describes counties, not people.**
+:::
+
+::: {.notes}
+The number to say out loud is +0.659, smoking against asthma. That is a strong relationship
+by the standards of county-level public health data, and it is the strongest in this course.
+
+Obesity comes in at +0.476, which is real but weaker, and worth mentioning so the room does
+not conclude that everything correlates with everything.
+
+Now the caveat that carries the most weight, and it deserves a full sentence rather than a
+clause. These are county averages. A correlation across counties describes counties. It does
+not establish that the individual people who smoke are the individual people with asthma —
+that is a different question requiring individual-level data, and inferring the second from
+the first has a name in epidemiology, the ecological fallacy. They will meet the term
+formally elsewhere; today they meet the caution.
+
+Say plainly what this course does not do: no p-value, no significance test, no model. Not
+because those are unimportant, but because a correlation that is described accurately is
+worth more than one that is tested and misread.
+
+Always draw the scatter before trusting the number. The next slide shows why.
+:::
+
+## A correlation without its scatter can be a fiction {.smaller}
+
+```{pyodide}
+#| fig-alt: "Two scatter plots. The left panel shows adult smoking against asthma across 67 counties, an even upward cloud with correlation 0.659. The right panel shows the same data with one fabricated extreme point added at the top right, and the correlation rises to 0.827 on the strength of that single point."
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+asthma = pd.read_csv("data/pa_asthma_prevalence.csv")
+
+smoking  = asthma["smoking_prev_pct"].to_numpy()
+prev     = asthma["asthma_prev_pct"].to_numpy()
+
+# One fabricated point, appended to demonstrate leverage. Not real data.
+smoking_plus = np.append(smoking, 34.0)
+prev_plus    = np.append(prev, 15.0)
+
+fig, (real, distorted) = plt.subplots(1, 2, figsize=(9.5, 3.4))
+
+real.scatter(smoking, prev, color="#003594", s=28, alpha=0.8)
+real.set_title(f"67 real counties: r = {np.corrcoef(smoking, prev)[0, 1]:.3f}", fontsize=10)
+
+distorted.scatter(smoking_plus[:-1], prev_plus[:-1], color="#003594", s=28, alpha=0.8)
+distorted.scatter(smoking_plus[-1:], prev_plus[-1:], color="#8a6400", s=90, marker="X")
+distorted.annotate("one fabricated point", xy=(34.0, 15.0), xytext=(19.5, 14.0),
+                   fontsize=8, color="#8a6400",
+                   arrowprops=dict(arrowstyle="->", color="#8a6400"))
+distorted.set_title(f"With one added point: r = {np.corrcoef(smoking_plus, prev_plus)[0, 1]:.3f}",
+                    fontsize=10)
+
+for panel in (real, distorted):
+    panel.set_xlabel("Smoking (%)", fontsize=8)
+    panel.set_ylabel("Asthma (%)", fontsize=8)
+    panel.tick_params(labelsize=7)
+
+plt.tight_layout()
+plt.show()
+```
+
+::: {.notes}
+The right-hand panel adds exactly one point out of sixty-eight and the correlation climbs
+from 0.659 to 0.827. That is leverage: a point far from the cloud pulls the summary toward
+itself with force out of all proportion to its weight in the data — one point in sixty-eight
+moved the headline number by more than a sixth of its range.
+
+State clearly that this point is fabricated and labelled as such on the figure. Never put an
+invented number into a real analysis; here it exists solely to make the mechanism visible,
+and the annotation on the chart says so.
+
+Now the practical version. A real analysis rarely fabricates a point — it acquires one. A
+county with a data entry error, a rate computed from three events, a placeholder like −99
+that was never cleaned. Any of those produce this figure without anyone intending it.
+
+The habit: draw the scatter, then read the correlation. In that order, always. A correlation
+reported without its scatter is an assertion nobody in the room can check, and once the
+scatter is up, a point like the gold X is impossible to miss.
+:::
+
+# Rates against counts {.unnumbered background-color="#003594"}
+
+## A figure of counts often draws a map of population {.smaller}
+
+```{pyodide}
+#| fig-alt: "Two horizontal bar charts of Pennsylvania COVID-19 mortality. The left ranks counties by total deaths and lists Philadelphia, Allegheny, Montgomery, Lancaster, and Bucks — the five largest counties. The right ranks by deaths per 100,000 and lists Potter, McKean, Juniata, Jefferson, and Armstrong — five small rural counties. The two lists share no counties."
+import pandas as pd
+import matplotlib.pyplot as plt
+
+covid = pd.read_csv("data/pa_covid_monthly.csv")
+counties = pd.read_csv("data/pa_counties.csv")
+
+totals = (covid.groupby("county", as_index=False)["covid_deaths"].sum()
+               .merge(counties[["county", "population_2023"]], on="county"))
+totals["rate_per_100k"] = totals["covid_deaths"] / totals["population_2023"] * 100000
+
+by_count = totals.nlargest(5, "covid_deaths").sort_values("covid_deaths")
+by_rate  = totals.nlargest(5, "rate_per_100k").sort_values("rate_per_100k")
+
+fig, (counts, rates) = plt.subplots(1, 2, figsize=(9.5, 3.2))
+
+counts.barh(by_count["county"], by_count["covid_deaths"], color="#003594")
+counts.set_title("Top 5 by total deaths", fontsize=10)
+counts.set_xlabel("COVID-19 deaths", fontsize=8)
+
+rates.barh(by_rate["county"], by_rate["rate_per_100k"], color="#8a6400")
+rates.set_title("Top 5 by deaths per 100,000", fontsize=10)
+rates.set_xlabel("Deaths per 100,000", fontsize=8)
+
+for panel in (counts, rates):
+    panel.tick_params(labelsize=8)
+
+plt.tight_layout()
+plt.show()
+```
+
+**The two lists share no counties.**
+
+::: {.notes}
+Ask for predictions before running it. Most of the room expects some overlap between the two
+lists, and there is none at all.
+
+The left panel is Philadelphia, Allegheny, Montgomery, Lancaster, Bucks — which is, in order,
+a list of Pennsylvania's largest counties. That chart is a population map wearing a mortality
+label. Across all sixty-seven counties, deaths and population correlate at **+0.946**.
+
+The right panel is Potter, McKean, Juniata, Jefferson, Armstrong. Rural counties, and Potter
+tops it at 556 per 100,000 with eighty-nine deaths — a number so small it would never appear
+on the left panel.
+
+Which is correct? Both, for different questions. Total deaths is the right answer for
+planning a morgue or allocating staff, because that is a question about absolute burden. The
+rate is the right answer for asking where the pandemic hit hardest per resident. The failure
+is not choosing one; it is choosing without noticing there was a choice.
+
+This is the most common error in published public-health graphics and it clears peer review
+regularly, because the figure looks entirely reasonable. The check is one question:
+**does this bar get longer simply because more people live there?**
+:::
+
+## The check-in: which figure answers which question {.smaller}
+
+```{pyodide}
+#| exercise: m5_rates_counts
+import pandas as pd
+
+covid = pd.read_csv("data/pa_covid_monthly.csv")
+counties = pd.read_csv("data/pa_counties.csv")
+
+totals = (covid.groupby("county", as_index=False)["covid_deaths"].sum()
+               .merge(counties[["county", "population_2023"]], on="county"))
+
+# Complete the rate: deaths per 100,000 residents.
+totals["rate_per_100k"] = totals["covid_deaths"] / totals["______"] * 100000
+
+print("deaths vs population:", round(totals["covid_deaths"].corr(totals["population_2023"]), 3))
+print("rate   vs population:", round(totals["rate_per_100k"].corr(totals["population_2023"]), 3))
+```
+
+```{pyodide}
+#| exercise: m5_rates_counts
+#| hint: true
+# The blank is population_2023.
+#
+# The two printed correlations are the point of the exercise. A count
+# correlates with population at +0.946 — it is very nearly a measure of
+# how many people live there. Dividing by population removes that, and
+# the rate correlates with population at -0.232.
+```
+
+```{pyodide}
+#| exercise: m5_rates_counts
+#| solution: true
+import pandas as pd
+
+covid = pd.read_csv("data/pa_covid_monthly.csv")
+counties = pd.read_csv("data/pa_counties.csv")
+
+totals = (covid.groupby("county", as_index=False)["covid_deaths"].sum()
+               .merge(counties[["county", "population_2023"]], on="county"))
+
+totals["rate_per_100k"] = totals["covid_deaths"] / totals["population_2023"] * 100000
+
+print("deaths vs population:", round(totals["covid_deaths"].corr(totals["population_2023"]), 3))
+print("rate   vs population:", round(totals["rate_per_100k"].corr(totals["population_2023"]), 3))
+```
+
+::: {.notes}
+Fill the blank with the room and then read the two numbers together, because the pair is the
+lesson.
+
+Counts against population: +0.946. That is very nearly a perfect straight line. A chart of
+COVID death counts across Pennsylvania counties is, to a first approximation, a chart of
+where people live.
+
+Rates against population: −0.232. The population signal is gone. What remains is faintly
+negative, and the honest reading is that smaller counties fared somewhat worse per resident
+here — consistent with the right-hand panel on the previous slide.
+
+There is a trap worth naming out loud because it recurs everywhere. Total firearm deaths and
+total COVID deaths correlate at **+0.962** across these counties, which looks like a striking
+finding and is pure artifact — both are counts, and both track population. Two counts will
+almost always correlate, because both are largely measuring how many people live there. That
+is a fact about counts, not about the world.
+:::
+
+# EDA as a method {.unnumbered background-color="#003594"}
+
+## A figure's job is to produce a better question {.smaller}
+
+1. **Ask** — one question the data could answer
+2. **Draw** — the simplest figure that addresses it
+3. **Read** — what the figure shows, and what it excludes
+4. **Ask again** — the sharper question the figure exposed
+
+This session has run that loop three times.
+
+| Question | Figure | What it produced |
+|---|---|---|
+| How much does asthma vary? | Histogram | Very little — 9.7% to 11.6% |
+| Does region explain it? | Bar chart by region | No — 0.4 points across six regions |
+| Does metro status explain it? | Box plot | No — boxes overlap almost entirely |
+
+**Three negative answers narrowed the question to the one the data can answer.**
+
+::: {.notes}
+Name what has actually been happening for the last forty minutes, because students often
+read exploratory work as aimless and it is not.
+
+Three figures, three answers of "no." A student who expects analysis to produce findings
+reads that as failure. It is the opposite: each no removed a candidate explanation and made
+the remaining question sharper. Region is not it. Urbanicity is not it. So the variation must
+sit with something that varies more than asthma does.
+
+Say the uncomfortable part plainly. Most figures an analyst draws never appear in the final
+report. They are instruments for thinking, and the ratio of drawn to published is something
+like twenty to one. That is not waste, it is the method — the same way a search is not a
+failure for returning nothing.
+
+The step people skip is step three, reading what the figure *excludes*. The 44-county scatter
+excluded the rural counties. The count chart excluded the question of denominator. What is
+missing from a figure is usually more dangerous than what is in it, because absence is
+silent.
+:::
+
+## The closing figure {.smaller}
+
+```{pyodide}
+#| fig-alt: "Scatter plot of adult asthma prevalence against adult smoking prevalence across all 67 Pennsylvania counties, with metro counties as circles and nonmetro counties as triangles. Points rise clearly from left to right, correlation 0.659. Chester County sits at the low left with 10.6 percent smoking and 9.7 percent asthma; Sullivan County sits at the upper right with 21.1 percent smoking and 11.3 percent asthma."
+import pandas as pd
+import matplotlib.pyplot as plt
+
+asthma = pd.read_csv("data/pa_asthma_prevalence.csv")
+counties = pd.read_csv("data/pa_counties.csv")
+joined = asthma.merge(counties[["county", "metro"]], on="county", how="left")
+
+r = joined["smoking_prev_pct"].corr(joined["asthma_prev_pct"])
+
+fig, ax = plt.subplots(figsize=(7.6, 3.8))
+
+for group, colour, marker in [("Metro", "#003594", "o"), ("Nonmetro", "#8a6400", "^")]:
+    subset = joined[joined["metro"] == group]
+    ax.scatter(subset["smoking_prev_pct"], subset["asthma_prev_pct"],
+               color=colour, marker=marker, s=46, alpha=0.85,
+               edgecolor="white", linewidth=0.6, label=group)
+
+for name in ["Chester", "Sullivan"]:
+    row = joined[joined["county"] == name].iloc[0]
+    ax.annotate(name, (row["smoking_prev_pct"], row["asthma_prev_pct"]),
+                xytext=(6, -9), textcoords="offset points", fontsize=8)
+
+ax.set_xlabel("Adult smoking prevalence (%)")
+ax.set_ylabel("Adult asthma prevalence (%)")
+ax.set_title(f"Asthma against smoking, 67 PA counties (r = {r:.3f})")
+ax.legend(fontsize=8, frameon=False, loc="lower right")
+ax.text(0.01, 0.98, "Source: CDC PLACES 2024", transform=ax.transAxes,
+        fontsize=7, color="#6b7280", verticalalignment="top")
+plt.tight_layout()
+plt.show()
+```
+
+::: {.notes}
+This is the figure the whole session was built to produce, and every requirement taught today
+is visible in it at once: axis labels with units, a title carrying the finding, a source note,
+two channels for the grouping, two annotated counties for orientation, and alt text stating
+direction and magnitude.
+
+Read it out loud as the answer to the cold open. Asthma prevalence barely moves between
+Pennsylvania counties — under two percentage points across all sixty-seven. Smoking
+prevalence moves across eleven points. And they move together at **+0.659**, the strongest
+relationship in this course.
+
+The two labelled counties make it concrete. Chester at the bottom left: 10.6% smoking, 9.7%
+asthma, the lowest in the state on both. Sullivan at the top right: 21.1% smoking, 11.3%
+asthma. Two Pennsylvania counties, opposite corners of one picture.
+
+The markers do a second job worth pointing out. Nonmetro triangles cluster to the right,
+which is the earlier finding reappearing — rural counties smoke more — and it explains why
+the box plot showed nonmetro asthma slightly higher. Metro status was never the cause; it
+travels with smoking.
+
+Then close on the discipline. This is a relationship between county averages. It is
+consistent with smoking causing asthma, with both sharing upstream causes — income,
+occupation, housing, air quality indoors — and with combinations of those. The figure earns
+the relationship. It does not earn the mechanism. Stating exactly that much, and no more, is
+the skill this course is actually teaching.
+:::
+
+## Session outcomes {.smaller}
+
+- The **figure/axes model**, and `plt.subplots()` as the entry point to every figure
+- `ax.bar()`, `ax.hist()`, `ax.scatter()`, `ax.plot()` — and the question each answers
+- **Zero baselines for bars**; axis truncation as a distortion
+- Labels, units, titles, sources, legends, and `savefig()` with `bbox_inches="tight"`
+- **Multi-panel figures** indexed `axes[row, col]`
+- pandas `.plot()`; **seaborn** `boxplot` and `heatmap` via `micropip`
+- **Accessibility**: alt text on every figure, marks at 3:1, and **colour never alone**
+- `.describe()`, grouped `.agg()`, and **`.corr()`** as co-movement, never cause
+- **Rates against counts** — the denominator question
+- **EDA**: question → figure → better question
+
+::: {.callout-tip}
+## Preparation for the lab, Thursday 11/12
+The lab builds twelve figures from the five course datasets, including a full multi-panel
+figure with alt text, and repairs three figures that are misleading rather than broken.
+:::
+
+**Module 6 assembles the entire pipeline — import, clean, join, group, summarise, visualise,
+report — into one reproducible document.**
+
+::: {.notes}
+The single sentence for the module: a figure is an instrument for answering a question, and
+it must be built so a reader can check the answer.
+
+The second sentence, which is the one that transfers beyond this course: the most dangerous
+figures are not the broken ones. A figure with no axis labels is useless and everyone can
+tell. A bar chart of counts with a truncated axis is *persuasive*, and it is wrong. Today
+covered both, and only one of them is detectable by looking at whether the code ran.
+
+Flag the calendar. The pattern inverts here — this lecture is Tuesday and the lab is
+Thursday, two days out, and Module 6 then runs as a single combined session.
+
+Point at Module 6 concretely, since their project depends on it. It opens with a finding
+that will genuinely surprise them: everyone knows gun deaths are an urban problem, and
+Pennsylvania's data disagrees. Nonmetro 18.5 per 100,000 against metro 14.1. They will build
+that whole analysis end to end, and then write it up — and the writing is thirty percent of
+the grade, so it is worth saying now rather than in the last week.
+:::
