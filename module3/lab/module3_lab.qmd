@@ -70,7 +70,6 @@ overdose rates, and handling the counties whose figures are suppressed.
 - **Hint** gives the reasoning. **Solution** gives the answer.
 - Each exercise takes two slides: the worked example, then the task.
 - Arrow keys navigate between slides.
-- Submit to Canvas at the end of class.
 :::
 
 ::: {.callout-tip}
@@ -1061,18 +1060,9 @@ produces 67 of them, and Python refuses to guess which one was meant.
 parentheses, because `&` binds more tightly than `>`.
 :::
 
-# Submitting {.unnumbered background-color="#003594"}
+# Wrapping up {.unnumbered background-color="#003594"}
 
-## Before leaving {.smaller}
-
-Every exercise should run without error and pass its check.
-
-::: {.callout-important}
-## Submission
-Save the notebook and upload it to Canvas today. Labs are graded on **correct, reproducible
-code** and on **readability** — identifier choice, docstrings, and comments count toward the
-mark.
-:::
+## Where this leaves the toolkit {.smaller}
 
 ::: {.callout-tip}
 ## What was covered

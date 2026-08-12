@@ -63,7 +63,6 @@ ranking counties two different ways.
 - **Hint** gives the reasoning. **Solution** gives the answer.
 - Each exercise takes two slides: the worked example, then the task.
 - Arrow keys navigate between slides.
-- Submit to Canvas at the end of class.
 :::
 
 ::: {.callout-tip}
@@ -973,18 +972,9 @@ assert total_deaths == 919, "The four months total 919 deaths."
 accumulator needs a starting value **outside** the loop.
 :::
 
-# Submitting {.unnumbered background-color="#003594"}
+# Wrapping up {.unnumbered background-color="#003594"}
 
-## Before leaving {.smaller}
-
-Every exercise should run without error and pass its check.
-
-::: {.callout-important}
-## Submission
-Save the notebook and upload it to Canvas today. Labs are graded on **correct, reproducible
-code** and on **readability** — identifier choice, docstrings, and comments count toward the
-mark.
-:::
+## Where this leaves the toolkit {.smaller}
 
 ::: {.callout-tip}
 ## What was covered

@@ -67,7 +67,6 @@ to additional counties, parses record lines into fields, and assembles parallel 
 - **Hint** gives the reasoning. **Solution** gives the answer.
 - Each exercise takes two slides: the worked example, then the task.
 - Arrow keys navigate between slides.
-- Submit to Canvas at the end of class.
 :::
 
 ::: {.callout-tip}
@@ -865,17 +864,9 @@ Python stops at the first fault it cannot parse. Repairing one error and seeing 
 normal, and it does not mean the first repair was wrong.
 :::
 
-# Submitting {.unnumbered background-color="#003594"}
+# Wrapping up {.unnumbered background-color="#003594"}
 
-## Before leaving {.smaller}
-
-Every exercise should run without error and pass its check.
-
-::: {.callout-important}
-## Submission
-Save the notebook and upload it to Canvas today. Labs are graded on **correct, reproducible
-code** and on **readability** — identifier choice and comments count toward the mark.
-:::
+## Where this leaves the toolkit {.smaller}
 
 ::: {.callout-tip}
 ## What was covered
