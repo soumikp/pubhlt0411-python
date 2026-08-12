@@ -65,6 +65,15 @@ Loading a real table, and reshaping the question.
 - [Lecture slides](module4/class/module4_lecture.html)
 - [Lab 4](module4/lab/module4_lab.html)
 
+### Module 5 — Visualisation and Description
+
+*Lecture Tuesday, November 10 · Lab Thursday, November 12*
+
+Turning a table into an honest figure, and interrogating a distribution.
+
+- [Lecture slides](module5/class/module5_lecture.html)
+- [Lab 5](module5/lab/module5_lab.html)
+
 ---
 
 ## About the data
