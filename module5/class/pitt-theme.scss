@@ -228,6 +228,22 @@ $codeFont: "Fira Mono", "Source Code Pro", Menlo, Consolas, monospace;
   text-align: center;
 }
 
+// ---- Figure descriptions ---------------------------------------------
+// Screen-reader accessibility for {pyodide} figures. quarto-live draws
+// every figure in the BROWSER via createElement("img") and NEVER sets an
+// alt attribute, and its Lua filter ignores `#| fig-alt:` entirely (it
+// knows only fig-width/fig-height). A cell directive therefore reaches
+// nobody. These descriptions are body text, so they are present in the
+// HTML before Pyodide loads and are read whether or not the figure is
+// ever generated. Do not replace them with fig-alt.
+.reveal .figure-description {
+  color: $pitt-medblue;          // 15.47:1 on white — passes AA for text
+  font-size: 0.6em;
+  line-height: 1.35;
+  margin: 0.2em 0 0.4em 0;
+  max-width: 92%;
+}
+
 // ---- Callouts (Quarto callout-* classes) -----------------------------
 .reveal div.callout {
   font-size: 0.85em;

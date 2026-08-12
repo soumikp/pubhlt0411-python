@@ -161,6 +161,10 @@ plt.tight_layout()
 plt.show()
 ```
 
+::: {.figure-description}
+**Figure 1.** Histogram of adult smoking prevalence across 67 Pennsylvania counties, spread from about 10.6 to 21.8 percent with most counties between 15 and 19 percent.
+:::
+
 ## Exercise 1 — A figure is a figure and an axes — your turn {.smaller}
 
 **Your turn.** Draw the same histogram for **obesity** prevalence. Label both axes and give it
@@ -250,6 +254,10 @@ plt.tight_layout()
 plt.show()
 ```
 
+::: {.figure-description}
+**Figure 2.** Horizontal bar chart of the five Pennsylvania counties with the highest adult smoking prevalence, ranging from about 20.7 to 21.8 percent.
+:::
+
 ## Exercise 2 — Bars compare categories — your turn {.smaller}
 
 **Your turn.** Draw the five counties with the **lowest** smoking prevalence. Use
@@ -336,6 +344,10 @@ ax.set_title(f"Smoking prevalence (dashed line = mean, {state_mean:.1f}%)")
 plt.tight_layout()
 plt.show()
 ```
+
+::: {.figure-description}
+**Figure 3.** Histogram of adult smoking prevalence across 67 counties with a dashed vertical line marking the state mean of 17.1 percent.
+:::
 
 ## Exercise 3 — A histogram shows a distribution — your turn {.smaller}
 
@@ -440,6 +452,10 @@ plt.tight_layout()
 plt.show()
 ```
 
+::: {.figure-description}
+**Figure 4.** Scatter plot of adult asthma prevalence against adult smoking prevalence across 67 Pennsylvania counties, rising from left to right with a correlation of 0.659.
+:::
+
 ## Exercise 4 — Scatter shows co-movement — your turn {.smaller}
 
 **Your turn.** Draw infant mortality against **child poverty** for the reporting counties, and
@@ -542,6 +558,10 @@ plt.tight_layout()
 plt.show()
 ```
 
+::: {.figure-description}
+**Figure 5.** Line chart of monthly COVID-19 deaths in Allegheny County from March 2020 through March 2024, with peaks in winter 2020 and winter 2021 and a decline to near zero afterwards.
+:::
+
 ## Exercise 5 — A line needs an ordered axis — your turn {.smaller}
 
 **Your turn.** Draw the **statewide** monthly total. Group by month and sum across all counties.
@@ -640,6 +660,10 @@ ax.legend(frameon=False)
 plt.tight_layout()
 plt.show()
 ```
+
+::: {.figure-description}
+**Figure 6.** Scatter plot of adult obesity against adult smoking prevalence for 67 Pennsylvania counties, with metro counties drawn as circles and nonmetro counties as triangles, plus a legend.
+:::
 
 ## Exercise 6 — Two series need two channels — your turn {.smaller}
 
@@ -750,6 +774,10 @@ fig.suptitle("Two county-level distributions", fontsize=11)
 plt.tight_layout()
 plt.show()
 ```
+
+::: {.figure-description}
+**Figure 7.** Two side-by-side histograms of Pennsylvania county distributions: adult smoking prevalence on the left and adult obesity prevalence on the right.
+:::
 
 ## Exercise 7 — Multi-panel figures — your turn {.smaller}
 
@@ -964,6 +992,10 @@ plt.tight_layout()
 plt.show()
 ```
 
+::: {.figure-description}
+**Figure 8.** Misleading bar chart of mean adult asthma prevalence for six Pennsylvania regions with the y-axis truncated to the range 10.2 to 10.9 percent, which makes a 0.36 point spread look like a large difference.
+:::
+
 ## Exercise 9 — Repair a truncated axis — your turn {.smaller}
 
 **Your turn.** Repair it. Set the lower limit to zero so the bar lengths match the values.
@@ -1058,6 +1090,10 @@ ax.scatter(asthma["obesity_prev_pct"], asthma["asthma_prev_pct"], color="#003594
 plt.tight_layout()
 plt.show()
 ```
+
+::: {.figure-description}
+**Figure 9.** Unlabelled scatter plot of adult asthma against adult obesity prevalence with no axis labels, no title, and no source note.
+:::
 
 ::: {.callout-important}
 ## Alt text states what the figure shows
@@ -1172,6 +1208,10 @@ plt.tight_layout()
 plt.show()
 ```
 
+::: {.figure-description}
+**Figure 10.** Misleading horizontal bar chart of raw overdose death counts for six Pennsylvania counties in 2023, which ranks the counties by population rather than by mortality burden.
+:::
+
 ## Exercise 11 — Repair a misleading denominator — your turn {.smaller}
 
 **Your turn.** Rank by `rate_per_100k` instead, and title the figure for the question it
@@ -1274,6 +1314,10 @@ ax.set_title("Smoking prevalence by metro status")
 plt.tight_layout()
 plt.show()
 ```
+
+::: {.figure-description}
+**Figure 11.** Box plot of adult smoking prevalence for metro and nonmetro Pennsylvania counties, with nonmetro counties centred higher at about 18.6 percent against 16.0 percent for metro counties.
+:::
 
 ## Exercise 12 — The closing figure — your turn {.smaller}
 

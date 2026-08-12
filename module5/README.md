@@ -67,8 +67,8 @@ in the title.
 Accessibility is taught **as course content**, not bolted on. Three requirements, each with a
 slide and a lab check:
 
-1. **Alt text on every figure.** 18 `fig-alt` entries in the lecture, 15 in the lab. Every
-   figure-producing cell in both documents carries one.
+1. **A description on every figure — as visible text, not `fig-alt`.** See the warning
+   directly below; this is the one place where the obvious mechanism does not work.
 2. **Marks ≥ 3:1 against the background.** The locked palette, all measured with
    `scratchpad_contrast.py`:
 
@@ -79,6 +79,49 @@ slide and a lab check:
    | `#6b7280` gray | **4.83 : 1** | annotation, source notes |
 
 3. **Colour is never the only channel.**
+
+### ⚠️ `fig-alt` DOES NOT WORK in a live-revealjs deck — verified in the extension source
+
+**This was found by grepping the rendered HTML, after an earlier build of this module claimed
+alt-text coverage on the strength of counting `#| fig-alt:` directives in the source. Counting
+directives proves nothing. Check the artifact.**
+
+Two independent reasons a `{pyodide}` cell's `fig-alt` reaches nobody:
+
+- **The Lua filter ignores it.** `_extensions/r-wasm/live/live.lua` knows `fig-width` and
+  `fig-height` and has no concept of `fig-alt`. It is dropped silently — no warning, no error,
+  so the render "succeeds."
+- **The runtime never sets `alt`.** `resources/live-runtime.js` calls `createElement("img")`
+  and contains **zero** `.alt =` assignments. The figure does not exist at render time at all;
+  Pyodide draws it in the browser when the student clicks Run. The rendered HTML contains
+  **0 `<img>` and 0 `<canvas>` elements.**
+
+**The fix used here: every figure carries a visible `::: {.figure-description}` block
+underneath**, styled in `pitt-theme.scss` (`$pitt-medblue`, **15.47:1** on white). Body text is
+in the HTML before Pyodide loads, so it reaches a screen reader **whether or not the figure is
+ever generated** — which also covers the case where the CDN fetch for Pyodide or the seaborn
+micropip install fails. **Verified: all 16 descriptions confirmed present in
+`module5_lecture.html` by string match after rendering.**
+
+**Do not "simplify" these back into `fig-alt`.** The lecture's alt-text slide carries a callout
+stating the distinction, because `fig-alt` *is* correct in Colab and in ordinary Quarto
+documents — which is where students' own project figures live.
+
+### ⚠️ Still open — needs a real screen reader, not file inspection
+
+The **interactive cells** are quarto-live's territory, not content:
+
+- Static code blocks are real `<pre><code>` text and read fine.
+- Interactive cells mount **CodeMirror 6**, which is broadly screen-reader navigable.
+- **Unverified:** whether the Run/Solution/Hint buttons (24 in the lab) expose accessible
+  names, and whether cell output is announced when it appears. If output is not in an ARIA
+  live region, a screen-reader user clicks Run and gets silence.
+
+**Test with VoiceOver against the rendered pages during the pre-publish pass.** These cannot be
+fixed from a `.qmd`; a fix would mean patching the extension.
+
+**Design consequence worth preserving:** the lecture is readable without running anything —
+static code plus visible figure descriptions carry the whole argument.
 
 ### ⚠️ The measurement that justifies rule 3 — do not lose this
 

@@ -160,6 +160,10 @@ plt.tight_layout()
 plt.show()
 ```
 
+::: {.figure-description}
+**Figure 1.** Scatter plot of infant mortality per 1,000 live births against percent of children in poverty, for the 44 Pennsylvania counties that publish a rate. Points rise from left to right, from roughly 3.4 per 1,000 at 6 percent poverty to above 10 per 1,000 near 28 percent poverty.
+:::
+
 ::: {.notes}
 This is the figure Module 4 promised at its close, and opening with it pays that debt in the
 first two minutes.
@@ -269,6 +273,10 @@ plt.tight_layout()
 plt.show()
 ```
 
+::: {.figure-description}
+**Figure 2.** Bar chart of adult asthma prevalence for the five Pennsylvania counties with the highest rates: Philadelphia at 11.6 percent, then Fayette, Sullivan, Blair, and Clinton between 11.2 and 11.3 percent. The bars are nearly the same height.
+:::
+
 ::: {.notes}
 Ask the room what this figure shows before saying anything. Somebody will say Philadelphia
 is the worst, which is true, and then somebody sharper will notice the bars are all
@@ -309,6 +317,10 @@ for axis in (ax_left, ax_right):
 plt.tight_layout()
 plt.show()
 ```
+
+::: {.figure-description}
+**Figure 3.** Two bar charts of the same five county asthma rates side by side. The left panel has a y-axis starting at zero and the five bars look nearly identical. The right panel has a y-axis starting at 11 percent and the same five bars now look dramatically different in height.
+:::
 
 **Identical data. The right panel implies Philadelphia has roughly four times the asthma
 burden of Clinton County. The true difference is 0.4 percentage points.**
@@ -360,6 +372,10 @@ plt.tight_layout()
 plt.show()
 ```
 
+::: {.figure-description}
+**Figure 4.** Histogram of adult asthma prevalence across all 67 Pennsylvania counties, with bars concentrated between 10 and 11.2 percent and a single vertical dashed line marking the state mean of 10.7 percent. The distribution is roughly symmetric and tightly clustered.
+:::
+
 A bar chart compares **named categories**. A histogram bins a **continuous variable** and
 counts what falls in each bin.
 
@@ -404,6 +420,10 @@ plt.tight_layout()
 plt.show()
 ```
 
+::: {.figure-description}
+**Figure 5.** Scatter plot of adult asthma prevalence against adult smoking prevalence across 67 Pennsylvania counties. Points rise from left to right: counties near 11 percent smoking sit close to 9.8 percent asthma, and counties near 21 percent smoking sit near 11.3 percent asthma.
+:::
+
 ::: {.notes}
 This is the closing figure arriving early, and that is deliberate. They should see it once
 here as a plain scatter, then meet it again at the end fully annotated, once the tools to
@@ -443,6 +463,10 @@ ax.set_title("Statewide monthly COVID-19 deaths, 49 months")
 plt.tight_layout()
 plt.show()
 ```
+
+::: {.figure-description}
+**Figure 6.** Line chart of monthly COVID-19 deaths across all Pennsylvania counties from March 2020 through March 2024. Two large peaks appear in winter 2020 and winter 2021, with the tallest at 4,294 deaths in January 2022, after which the line falls close to zero.
+:::
 
 A line asserts that consecutive points are **connected** — that the value moved from one to
 the next. Categories are never connected by a line.
@@ -490,6 +514,10 @@ labelled.text(0.02, 0.95, "Source: CDC PLACES 2024",
 plt.tight_layout()
 plt.show()
 ```
+
+::: {.figure-description}
+**Figure 7.** Two panels of the same scatter of asthma against smoking. The left panel has no axis labels or title and is uninterpretable. The right panel is fully labelled with axis names, units, a title, and a source note.
+:::
 
 **Both panels plot identical data.** Only one of them can be read by someone who was not in
 the room when it was made.
@@ -591,6 +619,10 @@ plt.tight_layout()
 plt.show()
 ```
 
+::: {.figure-description}
+**Figure 8.** Four-panel grid of Pennsylvania county health distributions: adult asthma prevalence, adult smoking prevalence, infant mortality per 1,000 births, and child poverty percent. Asthma is tightly clustered while the other three are visibly wider and more skewed.
+:::
+
 `plt.subplots(2, 2)` returns a **2-D array of axes**, indexed `axes[row, col]` — the same
 indexing NumPy introduced in Module 3.
 
@@ -630,6 +662,14 @@ a reader who cannot see it.
 ## Alt text states what the figure shows, not that it exists
 ✗ "Scatter plot of the data."
 ✓ "Asthma prevalence rises with smoking prevalence across 67 counties, from 9.8% to 11.3%."
+:::
+
+::: {.callout-warning}
+## Where the description goes depends on the tool
+`fig-alt` works in Colab and in a rendered Quarto document. **It does not work in these
+slides** — the figures here are drawn in the browser, and the attribute never reaches them.
+Every figure in this deck therefore carries its description as **visible text underneath**,
+which reaches a screen reader in either case.
 :::
 
 **University of Pittsburgh policy and the ADA Title II compliance date of April 2027 both
@@ -689,6 +729,10 @@ for panel in (colour_only, two_channel):
 plt.tight_layout()
 plt.show()
 ```
+
+::: {.figure-description}
+**Figure 9.** Two panels comparing metro and nonmetro counties on smoking and asthma. The left panel separates the groups by colour alone. The right panel uses colour, distinct marker shapes, and a legend, so the groups remain distinguishable without colour.
+:::
 
 ::: {.notes}
 The left panel is not a hypothetical failure. Roughly one in twelve men has a colour vision
@@ -763,6 +807,10 @@ ax.set_title("Mean county asthma prevalence by region")
 plt.tight_layout()
 plt.show()
 ```
+
+::: {.figure-description}
+**Figure 10.** Horizontal bar chart of mean adult asthma prevalence for six Pennsylvania regions, ranging from about 10.4 percent in the Southeast to 10.8 percent in North Central. The bars are close to equal in length.
+:::
 
 `.plot()` on a Series or DataFrame calls matplotlib underneath and **returns an axes**, so
 every `ax.set_*()` method remains available.
@@ -842,6 +890,10 @@ plt.tight_layout()
 plt.show()
 ```
 
+::: {.figure-description}
+**Figure 11.** Box plot of adult asthma prevalence for metro and nonmetro Pennsylvania counties. The two boxes overlap heavily, with nonmetro counties centred slightly higher at 10.7 percent against 10.5 percent for metro counties.
+:::
+
 A box marks the **median** and the **interquartile range**; the whiskers reach the furthest
 points within 1.5 × IQR, and anything beyond is drawn individually.
 
@@ -892,6 +944,10 @@ right.set_ylabel("Adult asthma prevalence (%)")
 plt.tight_layout()
 plt.show()
 ```
+
+::: {.figure-description}
+**Figure 12.** Two seaborn panels. The left is a histogram of adult smoking prevalence split by metro status, with metro counties concentrated at lower values. The right is a scatter of asthma against smoking, metro as circles and nonmetro as triangles, rising left to right.
+:::
 
 `style="metro"` varies the **marker shape** alongside the colour — the second channel,
 supplied by one argument.
@@ -977,6 +1033,10 @@ ax.set_title("Correlations among county health measures (44 counties)")
 plt.tight_layout()
 plt.show()
 ```
+
+::: {.figure-description}
+**Figure 13.** Heat map of correlations among five maternal and infant health measures across 44 Pennsylvania counties, with numeric values printed in every cell. Child poverty and infant mortality correlate at 0.65, income and poverty at negative 0.81, and infant mortality with income at negative 0.60.
+:::
 
 `annot=True` prints the value in every cell — **the numbers are the second channel**, so the
 figure survives being read without colour.
@@ -1163,6 +1223,10 @@ plt.tight_layout()
 plt.show()
 ```
 
+::: {.figure-description}
+**Figure 14.** Two scatter plots. The left panel shows adult smoking against asthma across 67 counties, an even upward cloud with correlation 0.659. The right panel shows the same data with one fabricated extreme point added at the top right, and the correlation rises to 0.827 on the strength of that single point.
+:::
+
 ::: {.notes}
 The right-hand panel adds exactly one point out of sixty-eight and the correlation climbs
 from 0.659 to 0.827. That is leverage: a point far from the cloud pulls the summary toward
@@ -1217,6 +1281,10 @@ for panel in (counts, rates):
 plt.tight_layout()
 plt.show()
 ```
+
+::: {.figure-description}
+**Figure 15.** Two horizontal bar charts of Pennsylvania COVID-19 mortality. The left ranks counties by total deaths and lists Philadelphia, Allegheny, Montgomery, Lancaster, and Bucks — the five largest counties. The right ranks by deaths per 100,000 and lists Potter, McKean, Juniata, Jefferson, and Armstrong — five small rural counties. The two lists share no counties.
+:::
 
 **The two lists share no counties.**
 
@@ -1382,6 +1450,10 @@ ax.text(0.01, 0.98, "Source: CDC PLACES 2024", transform=ax.transAxes,
 plt.tight_layout()
 plt.show()
 ```
+
+::: {.figure-description}
+**Figure 16.** Scatter plot of adult asthma prevalence against adult smoking prevalence across all 67 Pennsylvania counties, with metro counties as circles and nonmetro counties as triangles. Points rise clearly from left to right, correlation 0.659. Chester County sits at the low left with 10.6 percent smoking and 9.7 percent asthma; Sullivan County sits at the upper right with 21.1 percent smoking and 11.3 percent asthma.
+:::
 
 ::: {.notes}
 This is the figure the whole session was built to produce, and every requirement taught today
