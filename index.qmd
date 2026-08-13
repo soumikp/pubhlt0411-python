@@ -74,6 +74,15 @@ Turning a table into an honest figure, and interrogating a distribution.
 - [Lecture slides](module5/class/module5_lecture.html)
 - [Lab 5](module5/lab/module5_lab.html)
 
+### Module 6 — Reproducible Pipeline
+
+*Tuesday, November 17 · one combined session*
+
+Running an analysis end to end — import, clean, join, group, summarise, visualise, report —
+and writing up what it means. The final project begins here.
+
+- [Session slides](module6/class/module6_session.html)
+
 ---
 
 ## About the data

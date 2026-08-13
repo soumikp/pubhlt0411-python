@@ -1,0 +1,1347 @@
+---
+# =====================================================================
+# Module 6 — Reproducible pipeline
+# PUBHLT 0411 · Python for Public Health Data Analysis
+#
+# ⚠️ ONE COMBINED SESSION (§3, §4). Tue 11/17. NOT a lecture/lab pair.
+#    Structure: ~20 min teaching (slides 1-14), then STUDIO — the
+#    student builds the pipeline themselves in Exercises 1-9.
+#    This is where the final project begins.
+#
+# Register: HANDOFF v3 §2 as amended 2026-08-11.
+#   Slides = academic, impersonal. No "you"/"we".
+#   Notes  = conversational, second person. Load-bearing.
+#   §2 "Labs — the third surface": the studio exercises are a LAB
+#   surface. Second person is permitted in `**Your turn.**` task
+#   instructions and in hints, and NOWHERE else. Because this document
+#   is both surfaces at once, the teaching half keeps speaker notes and
+#   the studio half does not.
+#
+# ⚠️ THE CENTRAL FINDING, verified by running it against the real files:
+#    The payoff EXISTS ONLY IF SUPPRESSION IS HANDLED CORRECTLY.
+#      naive denominator (all 67 counties' population):
+#           metro 13.6  vs  nonmetro  8.2   <- CONFIRMS the stereotype, WRONG
+#      correct denominator (reporting counties only):
+#           metro 14.1  vs  nonmetro 18.5   <- the §4 payoff
+#    §6 trap 3 is therefore not a footnote in this module; it is the
+#    mechanism that produces the entire surprise. A student who skips
+#    the dropna gets a defensible-looking table that says the opposite.
+#    MEASURED, all four numbers, 2023: 14.1 / 18.5 / 54.7% / 62.1%.
+#
+#    Suicide share is computed with suicide NaN -> 0 across the
+#    deaths-reporting counties (62.1% / 54.7%). Restricting to counties
+#    reporting BOTH columns gives 83.7% nonmetro, which is a different
+#    and much smaller denominator. The chosen definition is stated on
+#    the slide, because which one is used changes the number.
+#
+# ⚠️ §8: DESCRIPTIVE ONLY. Uncertainty is treated VERBALLY. No p-values,
+#    no significance tests, no confidence intervals, no scipy.stats.
+#
+# ⚠️ §2/§7: `fig-alt` DOES NOTHING in a live-revealjs deck — live.lua
+#    knows only fig-width/fig-height and live-runtime.js never sets
+#    .alt. Every figure carries a visible `::: {.figure-description}`
+#    block instead, styled in pitt-theme.scss (15.47:1 on white).
+#    ⚠️ The ROOT pitt-theme.scss does NOT carry that rule. This copy
+#    came from module5/class/. Do not re-copy from the root.
+#
+# Palette (measured, §7 / M5): #003594 royal 10.84:1 · #8a6400 gold
+#   5.38:1 · #6b7280 gray 4.83:1. No two separate from EACH OTHER by
+#   3:1 (royal vs gold = 2.02), so colour is never the only channel.
+#
+# Data: REAL. Two files, mounted into the Pyodide VFS via
+#       `pyodide: resources:` below. A CSV in data/ that is not listed
+#       there never reaches the browser (§7).
+#
+# Required assets (same folder):
+#   pitt-theme.scss  (the module5/class copy — see above)
+#   _extensions/r-wasm/live/
+#   data/pa_firearm_county_year.csv   data/pa_counties.csv
+# =====================================================================
+title: "Module 6: Reproducible pipeline"
+subtitle: "PUBHLT 0411 · Python for Public Health Data Analysis"
+author:
+  - name: Soumik Purkayastha
+    affiliations:
+      - name: Dept. of Biostatistics and Health Data Science, University of Pittsburgh
+date: today
+date-format: long
+
+format:
+  live-revealjs:
+    theme: [white, pitt-theme.scss]
+    slide-number: c/t
+    show-slide-number: all
+    chalkboard: false
+    history: true
+    smaller: true
+    scrollable: true
+    incremental: false
+    fig-align: center
+    fig-cap-location: bottom
+    code-line-numbers: true
+    code-overflow: wrap
+    code-copy: hover
+    highlight-style: github
+    width: 1280
+    height: 720
+    margin: 0.08
+    footer: "soumik@pitt.edu  ·  PUBHLT 0411 · Module 6: Reproducible pipeline"
+
+engine: knitr
+
+pyodide:
+  packages: [numpy, pandas, matplotlib]
+  resources:
+    - data/pa_firearm_county_year.csv
+    - data/pa_counties.csv
+
+execute:
+  echo: true
+  warning: false
+  message: false
+  cache: false
+---
+
+{{< include _extensions/r-wasm/live/_knitr.qmd >}}
+
+# A finding that contradicts what everyone knows. {.unnumbered background-color="#003594"}
+
+## Firearm death is understood as an urban problem, and Pennsylvania's data disagrees
+
+Firearm injury is commonly described as a problem of cities. Pennsylvania's county-level
+data, correctly assembled, reports a **higher** firearm death rate outside metropolitan
+counties than inside them.
+
+::: {.callout-important}
+## The question this session opens
+Which Pennsylvania counties carry the highest burden of firearm death — and does the answer
+depend on how the analysis handles the counties that report nothing?
+
+**This session establishes the pipeline as a single reproducible object**: import, clean,
+join, group, summarise, visualise, report — one document another person can run.
+:::
+
+**Required from Modules 4 and 5:** `pd.read_csv()`, `.dropna()`, `.merge()`, `.groupby()`,
+`.agg()`, and `plt.subplots()`.
+
+::: {.notes}
+Ask the room first, before any code is on screen. Where in Pennsylvania would you expect the
+firearm death rate to be highest? Take three answers. Somebody says Philadelphia, somebody
+says Pittsburgh, and that is the honest expectation — it is what the news covers and it is
+not a stupid answer.
+
+Then tell them the data disagrees, and do not tell them by how much yet. Today they build
+the analysis that shows it.
+
+Here is what makes this session different from every other one. In five modules the finding
+confirmed what a public-health student already suspected. Poverty tracks infant mortality.
+Smoking tracks asthma. Those were real, and they were reassuring. This one is not reassuring,
+and it is the only finding in the course designed to surprise them.
+
+And the reason it surprises is the part worth teaching. It is not that everyone was wrong
+about cities. It is that the obvious way to compute this number gives the opposite answer,
+and the obvious way is wrong for a reason they can see and fix. That is the whole session.
+
+One thing to say out loud early, because it sets the frame for the next seventy-five minutes.
+This is injury prevention. Roughly six in ten of these deaths are suicides, which is a mental
+health and means-access story, not a crime story. This course treats it that way, and the
+writeup they turn in should too.
+:::
+
+## This session is one working session, and the project starts in it
+
+| | |
+|---|---|
+| **First twenty minutes** | The pipeline as one object, and the one error that reverses this finding |
+| **The rest of the session** | Studio — build the analysis, end to end, on the real data |
+| **What leaves the room** | A document that runs top to bottom, and the paragraph that reports it |
+
+::: {.callout-note}
+## The writeup is thirty percent of the final grade
+The final project is assessed on the analysis and on the report of it. A correct pipeline
+described badly loses more points than a modest pipeline described precisely.
+:::
+
+::: {.notes}
+Say the structure plainly so nobody is waiting for a lab on Thursday. There is no Thursday.
+This is the combined session, the calendar says so, and what they build today is the skeleton
+of the project they present on December 1st and 3rd.
+
+Be blunt about the thirty percent. Every semester a few students treat the writing as
+something to do at 2am after the code works. The rubric does not agree. A student who gets
+nonmetro 18.5 and writes one careful paragraph about what it means and what it does not
+outscores a student with a beautiful notebook and no argument.
+
+The studio time is real work time. Circulate. The exercises are built so that the sixth one
+is the one that breaks people, and that is deliberate.
+:::
+
+## The pipeline is seven stages, and the whole session is one pass through it {.smaller}
+
+| Stage | Verb | Module |
+|---|---|---|
+| **Import** | `pd.read_csv()` | 4 |
+| **Clean** | `.dropna()`, `.fillna()`, `.astype()` | 4 |
+| **Join** | `.merge()` | 4 |
+| **Group** | `.groupby()` | 4 |
+| **Summarise** | `.agg()`, derived columns | 4 |
+| **Visualise** | `plt.subplots()`, `ax.bar()` | 5 |
+| **Report** | prose, with the numbers in it | 6 |
+
+Every stage has already been taught. **The new skill is running all seven as one object that
+another person can execute and get the same answer.**
+
+::: {.notes}
+Point at the right-hand column, because it is the reassuring part. There is exactly one new
+row in this table, and it is the last one. Everything above it they already did in the last
+two modules.
+
+What is new is the seam between the stages. Individually they can each merge and each group.
+The thing they have never done is hold all seven in one document in an order that survives
+being run by somebody else, on a different machine, three weeks later. That is a genuinely
+different skill and it is the one employers actually notice.
+
+The word to keep saying today is *pipeline*, singular. Not "my analysis code." One object,
+with an input at one end and a claim at the other.
+:::
+
+## The data is two files, and the join is the reason there are two {.smaller}
+
+```{pyodide}
+import pandas as pd
+
+firearm = pd.read_csv("data/pa_firearm_county_year.csv")
+counties = pd.read_csv("data/pa_counties.csv")
+
+print(firearm.shape, counties.shape)
+print(firearm.columns.tolist())
+print(counties.columns.tolist())
+```
+
+`pa_firearm_county_year.csv` has 402 rows — 67 counties × 6 years, 2019–2024. It carries
+deaths and it does not carry **metro status**. `pa_counties.csv` carries metro status and it
+does not carry deaths.
+
+::: {.callout-note}
+## Source
+CDC, *Mapping Injury, Overdose, and Violence — County* (`psx4-wq38`); Census CO-EST2023 and
+the NCHS Urban–Rural Classification, 2013.
+:::
+
+::: {.notes}
+This is the honest motivation for the join, and it is the same one from Module 4. The
+question is about metro against nonmetro. The word "metro" appears in exactly one of these
+two files, and the deaths appear in the other. There is no way to answer the question without
+putting them together, which is why merge is not a party trick.
+
+Worth naming the classification, since a student will ask what counts as metro. It is the
+NCHS urban–rural scheme, six levels collapsed to two, and it is assigned by the federal
+government rather than by the instructor. Thirty-seven metro counties, thirty nonmetro.
+:::
+
+## Forty percent of the cells report no number, and the reason is protective {.smaller}
+
+```{pyodide}
+print(firearm["firearm_deaths"].isna().sum(), "of", len(firearm), "rows suppressed")
+print(firearm[firearm["year"] == 2023]["firearm_deaths"].isna().sum(), "of 67 in 2023")
+```
+
+CDC suppresses a county-year cell when the count is small enough that publishing it could
+identify a decedent. **159 of 402 cells** carry no number. In 2023, **25 of 67 counties**
+report nothing.
+
+::: {.callout-warning}
+## Suppression is not random, and that is the whole problem
+Cells are suppressed **because the count is small**. Small counts occur in **small counties**,
+and small counties are **disproportionately nonmetro** — 19 of 30 nonmetro counties are
+suppressed in 2023, against 6 of 37 metro counties.
+:::
+
+::: {.notes}
+Take a moment on why suppression exists, because students arrive assuming missing data is
+sloppiness. It is the opposite of sloppiness. If a county of four thousand people had one
+firearm death last year and the agency published it, somebody reading the local paper could
+work out who. The blank is a deliberate act of protection, and the right response to it is
+not irritation.
+
+Now the sentence that matters for today. Missingness here is not a coin flip. It is caused by
+the very thing being measured — small counts — and small counts live in small rural counties.
+Nineteen of thirty nonmetro counties versus six of thirty-seven metro. That is a structural
+pattern, not noise.
+
+Hold that thought for two slides, because it is about to eat the analysis alive.
+:::
+
+## The pooled rate is total deaths over total population {.smaller}
+
+```{pyodide}
+demo_2023 = firearm[firearm["year"] == 2023]
+demo_reporting = demo_2023.dropna(subset=["firearm_deaths"])
+
+demo_joined = demo_reporting.merge(
+    counties[["county", "metro", "region", "population_2023"]],
+    on="county", how="left"
+)
+
+demo_summary = demo_joined.groupby("metro").agg(
+    counties=("county", "size"),
+    deaths=("firearm_deaths", "sum"),
+    population=("population_2023", "sum"),
+)
+demo_summary["rate_per_100k"] = demo_summary["deaths"] / demo_summary["population"] * 100000
+print(demo_summary.round(1))
+```
+
+A pooled rate sums the numerators and sums the denominators, then divides once. It is not the
+average of the county rates.
+
+::: {.notes}
+Walk the four lines slowly, because this is the shape of every pipeline they will ever write.
+Filter to a year. Drop the rows with no number. Join on the grouping variable. Group and
+aggregate. Four verbs, all from Module 4.
+
+The one line to defend is the dropna, and it is on the next slide, so resist explaining it
+here. Let them see the output first.
+
+The distinction at the bottom is worth thirty seconds. Pooling is not averaging. If the
+sixty-seven county rates are averaged with equal weight, Cameron County with four thousand
+people counts as much as Philadelphia with a million and a half. Pooling weights by
+population, which is what a state-level rate means. Both are legitimate and they answer
+different questions; today is pooled.
+:::
+
+## The same analysis without the `.dropna()` reverses the finding {.smaller}
+
+```{pyodide}
+demo_naive = demo_2023.merge(counties[["county", "metro", "population_2023"]],
+                             on="county", how="left")
+demo_wrong = demo_naive.groupby("metro").agg(
+    deaths=("firearm_deaths", "sum"),
+    population=("population_2023", "sum"),
+)
+demo_wrong["rate_per_100k"] = demo_wrong["deaths"] / demo_wrong["population"] * 100000
+print(demo_wrong.round(1))
+```
+
+| 2023, pooled | Correct | Without `.dropna()` |
+|---|---|---|
+| Metro | **14.1** | 13.6 |
+| Nonmetro | **18.5** | **8.2** |
+
+`.sum()` skips missing values, and the population column does not. A suppressed county
+therefore contributes **its full population to the denominator and zero deaths to the
+numerator**, which drags the group rate downward — hardest where suppression concentrates.
+
+::: {.callout-important}
+## This error raises no exception
+Both versions run. Both produce a clean table. One says nonmetro rates are lower.
+:::
+
+::: {.notes}
+This is the most important slide in the module. Slow all the way down.
+
+Ask them to read the second column out loud. Eight point two against thirteen point six.
+Nonmetro looks *safer*, by a lot, and it confirms exactly what the room guessed twenty minutes
+ago. If a student handed that table in, it would look completely reasonable. The code is
+clean. Nothing errored. The numbers have the right number of decimal places.
+
+And it is wrong, for a reason that fits in one sentence: sum skips NaN and the denominator
+does not. Nineteen nonmetro counties put their entire population into the bottom of that
+fraction and contributed no deaths to the top, because their deaths were suppressed for
+privacy. The rate is not measuring firearm death. It is measuring how much nonmetro
+population got parked in a denominator with nothing above it.
+
+The fix is one line and they have known it since Module 4. Drop the rows with no number
+*before* the join, so a county that reports nothing is out of both halves of the fraction.
+
+Then the sentence that is really about the rest of their careers. This error is silent. There
+is no exception, no warning, no red text. In Module 5 the lesson was that a figure can run
+and lie. Today it is that a table can run and lie, and the only defence is knowing what your
+denominator contains. Say it exactly like that.
+:::
+
+## The suicide share explains the gap {.smaller}
+
+```{pyodide}
+demo_joined["suicides"] = demo_joined["firearm_suicide"].fillna(0)
+
+demo_share = demo_joined.groupby("metro").agg(
+    deaths=("firearm_deaths", "sum"),
+    suicides=("suicides", "sum"),
+)
+demo_share["suicide_share_pct"] = demo_share["suicides"] / demo_share["deaths"] * 100
+print(demo_share.round(1))
+```
+
+Among counties reporting a death count, **62.1%** of nonmetro firearm deaths are suicides,
+against **54.7%** in metro counties.
+
+::: {.callout-note}
+## The definition is part of the finding
+Suppressed suicide counts are treated as zero here, across the counties that report a death
+total. Restricting instead to counties reporting **both** columns gives 83.7% for nonmetro —
+a different, much smaller denominator. **The number moves when the definition moves, so the
+definition is stated with the number.**
+:::
+
+::: {.notes}
+This is the answer to the "but why" that the previous slide raises. A higher nonmetro rate is
+a finding. It is not yet an explanation, and a finding without a mechanism is where a lot of
+student writeups stop.
+
+Sixty-two percent against fifty-five. The nonmetro burden is more heavily suicide, and that
+is consistent with everything known about firearm injury in rural America — higher household
+firearm ownership, greater physical isolation, thinner mental health infrastructure, and
+longer distances to emergency care. Suicide attempts with a firearm are lethal in roughly
+eighty-five percent of cases, against a few percent for most other means, so access to a
+firearm converts a crisis into a death at a rate nothing else matches.
+
+Now the callout, which is a methods lesson wearing a public health hat. There are two
+defensible ways to compute that share and they differ by twenty-two points. Not because
+anyone cheated — because the suicide column is suppressed more often than the death column,
+so restricting to rows with both quietly throws away counties. Whichever one is chosen, it
+gets stated in the writeup. An unlabelled 62% is not a number, it is a rumour.
+:::
+
+## The finding holds across six years, so it is not one unusual year {.smaller}
+
+```{pyodide}
+import matplotlib.pyplot as plt
+
+allyears = firearm.dropna(subset=["firearm_deaths"]).merge(
+    counties[["county", "metro"]], on="county", how="left"
+)
+trend = (allyears.groupby(["year", "metro"])
+         .apply(lambda g: g["firearm_deaths"].sum() / g["population"].sum() * 100000)
+         .unstack())
+
+fig, ax = plt.subplots(figsize=(8, 3.4))
+ax.plot(trend.index, trend["Nonmetro"], marker="^", linewidth=2.5,
+        color="#8a6400", label="Nonmetro")
+ax.plot(trend.index, trend["Metro"], marker="o", linewidth=2.5,
+        color="#003594", label="Metro")
+ax.set_xlabel("Year")
+ax.set_ylabel("Firearm deaths per 100,000")
+ax.set_title("Pooled firearm death rate, reporting PA counties, 2019–2024")
+ax.set_ylim(0, 22)
+ax.legend()
+plt.tight_layout()
+plt.show()
+
+print(trend.round(1))
+```
+
+::: {.figure-description}
+**Figure 1.** Line chart of pooled firearm death rate per 100,000 for reporting Pennsylvania
+counties, 2019 to 2024, with two series distinguished by both colour and marker shape.
+Nonmetro counties, drawn in dark gold with triangular markers, run at 18.0 in 2019, dip to
+13.4 in 2020, then rise to 16.3, 16.1, and 18.5 before falling to 15.7 in 2024. Metro
+counties, drawn in royal blue with circular markers, rise from 11.6 in 2019 to a peak of 15.3
+in 2022, then fall to 14.1 and 12.4. The nonmetro line sits above the metro line in five of
+the six years; the exception is 2020.
+:::
+
+::: {.notes}
+This is the reproducibility argument made visually. One year could be a fluke, and a careful
+reader is entitled to ask whether 2023 was cherry-picked. Five of six years say the same
+thing, and the exception is 2020, which is the pandemic year that behaves strangely in every
+dataset in this course.
+
+Point at the marker shapes deliberately. Triangles and circles, not just gold and blue. From
+Module 5: those two colours are each perfectly legible against white and they do not reliably
+separate from *each other* — two point oh two to one. Colour is never the only channel, and
+that rule does not relax because the figure is going in a report.
+
+The zero baseline matters here too. Setting the y-limit to start at zero rather than at
+thirteen is what keeps a four-point gap looking like a four-point gap.
+
+Mention the counties-reporting-per-year caveat if anyone is sharp enough to ask: the nonmetro
+line is built from seven to eleven counties depending on the year, so it moves more than the
+metro line. That is real instability, and it is the honest thing to put in the writeup rather
+than hide.
+:::
+
+## Notebook hygiene is what makes the result reproducible {.smaller}
+
+| Rule | Reason |
+|---|---|
+| **Imports in the first cell** | A notebook that only runs after scrolling up is broken |
+| **Restart and run all, before submitting** | Out-of-order state is invisible until it is fatal |
+| **Relative paths** — `data/file.csv` | `/Users/soumik/Desktop/...` runs on exactly one machine |
+| **`np.random.seed(...)`** if anything is random | Same input, same output, every time |
+| **No manual edits to output** | A number typed by hand is not a result |
+
+::: {.callout-warning}
+## The failure this prevents
+A notebook where cell 12 was run, then cell 4 was edited, holds a value in memory that no
+longer matches any code on screen. **The document is the record, not the memory.**
+:::
+
+::: {.notes}
+This is the section that sounds like housekeeping and is actually the difference between an
+analysis and a rumour.
+
+Tell them the restart-and-run-all story, because everyone has a version of it. A student
+builds something over four hours, it works, they close the laptop. They reopen it the next
+morning and nothing runs, because half the variables they depended on were defined in cells
+they later deleted or edited. The notebook never told them, because the values were sitting in
+memory the whole time. Kernel restart, run all, from the top — before submitting anything.
+Every time. It takes thirty seconds and it is the single highest-value habit in this course.
+
+The absolute-path one is worth a live demonstration if there is time. A path starting with
+slash Users slash somebody's name runs on precisely one computer on Earth. Their project gets
+opened by a grader on a different machine, and a data-slash-filename path just works.
+
+The last row is the ethics row, so do not skip it. If the code prints 18.4 and the writeup
+says 18.5 because that looked tidier, that is fabrication. Small, harmless-feeling, and
+still fabrication. The number in the prose comes from the cell above it.
+:::
+
+## Uncertainty is reported in words, with the counts that produced it {.smaller}
+
+The nonmetro rate is built from **11 counties and 116 deaths**. The metro rate is built from
+**31 counties and 1,567 deaths**. A rate computed from a small number of events moves a great
+deal when one event is added or removed.
+
+| Written honestly | Written badly |
+|---|---|
+| "18.5 per 100,000, from 116 deaths across 11 reporting counties" | "18.5 per 100,000" |
+| "Suppression removes 19 of 30 nonmetro counties" | "Nonmetro counties: 18.5" |
+| "The gap holds in five of six years" | "Nonmetro rates are higher" |
+
+::: {.callout-note}
+## This course does not compute p-values
+Uncertainty is described: how many events, how many counties, how much the estimate moves
+between years, and what suppression removed. **A p-value is not required to report an
+estimate honestly, and it is not a substitute for reporting the counts.**
+:::
+
+::: {.notes}
+This is the §8 slide and it is the one an outside reviewer would flag, so say the reasoning
+out loud rather than hiding it.
+
+They have not had inference. No t-tests, no confidence intervals, no p-values. That is a
+deliberate choice about what fits in six weeks, and here is the defence: a p-value they cannot
+interpret is worth less than a count they can. Telling a reader the estimate rests on 116
+deaths in 11 counties conveys the fragility directly, in a form nobody misreads. A star next
+to a number does not.
+
+Juniata County is the concrete example and it is a good one. Ten deaths, twenty-three thousand
+people, forty-three per hundred thousand — the highest county rate in the state that year. Ask
+the room what happens to that number if two of those ten deaths had happened in December of
+the previous year. It drops to thirty-four. Same county, same reality, different bin. That is
+what an unstable rate means, and no student needs a distributional assumption to feel it.
+
+For their projects the rule is simple: never report a rate without the count it came from.
+:::
+
+## The report is the deliverable, and it has a fixed shape {.smaller}
+
+| Move | One or two sentences |
+|---|---|
+| **The question** | What was asked, of which population, in which years |
+| **The data** | Source, coverage, and **what is missing and why** |
+| **The method** | The pipeline in prose — filtered, dropped, joined, pooled |
+| **The finding** | The numbers, with their denominators |
+| **The limit** | What this design cannot establish |
+
+::: {.callout-important}
+## Integrating computer output
+Output is **evidence inside a sentence**, never a pasted block left to speak for itself.
+✗ A bare table dropped into the document.
+✓ "Among the 42 counties reporting a 2023 count, the pooled nonmetro rate was 18.5 per
+100,000 against 14.1 in metro counties (Table 1)."
+:::
+
+::: {.notes}
+Give them the shape explicitly, because "write it up" is useless advice and this table is not.
+Five moves. A paragraph each, or less. That is a report.
+
+The move students skip is the last one, and it is the one that separates a public-health
+writeup from a blog post. What this design cannot establish: these are county aggregates, so
+a pattern across counties describes counties and not the individuals in them — that is the
+ecological fallacy, and it applies here exactly as it did to smoking and asthma last week.
+Metro status is not a cause of anything. It is a label that travels with firearm ownership,
+isolation, and access to care.
+
+On the callout: the commonest failure in the drafts is a screenshot of a DataFrame sitting
+alone in the middle of a page, doing no work. A table is an exhibit. A sentence points at the
+exhibit and says what to see in it. Show them the good version and read it aloud — it names
+the coverage, gives both numbers, and cites the table, in one breath.
+
+One more, and be firm because it comes up every year: generative AI is not permitted in this
+course. The writeup is assessed as their reasoning about their own analysis.
+:::
+
+## The finding, stated as it would appear in a report {.smaller}
+
+> Among the 42 Pennsylvania counties reporting a 2023 firearm death count, the pooled death
+> rate was **18.5 per 100,000 in nonmetropolitan counties** and **14.1 per 100,000 in
+> metropolitan counties**. Suicides account for **62.1%** of nonmetropolitan firearm deaths
+> and **54.7%** of metropolitan ones. Because CDC suppresses small counts, 25 of 67 counties
+> report no 2023 total, and suppression is concentrated in nonmetropolitan counties (19 of
+> 30). Counties reporting no total are excluded from both the numerator and the denominator;
+> retaining their population while summing only reported deaths reverses the comparison to
+> 8.2 against 13.6. The nonmetropolitan rate exceeds the metropolitan rate in five of the six
+> years from 2019 to 2024.
+
+::: {.callout-note}
+## What this paragraph does
+It states the numbers, the coverage, the definition, the sensitivity, and the consistency
+check. It makes no causal claim.
+:::
+
+::: {.notes}
+Read this paragraph out loud, slowly, and then say: that is the whole assignment. Not the
+notebook — this. Six sentences, every one carrying a number, no adjectives doing any work.
+
+Have them count what is in it. The estimate. The denominator. The definitional choice. The
+sensitivity analysis, which is the sentence about 8.2 and 13.6 — that is the alternative
+specification, named and reported rather than buried. And the robustness, which is five of six
+years. That is a professional paragraph, and no student in the room could not have written it
+by the end of today.
+
+Then point at what is *not* in it. No "shockingly." No "this proves." No mechanism asserted
+without evidence. The suicide share is offered as consistent with an explanation, and the
+paragraph stops there, because that is where the data stops.
+
+This is the target for the studio. Their project paragraph will have a different question in
+it, and the same five moves.
+:::
+
+## Studio {.smaller}
+
+The remainder of the session is build time. **Nine exercises assemble the pipeline in the
+order it runs**, and the last one produces the paragraph.
+
+| | |
+|---|---|
+| **1–3** | Import, inspect, and clean — including the suppression decision |
+| **4–5** | Join, then group and summarise |
+| **6** | The silent error, reproduced deliberately and repaired |
+| **7–8** | Visualise, with a description and a zero baseline |
+| **9** | Write the finding |
+
+::: {.callout-tip}
+## This is the project skeleton
+The final project replaces the question and the dataset. **The seven stages do not change.**
+:::
+
+::: {.notes}
+Set them going and then circulate rather than lecturing over the top of it.
+
+Exercise 6 is the one to watch for. It hands them the wrong pipeline, running cleanly, and
+asks what is wrong with it — and a good number of students will stare at correct-looking code
+for several minutes before the denominator occurs to them. That struggle is the point, so do
+not rescue anyone too early. Ask them what is in the bottom of the fraction and walk away.
+
+For anyone who finishes early, the extension is in the final callout: run the same pipeline
+grouped by region instead of metro status, six groups instead of two, and see whether the
+story survives a finer cut. It mostly does, and the counties get thin enough that the
+instability lesson lands a second time on its own.
+
+Remind them at about the twenty-minute mark to restart and run all. Some of them will already
+have out-of-order state, and finding that now is much cheaper than finding it in December.
+:::
+
+# Exercise 1 — Import and inspect {.unnumbered background-color="#003594"}
+
+## Exercise 1 — Import and inspect
+
+**Worked example.** A pipeline opens by loading its inputs and confirming their shape. An
+analysis that never checks what arrived is an analysis that trusts a file it has not read.
+
+```{pyodide}
+import pandas as pd
+
+firearm = pd.read_csv("data/pa_firearm_county_year.csv")
+
+print(firearm.shape)
+print(firearm["year"].min(), "to", firearm["year"].max())
+print(firearm["firearm_deaths"].isna().sum(), "suppressed cells")
+```
+
+## Exercise 1 — Import and inspect — your turn
+
+**Your turn.** Load `data/pa_counties.csv` into `county_reference`. Print its shape, and
+print how many counties fall into each `metro` category.
+
+```{pyodide}
+#| exercise: ex1_import
+import pandas as pd
+
+county_reference = pd.______("data/pa_counties.csv")
+
+print(county_reference.shape)
+print(county_reference["metro"].value_counts())
+```
+
+```{pyodide}
+#| exercise: ex1_import
+#| hint: true
+# The blank is read_csv.
+#
+# It is the same function you used on the firearm file one slide ago —
+# pandas does not care what is inside the CSV.
+```
+
+```{pyodide}
+#| exercise: ex1_import
+#| solution: true
+import pandas as pd
+
+county_reference = pd.read_csv("data/pa_counties.csv")
+
+print(county_reference.shape)
+print(county_reference["metro"].value_counts())
+```
+
+```{pyodide}
+#| exercise: ex1_import
+#| check: true
+assert isinstance(county_reference, pd.DataFrame), "county_reference must be a DataFrame."
+assert county_reference.shape == (67, 7), "pa_counties.csv has 67 rows and 7 columns."
+assert "metro" in county_reference.columns, "The metro column must be present."
+assert county_reference["metro"].value_counts()["Metro"] == 37, "37 counties are Metro."
+```
+
+::: {.callout-note}
+## Sixty-seven, every time
+Pennsylvania has 67 counties. A county-level table that does not have 67 rows has either lost
+some or gained duplicates, and finding that at import costs nothing.
+:::
+
+# Exercise 2 — Filter to one year {.unnumbered background-color="#003594"}
+
+## Exercise 2 — Filter to one year
+
+**Worked example.** The file holds six years stacked in one column. A question about 2023
+requires selecting those rows before anything else happens.
+
+```{pyodide}
+f2021 = firearm[firearm["year"] == 2021]
+print(f2021.shape)
+print(f2021["firearm_deaths"].isna().sum(), "suppressed in 2021")
+```
+
+## Exercise 2 — Filter to one year — your turn
+
+**Your turn.** Build `f2023`, the 2023 rows only. Print its shape and how many of its
+`firearm_deaths` values are missing.
+
+```{pyodide}
+#| exercise: ex2_filter
+f2023 = firearm[firearm["year"] ______ 2023]
+
+print(f2023.shape)
+print(f2023["firearm_deaths"].isna().sum(), "suppressed in 2023")
+```
+
+```{pyodide}
+#| exercise: ex2_filter
+#| hint: true
+# The blank is == , the comparison operator.
+#
+# A single = would try to assign, which is not what a filter does.
+# You are asking each row a yes/no question, exactly as in Module 1.
+```
+
+```{pyodide}
+#| exercise: ex2_filter
+#| solution: true
+f2023 = firearm[firearm["year"] == 2023]
+
+print(f2023.shape)
+print(f2023["firearm_deaths"].isna().sum(), "suppressed in 2023")
+```
+
+```{pyodide}
+#| exercise: ex2_filter
+#| check: true
+assert len(f2023) == 67, "One row per county: 67 rows."
+assert set(f2023["year"].unique()) == {2023}, "Only 2023 rows should remain."
+assert f2023["firearm_deaths"].isna().sum() == 25, "25 counties are suppressed in 2023."
+```
+
+# Exercise 3 — Clean, and decide about the blanks {.unnumbered background-color="#003594"}
+
+## Exercise 3 — Clean, and decide about the blanks
+
+**Worked example.** `.dropna(subset=[...])` removes rows missing a value in the named column
+and leaves every other column alone. Naming the column matters: dropping on the whole frame
+would also discard counties whose *homicide* count is suppressed but whose total is known.
+
+```{pyodide}
+careless = f2023.dropna()
+print("dropna() on everything:", len(careless), "counties left")
+```
+
+## Exercise 3 — Clean, and decide about the blanks — your turn
+
+**Your turn.** Build `reporting`: the 2023 counties that report a `firearm_deaths` total,
+dropping on **that column only**. Print how many remain.
+
+```{pyodide}
+#| exercise: ex3_clean
+reporting = f2023.dropna(______=["firearm_deaths"])
+
+print(len(reporting), "counties report a 2023 total")
+print(reporting["firearm_deaths"].sum(), "deaths among them")
+```
+
+```{pyodide}
+#| exercise: ex3_clean
+#| hint: true
+# The blank is subset.
+#
+# Compare your answer to the worked example above: dropping on the whole
+# frame leaves far fewer counties, because it also throws out counties
+# whose homicide or suicide cell is suppressed while the total is fine.
+```
+
+```{pyodide}
+#| exercise: ex3_clean
+#| solution: true
+reporting = f2023.dropna(subset=["firearm_deaths"])
+
+print(len(reporting), "counties report a 2023 total")
+print(reporting["firearm_deaths"].sum(), "deaths among them")
+```
+
+```{pyodide}
+#| exercise: ex3_clean
+#| check: true
+assert len(reporting) == 42, "42 of 67 counties report a 2023 total."
+assert reporting["firearm_deaths"].isna().sum() == 0, "No missing totals should remain."
+assert reporting["firearm_deaths"].sum() == 1683, "The reported deaths total 1,683."
+```
+
+::: {.callout-warning}
+## Twenty-five counties just left the analysis
+They left for a defensible reason, and the report must say so. **A cleaning step that is not
+described in the writeup is a cleaning step the reader cannot check.**
+:::
+
+# Exercise 4 — Join {.unnumbered background-color="#003594"}
+
+## Exercise 4 — Join
+
+**Worked example.** `.merge()` attaches columns from a second table by matching on a shared
+key. `how="left"` keeps every row of the left table whether or not it finds a match, which
+makes an unmatched key visible instead of silent.
+
+```{pyodide}
+example = reporting.merge(county_reference[["county", "region"]], on="county", how="left")
+print(example[["county", "firearm_deaths", "region"]].head(3))
+print(example["region"].isna().sum(), "rows failed to match")
+```
+
+## Exercise 4 — Join — your turn
+
+**Your turn.** Merge `reporting` with the `county`, `metro`, and `population_2023` columns of
+`counties`, matching **on county**. Confirm nothing failed to match.
+
+```{pyodide}
+#| exercise: ex4_join
+joined = reporting.merge(
+    county_reference[["county", "metro", "population_2023"]],
+    ______="county",
+    how="left"
+)
+
+print(joined.shape)
+print(joined["metro"].isna().sum(), "rows failed to match")
+```
+
+```{pyodide}
+#| exercise: ex4_join
+#| hint: true
+# The blank is on.
+#
+# `on="county"` says the two tables are lined up by county name. If these
+# files spelled a county differently — the real "Mc Kean" / "McKean" bug
+# from Module 4 — that county would arrive with a missing metro value,
+# which is exactly what the second print statement is checking for.
+```
+
+```{pyodide}
+#| exercise: ex4_join
+#| solution: true
+joined = reporting.merge(
+    county_reference[["county", "metro", "population_2023"]],
+    on="county",
+    how="left"
+)
+
+print(joined.shape)
+print(joined["metro"].isna().sum(), "rows failed to match")
+```
+
+```{pyodide}
+#| exercise: ex4_join
+#| check: true
+assert len(joined) == 42, "The join must not change the row count: 42."
+assert "metro" in joined.columns, "The metro column must arrive from counties."
+assert joined["metro"].isna().sum() == 0, "Every county must match. None should be missing."
+assert joined["population_2023"].sum() == 11748170, "Populations should total 11,748,170."
+```
+
+# Exercise 5 — Group and summarise {.unnumbered background-color="#003594"}
+
+## Exercise 5 — Group and summarise
+
+**Worked example.** `.groupby().agg()` collapses many rows into one row per group, naming
+each output column and the operation that fills it. `"size"` counts rows; `"sum"` totals a
+column.
+
+```{pyodide}
+by_region = (reporting
+             .merge(county_reference[["county", "region"]], on="county", how="left")
+             .groupby("region")
+             .agg(counties=("county", "size"),
+                  deaths=("firearm_deaths", "sum")))
+print(by_region)
+```
+
+## Exercise 5 — Group and summarise — your turn
+
+**Your turn.** Group `joined` by `metro`. Total the deaths and the population, then add a
+`rate_per_100k` column.
+
+```{pyodide}
+#| exercise: ex5_group
+summary = joined.groupby("metro").agg(
+    counties=("county", "size"),
+    deaths=("firearm_deaths", "sum"),
+    population=("population_2023", "sum"),
+)
+
+summary["rate_per_100k"] = summary["deaths"] / summary["______"] * 100000
+print(summary.round(1))
+```
+
+```{pyodide}
+#| exercise: ex5_group
+#| hint: true
+# The blank is population — the column you just created inside .agg().
+#
+# A rate is events divided by the population at risk, scaled. Multiplying
+# by 100,000 is what makes it "per 100,000" rather than a proportion.
+```
+
+```{pyodide}
+#| exercise: ex5_group
+#| solution: true
+summary = joined.groupby("metro").agg(
+    counties=("county", "size"),
+    deaths=("firearm_deaths", "sum"),
+    population=("population_2023", "sum"),
+)
+
+summary["rate_per_100k"] = summary["deaths"] / summary["population"] * 100000
+print(summary.round(1))
+```
+
+```{pyodide}
+#| exercise: ex5_group
+#| check: true
+assert "rate_per_100k" in summary.columns, "Add a rate_per_100k column."
+assert round(summary.loc["Nonmetro", "rate_per_100k"], 1) == 18.5, "Nonmetro should be 18.5."
+assert round(summary.loc["Metro", "rate_per_100k"], 1) == 14.1, "Metro should be 14.1."
+assert summary.loc["Nonmetro", "counties"] == 11, "11 nonmetro counties report."
+```
+
+::: {.callout-important}
+## That is the finding
+**18.5 against 14.1.** The rate outside metropolitan Pennsylvania is higher, and it was
+produced by five ordinary lines of pandas.
+:::
+
+# Exercise 6 — The error that raises nothing {.unnumbered background-color="#003594"}
+
+## Exercise 6 — The error that raises nothing
+
+**Worked example.** The pipeline below is identical to Exercise 5 except for one omission. It
+runs without complaint and returns the opposite finding.
+
+```{pyodide}
+broken = f2023.merge(county_reference[["county", "metro", "population_2023"]],
+                     on="county", how="left")
+broken_summary = broken.groupby("metro").agg(
+    deaths=("firearm_deaths", "sum"),
+    population=("population_2023", "sum"),
+)
+broken_summary["rate_per_100k"] = (broken_summary["deaths"]
+                                   / broken_summary["population"] * 100000)
+print(broken_summary.round(1))
+```
+
+The suppressed counties were never removed. `.sum()` skips their missing deaths; the
+population column does not skip their people.
+
+## Exercise 6 — The error that raises nothing — your turn
+
+**Your turn.** Repair it. Drop the non-reporting counties **before** the merge, and confirm
+the nonmetro rate returns to 18.5.
+
+```{pyodide}
+#| exercise: ex6_silent
+repaired = f2023.______(subset=["firearm_deaths"]).merge(
+    county_reference[["county", "metro", "population_2023"]], on="county", how="left"
+)
+
+fixed = repaired.groupby("metro").agg(
+    deaths=("firearm_deaths", "sum"),
+    population=("population_2023", "sum"),
+)
+fixed["rate_per_100k"] = fixed["deaths"] / fixed["population"] * 100000
+
+print(fixed.round(1))
+print("population dropped from the denominator:",
+      broken_summary["population"].sum() - fixed["population"].sum())
+```
+
+```{pyodide}
+#| exercise: ex6_silent
+#| hint: true
+# The blank is dropna.
+#
+# Think about what belongs in a denominator. A rate's denominator is the
+# population a counted event could have happened to. If a county's deaths
+# were never published, its people cannot be in the bottom of the fraction
+# while nothing of theirs is in the top.
+```
+
+```{pyodide}
+#| exercise: ex6_silent
+#| solution: true
+repaired = f2023.dropna(subset=["firearm_deaths"]).merge(
+    county_reference[["county", "metro", "population_2023"]], on="county", how="left"
+)
+
+fixed = repaired.groupby("metro").agg(
+    deaths=("firearm_deaths", "sum"),
+    population=("population_2023", "sum"),
+)
+fixed["rate_per_100k"] = fixed["deaths"] / fixed["population"] * 100000
+
+print(fixed.round(1))
+print("population dropped from the denominator:",
+      broken_summary["population"].sum() - fixed["population"].sum())
+```
+
+```{pyodide}
+#| exercise: ex6_silent
+#| check: true
+assert round(fixed.loc["Nonmetro", "rate_per_100k"], 1) == 18.5, "Nonmetro should return to 18.5."
+assert round(fixed.loc["Metro", "rate_per_100k"], 1) == 14.1, "Metro should be 14.1."
+assert fixed["population"].sum() < broken_summary["population"].sum(), \
+    "The repaired denominator must be smaller — suppressed counties are out of it."
+```
+
+::: {.callout-important}
+## Running is not checking
+The broken version produced a clean table with plausible numbers and no warning. **Every
+result in a report needs a reason to be believed that is stronger than the absence of an
+error message.**
+:::
+
+# Exercise 7 — Visualise {.unnumbered background-color="#003594"}
+
+## Exercise 7 — Visualise
+
+**Worked example.** A two-bar comparison is the right figure for a two-group finding. The
+zero baseline is what keeps the comparison honest, and the value labels remove the need to
+read heights against a gridline.
+
+```{pyodide}
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(6, 3.2))
+bars = ax.bar(["Metro", "Nonmetro"],
+              [summary.loc["Metro", "rate_per_100k"],
+               summary.loc["Nonmetro", "rate_per_100k"]],
+              color=["#003594", "#8a6400"], edgecolor="white")
+ax.bar_label(bars, fmt="%.1f", padding=3)
+ax.set_ylim(0, 22)
+ax.set_ylabel("Firearm deaths per 100,000")
+ax.set_title("Pooled 2023 firearm death rate, 42 reporting PA counties")
+plt.tight_layout()
+plt.show()
+```
+
+::: {.figure-description}
+**Figure 2.** Bar chart of the pooled 2023 firearm death rate for the 42 reporting
+Pennsylvania counties. The metro bar, in royal blue, reaches 14.1 deaths per 100,000. The
+nonmetro bar, in dark gold, reaches 18.5. Both bars are labelled with their value and the
+vertical axis starts at zero.
+:::
+
+## Exercise 7 — Visualise — your turn
+
+**Your turn.** Draw the same comparison for the **suicide share**. Label the axis, title the
+figure, and keep the baseline at zero.
+
+```{pyodide}
+#| exercise: ex7_figure
+joined["suicides"] = joined["firearm_suicide"].fillna(0)
+share = joined.groupby("metro").agg(deaths=("firearm_deaths", "sum"),
+                                    suicides=("suicides", "sum"))
+share["suicide_share_pct"] = share["suicides"] / share["deaths"] * 100
+
+fig, ax = plt.subplots(figsize=(6, 3.2))
+bars = ax.bar(["Metro", "Nonmetro"],
+              [share.loc["Metro", "suicide_share_pct"],
+               share.loc["Nonmetro", "suicide_share_pct"]],
+              color=["#003594", "#8a6400"], edgecolor="white")
+ax.bar_label(bars, fmt="%.1f", padding=3)
+ax.set_ylim(0, ______)
+ax.set_ylabel("Suicide share of firearm deaths (%)")
+ax.set_title("Suicide share of 2023 firearm deaths, 42 reporting PA counties")
+plt.tight_layout()
+plt.show()
+
+print(share.round(1))
+```
+
+```{pyodide}
+#| exercise: ex7_figure
+#| hint: true
+# The blank is the top of the axis — any number comfortably above 62, such
+# as 80. The bottom is already 0, and that is the part that matters.
+#
+# Starting a bar axis anywhere above zero makes a small difference look
+# enormous. Module 5 called this axis truncation; it is the commonest way
+# an honest analyst draws a dishonest figure.
+```
+
+```{pyodide}
+#| exercise: ex7_figure
+#| solution: true
+joined["suicides"] = joined["firearm_suicide"].fillna(0)
+share = joined.groupby("metro").agg(deaths=("firearm_deaths", "sum"),
+                                    suicides=("suicides", "sum"))
+share["suicide_share_pct"] = share["suicides"] / share["deaths"] * 100
+
+fig, ax = plt.subplots(figsize=(6, 3.2))
+bars = ax.bar(["Metro", "Nonmetro"],
+              [share.loc["Metro", "suicide_share_pct"],
+               share.loc["Nonmetro", "suicide_share_pct"]],
+              color=["#003594", "#8a6400"], edgecolor="white")
+ax.bar_label(bars, fmt="%.1f", padding=3)
+ax.set_ylim(0, 80)
+ax.set_ylabel("Suicide share of firearm deaths (%)")
+ax.set_title("Suicide share of 2023 firearm deaths, 42 reporting PA counties")
+plt.tight_layout()
+plt.show()
+
+print(share.round(1))
+```
+
+```{pyodide}
+#| exercise: ex7_figure
+#| check: true
+assert ax.get_ylim()[0] == 0, "A bar chart's axis starts at zero."
+assert ax.get_ylim()[1] >= 62, "The axis must be tall enough to show the 62.1 bar."
+assert ax.get_ylabel() != "", "Label the y-axis."
+assert ax.get_title() != "", "Title the figure."
+assert round(share.loc["Nonmetro", "suicide_share_pct"], 1) == 62.1, "Nonmetro share is 62.1%."
+```
+
+# Exercise 8 — Describe the figure {.unnumbered background-color="#003594"}
+
+## Exercise 8 — Describe the figure
+
+**Worked example.** A figure that cannot be read aloud is unavailable to part of its audience
+and to anyone whose image fails to load. A description states the chart type, the axes, and
+the values — not the conclusion.
+
+```{pyodide}
+description = (
+    "Bar chart of the pooled 2023 firearm death rate for the 42 reporting "
+    "Pennsylvania counties. The metro bar reaches 14.1 deaths per 100,000 "
+    "and the nonmetro bar reaches 18.5. The vertical axis starts at zero."
+)
+print(description)
+print(len(description), "characters")
+```
+
+## Exercise 8 — Describe the figure — your turn
+
+**Your turn.** Write `share_description` for the suicide-share figure. Name the chart type,
+both categories, and both values.
+
+```{pyodide}
+#| exercise: ex8_altdesc
+share_description = "______"
+
+print(share_description)
+for token in ["bar", "62.1", "54.7"]:
+    print(token, "present:", token in share_description.lower())
+```
+
+```{pyodide}
+#| exercise: ex8_altdesc
+#| hint: true
+# Replace the whole placeholder string with a real sentence or two.
+#
+# Describe what a reader would see, not what you concluded from it. It
+# needs the words "bar chart", and both numbers — 62.1 and 54.7.
+```
+
+```{pyodide}
+#| exercise: ex8_altdesc
+#| solution: true
+share_description = (
+    "Bar chart of the suicide share of 2023 firearm deaths in the 42 reporting "
+    "Pennsylvania counties. The metro bar reaches 54.7 percent and the nonmetro "
+    "bar reaches 62.1 percent. The vertical axis starts at zero."
+)
+
+print(share_description)
+for token in ["bar", "62.1", "54.7"]:
+    print(token, "present:", token in share_description.lower())
+```
+
+```{pyodide}
+#| exercise: ex8_altdesc
+#| check: true
+assert isinstance(share_description, str), "share_description must be a string."
+assert "______" not in share_description, "Replace the placeholder with a real description."
+assert len(share_description) > 60, "A description needs more than a few words."
+assert "bar" in share_description.lower(), "Name the chart type."
+assert "62.1" in share_description and "54.7" in share_description, "State both values."
+```
+
+::: {.callout-note}
+## Where this goes
+In a Colab notebook or an ordinary Quarto document, this text is the figure's alt text. In
+these slides it is printed under the figure as visible text, because the slide format does not
+carry alt text through to the browser.
+:::
+
+# Exercise 9 — Report the finding {.unnumbered background-color="#003594"}
+
+## Exercise 9 — Report the finding
+
+**Worked example.** A reported number is assembled from the pipeline's own variables rather
+than typed by hand. A number typed by hand stops being a result the moment the data changes.
+
+```{pyodide}
+n_reporting = len(reporting)
+nonmetro_rate = summary.loc["Nonmetro", "rate_per_100k"]
+
+print(f"Among the {n_reporting} reporting counties, the nonmetro rate "
+      f"was {nonmetro_rate:.1f} per 100,000.")
+```
+
+## Exercise 9 — Report the finding — your turn
+
+**Your turn.** Complete the finding sentence so that **both** rates come from `summary`, not
+from your memory of the slide.
+
+```{pyodide}
+#| exercise: ex9_report
+n_reporting = len(reporting)
+nonmetro_rate = summary.loc["Nonmetro", "rate_per_100k"]
+metro_rate = summary.loc["______", "rate_per_100k"]
+nonmetro_deaths = int(summary.loc["Nonmetro", "deaths"])
+
+finding = (
+    f"Among the {n_reporting} Pennsylvania counties reporting a 2023 firearm death "
+    f"count, the pooled rate was {nonmetro_rate:.1f} per 100,000 in nonmetropolitan "
+    f"counties against {metro_rate:.1f} in metropolitan counties. The nonmetropolitan "
+    f"estimate rests on {nonmetro_deaths} deaths across "
+    f"{summary.loc['Nonmetro', 'counties']} reporting counties."
+)
+
+print(finding)
+```
+
+```{pyodide}
+#| exercise: ex9_report
+#| hint: true
+# The blank is Metro — the other label in the summary table's index.
+#
+# Notice what the last sentence does. It reports the count behind the rate,
+# so a reader can judge how much the estimate would move if one death
+# landed in a different year. That sentence is what this course asks for
+# instead of a p-value.
+```
+
+```{pyodide}
+#| exercise: ex9_report
+#| solution: true
+n_reporting = len(reporting)
+nonmetro_rate = summary.loc["Nonmetro", "rate_per_100k"]
+metro_rate = summary.loc["Metro", "rate_per_100k"]
+nonmetro_deaths = int(summary.loc["Nonmetro", "deaths"])
+
+finding = (
+    f"Among the {n_reporting} Pennsylvania counties reporting a 2023 firearm death "
+    f"count, the pooled rate was {nonmetro_rate:.1f} per 100,000 in nonmetropolitan "
+    f"counties against {metro_rate:.1f} in metropolitan counties. The nonmetropolitan "
+    f"estimate rests on {nonmetro_deaths} deaths across "
+    f"{summary.loc['Nonmetro', 'counties']} reporting counties."
+)
+
+print(finding)
+```
+
+```{pyodide}
+#| exercise: ex9_report
+#| check: true
+assert "18.5" in finding, "The nonmetro rate should appear as 18.5."
+assert "14.1" in finding, "The metro rate should appear as 14.1."
+assert "42" in finding, "State the coverage: 42 reporting counties."
+assert "116" in finding, "Report the death count behind the nonmetro rate."
+```
+
+::: {.callout-important}
+## Restart and run all
+Before this notebook counts as finished, restart the runtime and run every cell from the top.
+**A result that only exists in memory is not a result.**
+:::
+
+## Session outcomes {.smaller}
+
+- The **seven-stage pipeline** — import, clean, join, group, summarise, visualise, report
+- **Suppression** as a protective mechanism, and its non-random pattern
+- **The silent denominator error**, and the fact that it reverses this finding
+- **Notebook hygiene**: imports at the top, relative paths, seeds, restart-and-run-all
+- **Uncertainty stated verbally** — counts, coverage, and consistency across years
+- **The five-move report**, and computer output integrated into sentences
+
+::: {.callout-tip}
+## The finding, paid off
+**Nonmetro 18.5 per 100,000 against metro 14.1**, with suicides at **62.1%** of nonmetro
+firearm deaths against **54.7%** in metro counties. Handled carelessly, the same data reports
+8.2 against 13.6 and confirms the opposite.
+:::
+
+**The final project applies this pipeline to a question of the student's own. The seven
+stages do not change — only the question and the data do.**
+
+::: {.notes}
+Close by paying the promise off out loud, because it was made seventy-five minutes ago and
+they earned it.
+
+Everyone in this room believed, at the start, that firearm death is an urban problem.
+Pennsylvania's data says eighteen point five against fourteen point one, the other direction,
+and the suicide share tells you why. That is the only finding this course has shown them that
+contradicts what they walked in with — every other one confirmed what a public health student
+already suspects. Say that explicitly. It is why this one was saved for last.
+
+And then the harder half, which is the real lesson. The wrong version of that analysis
+produced eight point two against thirteen point six. Clean code, no errors, a table that looks
+exactly as trustworthy as the right one — and it confirms the stereotype they arrived with.
+That is the shape of the most dangerous kind of mistake: it runs, and it agrees with you.
+
+For the project, the sentence to leave them with is that the pipeline does not change. New
+question, new file, same seven stages. They have the whole skeleton now.
+
+Practical close. Next session is the eleventh of November nineteenth, Final Project
+Advancement — bring a question and the file they intend to use, not a finished analysis.
+Presentations are December first and third. And the writeup is thirty percent, which is worth
+saying one final time.
+:::
