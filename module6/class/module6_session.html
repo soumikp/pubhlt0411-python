@@ -862,12 +862,12 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiaW1wb3J0IG1hdHBsb3RsaWIu
 </colgroup>
 <tbody>
 <tr class="odd">
-<td><strong>1–3</strong></td>
-<td>Import, inspect, and clean — including the suppression decision</td>
+<td><strong>1–4</strong></td>
+<td>Import, inspect, clean, and join — including the suppression decision</td>
 </tr>
 <tr class="even">
-<td><strong>4–5</strong></td>
-<td>Join, then group and summarise</td>
+<td><strong>5</strong></td>
+<td><strong>Question only, no scaffold</strong> — group and summarise, for the headline finding</td>
 </tr>
 <tr class="odd">
 <td><strong>6</strong></td>
@@ -875,14 +875,27 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiaW1wb3J0IG1hdHBsb3RsaWIu
 </tr>
 <tr class="even">
 <td><strong>7–8</strong></td>
-<td>Visualise, with a description and a zero baseline</td>
+<td><strong>Question only</strong> — the figure and its description</td>
 </tr>
 <tr class="odd">
 <td><strong>9</strong></td>
-<td>Write the finding</td>
+<td><strong>Question only</strong> — write the finding as a paragraph</td>
 </tr>
 </tbody>
 </table>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Four of these supply no code</strong></p>
+</div>
+<div class="callout-content">
+<p>Exercises 5, 7, 8, and 9 state a question and the deliverable, and the cell is empty. <strong>The project will not supply a scaffold either.</strong></p>
+</div>
+</div>
+</div>
 <div class="callout callout-tip callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
@@ -898,7 +911,9 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiaW1wb3J0IG1hdHBsb3RsaWIu
 </div>
 <aside class="notes">
 <p>Set them going and then circulate rather than lecturing over the top of it.</p>
-<p>Exercise 6 is the one to watch for. It hands them the wrong pipeline, running cleanly, and asks what is wrong with it — and a good number of students will stare at correct-looking code for several minutes before the denominator occurs to them. That struggle is the point, so do not rescue anyone too early. Ask them what is in the bottom of the fraction and walk away.</p>
+<p>Warn them about the shape before they start. The first four exercises hand them a scaffold with gaps. Exercise 5 does not — it asks a question in English and gives them an empty cell, and so do 7, 8, and 9. That jump is deliberate and it is worth naming, because a student who hits an empty cell unprepared assumes something is broken. Tell them the hint is there and that using it costs nothing.</p>
+<p>Exercise 5 is where most hands will go up, since it is the first blank page. The move that unsticks people is asking what the table should look like when it is finished — how many rows, what the columns are called. Once they can describe the output they can usually write the groupby.</p>
+<p>Exercise 6 is the other one to watch. It hands them the wrong pipeline, running cleanly, and asks what is wrong with it — and a good number of students will stare at correct-looking code for several minutes before the denominator occurs to them. That struggle is the point, so do not rescue anyone too early. Ask them what is in the bottom of the fraction and walk away.</p>
 <p>For anyone who finishes early, the extension is in the final callout: run the same pipeline grouped by region instead of metro status, six groups instead of two, and see whether the story survives a finer cut. It mostly does, and the counties get thin enough that the instability lesson lands a second time on its own.</p>
 <p>Remind them at about the twenty-minute mark to restart and run all. Some of them will already have out-of-order state, and finding that now is much cheaper than finding it in December.</p>
 <style type="text/css">
@@ -934,23 +949,25 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiaW1wb3J0IHBhbmRhcyBhcyBw
 </section>
 <section id="exercise-1-import-and-inspect-your-turn" class="slide level2">
 <h2>Exercise 1 — Import and inspect — your turn</h2>
-<p><strong>Your turn.</strong> Load <code>data/pa_counties.csv</code> into <code>county_reference</code>. Print its shape, and print how many counties fall into each <code>metro</code> category.</p>
+<p><strong>Your turn.</strong> Load <code>data/pa_counties.csv</code> into <code>county_reference</code>. Print its shape, how many counties fall into each <code>metro</code> category, and confirm the file has one row per county.</p>
 <div class="cell" data-exercise="ex1_import">
 <div>
 <div id="pyodide-8" class="exercise-cell">
 
 </div>
 <script type="pyodide-8-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXgxX2ltcG9ydCJ9LCJjb2RlIjoiaW1wb3J0IHBhbmRhcyBhcyBwZFxuXG5jb3VudHlfcmVmZXJlbmNlID0gcGQuX19fX19fKFwiZGF0YS9wYV9jb3VudGllcy5jc3ZcIilcblxucHJpbnQoY291bnR5X3JlZmVyZW5jZS5zaGFwZSlcbnByaW50KGNvdW50eV9yZWZlcmVuY2VbXCJtZXRyb1wiXS52YWx1ZV9jb3VudHMoKSkifQ==
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXgxX2ltcG9ydCJ9LCJjb2RlIjoiaW1wb3J0IHBhbmRhcyBhcyBwZFxuXG5jb3VudHlfcmVmZXJlbmNlID0gcGQuX19fX19fKFwiZGF0YS9wYV9jb3VudGllcy5jc3ZcIilcblxucHJpbnQoY291bnR5X3JlZmVyZW5jZS5fX19fX18pXG5wcmludChjb3VudHlfcmVmZXJlbmNlW1wibWV0cm9cIl0uX19fX19fKCkpXG5wcmludChcIm9uZSByb3cgcGVyIGNvdW50eTpcIiwgY291bnR5X3JlZmVyZW5jZVtcImNvdW50eVwiXS5fX19fX18oKSA9PSBsZW4oY291bnR5X3JlZmVyZW5jZSkpIn0=
 </script>
 </div>
 </div>
 <div class="cell" data-exercise="ex1_import" data-hint="true">
 <div class="pyodide-ojs-exercise exercise-hint d-none" data-exercise="ex1_import">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="interpolate-10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="interpolate-10-1"><a href="#interpolate-10-1"></a><span class="co"># The blank is read_csv.</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="interpolate-10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="interpolate-10-1"><a href="#interpolate-10-1"></a><span class="co"># Four blanks: read_csv, shape, value_counts, nunique.</span></span>
 <span id="interpolate-10-2"><a href="#interpolate-10-2"></a><span class="co">#</span></span>
-<span id="interpolate-10-3"><a href="#interpolate-10-3"></a><span class="co"># It is the same function you used on the firearm file one slide ago —</span></span>
-<span id="interpolate-10-4"><a href="#interpolate-10-4"></a><span class="co"># pandas does not care what is inside the CSV.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="interpolate-10-3"><a href="#interpolate-10-3"></a><span class="co"># The last line is the one worth thinking about. It asks whether the</span></span>
+<span id="interpolate-10-4"><a href="#interpolate-10-4"></a><span class="co"># number of distinct county names equals the number of rows — if a county</span></span>
+<span id="interpolate-10-5"><a href="#interpolate-10-5"></a><span class="co"># appeared twice, every rate you compute later would be wrong, and nothing</span></span>
+<span id="interpolate-10-6"><a href="#interpolate-10-6"></a><span class="co"># would raise an error. Checking it at import costs one line.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 <div class="cell" data-exercise="ex1_import" data-solution="true">
@@ -960,18 +977,20 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXgxX2ltcG9ydCJ9LCJj
 county_reference = pd.read_csv("data/pa_counties.csv")
 
 print(county_reference.shape)
-print(county_reference["metro"].value_counts())</code>
+print(county_reference["metro"].value_counts())
+print("one row per county:", county_reference["county"].nunique() == len(county_reference))</code>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="interpolate-13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="interpolate-13-1"><a href="#interpolate-13-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="interpolate-13-2"><a href="#interpolate-13-2"></a></span>
 <span id="interpolate-13-3"><a href="#interpolate-13-3"></a>county_reference <span class="op">=</span> pd.read_csv(<span class="st">"data/pa_counties.csv"</span>)</span>
 <span id="interpolate-13-4"><a href="#interpolate-13-4"></a></span>
 <span id="interpolate-13-5"><a href="#interpolate-13-5"></a><span class="bu">print</span>(county_reference.shape)</span>
-<span id="interpolate-13-6"><a href="#interpolate-13-6"></a><span class="bu">print</span>(county_reference[<span class="st">"metro"</span>].value_counts())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="interpolate-13-6"><a href="#interpolate-13-6"></a><span class="bu">print</span>(county_reference[<span class="st">"metro"</span>].value_counts())</span>
+<span id="interpolate-13-7"><a href="#interpolate-13-7"></a><span class="bu">print</span>(<span class="st">"one row per county:"</span>, county_reference[<span class="st">"county"</span>].nunique() <span class="op">==</span> <span class="bu">len</span>(county_reference))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 <div class="cell" data-exercise="ex1_import" data-check="true">
 <script type="exercise-check-ex1_import-contents">
-eyJhdHRyIjp7ImNoZWNrIjp0cnVlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlLCJleGVyY2lzZSI6ImV4MV9pbXBvcnQifSwiY29kZSI6ImFzc2VydCBpc2luc3RhbmNlKGNvdW50eV9yZWZlcmVuY2UsIHBkLkRhdGFGcmFtZSksIFwiY291bnR5X3JlZmVyZW5jZSBtdXN0IGJlIGEgRGF0YUZyYW1lLlwiXG5hc3NlcnQgY291bnR5X3JlZmVyZW5jZS5zaGFwZSA9PSAoNjcsIDcpLCBcInBhX2NvdW50aWVzLmNzdiBoYXMgNjcgcm93cyBhbmQgNyBjb2x1bW5zLlwiXG5hc3NlcnQgXCJtZXRyb1wiIGluIGNvdW50eV9yZWZlcmVuY2UuY29sdW1ucywgXCJUaGUgbWV0cm8gY29sdW1uIG11c3QgYmUgcHJlc2VudC5cIlxuYXNzZXJ0IGNvdW50eV9yZWZlcmVuY2VbXCJtZXRyb1wiXS52YWx1ZV9jb3VudHMoKVtcIk1ldHJvXCJdID09IDM3LCBcIjM3IGNvdW50aWVzIGFyZSBNZXRyby5cIiJ9
+eyJhdHRyIjp7ImNoZWNrIjp0cnVlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlLCJleGVyY2lzZSI6ImV4MV9pbXBvcnQifSwiY29kZSI6ImFzc2VydCBpc2luc3RhbmNlKGNvdW50eV9yZWZlcmVuY2UsIHBkLkRhdGFGcmFtZSksIFwiY291bnR5X3JlZmVyZW5jZSBtdXN0IGJlIGEgRGF0YUZyYW1lLlwiXG5hc3NlcnQgY291bnR5X3JlZmVyZW5jZS5zaGFwZSA9PSAoNjcsIDcpLCBcInBhX2NvdW50aWVzLmNzdiBoYXMgNjcgcm93cyBhbmQgNyBjb2x1bW5zLlwiXG5hc3NlcnQgXCJtZXRyb1wiIGluIGNvdW50eV9yZWZlcmVuY2UuY29sdW1ucywgXCJUaGUgbWV0cm8gY29sdW1uIG11c3QgYmUgcHJlc2VudC5cIlxuYXNzZXJ0IGNvdW50eV9yZWZlcmVuY2VbXCJtZXRyb1wiXS52YWx1ZV9jb3VudHMoKVtcIk1ldHJvXCJdID09IDM3LCBcIjM3IGNvdW50aWVzIGFyZSBNZXRyby5cIlxuYXNzZXJ0IGNvdW50eV9yZWZlcmVuY2VbXCJjb3VudHlcIl0ubnVuaXF1ZSgpID09IDY3LCBcXFxuICAgIFwiNjcgZGlzdGluY3QgY291bnR5IG5hbWVzIOKAlCBhIGR1cGxpY2F0ZSB3b3VsZCBzaWxlbnRseSBjb3JydXB0IGV2ZXJ5IGxhdGVyIHJhdGUuXCIifQ==
 </script>
 </div>
 <div class="callout callout-note callout-titled callout-style-default">
@@ -1009,40 +1028,54 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiZjIwMjEgPSBmaXJlYXJtW2Zp
 </section>
 <section id="exercise-2-filter-to-one-year-your-turn" class="slide level2">
 <h2>Exercise 2 — Filter to one year — your turn</h2>
-<p><strong>Your turn.</strong> Build <code>f2023</code>, the 2023 rows only. Print its shape and how many of its <code>firearm_deaths</code> values are missing.</p>
+<p><strong>Your turn.</strong> Build <code>f2023</code>, the 2023 rows only. Print its shape, how many <code>firearm_deaths</code> values are missing, and what fraction of counties that leaves reporting.</p>
 <div class="cell" data-exercise="ex2_filter">
 <div>
 <div id="pyodide-16" class="exercise-cell">
 
 </div>
 <script type="pyodide-16-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXgyX2ZpbHRlciJ9LCJjb2RlIjoiZjIwMjMgPSBmaXJlYXJtW2ZpcmVhcm1bXCJ5ZWFyXCJdIF9fX19fXyAyMDIzXVxuXG5wcmludChmMjAyMy5zaGFwZSlcbnByaW50KGYyMDIzW1wiZmlyZWFybV9kZWF0aHNcIl0uaXNuYSgpLnN1bSgpLCBcInN1cHByZXNzZWQgaW4gMjAyM1wiKSJ9
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXgyX2ZpbHRlciJ9LCJjb2RlIjoiZjIwMjMgPSBfX19fX19bX19fX19fW1wieWVhclwiXSBfX19fX18gMjAyM11cblxubl9taXNzaW5nID0gZjIwMjNbXCJmaXJlYXJtX2RlYXRoc1wiXS5fX19fX18oKS5zdW0oKVxubl9yZXBvcnRpbmcgPSBsZW4oZjIwMjMpIC0gbl9taXNzaW5nXG5cbnByaW50KGYyMDIzLnNoYXBlKVxucHJpbnQobl9taXNzaW5nLCBcInN1cHByZXNzZWQgaW4gMjAyM1wiKVxucHJpbnQoXCJyZXBvcnRpbmc6XCIsIG5fcmVwb3J0aW5nLCBcIm9mXCIsIGxlbihmMjAyMyksXG4gICAgICBmXCIoe25fcmVwb3J0aW5nIC8gbGVuKGYyMDIzKTouMCV9KVwiKSJ9
 </script>
 </div>
 </div>
 <div class="cell" data-exercise="ex2_filter" data-hint="true">
 <div class="pyodide-ojs-exercise exercise-hint d-none" data-exercise="ex2_filter">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="interpolate-18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="interpolate-18-1"><a href="#interpolate-18-1"></a><span class="co"># The blank is == , the comparison operator.</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="interpolate-18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="interpolate-18-1"><a href="#interpolate-18-1"></a><span class="co"># Four blanks: firearm, firearm, ==, isna.</span></span>
 <span id="interpolate-18-2"><a href="#interpolate-18-2"></a><span class="co">#</span></span>
-<span id="interpolate-18-3"><a href="#interpolate-18-3"></a><span class="co"># A single = would try to assign, which is not what a filter does.</span></span>
-<span id="interpolate-18-4"><a href="#interpolate-18-4"></a><span class="co"># You are asking each row a yes/no question, exactly as in Module 1.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="interpolate-18-3"><a href="#interpolate-18-3"></a><span class="co"># A single = would try to assign, which is not what a filter does. You are</span></span>
+<span id="interpolate-18-4"><a href="#interpolate-18-4"></a><span class="co"># asking each row a yes/no question, exactly as in Module 1.</span></span>
+<span id="interpolate-18-5"><a href="#interpolate-18-5"></a><span class="co">#</span></span>
+<span id="interpolate-18-6"><a href="#interpolate-18-6"></a><span class="co"># Note what the last line reports. Not a count — a proportion. "25 missing"</span></span>
+<span id="interpolate-18-7"><a href="#interpolate-18-7"></a><span class="co"># means nothing without "of 67", and that fraction is the first thing a</span></span>
+<span id="interpolate-18-8"><a href="#interpolate-18-8"></a><span class="co"># reader of your report will want.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 <div class="cell" data-exercise="ex2_filter" data-solution="true">
 <div class="pyodide-ojs-exercise exercise-solution d-none" data-exercise="ex2_filter">
 <code id="interpolate-20" class="solution-code d-none">f2023 = firearm[firearm["year"] == 2023]
 
+n_missing = f2023["firearm_deaths"].isna().sum()
+n_reporting = len(f2023) - n_missing
+
 print(f2023.shape)
-print(f2023["firearm_deaths"].isna().sum(), "suppressed in 2023")</code>
+print(n_missing, "suppressed in 2023")
+print("reporting:", n_reporting, "of", len(f2023),
+      f"({n_reporting / len(f2023):.0%})")</code>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="interpolate-21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="interpolate-21-1"><a href="#interpolate-21-1"></a>f2023 <span class="op">=</span> firearm[firearm[<span class="st">"year"</span>] <span class="op">==</span> <span class="dv">2023</span>]</span>
 <span id="interpolate-21-2"><a href="#interpolate-21-2"></a></span>
-<span id="interpolate-21-3"><a href="#interpolate-21-3"></a><span class="bu">print</span>(f2023.shape)</span>
-<span id="interpolate-21-4"><a href="#interpolate-21-4"></a><span class="bu">print</span>(f2023[<span class="st">"firearm_deaths"</span>].isna().<span class="bu">sum</span>(), <span class="st">"suppressed in 2023"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="interpolate-21-3"><a href="#interpolate-21-3"></a>n_missing <span class="op">=</span> f2023[<span class="st">"firearm_deaths"</span>].isna().<span class="bu">sum</span>()</span>
+<span id="interpolate-21-4"><a href="#interpolate-21-4"></a>n_reporting <span class="op">=</span> <span class="bu">len</span>(f2023) <span class="op">-</span> n_missing</span>
+<span id="interpolate-21-5"><a href="#interpolate-21-5"></a></span>
+<span id="interpolate-21-6"><a href="#interpolate-21-6"></a><span class="bu">print</span>(f2023.shape)</span>
+<span id="interpolate-21-7"><a href="#interpolate-21-7"></a><span class="bu">print</span>(n_missing, <span class="st">"suppressed in 2023"</span>)</span>
+<span id="interpolate-21-8"><a href="#interpolate-21-8"></a><span class="bu">print</span>(<span class="st">"reporting:"</span>, n_reporting, <span class="st">"of"</span>, <span class="bu">len</span>(f2023),</span>
+<span id="interpolate-21-9"><a href="#interpolate-21-9"></a>      <span class="ss">f"(</span><span class="sc">{</span>n_reporting <span class="op">/</span> <span class="bu">len</span>(f2023)<span class="sc">:.0%}</span><span class="ss">)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 <div class="cell" data-exercise="ex2_filter" data-check="true">
 <script type="exercise-check-ex2_filter-contents">
-eyJhdHRyIjp7ImNoZWNrIjp0cnVlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlLCJleGVyY2lzZSI6ImV4Ml9maWx0ZXIifSwiY29kZSI6ImFzc2VydCBsZW4oZjIwMjMpID09IDY3LCBcIk9uZSByb3cgcGVyIGNvdW50eTogNjcgcm93cy5cIlxuYXNzZXJ0IHNldChmMjAyM1tcInllYXJcIl0udW5pcXVlKCkpID09IHsyMDIzfSwgXCJPbmx5IDIwMjMgcm93cyBzaG91bGQgcmVtYWluLlwiXG5hc3NlcnQgZjIwMjNbXCJmaXJlYXJtX2RlYXRoc1wiXS5pc25hKCkuc3VtKCkgPT0gMjUsIFwiMjUgY291bnRpZXMgYXJlIHN1cHByZXNzZWQgaW4gMjAyMy5cIiJ9
+eyJhdHRyIjp7ImNoZWNrIjp0cnVlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlLCJleGVyY2lzZSI6ImV4Ml9maWx0ZXIifSwiY29kZSI6ImFzc2VydCBsZW4oZjIwMjMpID09IDY3LCBcIk9uZSByb3cgcGVyIGNvdW50eTogNjcgcm93cy5cIlxuYXNzZXJ0IHNldChmMjAyM1tcInllYXJcIl0udW5pcXVlKCkpID09IHsyMDIzfSwgXCJPbmx5IDIwMjMgcm93cyBzaG91bGQgcmVtYWluLlwiXG5hc3NlcnQgbl9taXNzaW5nID09IDI1LCBcIjI1IGNvdW50aWVzIGFyZSBzdXBwcmVzc2VkIGluIDIwMjMuXCJcbmFzc2VydCBuX3JlcG9ydGluZyA9PSA0MiwgXCJUaGF0IGxlYXZlcyA0MiBjb3VudGllcyByZXBvcnRpbmcgYSB0b3RhbC5cIiJ9
 </script>
 </div>
 </section></section>
@@ -1067,41 +1100,54 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiY2FyZWxlc3MgPSBmMjAyMy5k
 </section>
 <section id="exercise-3-clean-and-decide-about-the-blanks-your-turn" class="slide level2">
 <h2>Exercise 3 — Clean, and decide about the blanks — your turn</h2>
-<p><strong>Your turn.</strong> Build <code>reporting</code>: the 2023 counties that report a <code>firearm_deaths</code> total, dropping on <strong>that column only</strong>. Print how many remain.</p>
+<p><strong>Your turn.</strong> Build <code>reporting</code>: the 2023 counties that report a <code>firearm_deaths</code> total, dropping on <strong>that column only</strong>. Then show what the careless version costs, by naming the counties it would discard even though their death total is known.</p>
 <div class="cell" data-exercise="ex3_clean">
 <div>
 <div id="pyodide-24" class="exercise-cell">
 
 </div>
 <script type="pyodide-24-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXgzX2NsZWFuIn0sImNvZGUiOiJyZXBvcnRpbmcgPSBmMjAyMy5kcm9wbmEoX19fX19fPVtcImZpcmVhcm1fZGVhdGhzXCJdKVxuXG5wcmludChsZW4ocmVwb3J0aW5nKSwgXCJjb3VudGllcyByZXBvcnQgYSAyMDIzIHRvdGFsXCIpXG5wcmludChyZXBvcnRpbmdbXCJmaXJlYXJtX2RlYXRoc1wiXS5zdW0oKSwgXCJkZWF0aHMgYW1vbmcgdGhlbVwiKSJ9
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXgzX2NsZWFuIn0sImNvZGUiOiJyZXBvcnRpbmcgPSBmMjAyMy5fX19fX18oX19fX19fPVtcImZpcmVhcm1fZGVhdGhzXCJdKVxuXG5sb3N0ID0gc2V0KHJlcG9ydGluZ1tcImNvdW50eVwiXSkgLSBzZXQoZjIwMjMuX19fX19fKClbXCJjb3VudHlcIl0pXG5cbnByaW50KGxlbihyZXBvcnRpbmcpLCBcImNvdW50aWVzIHJlcG9ydCBhIDIwMjMgdG90YWxcIilcbnByaW50KHJlcG9ydGluZ1tcImZpcmVhcm1fZGVhdGhzXCJdLl9fX19fXygpLCBcImRlYXRocyBhbW9uZyB0aGVtXCIpXG5wcmludChsZW4obG9zdCksIFwiY291bnRpZXMgYSBiYXJlIGRyb3BuYSgpIHdvdWxkIGhhdmUgdGhyb3duIGF3YXk6XCIpXG5wcmludChzb3J0ZWQobG9zdCkpIn0=
 </script>
 </div>
 </div>
 <div class="cell" data-exercise="ex3_clean" data-hint="true">
 <div class="pyodide-ojs-exercise exercise-hint d-none" data-exercise="ex3_clean">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="interpolate-26"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="interpolate-26-1"><a href="#interpolate-26-1"></a><span class="co"># The blank is subset.</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="interpolate-26"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="interpolate-26-1"><a href="#interpolate-26-1"></a><span class="co"># Four blanks: dropna, subset, dropna, sum.</span></span>
 <span id="interpolate-26-2"><a href="#interpolate-26-2"></a><span class="co">#</span></span>
-<span id="interpolate-26-3"><a href="#interpolate-26-3"></a><span class="co"># Compare your answer to the worked example above: dropping on the whole</span></span>
-<span id="interpolate-26-4"><a href="#interpolate-26-4"></a><span class="co"># frame leaves far fewer counties, because it also throws out counties</span></span>
-<span id="interpolate-26-5"><a href="#interpolate-26-5"></a><span class="co"># whose homicide or suicide cell is suppressed while the total is fine.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="interpolate-26-3"><a href="#interpolate-26-3"></a><span class="co"># The `lost` line is the point of the exercise. It subtracts the careless</span></span>
+<span id="interpolate-26-4"><a href="#interpolate-26-4"></a><span class="co"># result from the careful one, so what remains is the counties whose death</span></span>
+<span id="interpolate-26-5"><a href="#interpolate-26-5"></a><span class="co"># total is perfectly good but whose homicide or suicide cell happens to be</span></span>
+<span id="interpolate-26-6"><a href="#interpolate-26-6"></a><span class="co"># suppressed. A bare .dropna() silently discards all 23 of them.</span></span>
+<span id="interpolate-26-7"><a href="#interpolate-26-7"></a><span class="co">#</span></span>
+<span id="interpolate-26-8"><a href="#interpolate-26-8"></a><span class="co"># Read the names it prints. Bucks, Chester, Westmoreland, Dauphin — these</span></span>
+<span id="interpolate-26-9"><a href="#interpolate-26-9"></a><span class="co"># are among the largest counties in the state. Losing them is not a small</span></span>
+<span id="interpolate-26-10"><a href="#interpolate-26-10"></a><span class="co"># rural rounding error; it would gut the metro group.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 <div class="cell" data-exercise="ex3_clean" data-solution="true">
 <div class="pyodide-ojs-exercise exercise-solution d-none" data-exercise="ex3_clean">
 <code id="interpolate-28" class="solution-code d-none">reporting = f2023.dropna(subset=["firearm_deaths"])
 
+lost = set(reporting["county"]) - set(f2023.dropna()["county"])
+
 print(len(reporting), "counties report a 2023 total")
-print(reporting["firearm_deaths"].sum(), "deaths among them")</code>
+print(reporting["firearm_deaths"].sum(), "deaths among them")
+print(len(lost), "counties a bare dropna() would have thrown away:")
+print(sorted(lost))</code>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="interpolate-29"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="interpolate-29-1"><a href="#interpolate-29-1"></a>reporting <span class="op">=</span> f2023.dropna(subset<span class="op">=</span>[<span class="st">"firearm_deaths"</span>])</span>
 <span id="interpolate-29-2"><a href="#interpolate-29-2"></a></span>
-<span id="interpolate-29-3"><a href="#interpolate-29-3"></a><span class="bu">print</span>(<span class="bu">len</span>(reporting), <span class="st">"counties report a 2023 total"</span>)</span>
-<span id="interpolate-29-4"><a href="#interpolate-29-4"></a><span class="bu">print</span>(reporting[<span class="st">"firearm_deaths"</span>].<span class="bu">sum</span>(), <span class="st">"deaths among them"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="interpolate-29-3"><a href="#interpolate-29-3"></a>lost <span class="op">=</span> <span class="bu">set</span>(reporting[<span class="st">"county"</span>]) <span class="op">-</span> <span class="bu">set</span>(f2023.dropna()[<span class="st">"county"</span>])</span>
+<span id="interpolate-29-4"><a href="#interpolate-29-4"></a></span>
+<span id="interpolate-29-5"><a href="#interpolate-29-5"></a><span class="bu">print</span>(<span class="bu">len</span>(reporting), <span class="st">"counties report a 2023 total"</span>)</span>
+<span id="interpolate-29-6"><a href="#interpolate-29-6"></a><span class="bu">print</span>(reporting[<span class="st">"firearm_deaths"</span>].<span class="bu">sum</span>(), <span class="st">"deaths among them"</span>)</span>
+<span id="interpolate-29-7"><a href="#interpolate-29-7"></a><span class="bu">print</span>(<span class="bu">len</span>(lost), <span class="st">"counties a bare dropna() would have thrown away:"</span>)</span>
+<span id="interpolate-29-8"><a href="#interpolate-29-8"></a><span class="bu">print</span>(<span class="bu">sorted</span>(lost))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 <div class="cell" data-exercise="ex3_clean" data-check="true">
 <script type="exercise-check-ex3_clean-contents">
-eyJhdHRyIjp7ImNoZWNrIjp0cnVlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlLCJleGVyY2lzZSI6ImV4M19jbGVhbiJ9LCJjb2RlIjoiYXNzZXJ0IGxlbihyZXBvcnRpbmcpID09IDQyLCBcIjQyIG9mIDY3IGNvdW50aWVzIHJlcG9ydCBhIDIwMjMgdG90YWwuXCJcbmFzc2VydCByZXBvcnRpbmdbXCJmaXJlYXJtX2RlYXRoc1wiXS5pc25hKCkuc3VtKCkgPT0gMCwgXCJObyBtaXNzaW5nIHRvdGFscyBzaG91bGQgcmVtYWluLlwiXG5hc3NlcnQgcmVwb3J0aW5nW1wiZmlyZWFybV9kZWF0aHNcIl0uc3VtKCkgPT0gMTY4MywgXCJUaGUgcmVwb3J0ZWQgZGVhdGhzIHRvdGFsIDEsNjgzLlwiIn0=
+eyJhdHRyIjp7ImNoZWNrIjp0cnVlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlLCJleGVyY2lzZSI6ImV4M19jbGVhbiJ9LCJjb2RlIjoiYXNzZXJ0IGxlbihyZXBvcnRpbmcpID09IDQyLCBcIjQyIG9mIDY3IGNvdW50aWVzIHJlcG9ydCBhIDIwMjMgdG90YWwuXCJcbmFzc2VydCByZXBvcnRpbmdbXCJmaXJlYXJtX2RlYXRoc1wiXS5pc25hKCkuc3VtKCkgPT0gMCwgXCJObyBtaXNzaW5nIHRvdGFscyBzaG91bGQgcmVtYWluLlwiXG5hc3NlcnQgcmVwb3J0aW5nW1wiZmlyZWFybV9kZWF0aHNcIl0uc3VtKCkgPT0gMTY4MywgXCJUaGUgcmVwb3J0ZWQgZGVhdGhzIHRvdGFsIDEsNjgzLlwiXG5hc3NlcnQgbGVuKGxvc3QpID09IDIzLCBcXFxuICAgIFwiQSBiYXJlIGRyb3BuYSgpIGRpc2NhcmRzIDIzIGNvdW50aWVzIHdob3NlIGRlYXRoIHRvdGFsIGlzIGtub3duLlwiXG5hc3NlcnQgXCJCdWNrc1wiIGluIGxvc3QgYW5kIFwiQ2hlc3RlclwiIGluIGxvc3QsIFxcXG4gICAgXCJMYXJnZSBtZXRybyBjb3VudGllcyBhcmUgYW1vbmcgdGhvc2UgYSBiYXJlIGRyb3BuYSgpIGxvc2VzIOKAlCB0aGlzIGlzIG5vdCBhIHJ1cmFsLW9ubHkgZXJyb3IuXCIifQ==
 </script>
 </div>
 <div class="callout callout-warning callout-titled callout-style-default">
@@ -1139,50 +1185,61 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiZXhhbXBsZSA9IHJlcG9ydGlu
 </section>
 <section id="exercise-4-join-your-turn" class="slide level2">
 <h2>Exercise 4 — Join — your turn</h2>
-<p><strong>Your turn.</strong> Merge <code>reporting</code> with the <code>county</code>, <code>metro</code>, and <code>population_2023</code> columns of <code>counties</code>, matching <strong>on county</strong>. Confirm nothing failed to match.</p>
+<p><strong>Your turn.</strong> Merge <code>reporting</code> with the <code>county</code>, <code>metro</code>, and <code>population_2023</code> columns of <code>county_reference</code>, matching <strong>on county</strong>. Confirm the row count is unchanged and that nothing failed to match.</p>
 <div class="cell" data-exercise="ex4_join">
 <div>
 <div id="pyodide-32" class="exercise-cell">
 
 </div>
 <script type="pyodide-32-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXg0X2pvaW4ifSwiY29kZSI6ImpvaW5lZCA9IHJlcG9ydGluZy5tZXJnZShcbiAgICBjb3VudHlfcmVmZXJlbmNlW1tcImNvdW50eVwiLCBcIm1ldHJvXCIsIFwicG9wdWxhdGlvbl8yMDIzXCJdXSxcbiAgICBfX19fX189XCJjb3VudHlcIixcbiAgICBob3c9XCJsZWZ0XCJcbilcblxucHJpbnQoam9pbmVkLnNoYXBlKVxucHJpbnQoam9pbmVkW1wibWV0cm9cIl0uaXNuYSgpLnN1bSgpLCBcInJvd3MgZmFpbGVkIHRvIG1hdGNoXCIpIn0=
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXg0X2pvaW4ifSwiY29kZSI6ImJlZm9yZSA9IGxlbihyZXBvcnRpbmcpXG5cbmpvaW5lZCA9IHJlcG9ydGluZy5fX19fX18oXG4gICAgY291bnR5X3JlZmVyZW5jZVtbXCJjb3VudHlcIiwgXCJtZXRyb1wiLCBcInBvcHVsYXRpb25fMjAyM1wiXV0sXG4gICAgX19fX19fPVwiY291bnR5XCIsXG4gICAgaG93PVwiX19fX19fXCJcbilcblxucHJpbnQoam9pbmVkLnNoYXBlKVxucHJpbnQoXCJyb3dzIHByZXNlcnZlZDpcIiwgbGVuKGpvaW5lZCkgX19fX19fIGJlZm9yZSlcbnByaW50KGpvaW5lZFtcIm1ldHJvXCJdLl9fX19fXygpLnN1bSgpLCBcInJvd3MgZmFpbGVkIHRvIG1hdGNoXCIpIn0=
 </script>
 </div>
 </div>
 <div class="cell" data-exercise="ex4_join" data-hint="true">
 <div class="pyodide-ojs-exercise exercise-hint d-none" data-exercise="ex4_join">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="interpolate-34"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="interpolate-34-1"><a href="#interpolate-34-1"></a><span class="co"># The blank is on.</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="interpolate-34"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="interpolate-34-1"><a href="#interpolate-34-1"></a><span class="co"># Five blanks: merge, on, left, ==, isna.</span></span>
 <span id="interpolate-34-2"><a href="#interpolate-34-2"></a><span class="co">#</span></span>
-<span id="interpolate-34-3"><a href="#interpolate-34-3"></a><span class="co"># `on="county"` says the two tables are lined up by county name. If these</span></span>
-<span id="interpolate-34-4"><a href="#interpolate-34-4"></a><span class="co"># files spelled a county differently — the real "Mc Kean" / "McKean" bug</span></span>
-<span id="interpolate-34-5"><a href="#interpolate-34-5"></a><span class="co"># from Module 4 — that county would arrive with a missing metro value,</span></span>
-<span id="interpolate-34-6"><a href="#interpolate-34-6"></a><span class="co"># which is exactly what the second print statement is checking for.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="interpolate-34-3"><a href="#interpolate-34-3"></a><span class="co"># The row-count check catches a failure the missing-value check cannot. If</span></span>
+<span id="interpolate-34-4"><a href="#interpolate-34-4"></a><span class="co"># the right-hand table had two rows for some county, the merge would</span></span>
+<span id="interpolate-34-5"><a href="#interpolate-34-5"></a><span class="co"># silently DUPLICATE the left-hand row and that county's deaths would be</span></span>
+<span id="interpolate-34-6"><a href="#interpolate-34-6"></a><span class="co"># counted twice. A join can lose rows and it can invent them; check both.</span></span>
+<span id="interpolate-34-7"><a href="#interpolate-34-7"></a><span class="co">#</span></span>
+<span id="interpolate-34-8"><a href="#interpolate-34-8"></a><span class="co"># `on="county"` says the two tables are lined up by county name. If these</span></span>
+<span id="interpolate-34-9"><a href="#interpolate-34-9"></a><span class="co"># files spelled a county differently — the real "Mc Kean" / "McKean" bug</span></span>
+<span id="interpolate-34-10"><a href="#interpolate-34-10"></a><span class="co"># from Module 4 — that county would arrive with a missing metro value,</span></span>
+<span id="interpolate-34-11"><a href="#interpolate-34-11"></a><span class="co"># which is exactly what the second print statement is checking for.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 <div class="cell" data-exercise="ex4_join" data-solution="true">
 <div class="pyodide-ojs-exercise exercise-solution d-none" data-exercise="ex4_join">
-<code id="interpolate-36" class="solution-code d-none">joined = reporting.merge(
+<code id="interpolate-36" class="solution-code d-none">before = len(reporting)
+
+joined = reporting.merge(
     county_reference[["county", "metro", "population_2023"]],
     on="county",
     how="left"
 )
 
 print(joined.shape)
+print("rows preserved:", len(joined) == before)
 print(joined["metro"].isna().sum(), "rows failed to match")</code>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="interpolate-37"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="interpolate-37-1"><a href="#interpolate-37-1"></a>joined <span class="op">=</span> reporting.merge(</span>
-<span id="interpolate-37-2"><a href="#interpolate-37-2"></a>    county_reference[[<span class="st">"county"</span>, <span class="st">"metro"</span>, <span class="st">"population_2023"</span>]],</span>
-<span id="interpolate-37-3"><a href="#interpolate-37-3"></a>    on<span class="op">=</span><span class="st">"county"</span>,</span>
-<span id="interpolate-37-4"><a href="#interpolate-37-4"></a>    how<span class="op">=</span><span class="st">"left"</span></span>
-<span id="interpolate-37-5"><a href="#interpolate-37-5"></a>)</span>
-<span id="interpolate-37-6"><a href="#interpolate-37-6"></a></span>
-<span id="interpolate-37-7"><a href="#interpolate-37-7"></a><span class="bu">print</span>(joined.shape)</span>
-<span id="interpolate-37-8"><a href="#interpolate-37-8"></a><span class="bu">print</span>(joined[<span class="st">"metro"</span>].isna().<span class="bu">sum</span>(), <span class="st">"rows failed to match"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="interpolate-37"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="interpolate-37-1"><a href="#interpolate-37-1"></a>before <span class="op">=</span> <span class="bu">len</span>(reporting)</span>
+<span id="interpolate-37-2"><a href="#interpolate-37-2"></a></span>
+<span id="interpolate-37-3"><a href="#interpolate-37-3"></a>joined <span class="op">=</span> reporting.merge(</span>
+<span id="interpolate-37-4"><a href="#interpolate-37-4"></a>    county_reference[[<span class="st">"county"</span>, <span class="st">"metro"</span>, <span class="st">"population_2023"</span>]],</span>
+<span id="interpolate-37-5"><a href="#interpolate-37-5"></a>    on<span class="op">=</span><span class="st">"county"</span>,</span>
+<span id="interpolate-37-6"><a href="#interpolate-37-6"></a>    how<span class="op">=</span><span class="st">"left"</span></span>
+<span id="interpolate-37-7"><a href="#interpolate-37-7"></a>)</span>
+<span id="interpolate-37-8"><a href="#interpolate-37-8"></a></span>
+<span id="interpolate-37-9"><a href="#interpolate-37-9"></a><span class="bu">print</span>(joined.shape)</span>
+<span id="interpolate-37-10"><a href="#interpolate-37-10"></a><span class="bu">print</span>(<span class="st">"rows preserved:"</span>, <span class="bu">len</span>(joined) <span class="op">==</span> before)</span>
+<span id="interpolate-37-11"><a href="#interpolate-37-11"></a><span class="bu">print</span>(joined[<span class="st">"metro"</span>].isna().<span class="bu">sum</span>(), <span class="st">"rows failed to match"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 <div class="cell" data-exercise="ex4_join" data-check="true">
 <script type="exercise-check-ex4_join-contents">
-eyJhdHRyIjp7ImNoZWNrIjp0cnVlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlLCJleGVyY2lzZSI6ImV4NF9qb2luIn0sImNvZGUiOiJhc3NlcnQgbGVuKGpvaW5lZCkgPT0gNDIsIFwiVGhlIGpvaW4gbXVzdCBub3QgY2hhbmdlIHRoZSByb3cgY291bnQ6IDQyLlwiXG5hc3NlcnQgXCJtZXRyb1wiIGluIGpvaW5lZC5jb2x1bW5zLCBcIlRoZSBtZXRybyBjb2x1bW4gbXVzdCBhcnJpdmUgZnJvbSBjb3VudGllcy5cIlxuYXNzZXJ0IGpvaW5lZFtcIm1ldHJvXCJdLmlzbmEoKS5zdW0oKSA9PSAwLCBcIkV2ZXJ5IGNvdW50eSBtdXN0IG1hdGNoLiBOb25lIHNob3VsZCBiZSBtaXNzaW5nLlwiXG5hc3NlcnQgam9pbmVkW1wicG9wdWxhdGlvbl8yMDIzXCJdLnN1bSgpID09IDExNzQ4MTcwLCBcIlBvcHVsYXRpb25zIHNob3VsZCB0b3RhbCAxMSw3NDgsMTcwLlwiIn0=
+eyJhdHRyIjp7ImNoZWNrIjp0cnVlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlLCJleGVyY2lzZSI6ImV4NF9qb2luIn0sImNvZGUiOiJhc3NlcnQgbGVuKGpvaW5lZCkgPT0gNDIsIFwiVGhlIGpvaW4gbXVzdCBub3QgY2hhbmdlIHRoZSByb3cgY291bnQ6IDQyLlwiXG5hc3NlcnQgbGVuKGpvaW5lZCkgPT0gYmVmb3JlLCBcIkEgbWVyZ2UgdGhhdCBjaGFuZ2VzIHRoZSByb3cgY291bnQgaGFzIGR1cGxpY2F0ZWQgb3IgbG9zdCByb3dzLlwiXG5hc3NlcnQgXCJtZXRyb1wiIGluIGpvaW5lZC5jb2x1bW5zLCBcIlRoZSBtZXRybyBjb2x1bW4gbXVzdCBhcnJpdmUgZnJvbSBjb3VudHlfcmVmZXJlbmNlLlwiXG5hc3NlcnQgam9pbmVkW1wibWV0cm9cIl0uaXNuYSgpLnN1bSgpID09IDAsIFwiRXZlcnkgY291bnR5IG11c3QgbWF0Y2guIE5vbmUgc2hvdWxkIGJlIG1pc3NpbmcuXCJcbmFzc2VydCBqb2luZWRbXCJwb3B1bGF0aW9uXzIwMjNcIl0uc3VtKCkgPT0gMTE3NDgxNzAsIFwiUG9wdWxhdGlvbnMgc2hvdWxkIHRvdGFsIDExLDc0OCwxNzAuXCIifQ==
 </script>
 </div>
 </section></section>
@@ -1207,23 +1264,35 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiYnlfcmVnaW9uID0gKHJlcG9y
 </section>
 <section id="exercise-5-group-and-summarise-your-turn" class="slide level2">
 <h2>Exercise 5 — Group and summarise — your turn</h2>
-<p><strong>Your turn.</strong> Group <code>joined</code> by <code>metro</code>. Total the deaths and the population, then add a <code>rate_per_100k</code> column.</p>
+<p><strong>Your turn — no scaffold.</strong> Answer this question from <code>joined</code>:</p>
+<blockquote>
+<p><strong>Do Pennsylvanians living outside metropolitan counties die by firearm at a higher rate than those living in them?</strong></p>
+</blockquote>
+<p>Produce a table called <code>summary</code>, one row per metro group, reporting for each group: <strong>how many counties it contains, its total firearm deaths, its total population, and its firearm death rate per 100,000 people.</strong> Print it.</p>
 <div class="cell" data-exercise="ex5_group">
 <div>
 <div id="pyodide-40" class="exercise-cell">
 
 </div>
 <script type="pyodide-40-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXg1X2dyb3VwIn0sImNvZGUiOiJzdW1tYXJ5ID0gam9pbmVkLmdyb3VwYnkoXCJtZXRyb1wiKS5hZ2coXG4gICAgY291bnRpZXM9KFwiY291bnR5XCIsIFwic2l6ZVwiKSxcbiAgICBkZWF0aHM9KFwiZmlyZWFybV9kZWF0aHNcIiwgXCJzdW1cIiksXG4gICAgcG9wdWxhdGlvbj0oXCJwb3B1bGF0aW9uXzIwMjNcIiwgXCJzdW1cIiksXG4pXG5cbnN1bW1hcnlbXCJyYXRlX3Blcl8xMDBrXCJdID0gc3VtbWFyeVtcImRlYXRoc1wiXSAvIHN1bW1hcnlbXCJfX19fX19cIl0gKiAxMDAwMDBcbnByaW50KHN1bW1hcnkucm91bmQoMSkpIn0=
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXg1X2dyb3VwIn0sImNvZGUiOiIjIFdyaXRlIHRoZSB3aG9sZSBzdGVwIHlvdXJzZWxmLlxuXG5cblxuXG5cblxucHJpbnQoc3VtbWFyeS5yb3VuZCgxKSkifQ==
 </script>
 </div>
 </div>
 <div class="cell" data-exercise="ex5_group" data-hint="true">
 <div class="pyodide-ojs-exercise exercise-hint d-none" data-exercise="ex5_group">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="interpolate-42"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="interpolate-42-1"><a href="#interpolate-42-1"></a><span class="co"># The blank is population — the column you just created inside .agg().</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="interpolate-42"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="interpolate-42-1"><a href="#interpolate-42-1"></a><span class="co"># Two verbs and one arithmetic line, all of which you have used before.</span></span>
 <span id="interpolate-42-2"><a href="#interpolate-42-2"></a><span class="co">#</span></span>
-<span id="interpolate-42-3"><a href="#interpolate-42-3"></a><span class="co"># A rate is events divided by the population at risk, scaled. Multiplying</span></span>
-<span id="interpolate-42-4"><a href="#interpolate-42-4"></a><span class="co"># by 100,000 is what makes it "per 100,000" rather than a proportion.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="interpolate-42-3"><a href="#interpolate-42-3"></a><span class="co"># Group `joined` by the metro column, and inside .agg() name each output</span></span>
+<span id="interpolate-42-4"><a href="#interpolate-42-4"></a><span class="co"># column and the (column, operation) pair that fills it. "size" counts the</span></span>
+<span id="interpolate-42-5"><a href="#interpolate-42-5"></a><span class="co"># rows in a group; "sum" totals a column. That gets you counties, deaths,</span></span>
+<span id="interpolate-42-6"><a href="#interpolate-42-6"></a><span class="co"># and population.</span></span>
+<span id="interpolate-42-7"><a href="#interpolate-42-7"></a><span class="co">#</span></span>
+<span id="interpolate-42-8"><a href="#interpolate-42-8"></a><span class="co"># Then the rate. A rate is events divided by the population at risk, times</span></span>
+<span id="interpolate-42-9"><a href="#interpolate-42-9"></a><span class="co"># 100,000 — which is what makes it "per 100,000" rather than a proportion.</span></span>
+<span id="interpolate-42-10"><a href="#interpolate-42-10"></a><span class="co"># Add it as a new column on the grouped table, not on `joined`.</span></span>
+<span id="interpolate-42-11"><a href="#interpolate-42-11"></a><span class="co">#</span></span>
+<span id="interpolate-42-12"><a href="#interpolate-42-12"></a><span class="co"># Name the columns exactly: counties, deaths, population, rate_per_100k.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 <div class="cell" data-exercise="ex5_group" data-solution="true">
@@ -1287,25 +1356,29 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiYnJva2VuID0gZjIwMjMubWVy
 </section>
 <section id="exercise-6-the-error-that-raises-nothing-your-turn" class="slide level2">
 <h2>Exercise 6 — The error that raises nothing — your turn</h2>
-<p><strong>Your turn.</strong> Repair it. Drop the non-reporting counties <strong>before</strong> the merge, and confirm the nonmetro rate returns to 18.5.</p>
+<p><strong>Your turn.</strong> Repair it, then measure the damage the broken version did: how many people were sitting in the nonmetro denominator with no deaths above them, and how far that pushed the nonmetro rate.</p>
 <div class="cell" data-exercise="ex6_silent">
 <div>
 <div id="pyodide-48" class="exercise-cell">
 
 </div>
 <script type="pyodide-48-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXg2X3NpbGVudCJ9LCJjb2RlIjoicmVwYWlyZWQgPSBmMjAyMy5fX19fX18oc3Vic2V0PVtcImZpcmVhcm1fZGVhdGhzXCJdKS5tZXJnZShcbiAgICBjb3VudHlfcmVmZXJlbmNlW1tcImNvdW50eVwiLCBcIm1ldHJvXCIsIFwicG9wdWxhdGlvbl8yMDIzXCJdXSwgb249XCJjb3VudHlcIiwgaG93PVwibGVmdFwiXG4pXG5cbmZpeGVkID0gcmVwYWlyZWQuZ3JvdXBieShcIm1ldHJvXCIpLmFnZyhcbiAgICBkZWF0aHM9KFwiZmlyZWFybV9kZWF0aHNcIiwgXCJzdW1cIiksXG4gICAgcG9wdWxhdGlvbj0oXCJwb3B1bGF0aW9uXzIwMjNcIiwgXCJzdW1cIiksXG4pXG5maXhlZFtcInJhdGVfcGVyXzEwMGtcIl0gPSBmaXhlZFtcImRlYXRoc1wiXSAvIGZpeGVkW1wicG9wdWxhdGlvblwiXSAqIDEwMDAwMFxuXG5wcmludChmaXhlZC5yb3VuZCgxKSlcbnByaW50KFwicG9wdWxhdGlvbiBkcm9wcGVkIGZyb20gdGhlIGRlbm9taW5hdG9yOlwiLFxuICAgICAgYnJva2VuX3N1bW1hcnlbXCJwb3B1bGF0aW9uXCJdLnN1bSgpIC0gZml4ZWRbXCJwb3B1bGF0aW9uXCJdLnN1bSgpKSJ9
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXg2X3NpbGVudCJ9LCJjb2RlIjoicmVwYWlyZWQgPSBmMjAyMy5fX19fX18oX19fX19fPVtcImZpcmVhcm1fZGVhdGhzXCJdKS5tZXJnZShcbiAgICBjb3VudHlfcmVmZXJlbmNlW1tcImNvdW50eVwiLCBcIm1ldHJvXCIsIFwicG9wdWxhdGlvbl8yMDIzXCJdXSwgb249XCJjb3VudHlcIiwgaG93PVwibGVmdFwiXG4pXG5cbmZpeGVkID0gcmVwYWlyZWQuZ3JvdXBieShcIm1ldHJvXCIpLmFnZyhcbiAgICBkZWF0aHM9KFwiZmlyZWFybV9kZWF0aHNcIiwgXCJzdW1cIiksXG4gICAgcG9wdWxhdGlvbj0oXCJwb3B1bGF0aW9uXzIwMjNcIiwgXCJzdW1cIiksXG4pXG5maXhlZFtcInJhdGVfcGVyXzEwMGtcIl0gPSBmaXhlZFtcImRlYXRoc1wiXSAvIGZpeGVkW1wiX19fX19fXCJdICogMTAwMDAwXG5cbnBoYW50b20gPSAoYnJva2VuX3N1bW1hcnkubG9jW1wiTm9ubWV0cm9cIiwgXCJwb3B1bGF0aW9uXCJdXG4gICAgICAgICAgIF9fX19fXyBmaXhlZC5sb2NbXCJOb25tZXRyb1wiLCBcInBvcHVsYXRpb25cIl0pXG51bmRlcnN0YXRlZF9ieSA9IChmaXhlZC5sb2NbXCJOb25tZXRyb1wiLCBcInJhdGVfcGVyXzEwMGtcIl1cbiAgICAgICAgICAgICAgICAgIF9fX19fXyBicm9rZW5fc3VtbWFyeS5sb2NbXCJOb25tZXRyb1wiLCBcInJhdGVfcGVyXzEwMGtcIl0pXG5cbnByaW50KGZpeGVkLnJvdW5kKDEpKVxucHJpbnQoZlwie3BoYW50b206LH0gbm9ubWV0cm8gcmVzaWRlbnRzIHdlcmUgaW4gdGhlIGRlbm9taW5hdG9yIHdpdGggbm8gZGVhdGhzIGFib3ZlIHRoZW1cIilcbnByaW50KGZcInRoZSBicm9rZW4gcmF0ZSB1bmRlcnN0YXRlZCBub25tZXRybyBieSB7dW5kZXJzdGF0ZWRfYnk6LjFmfSBwZXIgMTAwLDAwMFwiKSJ9
 </script>
 </div>
 </div>
 <div class="cell" data-exercise="ex6_silent" data-hint="true">
 <div class="pyodide-ojs-exercise exercise-hint d-none" data-exercise="ex6_silent">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="interpolate-50"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="interpolate-50-1"><a href="#interpolate-50-1"></a><span class="co"># The blank is dropna.</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="interpolate-50"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="interpolate-50-1"><a href="#interpolate-50-1"></a><span class="co"># Five blanks: dropna, subset, population, -, -.</span></span>
 <span id="interpolate-50-2"><a href="#interpolate-50-2"></a><span class="co">#</span></span>
 <span id="interpolate-50-3"><a href="#interpolate-50-3"></a><span class="co"># Think about what belongs in a denominator. A rate's denominator is the</span></span>
 <span id="interpolate-50-4"><a href="#interpolate-50-4"></a><span class="co"># population a counted event could have happened to. If a county's deaths</span></span>
-<span id="interpolate-50-5"><a href="#interpolate-50-5"></a><span class="co"># were never published, its people cannot be in the bottom of the fraction</span></span>
-<span id="interpolate-50-6"><a href="#interpolate-50-6"></a><span class="co"># while nothing of theirs is in the top.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="interpolate-50-5"><a href="#interpolate-50-5"></a><span class="co"># were never published, its people cannot sit in the bottom of the fraction</span></span>
+<span id="interpolate-50-6"><a href="#interpolate-50-6"></a><span class="co"># while nothing of theirs is in the top.</span></span>
+<span id="interpolate-50-7"><a href="#interpolate-50-7"></a><span class="co">#</span></span>
+<span id="interpolate-50-8"><a href="#interpolate-50-8"></a><span class="co"># The last two lines quantify the error rather than just correcting it.</span></span>
+<span id="interpolate-50-9"><a href="#interpolate-50-9"></a><span class="co"># That number — how far wrong the careless version was — is what belongs in</span></span>
+<span id="interpolate-50-10"><a href="#interpolate-50-10"></a><span class="co"># a writeup's sensitivity sentence.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 <div class="cell" data-exercise="ex6_silent" data-solution="true">
@@ -1320,9 +1393,14 @@ fixed = repaired.groupby("metro").agg(
 )
 fixed["rate_per_100k"] = fixed["deaths"] / fixed["population"] * 100000
 
+phantom = (broken_summary.loc["Nonmetro", "population"]
+           - fixed.loc["Nonmetro", "population"])
+understated_by = (fixed.loc["Nonmetro", "rate_per_100k"]
+                  - broken_summary.loc["Nonmetro", "rate_per_100k"])
+
 print(fixed.round(1))
-print("population dropped from the denominator:",
-      broken_summary["population"].sum() - fixed["population"].sum())</code>
+print(f"{phantom:,} nonmetro residents were in the denominator with no deaths above them")
+print(f"the broken rate understated nonmetro by {understated_by:.1f} per 100,000")</code>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="interpolate-53"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="interpolate-53-1"><a href="#interpolate-53-1"></a>repaired <span class="op">=</span> f2023.dropna(subset<span class="op">=</span>[<span class="st">"firearm_deaths"</span>]).merge(</span>
 <span id="interpolate-53-2"><a href="#interpolate-53-2"></a>    county_reference[[<span class="st">"county"</span>, <span class="st">"metro"</span>, <span class="st">"population_2023"</span>]], on<span class="op">=</span><span class="st">"county"</span>, how<span class="op">=</span><span class="st">"left"</span></span>
 <span id="interpolate-53-3"><a href="#interpolate-53-3"></a>)</span>
@@ -1333,14 +1411,19 @@ print("population dropped from the denominator:",
 <span id="interpolate-53-8"><a href="#interpolate-53-8"></a>)</span>
 <span id="interpolate-53-9"><a href="#interpolate-53-9"></a>fixed[<span class="st">"rate_per_100k"</span>] <span class="op">=</span> fixed[<span class="st">"deaths"</span>] <span class="op">/</span> fixed[<span class="st">"population"</span>] <span class="op">*</span> <span class="dv">100000</span></span>
 <span id="interpolate-53-10"><a href="#interpolate-53-10"></a></span>
-<span id="interpolate-53-11"><a href="#interpolate-53-11"></a><span class="bu">print</span>(fixed.<span class="bu">round</span>(<span class="dv">1</span>))</span>
-<span id="interpolate-53-12"><a href="#interpolate-53-12"></a><span class="bu">print</span>(<span class="st">"population dropped from the denominator:"</span>,</span>
-<span id="interpolate-53-13"><a href="#interpolate-53-13"></a>      broken_summary[<span class="st">"population"</span>].<span class="bu">sum</span>() <span class="op">-</span> fixed[<span class="st">"population"</span>].<span class="bu">sum</span>())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="interpolate-53-11"><a href="#interpolate-53-11"></a>phantom <span class="op">=</span> (broken_summary.loc[<span class="st">"Nonmetro"</span>, <span class="st">"population"</span>]</span>
+<span id="interpolate-53-12"><a href="#interpolate-53-12"></a>           <span class="op">-</span> fixed.loc[<span class="st">"Nonmetro"</span>, <span class="st">"population"</span>])</span>
+<span id="interpolate-53-13"><a href="#interpolate-53-13"></a>understated_by <span class="op">=</span> (fixed.loc[<span class="st">"Nonmetro"</span>, <span class="st">"rate_per_100k"</span>]</span>
+<span id="interpolate-53-14"><a href="#interpolate-53-14"></a>                  <span class="op">-</span> broken_summary.loc[<span class="st">"Nonmetro"</span>, <span class="st">"rate_per_100k"</span>])</span>
+<span id="interpolate-53-15"><a href="#interpolate-53-15"></a></span>
+<span id="interpolate-53-16"><a href="#interpolate-53-16"></a><span class="bu">print</span>(fixed.<span class="bu">round</span>(<span class="dv">1</span>))</span>
+<span id="interpolate-53-17"><a href="#interpolate-53-17"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>phantom<span class="sc">:,}</span><span class="ss"> nonmetro residents were in the denominator with no deaths above them"</span>)</span>
+<span id="interpolate-53-18"><a href="#interpolate-53-18"></a><span class="bu">print</span>(<span class="ss">f"the broken rate understated nonmetro by </span><span class="sc">{</span>understated_by<span class="sc">:.1f}</span><span class="ss"> per 100,000"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 <div class="cell" data-exercise="ex6_silent" data-check="true">
 <script type="exercise-check-ex6_silent-contents">
-eyJhdHRyIjp7ImNoZWNrIjp0cnVlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlLCJleGVyY2lzZSI6ImV4Nl9zaWxlbnQifSwiY29kZSI6ImFzc2VydCByb3VuZChmaXhlZC5sb2NbXCJOb25tZXRyb1wiLCBcInJhdGVfcGVyXzEwMGtcIl0sIDEpID09IDE4LjUsIFwiTm9ubWV0cm8gc2hvdWxkIHJldHVybiB0byAxOC41LlwiXG5hc3NlcnQgcm91bmQoZml4ZWQubG9jW1wiTWV0cm9cIiwgXCJyYXRlX3Blcl8xMDBrXCJdLCAxKSA9PSAxNC4xLCBcIk1ldHJvIHNob3VsZCBiZSAxNC4xLlwiXG5hc3NlcnQgZml4ZWRbXCJwb3B1bGF0aW9uXCJdLnN1bSgpIDwgYnJva2VuX3N1bW1hcnlbXCJwb3B1bGF0aW9uXCJdLnN1bSgpLCBcXFxuICAgIFwiVGhlIHJlcGFpcmVkIGRlbm9taW5hdG9yIG11c3QgYmUgc21hbGxlciDigJQgc3VwcHJlc3NlZCBjb3VudGllcyBhcmUgb3V0IG9mIGl0LlwiIn0=
+eyJhdHRyIjp7ImNoZWNrIjp0cnVlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlLCJleGVyY2lzZSI6ImV4Nl9zaWxlbnQifSwiY29kZSI6ImFzc2VydCByb3VuZChmaXhlZC5sb2NbXCJOb25tZXRyb1wiLCBcInJhdGVfcGVyXzEwMGtcIl0sIDEpID09IDE4LjUsIFwiTm9ubWV0cm8gc2hvdWxkIHJldHVybiB0byAxOC41LlwiXG5hc3NlcnQgcm91bmQoZml4ZWQubG9jW1wiTWV0cm9cIiwgXCJyYXRlX3Blcl8xMDBrXCJdLCAxKSA9PSAxNC4xLCBcIk1ldHJvIHNob3VsZCBiZSAxNC4xLlwiXG5hc3NlcnQgZml4ZWRbXCJwb3B1bGF0aW9uXCJdLnN1bSgpIDwgYnJva2VuX3N1bW1hcnlbXCJwb3B1bGF0aW9uXCJdLnN1bSgpLCBcXFxuICAgIFwiVGhlIHJlcGFpcmVkIGRlbm9taW5hdG9yIG11c3QgYmUgc21hbGxlciDigJQgc3VwcHJlc3NlZCBjb3VudGllcyBhcmUgb3V0IG9mIGl0LlwiXG5hc3NlcnQgcGhhbnRvbSA9PSA3OTI5NzMsIFxcXG4gICAgXCI3OTIsOTczIG5vbm1ldHJvIHJlc2lkZW50cyB3ZXJlIGNhcnJpZWQgaW4gdGhlIGRlbm9taW5hdG9yIHdpdGggbm8gZGVhdGhzIGFib3ZlIHRoZW0uXCJcbmFzc2VydCByb3VuZCh1bmRlcnN0YXRlZF9ieSwgMSkgPT0gMTAuMywgXFxcbiAgICBcIlRoZSBicm9rZW4gdmVyc2lvbiB1bmRlcnN0YXRlZCB0aGUgbm9ubWV0cm8gcmF0ZSBieSAxMC4zIHBlciAxMDAsMDAwLlwiIn0=
 </script>
 </div>
 <div class="callout callout-important callout-titled callout-style-default">
@@ -1381,25 +1464,48 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiaW1wb3J0IG1hdHBsb3RsaWIu
 </section>
 <section id="exercise-7-visualise-your-turn" class="slide level2">
 <h2>Exercise 7 — Visualise — your turn</h2>
-<p><strong>Your turn.</strong> Draw the same comparison for the <strong>suicide share</strong>. Label the axis, title the figure, and keep the baseline at zero.</p>
+<p><strong>Your turn — no scaffold.</strong> A reader accepts that the nonmetro rate is higher and asks the obvious follow-up: <strong>what kind of firearm death is driving it?</strong></p>
+<p>Build a table called <code>share</code> giving, for each metro group, its <strong>total firearm deaths, its total firearm suicides, and suicides as a percentage of firearm deaths.</strong> Treat a suppressed suicide count as zero. Then draw a figure that lets a reader compare the two percentages, and print the table.</p>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Requirements the figure must meet</strong></p>
+</div>
+<div class="callout-content">
+<p>A labelled vertical axis · a title · <strong>a baseline at zero</strong> · each bar labelled with its value · colours drawn from the course palette (<code>#003594</code>, <code>#8a6400</code>).</p>
+</div>
+</div>
+</div>
 <div class="cell" data-exercise="ex7_figure">
 <div>
 <div id="pyodide-56" class="exercise-cell">
 
 </div>
 <script type="pyodide-56-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXg3X2ZpZ3VyZSJ9LCJjb2RlIjoiam9pbmVkW1wic3VpY2lkZXNcIl0gPSBqb2luZWRbXCJmaXJlYXJtX3N1aWNpZGVcIl0uZmlsbG5hKDApXG5zaGFyZSA9IGpvaW5lZC5ncm91cGJ5KFwibWV0cm9cIikuYWdnKGRlYXRocz0oXCJmaXJlYXJtX2RlYXRoc1wiLCBcInN1bVwiKSxcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHN1aWNpZGVzPShcInN1aWNpZGVzXCIsIFwic3VtXCIpKVxuc2hhcmVbXCJzdWljaWRlX3NoYXJlX3BjdFwiXSA9IHNoYXJlW1wic3VpY2lkZXNcIl0gLyBzaGFyZVtcImRlYXRoc1wiXSAqIDEwMFxuXG5maWcsIGF4ID0gcGx0LnN1YnBsb3RzKGZpZ3NpemU9KDYsIDMuMikpXG5iYXJzID0gYXguYmFyKFtcIk1ldHJvXCIsIFwiTm9ubWV0cm9cIl0sXG4gICAgICAgICAgICAgIFtzaGFyZS5sb2NbXCJNZXRyb1wiLCBcInN1aWNpZGVfc2hhcmVfcGN0XCJdLFxuICAgICAgICAgICAgICAgc2hhcmUubG9jW1wiTm9ubWV0cm9cIiwgXCJzdWljaWRlX3NoYXJlX3BjdFwiXV0sXG4gICAgICAgICAgICAgIGNvbG9yPVtcIiMwMDM1OTRcIiwgXCIjOGE2NDAwXCJdLCBlZGdlY29sb3I9XCJ3aGl0ZVwiKVxuYXguYmFyX2xhYmVsKGJhcnMsIGZtdD1cIiUuMWZcIiwgcGFkZGluZz0zKVxuYXguc2V0X3lsaW0oMCwgX19fX19fKVxuYXguc2V0X3lsYWJlbChcIlN1aWNpZGUgc2hhcmUgb2YgZmlyZWFybSBkZWF0aHMgKCUpXCIpXG5heC5zZXRfdGl0bGUoXCJTdWljaWRlIHNoYXJlIG9mIDIwMjMgZmlyZWFybSBkZWF0aHMsIDQyIHJlcG9ydGluZyBQQSBjb3VudGllc1wiKVxucGx0LnRpZ2h0X2xheW91dCgpXG5wbHQuc2hvdygpXG5cbnByaW50KHNoYXJlLnJvdW5kKDEpKSJ9
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXg3X2ZpZ3VyZSJ9LCJjb2RlIjoiIyBXcml0ZSB0aGUgd2hvbGUgc3RlcCB5b3Vyc2VsZjogYnVpbGQgYHNoYXJlYCwgdGhlbiBkcmF3IHRoZSBmaWd1cmUuXG5cblxuXG5cblxuXG5cblxucHJpbnQoc2hhcmUucm91bmQoMSkpIn0=
 </script>
 </div>
 </div>
 <div class="cell" data-exercise="ex7_figure" data-hint="true">
 <div class="pyodide-ojs-exercise exercise-hint d-none" data-exercise="ex7_figure">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="interpolate-58"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="interpolate-58-1"><a href="#interpolate-58-1"></a><span class="co"># The blank is the top of the axis — any number comfortably above 62, such</span></span>
-<span id="interpolate-58-2"><a href="#interpolate-58-2"></a><span class="co"># as 80. The bottom is already 0, and that is the part that matters.</span></span>
-<span id="interpolate-58-3"><a href="#interpolate-58-3"></a><span class="co">#</span></span>
-<span id="interpolate-58-4"><a href="#interpolate-58-4"></a><span class="co"># Starting a bar axis anywhere above zero makes a small difference look</span></span>
-<span id="interpolate-58-5"><a href="#interpolate-58-5"></a><span class="co"># enormous. Module 5 called this axis truncation; it is the commonest way</span></span>
-<span id="interpolate-58-6"><a href="#interpolate-58-6"></a><span class="co"># an honest analyst draws a dishonest figure.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="interpolate-58"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="interpolate-58-1"><a href="#interpolate-58-1"></a><span class="co"># Build the table first, the figure second.</span></span>
+<span id="interpolate-58-2"><a href="#interpolate-58-2"></a><span class="co">#</span></span>
+<span id="interpolate-58-3"><a href="#interpolate-58-3"></a><span class="co"># For the table: a suppressed suicide count is missing, not zero, so</span></span>
+<span id="interpolate-58-4"><a href="#interpolate-58-4"></a><span class="co"># .fillna(0) converts it before you total it. Then group `joined` by metro</span></span>
+<span id="interpolate-58-5"><a href="#interpolate-58-5"></a><span class="co"># and .agg() the deaths and the suicides, exactly as in Exercise 5. The</span></span>
+<span id="interpolate-58-6"><a href="#interpolate-58-6"></a><span class="co"># percentage is suicides / deaths * 100, added as a new column.</span></span>
+<span id="interpolate-58-7"><a href="#interpolate-58-7"></a><span class="co"># Name that column suicide_share_pct.</span></span>
+<span id="interpolate-58-8"><a href="#interpolate-58-8"></a><span class="co">#</span></span>
+<span id="interpolate-58-9"><a href="#interpolate-58-9"></a><span class="co"># For the figure: fig, ax = plt.subplots(...), then ax.bar() with the two</span></span>
+<span id="interpolate-58-10"><a href="#interpolate-58-10"></a><span class="co"># category names and the two values. ax.bar_label(bars, fmt="%.1f") writes</span></span>
+<span id="interpolate-58-11"><a href="#interpolate-58-11"></a><span class="co"># the value above each bar. ax.set_ylim(0, 80) fixes the baseline at zero —</span></span>
+<span id="interpolate-58-12"><a href="#interpolate-58-12"></a><span class="co"># starting a bar axis above zero makes a small difference look enormous,</span></span>
+<span id="interpolate-58-13"><a href="#interpolate-58-13"></a><span class="co"># which Module 5 called axis truncation.</span></span>
+<span id="interpolate-58-14"><a href="#interpolate-58-14"></a><span class="co">#</span></span>
+<span id="interpolate-58-15"><a href="#interpolate-58-15"></a><span class="co"># Keep a reference to the axes in `ax`; the check inspects it.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 <div class="cell" data-exercise="ex7_figure" data-solution="true">
@@ -1444,7 +1550,7 @@ print(share.round(1))</code>
 </div>
 <div class="cell" data-exercise="ex7_figure" data-check="true">
 <script type="exercise-check-ex7_figure-contents">
-eyJhdHRyIjp7ImNoZWNrIjp0cnVlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlLCJleGVyY2lzZSI6ImV4N19maWd1cmUifSwiY29kZSI6ImFzc2VydCBheC5nZXRfeWxpbSgpWzBdID09IDAsIFwiQSBiYXIgY2hhcnQncyBheGlzIHN0YXJ0cyBhdCB6ZXJvLlwiXG5hc3NlcnQgYXguZ2V0X3lsaW0oKVsxXSA+PSA2MiwgXCJUaGUgYXhpcyBtdXN0IGJlIHRhbGwgZW5vdWdoIHRvIHNob3cgdGhlIDYyLjEgYmFyLlwiXG5hc3NlcnQgYXguZ2V0X3lsYWJlbCgpICE9IFwiXCIsIFwiTGFiZWwgdGhlIHktYXhpcy5cIlxuYXNzZXJ0IGF4LmdldF90aXRsZSgpICE9IFwiXCIsIFwiVGl0bGUgdGhlIGZpZ3VyZS5cIlxuYXNzZXJ0IHJvdW5kKHNoYXJlLmxvY1tcIk5vbm1ldHJvXCIsIFwic3VpY2lkZV9zaGFyZV9wY3RcIl0sIDEpID09IDYyLjEsIFwiTm9ubWV0cm8gc2hhcmUgaXMgNjIuMSUuXCIifQ==
+eyJhdHRyIjp7ImNoZWNrIjp0cnVlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlLCJleGVyY2lzZSI6ImV4N19maWd1cmUifSwiY29kZSI6ImFzc2VydCBcInN1aWNpZGVfc2hhcmVfcGN0XCIgaW4gc2hhcmUuY29sdW1ucywgXCJOYW1lIHRoZSBwZXJjZW50YWdlIGNvbHVtbiBzdWljaWRlX3NoYXJlX3BjdC5cIlxuYXNzZXJ0IHJvdW5kKHNoYXJlLmxvY1tcIk5vbm1ldHJvXCIsIFwic3VpY2lkZV9zaGFyZV9wY3RcIl0sIDEpID09IDYyLjEsIFwiTm9ubWV0cm8gc2hhcmUgaXMgNjIuMSUuXCJcbmFzc2VydCByb3VuZChzaGFyZS5sb2NbXCJNZXRyb1wiLCBcInN1aWNpZGVfc2hhcmVfcGN0XCJdLCAxKSA9PSA1NC43LCBcIk1ldHJvIHNoYXJlIGlzIDU0LjclLlwiXG5hc3NlcnQgc2hhcmUubG9jW1wiTm9ubWV0cm9cIiwgXCJzdWljaWRlc1wiXSA9PSA3MiwgXFxcbiAgICBcIjcyIG5vbm1ldHJvIHN1aWNpZGVzIOKAlCBhIHN1cHByZXNzZWQgY291bnQgaXMgY29udmVydGVkIHRvIHplcm8sIG5vdCBkcm9wcGVkLlwiXG5hc3NlcnQgbGVuKGF4LnBhdGNoZXMpID49IDIsIFwiVGhlIGZpZ3VyZSBtdXN0IGRyYXcgYSBiYXIgZm9yIGVhY2ggZ3JvdXAuXCJcbmFzc2VydCBheC5nZXRfeWxpbSgpWzBdID09IDAsIFwiQSBiYXIgY2hhcnQncyBheGlzIHN0YXJ0cyBhdCB6ZXJvLlwiXG5hc3NlcnQgYXguZ2V0X3lsaW0oKVsxXSA+PSA2MiwgXCJUaGUgYXhpcyBtdXN0IGJlIHRhbGwgZW5vdWdoIHRvIHNob3cgdGhlIDYyLjEgYmFyLlwiXG5hc3NlcnQgYXguZ2V0X3lsYWJlbCgpICE9IFwiXCIsIFwiTGFiZWwgdGhlIHktYXhpcy5cIlxuYXNzZXJ0IGF4LmdldF90aXRsZSgpICE9IFwiXCIsIFwiVGl0bGUgdGhlIGZpZ3VyZS5cIlxuYXNzZXJ0IGxlbihheC50ZXh0cykgPj0gMiwgXCJMYWJlbCBlYWNoIGJhciB3aXRoIGl0cyB2YWx1ZS5cIiJ9
 </script>
 </div>
 </section></section>
@@ -1469,23 +1575,31 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiZGVzY3JpcHRpb24gPSAoXG4g
 </section>
 <section id="exercise-8-describe-the-figure-your-turn" class="slide level2">
 <h2>Exercise 8 — Describe the figure — your turn</h2>
-<p><strong>Your turn.</strong> Write <code>share_description</code> for the suicide-share figure. Name the chart type, both categories, and both values.</p>
+<p><strong>Your turn — no scaffold.</strong> Someone using a screen reader will hear your description instead of seeing the figure you drew in Exercise 7. Write it into a string called <code>share_description</code>, and print it.</p>
+<p>They must be able to reconstruct the figure from your words alone: <strong>what kind of chart it is, what the two groups are, what quantity is being shown, both of its values, and where the vertical axis begins.</strong> Describe what is on the page, not what it means — the conclusion is the reader’s to draw.</p>
 <div class="cell" data-exercise="ex8_altdesc">
 <div>
 <div id="pyodide-64" class="exercise-cell">
 
 </div>
 <script type="pyodide-64-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXg4X2FsdGRlc2MifSwiY29kZSI6InNoYXJlX2Rlc2NyaXB0aW9uID0gXCJfX19fX19cIlxuXG5wcmludChzaGFyZV9kZXNjcmlwdGlvbilcbmZvciB0b2tlbiBpbiBbXCJiYXJcIiwgXCI2Mi4xXCIsIFwiNTQuN1wiXTpcbiAgICBwcmludCh0b2tlbiwgXCJwcmVzZW50OlwiLCB0b2tlbiBpbiBzaGFyZV9kZXNjcmlwdGlvbi5sb3dlcigpKSJ9
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXg4X2FsdGRlc2MifSwiY29kZSI6IiMgV3JpdGUgdGhlIGRlc2NyaXB0aW9uIHlvdXJzZWxmLlxuXG5cblxuXG5wcmludChzaGFyZV9kZXNjcmlwdGlvbikifQ==
 </script>
 </div>
 </div>
 <div class="cell" data-exercise="ex8_altdesc" data-hint="true">
 <div class="pyodide-ojs-exercise exercise-hint d-none" data-exercise="ex8_altdesc">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="interpolate-66"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="interpolate-66-1"><a href="#interpolate-66-1"></a><span class="co"># Replace the whole placeholder string with a real sentence or two.</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="interpolate-66"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="interpolate-66-1"><a href="#interpolate-66-1"></a><span class="co"># Two or three sentences, written for someone who cannot see the screen.</span></span>
 <span id="interpolate-66-2"><a href="#interpolate-66-2"></a><span class="co">#</span></span>
-<span id="interpolate-66-3"><a href="#interpolate-66-3"></a><span class="co"># Describe what a reader would see, not what you concluded from it. It</span></span>
-<span id="interpolate-66-4"><a href="#interpolate-66-4"></a><span class="co"># needs the words "bar chart", and both numbers — 62.1 and 54.7.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="interpolate-66-3"><a href="#interpolate-66-3"></a><span class="co"># Work through what they would need: the chart type ("bar chart"), the two</span></span>
+<span id="interpolate-66-4"><a href="#interpolate-66-4"></a><span class="co"># categories (metro and nonmetro), the quantity (suicide share of firearm</span></span>
+<span id="interpolate-66-5"><a href="#interpolate-66-5"></a><span class="co"># deaths, as a percentage), both values (62.1 and 54.7), and the fact that</span></span>
+<span id="interpolate-66-6"><a href="#interpolate-66-6"></a><span class="co"># the axis starts at zero — that last one tells them the comparison has not</span></span>
+<span id="interpolate-66-7"><a href="#interpolate-66-7"></a><span class="co"># been visually exaggerated.</span></span>
+<span id="interpolate-66-8"><a href="#interpolate-66-8"></a><span class="co">#</span></span>
+<span id="interpolate-66-9"><a href="#interpolate-66-9"></a><span class="co"># Resist writing the conclusion. "Nonmetro counties have a higher suicide</span></span>
+<span id="interpolate-66-10"><a href="#interpolate-66-10"></a><span class="co"># share" is your interpretation; the reader is entitled to reach it, or</span></span>
+<span id="interpolate-66-11"><a href="#interpolate-66-11"></a><span class="co"># not, from the same numbers a sighted reader gets.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 <div class="cell" data-exercise="ex8_altdesc" data-solution="true">
@@ -1496,23 +1610,19 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXg4X2FsdGRlc2MifSwi
     "bar reaches 62.1 percent. The vertical axis starts at zero."
 )
 
-print(share_description)
-for token in ["bar", "62.1", "54.7"]:
-    print(token, "present:", token in share_description.lower())</code>
+print(share_description)</code>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="interpolate-69"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="interpolate-69-1"><a href="#interpolate-69-1"></a>share_description <span class="op">=</span> (</span>
 <span id="interpolate-69-2"><a href="#interpolate-69-2"></a>    <span class="st">"Bar chart of the suicide share of 2023 firearm deaths in the 42 reporting "</span></span>
 <span id="interpolate-69-3"><a href="#interpolate-69-3"></a>    <span class="st">"Pennsylvania counties. The metro bar reaches 54.7 percent and the nonmetro "</span></span>
 <span id="interpolate-69-4"><a href="#interpolate-69-4"></a>    <span class="st">"bar reaches 62.1 percent. The vertical axis starts at zero."</span></span>
 <span id="interpolate-69-5"><a href="#interpolate-69-5"></a>)</span>
 <span id="interpolate-69-6"><a href="#interpolate-69-6"></a></span>
-<span id="interpolate-69-7"><a href="#interpolate-69-7"></a><span class="bu">print</span>(share_description)</span>
-<span id="interpolate-69-8"><a href="#interpolate-69-8"></a><span class="cf">for</span> token <span class="kw">in</span> [<span class="st">"bar"</span>, <span class="st">"62.1"</span>, <span class="st">"54.7"</span>]:</span>
-<span id="interpolate-69-9"><a href="#interpolate-69-9"></a>    <span class="bu">print</span>(token, <span class="st">"present:"</span>, token <span class="kw">in</span> share_description.lower())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="interpolate-69-7"><a href="#interpolate-69-7"></a><span class="bu">print</span>(share_description)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 <div class="cell" data-exercise="ex8_altdesc" data-check="true">
 <script type="exercise-check-ex8_altdesc-contents">
-eyJhdHRyIjp7ImNoZWNrIjp0cnVlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlLCJleGVyY2lzZSI6ImV4OF9hbHRkZXNjIn0sImNvZGUiOiJhc3NlcnQgaXNpbnN0YW5jZShzaGFyZV9kZXNjcmlwdGlvbiwgc3RyKSwgXCJzaGFyZV9kZXNjcmlwdGlvbiBtdXN0IGJlIGEgc3RyaW5nLlwiXG5hc3NlcnQgXCJfX19fX19cIiBub3QgaW4gc2hhcmVfZGVzY3JpcHRpb24sIFwiUmVwbGFjZSB0aGUgcGxhY2Vob2xkZXIgd2l0aCBhIHJlYWwgZGVzY3JpcHRpb24uXCJcbmFzc2VydCBsZW4oc2hhcmVfZGVzY3JpcHRpb24pID4gNjAsIFwiQSBkZXNjcmlwdGlvbiBuZWVkcyBtb3JlIHRoYW4gYSBmZXcgd29yZHMuXCJcbmFzc2VydCBcImJhclwiIGluIHNoYXJlX2Rlc2NyaXB0aW9uLmxvd2VyKCksIFwiTmFtZSB0aGUgY2hhcnQgdHlwZS5cIlxuYXNzZXJ0IFwiNjIuMVwiIGluIHNoYXJlX2Rlc2NyaXB0aW9uIGFuZCBcIjU0LjdcIiBpbiBzaGFyZV9kZXNjcmlwdGlvbiwgXCJTdGF0ZSBib3RoIHZhbHVlcy5cIiJ9
+eyJhdHRyIjp7ImNoZWNrIjp0cnVlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlLCJleGVyY2lzZSI6ImV4OF9hbHRkZXNjIn0sImNvZGUiOiJhc3NlcnQgaXNpbnN0YW5jZShzaGFyZV9kZXNjcmlwdGlvbiwgc3RyKSwgXCJzaGFyZV9kZXNjcmlwdGlvbiBtdXN0IGJlIGEgc3RyaW5nLlwiXG5hc3NlcnQgbGVuKHNoYXJlX2Rlc2NyaXB0aW9uLnNwbGl0KCkpID49IDIwLCBcXFxuICAgIFwiVG9vIHNob3J0IHRvIHJlY29uc3RydWN0IHRoZSBmaWd1cmUgZnJvbSDigJQgdHdvIG9yIHRocmVlIHNlbnRlbmNlcy5cIlxuYXNzZXJ0IFwiYmFyXCIgaW4gc2hhcmVfZGVzY3JpcHRpb24ubG93ZXIoKSwgXCJOYW1lIHRoZSBjaGFydCB0eXBlLlwiXG5hc3NlcnQgXCI2Mi4xXCIgaW4gc2hhcmVfZGVzY3JpcHRpb24gYW5kIFwiNTQuN1wiIGluIHNoYXJlX2Rlc2NyaXB0aW9uLCBcIlN0YXRlIGJvdGggdmFsdWVzLlwiXG5hc3NlcnQgXCJ6ZXJvXCIgaW4gc2hhcmVfZGVzY3JpcHRpb24ubG93ZXIoKSBvciBcIjBcIiBpbiBzaGFyZV9kZXNjcmlwdGlvbiwgXFxcbiAgICBcIlNheSB3aGVyZSB0aGUgdmVydGljYWwgYXhpcyBiZWdpbnMuXCJcbl9sb3dlciA9IHNoYXJlX2Rlc2NyaXB0aW9uLmxvd2VyKClcbmFzc2VydCBcIm5vbm1ldHJvXCIgaW4gX2xvd2VyLCBcIk5hbWUgdGhlIG5vbm1ldHJvcG9saXRhbiBncm91cC5cIlxuYXNzZXJ0IF9sb3dlci5yZXBsYWNlKFwibm9ubWV0cm9cIiwgXCJcIikuY291bnQoXCJtZXRyb1wiKSA+PSAxLCBcXFxuICAgIFwiTmFtZSB0aGUgbWV0cm9wb2xpdGFuIGdyb3VwIGFzIHdlbGwsIG5vdCBvbmx5IHRoZSBub25tZXRyb3BvbGl0YW4gb25lLlwiIn0=
 </script>
 </div>
 <div class="callout callout-note callout-titled callout-style-default">
@@ -1550,62 +1660,94 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoibl9yZXBvcnRpbmcgPSBsZW4o
 </section>
 <section id="exercise-9-report-the-finding-your-turn" class="slide level2">
 <h2>Exercise 9 — Report the finding — your turn</h2>
-<p><strong>Your turn.</strong> Complete the finding sentence so that <strong>both</strong> rates come from <code>summary</code>, not from your memory of the slide.</p>
+<p><strong>Your turn — no scaffold.</strong> Write the paragraph a reader would see, into a string called <code>finding</code>, and print it.</p>
+<p>It must state, <strong>in prose</strong>: how many counties reported a count and out of how many; both pooled rates, identified by group; how many deaths the nonmetropolitan estimate rests on and across how many counties; and that counties reporting no total were excluded from both the numerator and the denominator.</p>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Every number must be computed, not typed</strong></p>
+</div>
+<div class="callout-content">
+<p>Build the sentence with an f-string reading from <code>summary</code> and <code>reporting</code>. <strong>A number typed by hand stops being a result the moment the data changes.</strong></p>
+</div>
+</div>
+</div>
 <div class="cell" data-exercise="ex9_report">
 <div>
 <div id="pyodide-72" class="exercise-cell">
 
 </div>
 <script type="pyodide-72-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXg5X3JlcG9ydCJ9LCJjb2RlIjoibl9yZXBvcnRpbmcgPSBsZW4ocmVwb3J0aW5nKVxubm9ubWV0cm9fcmF0ZSA9IHN1bW1hcnkubG9jW1wiTm9ubWV0cm9cIiwgXCJyYXRlX3Blcl8xMDBrXCJdXG5tZXRyb19yYXRlID0gc3VtbWFyeS5sb2NbXCJfX19fX19cIiwgXCJyYXRlX3Blcl8xMDBrXCJdXG5ub25tZXRyb19kZWF0aHMgPSBpbnQoc3VtbWFyeS5sb2NbXCJOb25tZXRyb1wiLCBcImRlYXRoc1wiXSlcblxuZmluZGluZyA9IChcbiAgICBmXCJBbW9uZyB0aGUge25fcmVwb3J0aW5nfSBQZW5uc3lsdmFuaWEgY291bnRpZXMgcmVwb3J0aW5nIGEgMjAyMyBmaXJlYXJtIGRlYXRoIFwiXG4gICAgZlwiY291bnQsIHRoZSBwb29sZWQgcmF0ZSB3YXMge25vbm1ldHJvX3JhdGU6LjFmfSBwZXIgMTAwLDAwMCBpbiBub25tZXRyb3BvbGl0YW4gXCJcbiAgICBmXCJjb3VudGllcyBhZ2FpbnN0IHttZXRyb19yYXRlOi4xZn0gaW4gbWV0cm9wb2xpdGFuIGNvdW50aWVzLiBUaGUgbm9ubWV0cm9wb2xpdGFuIFwiXG4gICAgZlwiZXN0aW1hdGUgcmVzdHMgb24ge25vbm1ldHJvX2RlYXRoc30gZGVhdGhzIGFjcm9zcyBcIlxuICAgIGZcIntzdW1tYXJ5LmxvY1snTm9ubWV0cm8nLCAnY291bnRpZXMnXX0gcmVwb3J0aW5nIGNvdW50aWVzLlwiXG4pXG5cbnByaW50KGZpbmRpbmcpIn0=
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXg5X3JlcG9ydCJ9LCJjb2RlIjoiIyBXcml0ZSB0aGUgd2hvbGUgcGFyYWdyYXBoIHlvdXJzZWxmLCBhcyBvbmUgZi1zdHJpbmcuXG5cblxuXG5cblxuXG5wcmludChmaW5kaW5nKSJ9
 </script>
 </div>
 </div>
 <div class="cell" data-exercise="ex9_report" data-hint="true">
 <div class="pyodide-ojs-exercise exercise-hint d-none" data-exercise="ex9_report">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="interpolate-74"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="interpolate-74-1"><a href="#interpolate-74-1"></a><span class="co"># The blank is Metro — the other label in the summary table's index.</span></span>
-<span id="interpolate-74-2"><a href="#interpolate-74-2"></a><span class="co">#</span></span>
-<span id="interpolate-74-3"><a href="#interpolate-74-3"></a><span class="co"># Notice what the last sentence does. It reports the count behind the rate,</span></span>
-<span id="interpolate-74-4"><a href="#interpolate-74-4"></a><span class="co"># so a reader can judge how much the estimate would move if one death</span></span>
-<span id="interpolate-74-5"><a href="#interpolate-74-5"></a><span class="co"># landed in a different year. That sentence is what this course asks for</span></span>
-<span id="interpolate-74-6"><a href="#interpolate-74-6"></a><span class="co"># instead of a p-value.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="interpolate-74"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="interpolate-74-1"><a href="#interpolate-74-1"></a><span class="co"># Pull each number out of the pipeline first, give it a name, then write</span></span>
+<span id="interpolate-74-2"><a href="#interpolate-74-2"></a><span class="co"># one f-string that reads those names. Something like:</span></span>
+<span id="interpolate-74-3"><a href="#interpolate-74-3"></a><span class="co">#</span></span>
+<span id="interpolate-74-4"><a href="#interpolate-74-4"></a><span class="co">#   n_reporting   = len(reporting)</span></span>
+<span id="interpolate-74-5"><a href="#interpolate-74-5"></a><span class="co">#   nonmetro_rate = summary.loc["Nonmetro", "rate_per_100k"]</span></span>
+<span id="interpolate-74-6"><a href="#interpolate-74-6"></a><span class="co">#</span></span>
+<span id="interpolate-74-7"><a href="#interpolate-74-7"></a><span class="co"># and so on for the metro rate, the nonmetro death count, and the nonmetro</span></span>
+<span id="interpolate-74-8"><a href="#interpolate-74-8"></a><span class="co"># county count. Inside an f-string, {nonmetro_rate:.1f} prints one decimal.</span></span>
+<span id="interpolate-74-9"><a href="#interpolate-74-9"></a><span class="co">#</span></span>
+<span id="interpolate-74-10"><a href="#interpolate-74-10"></a><span class="co"># Report the count behind the rate, not just the rate. A reader can then</span></span>
+<span id="interpolate-74-11"><a href="#interpolate-74-11"></a><span class="co"># judge how much the estimate would move if one death had landed in a</span></span>
+<span id="interpolate-74-12"><a href="#interpolate-74-12"></a><span class="co"># different year. That sentence is what this course asks for instead of a</span></span>
+<span id="interpolate-74-13"><a href="#interpolate-74-13"></a><span class="co"># p-value.</span></span>
+<span id="interpolate-74-14"><a href="#interpolate-74-14"></a><span class="co">#</span></span>
+<span id="interpolate-74-15"><a href="#interpolate-74-15"></a><span class="co"># The test of whether you did this right: change the year at the top of</span></span>
+<span id="interpolate-74-16"><a href="#interpolate-74-16"></a><span class="co"># your pipeline to 2022 and run everything again. A sentence built from</span></span>
+<span id="interpolate-74-17"><a href="#interpolate-74-17"></a><span class="co"># f-strings updates itself. A sentence with the numbers typed in keeps</span></span>
+<span id="interpolate-74-18"><a href="#interpolate-74-18"></a><span class="co"># claiming 18.5 while the table above it says something else.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 <div class="cell" data-exercise="ex9_report" data-solution="true">
 <div class="pyodide-ojs-exercise exercise-solution d-none" data-exercise="ex9_report">
 <code id="interpolate-76" class="solution-code d-none">n_reporting = len(reporting)
+n_total = len(f2023)
 nonmetro_rate = summary.loc["Nonmetro", "rate_per_100k"]
 metro_rate = summary.loc["Metro", "rate_per_100k"]
 nonmetro_deaths = int(summary.loc["Nonmetro", "deaths"])
+nonmetro_counties = int(summary.loc["Nonmetro", "counties"])
 
 finding = (
-    f"Among the {n_reporting} Pennsylvania counties reporting a 2023 firearm death "
-    f"count, the pooled rate was {nonmetro_rate:.1f} per 100,000 in nonmetropolitan "
-    f"counties against {metro_rate:.1f} in metropolitan counties. The nonmetropolitan "
-    f"estimate rests on {nonmetro_deaths} deaths across "
-    f"{summary.loc['Nonmetro', 'counties']} reporting counties."
+    f"Among the {n_reporting} of {n_total} Pennsylvania counties reporting a 2023 "
+    f"firearm death count, the pooled rate was {nonmetro_rate:.1f} per 100,000 in "
+    f"nonmetropolitan counties against {metro_rate:.1f} in metropolitan counties. "
+    f"The nonmetropolitan estimate rests on {nonmetro_deaths} deaths across "
+    f"{nonmetro_counties} reporting counties. Counties reporting no total are "
+    f"excluded from both the numerator and the denominator."
 )
 
 print(finding)</code>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="interpolate-77"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="interpolate-77-1"><a href="#interpolate-77-1"></a>n_reporting <span class="op">=</span> <span class="bu">len</span>(reporting)</span>
-<span id="interpolate-77-2"><a href="#interpolate-77-2"></a>nonmetro_rate <span class="op">=</span> summary.loc[<span class="st">"Nonmetro"</span>, <span class="st">"rate_per_100k"</span>]</span>
-<span id="interpolate-77-3"><a href="#interpolate-77-3"></a>metro_rate <span class="op">=</span> summary.loc[<span class="st">"Metro"</span>, <span class="st">"rate_per_100k"</span>]</span>
-<span id="interpolate-77-4"><a href="#interpolate-77-4"></a>nonmetro_deaths <span class="op">=</span> <span class="bu">int</span>(summary.loc[<span class="st">"Nonmetro"</span>, <span class="st">"deaths"</span>])</span>
-<span id="interpolate-77-5"><a href="#interpolate-77-5"></a></span>
-<span id="interpolate-77-6"><a href="#interpolate-77-6"></a>finding <span class="op">=</span> (</span>
-<span id="interpolate-77-7"><a href="#interpolate-77-7"></a>    <span class="ss">f"Among the </span><span class="sc">{</span>n_reporting<span class="sc">}</span><span class="ss"> Pennsylvania counties reporting a 2023 firearm death "</span></span>
-<span id="interpolate-77-8"><a href="#interpolate-77-8"></a>    <span class="ss">f"count, the pooled rate was </span><span class="sc">{</span>nonmetro_rate<span class="sc">:.1f}</span><span class="ss"> per 100,000 in nonmetropolitan "</span></span>
-<span id="interpolate-77-9"><a href="#interpolate-77-9"></a>    <span class="ss">f"counties against </span><span class="sc">{</span>metro_rate<span class="sc">:.1f}</span><span class="ss"> in metropolitan counties. The nonmetropolitan "</span></span>
-<span id="interpolate-77-10"><a href="#interpolate-77-10"></a>    <span class="ss">f"estimate rests on </span><span class="sc">{</span>nonmetro_deaths<span class="sc">}</span><span class="ss"> deaths across "</span></span>
-<span id="interpolate-77-11"><a href="#interpolate-77-11"></a>    <span class="ss">f"</span><span class="sc">{</span>summary<span class="sc">.</span>loc[<span class="st">'Nonmetro'</span>, <span class="st">'counties'</span>]<span class="sc">}</span><span class="ss"> reporting counties."</span></span>
-<span id="interpolate-77-12"><a href="#interpolate-77-12"></a>)</span>
-<span id="interpolate-77-13"><a href="#interpolate-77-13"></a></span>
-<span id="interpolate-77-14"><a href="#interpolate-77-14"></a><span class="bu">print</span>(finding)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="interpolate-77-2"><a href="#interpolate-77-2"></a>n_total <span class="op">=</span> <span class="bu">len</span>(f2023)</span>
+<span id="interpolate-77-3"><a href="#interpolate-77-3"></a>nonmetro_rate <span class="op">=</span> summary.loc[<span class="st">"Nonmetro"</span>, <span class="st">"rate_per_100k"</span>]</span>
+<span id="interpolate-77-4"><a href="#interpolate-77-4"></a>metro_rate <span class="op">=</span> summary.loc[<span class="st">"Metro"</span>, <span class="st">"rate_per_100k"</span>]</span>
+<span id="interpolate-77-5"><a href="#interpolate-77-5"></a>nonmetro_deaths <span class="op">=</span> <span class="bu">int</span>(summary.loc[<span class="st">"Nonmetro"</span>, <span class="st">"deaths"</span>])</span>
+<span id="interpolate-77-6"><a href="#interpolate-77-6"></a>nonmetro_counties <span class="op">=</span> <span class="bu">int</span>(summary.loc[<span class="st">"Nonmetro"</span>, <span class="st">"counties"</span>])</span>
+<span id="interpolate-77-7"><a href="#interpolate-77-7"></a></span>
+<span id="interpolate-77-8"><a href="#interpolate-77-8"></a>finding <span class="op">=</span> (</span>
+<span id="interpolate-77-9"><a href="#interpolate-77-9"></a>    <span class="ss">f"Among the </span><span class="sc">{</span>n_reporting<span class="sc">}</span><span class="ss"> of </span><span class="sc">{</span>n_total<span class="sc">}</span><span class="ss"> Pennsylvania counties reporting a 2023 "</span></span>
+<span id="interpolate-77-10"><a href="#interpolate-77-10"></a>    <span class="ss">f"firearm death count, the pooled rate was </span><span class="sc">{</span>nonmetro_rate<span class="sc">:.1f}</span><span class="ss"> per 100,000 in "</span></span>
+<span id="interpolate-77-11"><a href="#interpolate-77-11"></a>    <span class="ss">f"nonmetropolitan counties against </span><span class="sc">{</span>metro_rate<span class="sc">:.1f}</span><span class="ss"> in metropolitan counties. "</span></span>
+<span id="interpolate-77-12"><a href="#interpolate-77-12"></a>    <span class="ss">f"The nonmetropolitan estimate rests on </span><span class="sc">{</span>nonmetro_deaths<span class="sc">}</span><span class="ss"> deaths across "</span></span>
+<span id="interpolate-77-13"><a href="#interpolate-77-13"></a>    <span class="ss">f"</span><span class="sc">{</span>nonmetro_counties<span class="sc">}</span><span class="ss"> reporting counties. Counties reporting no total are "</span></span>
+<span id="interpolate-77-14"><a href="#interpolate-77-14"></a>    <span class="ss">f"excluded from both the numerator and the denominator."</span></span>
+<span id="interpolate-77-15"><a href="#interpolate-77-15"></a>)</span>
+<span id="interpolate-77-16"><a href="#interpolate-77-16"></a></span>
+<span id="interpolate-77-17"><a href="#interpolate-77-17"></a><span class="bu">print</span>(finding)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 <div class="cell" data-exercise="ex9_report" data-check="true">
 <script type="exercise-check-ex9_report-contents">
-eyJhdHRyIjp7ImNoZWNrIjp0cnVlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlLCJleGVyY2lzZSI6ImV4OV9yZXBvcnQifSwiY29kZSI6ImFzc2VydCBcIjE4LjVcIiBpbiBmaW5kaW5nLCBcIlRoZSBub25tZXRybyByYXRlIHNob3VsZCBhcHBlYXIgYXMgMTguNS5cIlxuYXNzZXJ0IFwiMTQuMVwiIGluIGZpbmRpbmcsIFwiVGhlIG1ldHJvIHJhdGUgc2hvdWxkIGFwcGVhciBhcyAxNC4xLlwiXG5hc3NlcnQgXCI0MlwiIGluIGZpbmRpbmcsIFwiU3RhdGUgdGhlIGNvdmVyYWdlOiA0MiByZXBvcnRpbmcgY291bnRpZXMuXCJcbmFzc2VydCBcIjExNlwiIGluIGZpbmRpbmcsIFwiUmVwb3J0IHRoZSBkZWF0aCBjb3VudCBiZWhpbmQgdGhlIG5vbm1ldHJvIHJhdGUuXCIifQ==
+eyJhdHRyIjp7ImNoZWNrIjp0cnVlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlLCJleGVyY2lzZSI6ImV4OV9yZXBvcnQifSwiY29kZSI6ImFzc2VydCBpc2luc3RhbmNlKGZpbmRpbmcsIHN0ciksIFwiZmluZGluZyBtdXN0IGJlIGEgc3RyaW5nLlwiXG5hc3NlcnQgXCIxOC41XCIgaW4gZmluZGluZywgXCJTdGF0ZSB0aGUgbm9ubWV0cm8gcmF0ZTogMTguNS5cIlxuYXNzZXJ0IFwiMTQuMVwiIGluIGZpbmRpbmcsIFwiU3RhdGUgdGhlIG1ldHJvIHJhdGU6IDE0LjEuXCJcbmFzc2VydCBcIjQyXCIgaW4gZmluZGluZywgXCJTdGF0ZSB0aGUgY292ZXJhZ2U6IDQyIGNvdW50aWVzIHJlcG9ydGVkIGEgY291bnQuXCJcbmFzc2VydCBcIjY3XCIgaW4gZmluZGluZywgXCJTdGF0ZSBpdCBvdXQgb2YgaG93IG1hbnk6IDY3IGNvdW50aWVzLlwiXG5hc3NlcnQgXCIxMTZcIiBpbiBmaW5kaW5nLCBcIlJlcG9ydCB0aGUgZGVhdGhzIGJlaGluZCB0aGUgbm9ubWV0cm8gZXN0aW1hdGU6IDExNi5cIlxuYXNzZXJ0IFwiMTFcIiBpbiBmaW5kaW5nLCBcIlJlcG9ydCBob3cgbWFueSBjb3VudGllcyB0aGF0IGVzdGltYXRlIHNwYW5zOiAxMS5cIlxuZm9yIHdvcmQgaW4gW1wibWV0cm9wb2xpdGFuXCIsIFwiZXhjbHVkXCJdOlxuICAgIGFzc2VydCB3b3JkIGluIGZpbmRpbmcubG93ZXIoKSwgXFxcbiAgICAgICAgZlwiVGhlIHBhcmFncmFwaCBtdXN0IGJlIHByb3NlIGFuZCBtdXN0IHNheSB3aGF0IHdhcyBleGNsdWRlZCAobWlzc2luZzogJ3t3b3JkfScpLlwiXG5hc3NlcnQgbGVuKGZpbmRpbmcuc3BsaXQoKSkgPj0gNDUsIFwiVGhpcyBpcyBhIHBhcmFncmFwaCBmb3IgYSByZWFkZXIsIG5vdCBhIGxpc3Qgb2YgbnVtYmVycy5cIiJ9
 </script>
 </div>
 <div class="callout callout-important callout-titled callout-style-default">

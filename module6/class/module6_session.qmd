@@ -616,11 +616,17 @@ order it runs**, and the last one produces the paragraph.
 
 | | |
 |---|---|
-| **1–3** | Import, inspect, and clean — including the suppression decision |
-| **4–5** | Join, then group and summarise |
+| **1–4** | Import, inspect, clean, and join — including the suppression decision |
+| **5** | **Question only, no scaffold** — group and summarise, for the headline finding |
 | **6** | The silent error, reproduced deliberately and repaired |
-| **7–8** | Visualise, with a description and a zero baseline |
-| **9** | Write the finding |
+| **7–8** | **Question only** — the figure and its description |
+| **9** | **Question only** — write the finding as a paragraph |
+
+::: {.callout-note}
+## Four of these supply no code
+Exercises 5, 7, 8, and 9 state a question and the deliverable, and the cell is empty. **The
+project will not supply a scaffold either.**
+:::
 
 ::: {.callout-tip}
 ## This is the project skeleton
@@ -630,7 +636,18 @@ The final project replaces the question and the dataset. **The seven stages do n
 ::: {.notes}
 Set them going and then circulate rather than lecturing over the top of it.
 
-Exercise 6 is the one to watch for. It hands them the wrong pipeline, running cleanly, and
+Warn them about the shape before they start. The first four exercises hand them a scaffold
+with gaps. Exercise 5 does not — it asks a question in English and gives them an empty cell,
+and so do 7, 8, and 9. That jump is deliberate and it is worth naming, because a student who
+hits an empty cell unprepared assumes something is broken. Tell them the hint is there and
+that using it costs nothing.
+
+Exercise 5 is where most hands will go up, since it is the first blank page. The move that
+unsticks people is asking what the table should look like when it is finished — how many
+rows, what the columns are called. Once they can describe the output they can usually write
+the groupby.
+
+Exercise 6 is the other one to watch. It hands them the wrong pipeline, running cleanly, and
 asks what is wrong with it — and a good number of students will stare at correct-looking code
 for several minutes before the denominator occurs to them. That struggle is the point, so do
 not rescue anyone too early. Ask them what is in the bottom of the fraction and walk away.
@@ -663,8 +680,8 @@ print(firearm["firearm_deaths"].isna().sum(), "suppressed cells")
 
 ## Exercise 1 — Import and inspect — your turn
 
-**Your turn.** Load `data/pa_counties.csv` into `county_reference`. Print its shape, and
-print how many counties fall into each `metro` category.
+**Your turn.** Load `data/pa_counties.csv` into `county_reference`. Print its shape, how many
+counties fall into each `metro` category, and confirm the file has one row per county.
 
 ```{pyodide}
 #| exercise: ex1_import
@@ -672,17 +689,20 @@ import pandas as pd
 
 county_reference = pd.______("data/pa_counties.csv")
 
-print(county_reference.shape)
-print(county_reference["metro"].value_counts())
+print(county_reference.______)
+print(county_reference["metro"].______())
+print("one row per county:", county_reference["county"].______() == len(county_reference))
 ```
 
 ```{pyodide}
 #| exercise: ex1_import
 #| hint: true
-# The blank is read_csv.
+# Four blanks: read_csv, shape, value_counts, nunique.
 #
-# It is the same function you used on the firearm file one slide ago —
-# pandas does not care what is inside the CSV.
+# The last line is the one worth thinking about. It asks whether the
+# number of distinct county names equals the number of rows — if a county
+# appeared twice, every rate you compute later would be wrong, and nothing
+# would raise an error. Checking it at import costs one line.
 ```
 
 ```{pyodide}
@@ -694,6 +714,7 @@ county_reference = pd.read_csv("data/pa_counties.csv")
 
 print(county_reference.shape)
 print(county_reference["metro"].value_counts())
+print("one row per county:", county_reference["county"].nunique() == len(county_reference))
 ```
 
 ```{pyodide}
@@ -703,6 +724,8 @@ assert isinstance(county_reference, pd.DataFrame), "county_reference must be a D
 assert county_reference.shape == (67, 7), "pa_counties.csv has 67 rows and 7 columns."
 assert "metro" in county_reference.columns, "The metro column must be present."
 assert county_reference["metro"].value_counts()["Metro"] == 37, "37 counties are Metro."
+assert county_reference["county"].nunique() == 67, \
+    "67 distinct county names — a duplicate would silently corrupt every later rate."
 ```
 
 ::: {.callout-note}
@@ -726,24 +749,33 @@ print(f2021["firearm_deaths"].isna().sum(), "suppressed in 2021")
 
 ## Exercise 2 — Filter to one year — your turn
 
-**Your turn.** Build `f2023`, the 2023 rows only. Print its shape and how many of its
-`firearm_deaths` values are missing.
+**Your turn.** Build `f2023`, the 2023 rows only. Print its shape, how many `firearm_deaths`
+values are missing, and what fraction of counties that leaves reporting.
 
 ```{pyodide}
 #| exercise: ex2_filter
-f2023 = firearm[firearm["year"] ______ 2023]
+f2023 = ______[______["year"] ______ 2023]
+
+n_missing = f2023["firearm_deaths"].______().sum()
+n_reporting = len(f2023) - n_missing
 
 print(f2023.shape)
-print(f2023["firearm_deaths"].isna().sum(), "suppressed in 2023")
+print(n_missing, "suppressed in 2023")
+print("reporting:", n_reporting, "of", len(f2023),
+      f"({n_reporting / len(f2023):.0%})")
 ```
 
 ```{pyodide}
 #| exercise: ex2_filter
 #| hint: true
-# The blank is == , the comparison operator.
+# Four blanks: firearm, firearm, ==, isna.
 #
-# A single = would try to assign, which is not what a filter does.
-# You are asking each row a yes/no question, exactly as in Module 1.
+# A single = would try to assign, which is not what a filter does. You are
+# asking each row a yes/no question, exactly as in Module 1.
+#
+# Note what the last line reports. Not a count — a proportion. "25 missing"
+# means nothing without "of 67", and that fraction is the first thing a
+# reader of your report will want.
 ```
 
 ```{pyodide}
@@ -751,8 +783,13 @@ print(f2023["firearm_deaths"].isna().sum(), "suppressed in 2023")
 #| solution: true
 f2023 = firearm[firearm["year"] == 2023]
 
+n_missing = f2023["firearm_deaths"].isna().sum()
+n_reporting = len(f2023) - n_missing
+
 print(f2023.shape)
-print(f2023["firearm_deaths"].isna().sum(), "suppressed in 2023")
+print(n_missing, "suppressed in 2023")
+print("reporting:", n_reporting, "of", len(f2023),
+      f"({n_reporting / len(f2023):.0%})")
 ```
 
 ```{pyodide}
@@ -760,7 +797,8 @@ print(f2023["firearm_deaths"].isna().sum(), "suppressed in 2023")
 #| check: true
 assert len(f2023) == 67, "One row per county: 67 rows."
 assert set(f2023["year"].unique()) == {2023}, "Only 2023 rows should remain."
-assert f2023["firearm_deaths"].isna().sum() == 25, "25 counties are suppressed in 2023."
+assert n_missing == 25, "25 counties are suppressed in 2023."
+assert n_reporting == 42, "That leaves 42 counties reporting a total."
 ```
 
 # Exercise 3 — Clean, and decide about the blanks {.unnumbered background-color="#003594"}
@@ -779,24 +817,34 @@ print("dropna() on everything:", len(careless), "counties left")
 ## Exercise 3 — Clean, and decide about the blanks — your turn
 
 **Your turn.** Build `reporting`: the 2023 counties that report a `firearm_deaths` total,
-dropping on **that column only**. Print how many remain.
+dropping on **that column only**. Then show what the careless version costs, by naming the
+counties it would discard even though their death total is known.
 
 ```{pyodide}
 #| exercise: ex3_clean
-reporting = f2023.dropna(______=["firearm_deaths"])
+reporting = f2023.______(______=["firearm_deaths"])
+
+lost = set(reporting["county"]) - set(f2023.______()["county"])
 
 print(len(reporting), "counties report a 2023 total")
-print(reporting["firearm_deaths"].sum(), "deaths among them")
+print(reporting["firearm_deaths"].______(), "deaths among them")
+print(len(lost), "counties a bare dropna() would have thrown away:")
+print(sorted(lost))
 ```
 
 ```{pyodide}
 #| exercise: ex3_clean
 #| hint: true
-# The blank is subset.
+# Four blanks: dropna, subset, dropna, sum.
 #
-# Compare your answer to the worked example above: dropping on the whole
-# frame leaves far fewer counties, because it also throws out counties
-# whose homicide or suicide cell is suppressed while the total is fine.
+# The `lost` line is the point of the exercise. It subtracts the careless
+# result from the careful one, so what remains is the counties whose death
+# total is perfectly good but whose homicide or suicide cell happens to be
+# suppressed. A bare .dropna() silently discards all 23 of them.
+#
+# Read the names it prints. Bucks, Chester, Westmoreland, Dauphin — these
+# are among the largest counties in the state. Losing them is not a small
+# rural rounding error; it would gut the metro group.
 ```
 
 ```{pyodide}
@@ -804,8 +852,12 @@ print(reporting["firearm_deaths"].sum(), "deaths among them")
 #| solution: true
 reporting = f2023.dropna(subset=["firearm_deaths"])
 
+lost = set(reporting["county"]) - set(f2023.dropna()["county"])
+
 print(len(reporting), "counties report a 2023 total")
 print(reporting["firearm_deaths"].sum(), "deaths among them")
+print(len(lost), "counties a bare dropna() would have thrown away:")
+print(sorted(lost))
 ```
 
 ```{pyodide}
@@ -814,6 +866,10 @@ print(reporting["firearm_deaths"].sum(), "deaths among them")
 assert len(reporting) == 42, "42 of 67 counties report a 2023 total."
 assert reporting["firearm_deaths"].isna().sum() == 0, "No missing totals should remain."
 assert reporting["firearm_deaths"].sum() == 1683, "The reported deaths total 1,683."
+assert len(lost) == 23, \
+    "A bare dropna() discards 23 counties whose death total is known."
+assert "Bucks" in lost and "Chester" in lost, \
+    "Large metro counties are among those a bare dropna() loses — this is not a rural-only error."
 ```
 
 ::: {.callout-warning}
@@ -839,24 +895,33 @@ print(example["region"].isna().sum(), "rows failed to match")
 ## Exercise 4 — Join — your turn
 
 **Your turn.** Merge `reporting` with the `county`, `metro`, and `population_2023` columns of
-`counties`, matching **on county**. Confirm nothing failed to match.
+`county_reference`, matching **on county**. Confirm the row count is unchanged and that
+nothing failed to match.
 
 ```{pyodide}
 #| exercise: ex4_join
-joined = reporting.merge(
+before = len(reporting)
+
+joined = reporting.______(
     county_reference[["county", "metro", "population_2023"]],
     ______="county",
-    how="left"
+    how="______"
 )
 
 print(joined.shape)
-print(joined["metro"].isna().sum(), "rows failed to match")
+print("rows preserved:", len(joined) ______ before)
+print(joined["metro"].______().sum(), "rows failed to match")
 ```
 
 ```{pyodide}
 #| exercise: ex4_join
 #| hint: true
-# The blank is on.
+# Five blanks: merge, on, left, ==, isna.
+#
+# The row-count check catches a failure the missing-value check cannot. If
+# the right-hand table had two rows for some county, the merge would
+# silently DUPLICATE the left-hand row and that county's deaths would be
+# counted twice. A join can lose rows and it can invent them; check both.
 #
 # `on="county"` says the two tables are lined up by county name. If these
 # files spelled a county differently — the real "Mc Kean" / "McKean" bug
@@ -867,6 +932,8 @@ print(joined["metro"].isna().sum(), "rows failed to match")
 ```{pyodide}
 #| exercise: ex4_join
 #| solution: true
+before = len(reporting)
+
 joined = reporting.merge(
     county_reference[["county", "metro", "population_2023"]],
     on="county",
@@ -874,6 +941,7 @@ joined = reporting.merge(
 )
 
 print(joined.shape)
+print("rows preserved:", len(joined) == before)
 print(joined["metro"].isna().sum(), "rows failed to match")
 ```
 
@@ -881,7 +949,8 @@ print(joined["metro"].isna().sum(), "rows failed to match")
 #| exercise: ex4_join
 #| check: true
 assert len(joined) == 42, "The join must not change the row count: 42."
-assert "metro" in joined.columns, "The metro column must arrive from counties."
+assert len(joined) == before, "A merge that changes the row count has duplicated or lost rows."
+assert "metro" in joined.columns, "The metro column must arrive from county_reference."
 assert joined["metro"].isna().sum() == 0, "Every county must match. None should be missing."
 assert joined["population_2023"].sum() == 11748170, "Populations should total 11,748,170."
 ```
@@ -905,28 +974,42 @@ print(by_region)
 
 ## Exercise 5 — Group and summarise — your turn
 
-**Your turn.** Group `joined` by `metro`. Total the deaths and the population, then add a
-`rate_per_100k` column.
+**Your turn — no scaffold.** Answer this question from `joined`:
+
+> **Do Pennsylvanians living outside metropolitan counties die by firearm at a higher rate
+> than those living in them?**
+
+Produce a table called `summary`, one row per metro group, reporting for each group: **how
+many counties it contains, its total firearm deaths, its total population, and its firearm
+death rate per 100,000 people.** Print it.
 
 ```{pyodide}
 #| exercise: ex5_group
-summary = joined.groupby("metro").agg(
-    counties=("county", "size"),
-    deaths=("firearm_deaths", "sum"),
-    population=("population_2023", "sum"),
-)
+# Write the whole step yourself.
 
-summary["rate_per_100k"] = summary["deaths"] / summary["______"] * 100000
+
+
+
+
+
 print(summary.round(1))
 ```
 
 ```{pyodide}
 #| exercise: ex5_group
 #| hint: true
-# The blank is population — the column you just created inside .agg().
+# Two verbs and one arithmetic line, all of which you have used before.
 #
-# A rate is events divided by the population at risk, scaled. Multiplying
-# by 100,000 is what makes it "per 100,000" rather than a proportion.
+# Group `joined` by the metro column, and inside .agg() name each output
+# column and the (column, operation) pair that fills it. "size" counts the
+# rows in a group; "sum" totals a column. That gets you counties, deaths,
+# and population.
+#
+# Then the rate. A rate is events divided by the population at risk, times
+# 100,000 — which is what makes it "per 100,000" rather than a proportion.
+# Add it as a new column on the grouped table, not on `joined`.
+#
+# Name the columns exactly: counties, deaths, population, rate_per_100k.
 ```
 
 ```{pyodide}
@@ -981,12 +1064,13 @@ population column does not skip their people.
 
 ## Exercise 6 — The error that raises nothing — your turn
 
-**Your turn.** Repair it. Drop the non-reporting counties **before** the merge, and confirm
-the nonmetro rate returns to 18.5.
+**Your turn.** Repair it, then measure the damage the broken version did: how many people
+were sitting in the nonmetro denominator with no deaths above them, and how far that pushed
+the nonmetro rate.
 
 ```{pyodide}
 #| exercise: ex6_silent
-repaired = f2023.______(subset=["firearm_deaths"]).merge(
+repaired = f2023.______(______=["firearm_deaths"]).merge(
     county_reference[["county", "metro", "population_2023"]], on="county", how="left"
 )
 
@@ -994,22 +1078,31 @@ fixed = repaired.groupby("metro").agg(
     deaths=("firearm_deaths", "sum"),
     population=("population_2023", "sum"),
 )
-fixed["rate_per_100k"] = fixed["deaths"] / fixed["population"] * 100000
+fixed["rate_per_100k"] = fixed["deaths"] / fixed["______"] * 100000
+
+phantom = (broken_summary.loc["Nonmetro", "population"]
+           ______ fixed.loc["Nonmetro", "population"])
+understated_by = (fixed.loc["Nonmetro", "rate_per_100k"]
+                  ______ broken_summary.loc["Nonmetro", "rate_per_100k"])
 
 print(fixed.round(1))
-print("population dropped from the denominator:",
-      broken_summary["population"].sum() - fixed["population"].sum())
+print(f"{phantom:,} nonmetro residents were in the denominator with no deaths above them")
+print(f"the broken rate understated nonmetro by {understated_by:.1f} per 100,000")
 ```
 
 ```{pyodide}
 #| exercise: ex6_silent
 #| hint: true
-# The blank is dropna.
+# Five blanks: dropna, subset, population, -, -.
 #
 # Think about what belongs in a denominator. A rate's denominator is the
 # population a counted event could have happened to. If a county's deaths
-# were never published, its people cannot be in the bottom of the fraction
+# were never published, its people cannot sit in the bottom of the fraction
 # while nothing of theirs is in the top.
+#
+# The last two lines quantify the error rather than just correcting it.
+# That number — how far wrong the careless version was — is what belongs in
+# a writeup's sensitivity sentence.
 ```
 
 ```{pyodide}
@@ -1025,9 +1118,14 @@ fixed = repaired.groupby("metro").agg(
 )
 fixed["rate_per_100k"] = fixed["deaths"] / fixed["population"] * 100000
 
+phantom = (broken_summary.loc["Nonmetro", "population"]
+           - fixed.loc["Nonmetro", "population"])
+understated_by = (fixed.loc["Nonmetro", "rate_per_100k"]
+                  - broken_summary.loc["Nonmetro", "rate_per_100k"])
+
 print(fixed.round(1))
-print("population dropped from the denominator:",
-      broken_summary["population"].sum() - fixed["population"].sum())
+print(f"{phantom:,} nonmetro residents were in the denominator with no deaths above them")
+print(f"the broken rate understated nonmetro by {understated_by:.1f} per 100,000")
 ```
 
 ```{pyodide}
@@ -1037,6 +1135,10 @@ assert round(fixed.loc["Nonmetro", "rate_per_100k"], 1) == 18.5, "Nonmetro shoul
 assert round(fixed.loc["Metro", "rate_per_100k"], 1) == 14.1, "Metro should be 14.1."
 assert fixed["population"].sum() < broken_summary["population"].sum(), \
     "The repaired denominator must be smaller — suppressed counties are out of it."
+assert phantom == 792973, \
+    "792,973 nonmetro residents were carried in the denominator with no deaths above them."
+assert round(understated_by, 1) == 10.3, \
+    "The broken version understated the nonmetro rate by 10.3 per 100,000."
 ```
 
 ::: {.callout-important}
@@ -1079,27 +1181,30 @@ vertical axis starts at zero.
 
 ## Exercise 7 — Visualise — your turn
 
-**Your turn.** Draw the same comparison for the **suicide share**. Label the axis, title the
-figure, and keep the baseline at zero.
+**Your turn — no scaffold.** A reader accepts that the nonmetro rate is higher and asks the
+obvious follow-up: **what kind of firearm death is driving it?**
+
+Build a table called `share` giving, for each metro group, its **total firearm deaths, its
+total firearm suicides, and suicides as a percentage of firearm deaths.** Treat a suppressed
+suicide count as zero. Then draw a figure that lets a reader compare the two percentages, and
+print the table.
+
+::: {.callout-note}
+## Requirements the figure must meet
+A labelled vertical axis · a title · **a baseline at zero** · each bar labelled with its
+value · colours drawn from the course palette (`#003594`, `#8a6400`).
+:::
 
 ```{pyodide}
 #| exercise: ex7_figure
-joined["suicides"] = joined["firearm_suicide"].fillna(0)
-share = joined.groupby("metro").agg(deaths=("firearm_deaths", "sum"),
-                                    suicides=("suicides", "sum"))
-share["suicide_share_pct"] = share["suicides"] / share["deaths"] * 100
+# Write the whole step yourself: build `share`, then draw the figure.
 
-fig, ax = plt.subplots(figsize=(6, 3.2))
-bars = ax.bar(["Metro", "Nonmetro"],
-              [share.loc["Metro", "suicide_share_pct"],
-               share.loc["Nonmetro", "suicide_share_pct"]],
-              color=["#003594", "#8a6400"], edgecolor="white")
-ax.bar_label(bars, fmt="%.1f", padding=3)
-ax.set_ylim(0, ______)
-ax.set_ylabel("Suicide share of firearm deaths (%)")
-ax.set_title("Suicide share of 2023 firearm deaths, 42 reporting PA counties")
-plt.tight_layout()
-plt.show()
+
+
+
+
+
+
 
 print(share.round(1))
 ```
@@ -1107,12 +1212,21 @@ print(share.round(1))
 ```{pyodide}
 #| exercise: ex7_figure
 #| hint: true
-# The blank is the top of the axis — any number comfortably above 62, such
-# as 80. The bottom is already 0, and that is the part that matters.
+# Build the table first, the figure second.
 #
-# Starting a bar axis anywhere above zero makes a small difference look
-# enormous. Module 5 called this axis truncation; it is the commonest way
-# an honest analyst draws a dishonest figure.
+# For the table: a suppressed suicide count is missing, not zero, so
+# .fillna(0) converts it before you total it. Then group `joined` by metro
+# and .agg() the deaths and the suicides, exactly as in Exercise 5. The
+# percentage is suicides / deaths * 100, added as a new column.
+# Name that column suicide_share_pct.
+#
+# For the figure: fig, ax = plt.subplots(...), then ax.bar() with the two
+# category names and the two values. ax.bar_label(bars, fmt="%.1f") writes
+# the value above each bar. ax.set_ylim(0, 80) fixes the baseline at zero —
+# starting a bar axis above zero makes a small difference look enormous,
+# which Module 5 called axis truncation.
+#
+# Keep a reference to the axes in `ax`; the check inspects it.
 ```
 
 ```{pyodide}
@@ -1141,11 +1255,17 @@ print(share.round(1))
 ```{pyodide}
 #| exercise: ex7_figure
 #| check: true
+assert "suicide_share_pct" in share.columns, "Name the percentage column suicide_share_pct."
+assert round(share.loc["Nonmetro", "suicide_share_pct"], 1) == 62.1, "Nonmetro share is 62.1%."
+assert round(share.loc["Metro", "suicide_share_pct"], 1) == 54.7, "Metro share is 54.7%."
+assert share.loc["Nonmetro", "suicides"] == 72, \
+    "72 nonmetro suicides — a suppressed count is converted to zero, not dropped."
+assert len(ax.patches) >= 2, "The figure must draw a bar for each group."
 assert ax.get_ylim()[0] == 0, "A bar chart's axis starts at zero."
 assert ax.get_ylim()[1] >= 62, "The axis must be tall enough to show the 62.1 bar."
 assert ax.get_ylabel() != "", "Label the y-axis."
 assert ax.get_title() != "", "Title the figure."
-assert round(share.loc["Nonmetro", "suicide_share_pct"], 1) == 62.1, "Nonmetro share is 62.1%."
+assert len(ax.texts) >= 2, "Label each bar with its value."
 ```
 
 # Exercise 8 — Describe the figure {.unnumbered background-color="#003594"}
@@ -1168,25 +1288,39 @@ print(len(description), "characters")
 
 ## Exercise 8 — Describe the figure — your turn
 
-**Your turn.** Write `share_description` for the suicide-share figure. Name the chart type,
-both categories, and both values.
+**Your turn — no scaffold.** Someone using a screen reader will hear your description instead
+of seeing the figure you drew in Exercise 7. Write it into a string called
+`share_description`, and print it.
+
+They must be able to reconstruct the figure from your words alone: **what kind of chart it
+is, what the two groups are, what quantity is being shown, both of its values, and where the
+vertical axis begins.** Describe what is on the page, not what it means — the conclusion is
+the reader's to draw.
 
 ```{pyodide}
 #| exercise: ex8_altdesc
-share_description = "______"
+# Write the description yourself.
+
+
+
 
 print(share_description)
-for token in ["bar", "62.1", "54.7"]:
-    print(token, "present:", token in share_description.lower())
 ```
 
 ```{pyodide}
 #| exercise: ex8_altdesc
 #| hint: true
-# Replace the whole placeholder string with a real sentence or two.
+# Two or three sentences, written for someone who cannot see the screen.
 #
-# Describe what a reader would see, not what you concluded from it. It
-# needs the words "bar chart", and both numbers — 62.1 and 54.7.
+# Work through what they would need: the chart type ("bar chart"), the two
+# categories (metro and nonmetro), the quantity (suicide share of firearm
+# deaths, as a percentage), both values (62.1 and 54.7), and the fact that
+# the axis starts at zero — that last one tells them the comparison has not
+# been visually exaggerated.
+#
+# Resist writing the conclusion. "Nonmetro counties have a higher suicide
+# share" is your interpretation; the reader is entitled to reach it, or
+# not, from the same numbers a sighted reader gets.
 ```
 
 ```{pyodide}
@@ -1199,18 +1333,22 @@ share_description = (
 )
 
 print(share_description)
-for token in ["bar", "62.1", "54.7"]:
-    print(token, "present:", token in share_description.lower())
 ```
 
 ```{pyodide}
 #| exercise: ex8_altdesc
 #| check: true
 assert isinstance(share_description, str), "share_description must be a string."
-assert "______" not in share_description, "Replace the placeholder with a real description."
-assert len(share_description) > 60, "A description needs more than a few words."
+assert len(share_description.split()) >= 20, \
+    "Too short to reconstruct the figure from — two or three sentences."
 assert "bar" in share_description.lower(), "Name the chart type."
 assert "62.1" in share_description and "54.7" in share_description, "State both values."
+assert "zero" in share_description.lower() or "0" in share_description, \
+    "Say where the vertical axis begins."
+_lower = share_description.lower()
+assert "nonmetro" in _lower, "Name the nonmetropolitan group."
+assert _lower.replace("nonmetro", "").count("metro") >= 1, \
+    "Name the metropolitan group as well, not only the nonmetropolitan one."
 ```
 
 ::: {.callout-note}
@@ -1237,23 +1375,28 @@ print(f"Among the {n_reporting} reporting counties, the nonmetro rate "
 
 ## Exercise 9 — Report the finding — your turn
 
-**Your turn.** Complete the finding sentence so that **both** rates come from `summary`, not
-from your memory of the slide.
+**Your turn — no scaffold.** Write the paragraph a reader would see, into a string called
+`finding`, and print it.
+
+It must state, **in prose**: how many counties reported a count and out of how many; both
+pooled rates, identified by group; how many deaths the nonmetropolitan estimate rests on and
+across how many counties; and that counties reporting no total were excluded from both the
+numerator and the denominator.
+
+::: {.callout-important}
+## Every number must be computed, not typed
+Build the sentence with an f-string reading from `summary` and `reporting`. **A number typed
+by hand stops being a result the moment the data changes.**
+:::
 
 ```{pyodide}
 #| exercise: ex9_report
-n_reporting = len(reporting)
-nonmetro_rate = summary.loc["Nonmetro", "rate_per_100k"]
-metro_rate = summary.loc["______", "rate_per_100k"]
-nonmetro_deaths = int(summary.loc["Nonmetro", "deaths"])
+# Write the whole paragraph yourself, as one f-string.
 
-finding = (
-    f"Among the {n_reporting} Pennsylvania counties reporting a 2023 firearm death "
-    f"count, the pooled rate was {nonmetro_rate:.1f} per 100,000 in nonmetropolitan "
-    f"counties against {metro_rate:.1f} in metropolitan counties. The nonmetropolitan "
-    f"estimate rests on {nonmetro_deaths} deaths across "
-    f"{summary.loc['Nonmetro', 'counties']} reporting counties."
-)
+
+
+
+
 
 print(finding)
 ```
@@ -1261,28 +1404,43 @@ print(finding)
 ```{pyodide}
 #| exercise: ex9_report
 #| hint: true
-# The blank is Metro — the other label in the summary table's index.
+# Pull each number out of the pipeline first, give it a name, then write
+# one f-string that reads those names. Something like:
 #
-# Notice what the last sentence does. It reports the count behind the rate,
-# so a reader can judge how much the estimate would move if one death
-# landed in a different year. That sentence is what this course asks for
-# instead of a p-value.
+#   n_reporting   = len(reporting)
+#   nonmetro_rate = summary.loc["Nonmetro", "rate_per_100k"]
+#
+# and so on for the metro rate, the nonmetro death count, and the nonmetro
+# county count. Inside an f-string, {nonmetro_rate:.1f} prints one decimal.
+#
+# Report the count behind the rate, not just the rate. A reader can then
+# judge how much the estimate would move if one death had landed in a
+# different year. That sentence is what this course asks for instead of a
+# p-value.
+#
+# The test of whether you did this right: change the year at the top of
+# your pipeline to 2022 and run everything again. A sentence built from
+# f-strings updates itself. A sentence with the numbers typed in keeps
+# claiming 18.5 while the table above it says something else.
 ```
 
 ```{pyodide}
 #| exercise: ex9_report
 #| solution: true
 n_reporting = len(reporting)
+n_total = len(f2023)
 nonmetro_rate = summary.loc["Nonmetro", "rate_per_100k"]
 metro_rate = summary.loc["Metro", "rate_per_100k"]
 nonmetro_deaths = int(summary.loc["Nonmetro", "deaths"])
+nonmetro_counties = int(summary.loc["Nonmetro", "counties"])
 
 finding = (
-    f"Among the {n_reporting} Pennsylvania counties reporting a 2023 firearm death "
-    f"count, the pooled rate was {nonmetro_rate:.1f} per 100,000 in nonmetropolitan "
-    f"counties against {metro_rate:.1f} in metropolitan counties. The nonmetropolitan "
-    f"estimate rests on {nonmetro_deaths} deaths across "
-    f"{summary.loc['Nonmetro', 'counties']} reporting counties."
+    f"Among the {n_reporting} of {n_total} Pennsylvania counties reporting a 2023 "
+    f"firearm death count, the pooled rate was {nonmetro_rate:.1f} per 100,000 in "
+    f"nonmetropolitan counties against {metro_rate:.1f} in metropolitan counties. "
+    f"The nonmetropolitan estimate rests on {nonmetro_deaths} deaths across "
+    f"{nonmetro_counties} reporting counties. Counties reporting no total are "
+    f"excluded from both the numerator and the denominator."
 )
 
 print(finding)
@@ -1291,10 +1449,17 @@ print(finding)
 ```{pyodide}
 #| exercise: ex9_report
 #| check: true
-assert "18.5" in finding, "The nonmetro rate should appear as 18.5."
-assert "14.1" in finding, "The metro rate should appear as 14.1."
-assert "42" in finding, "State the coverage: 42 reporting counties."
-assert "116" in finding, "Report the death count behind the nonmetro rate."
+assert isinstance(finding, str), "finding must be a string."
+assert "18.5" in finding, "State the nonmetro rate: 18.5."
+assert "14.1" in finding, "State the metro rate: 14.1."
+assert "42" in finding, "State the coverage: 42 counties reported a count."
+assert "67" in finding, "State it out of how many: 67 counties."
+assert "116" in finding, "Report the deaths behind the nonmetro estimate: 116."
+assert "11" in finding, "Report how many counties that estimate spans: 11."
+for word in ["metropolitan", "exclud"]:
+    assert word in finding.lower(), \
+        f"The paragraph must be prose and must say what was excluded (missing: '{word}')."
+assert len(finding.split()) >= 45, "This is a paragraph for a reader, not a list of numbers."
 ```
 
 ::: {.callout-important}
