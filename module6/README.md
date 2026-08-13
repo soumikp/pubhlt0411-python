@@ -182,6 +182,41 @@ Local venv: pandas 3.0.5 / numpy 2.5.2 / matplotlib 3.11.1.
    **This is a general hazard for any single-document module** and is worth checking in the
    HW notebooks: in a shared namespace, a check tests the namespace, not the student.
 
+### quarto-live enforces `______` itself — found in the extension source
+
+`live-runtime.js` runs a `blankCheck` before grading: any submitted cell still matching
+`/_{6}_*/g` is rejected with *"Please replace ______ with valid code."* **Six-underscore
+blanks are therefore enforced by the runtime**, and an assert like `"______" not in answer` is
+redundant (one was dropped from Exercise 8).
+
+The same source shows the check cell receives `user_code`, so a check can inspect the
+student's source, not only their output.
+
+⚠️ **A blank must be six or more underscores to be caught. `____` (four) is not.** M6 uses
+six throughout. **The M1–M5 labs use four**, and a count of their `{pyodide}` cells finds
+**73 blanks the runtime does not enforce**:
+
+| Lab | Non-enforced `____` blanks |
+|---|---|
+| M1 | 19 |
+| M2 | 15 |
+| M3 | 12 |
+| M4 | 15 |
+| M5 | 12 |
+
+**Consequence, and it is minor.** `____` is a **valid Python identifier**, so those cells
+compile — verified: all 12 M5 lab blank cells compile cleanly. An unedited submission
+therefore fails at *runtime* (`NameError`, or `AttributeError` where the blank is a method
+name) rather than being intercepted by the runtime's *"Please replace ______ with valid
+code."* The exercises still discriminate — M5's README records that every unedited blank
+raises before its check — so nothing grades incorrectly. The student just gets a raw Python
+error instead of a sentence telling them what to do.
+
+**Not changed, because it spans five shipped modules and is the instructor's call.** The fix
+is mechanical (widen `____` to `______` in the lab `{pyodide}` cells, and update the one line
+of M5 lab framing text that tells students to look for `____`) and belongs with the pre-publish
+pass if it is wanted at all.
+
 ### Register audit (§2 split-register)
 
 - **Teaching half:** second person appears **only** inside `::: {.notes}` blocks. Zero
@@ -232,27 +267,52 @@ without a distributional assumption.
 
 ## Studio design
 
-| Ex | Stage | Blank | Teaches |
+**Four of the nine supply no code.** Exercises 5, 7, 8, and 9 state a question in plain
+English with explicit deliverables and leave the cell empty; the hints carry the scaffolding
+that would otherwise be in the cell. The studio slide warns students that the jump is coming,
+and the speaker notes tell the instructor to expect hands up at Exercise 5 — the first blank
+page — with the unsticking move being *describe the finished table before writing it*.
+
+| Ex | Stage | Form | Teaches |
 |---|---|---|---|
-| 1 | Import | `read_csv` | Load and confirm 67 rows |
-| 2 | Filter | `==` | One year out of six stacked in a column |
-| 3 | Clean | `subset` | `.dropna(subset=)` vs bare `.dropna()` — 42 counties vs 19 |
-| 4 | Join | `on` | `.merge()`, and checking that nothing failed to match |
-| 5 | Group | `population` | `.groupby().agg()` and the rate — **produces 18.5 / 14.1** |
-| 6 | **The silent error** | `dropna` | The broken pipeline, repaired — **the difficulty spike** |
-| 7 | Visualise | y-limit | Zero baseline, value labels |
-| 8 | Describe | the description | Writing alt text that states values, not conclusions |
-| 9 | Report | `Metro` | f-strings pulling numbers from the pipeline, never typed by hand |
+| 1 | Import | 4 blanks | Load; confirm 67 rows **and one row per county** |
+| 2 | Filter | 4 blanks | One year out of six; coverage **as a proportion** |
+| 3 | Clean | 4 blanks | `.dropna(subset=)` vs bare `.dropna()`, and **which 23 counties** the careless form discards |
+| 4 | Join | 5 blanks | `.merge()`; unmatched keys **and** row-count preservation |
+| 5 | Group | **open-ended** | `.groupby().agg()` and the rate — **produces 18.5 / 14.1** |
+| 6 | **The silent error** | 5 blanks | The broken pipeline repaired, **and the damage quantified** |
+| 7 | Visualise | **open-ended** | A figure meeting stated requirements: zero baseline, labels, palette |
+| 8 | Describe | **open-ended** | A description a screen-reader user could rebuild the figure from |
+| 9 | Report | **open-ended** | The paragraph, with every number computed rather than typed |
 
-**Exercise 3 is quietly load-bearing.** Its worked example shows that a bare `.dropna()`
-leaves **19** counties rather than 42, because it also discards counties whose *homicide* cell
-is suppressed while the total is known. That is the same class of error as Exercise 6, met
-earlier and more gently.
+**Exercise 6 now quantifies the error rather than only correcting it:** **792,973** nonmetro
+residents sat in the denominator with no deaths above them, understating the nonmetro rate by
+**10.3 per 100,000** — a larger error than the metro rate itself. Both values measured.
 
-**Exercise 9 enforces the anti-fabrication rule** from the hygiene slide: both rates are
-pulled from `summary` via f-strings, and the check asserts the strings `18.5`, `14.1`, `42`,
-and `116` appear in the output. A student who types the numbers by hand passes the check but
-misses the point, which the hint addresses directly.
+**Exercise 3 is quietly load-bearing.** A bare `.dropna()` leaves **19** counties rather than
+42, because it also discards counties whose *homicide* or *suicide* cell is suppressed while
+the total is known. The task now makes students **print the 23 names**, which is the same
+class of error as Exercise 6 met earlier and more gently.
+
+⚠️ **Two claims about those 23 counties were wrong on first writing and corrected by
+measurement.** Philadelphia is **not** among them — it reports all three columns. And they are
+**not** predominantly small rural counties: the list includes **Bucks, Chester, Westmoreland,
+and Dauphin**, among the largest in the state. Losing them would gut the metro group, which is
+a better lesson than the one originally drafted. The assert checks for Bucks and Chester.
+
+**Exercise 9 enforces the anti-fabrication rule** from the hygiene slide. The check requires
+`18.5`, `14.1`, `42`, `67`, `116`, and `11` in the output, plus the words *metropolitan* and
+*exclud*, plus a 45-word minimum so it is prose rather than a list of numbers. A student who
+types the numbers by hand still passes — no check can detect that from the output alone — so
+the hint gives them the test that does: **change the year to 2022 and re-run.** An f-string
+paragraph updates itself; a typed one keeps claiming 18.5 while the table above it disagrees.
+
+### A check that would have passed the wrong answer
+
+Exercise 8's check originally asserted `"metro" in description` and `"nonmetro" in
+description`. **`"metro"` is a substring of `"nonmetro"`,** so a description naming only the
+nonmetro group satisfied both. It now strips `nonmetro` before counting `metro`, and the fix
+was verified by running a deliberately one-sided description through it.
 
 ## Handoff — what remains
 
