@@ -36,7 +36,7 @@ Running code in a notebook, and storing values in typed variables.
 Branching on a condition, and holding a sequence of values.
 
 - [Lecture slides](module1/class/module1_lecture.html)
-- [Lab 1](module1/lab/module1_lab.html)
+- [Lab 1](module1/lab/module1_lab.html) · [notebook to submit](module1/lab/module1_lab.ipynb)
 
 ### Module 2 — Collections, Loops, and Functions
 
@@ -45,7 +45,7 @@ Branching on a condition, and holding a sequence of values.
 Walking collections with loops, and packaging work into your own functions.
 
 - [Lecture slides](module2/class/module2_lecture.html)
-- [Lab 2](module2/lab/module2_lab.html)
+- [Lab 2](module2/lab/module2_lab.html) · [notebook to submit](module2/lab/module2_lab.ipynb)
 
 ### Module 3 — NumPy
 
@@ -54,7 +54,7 @@ Walking collections with loops, and packaging work into your own functions.
 Replacing loops with whole-array arithmetic, then selecting with masks.
 
 - [Lecture slides](module3/class/module3_lecture.html)
-- [Lab 3](module3/lab/module3_lab.html)
+- [Lab 3](module3/lab/module3_lab.html) · [notebook to submit](module3/lab/module3_lab.ipynb)
 
 ### Module 4 — pandas and Wrangling
 
@@ -63,7 +63,7 @@ Replacing loops with whole-array arithmetic, then selecting with masks.
 Loading a real table, and reshaping the question.
 
 - [Lecture slides](module4/class/module4_lecture.html)
-- [Lab 4](module4/lab/module4_lab.html)
+- [Lab 4](module4/lab/module4_lab.html) · [notebook to submit](module4/lab/module4_lab.ipynb)
 
 ### Module 5 — Visualisation and Description
 
@@ -72,7 +72,7 @@ Loading a real table, and reshaping the question.
 Turning a table into an honest figure, and interrogating a distribution.
 
 - [Lecture slides](module5/class/module5_lecture.html)
-- [Lab 5](module5/lab/module5_lab.html)
+- [Lab 5](module5/lab/module5_lab.html) · [notebook to submit](module5/lab/module5_lab.ipynb)
 
 ### Module 6 — Reproducible Pipeline
 
@@ -81,7 +81,7 @@ Turning a table into an honest figure, and interrogating a distribution.
 Running an analysis end to end — import, clean, join, group, summarise, visualise, report —
 and writing up what it means. The final project begins here.
 
-- [Session slides](module6/class/module6_session.html)
+- [Session slides](module6/class/module6_session.html) · [notebook to submit](module6/lab/module6_studio.ipynb)
 
 ---
 
@@ -90,6 +90,16 @@ and writing up what it means. The final project begins here.
 Every dataset in this course is real and traces to a named public source — the
 Pennsylvania Department of Health, the CDC, or the EPA. County-level figures are reported
 as published, including their suppression rules and known limitations.
+
+## Submitting a lab
+
+Each lab has a **notebook to submit** alongside it. Download that `.ipynb`, open it in
+Colab (`File > Upload notebook`), and work the exercises there. It carries the same worked
+examples and the same tasks as the lab on this site, so work can be moved across either by
+copying from the browser or by typing it directly into the notebook.
+
+Run the setup cell at the top first — it puts the lab's data files where the code expects
+them. Submit the completed `.ipynb`.
 
 ## Software
 
