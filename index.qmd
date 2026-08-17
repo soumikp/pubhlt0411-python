@@ -21,72 +21,20 @@ The first cell on a page takes a few seconds to start while Python loads. After 
 immediate.
 :::
 
-### Module 0 — Notebooks and Values
+| Module | Dates | What you learn | Slides | Lab | Lab notebook | Homework |
+|:--|:--|:--|:--|:--|:--|:--|
+| **0** — Notebooks and Values | Tue&nbsp;Oct&nbsp;6 | Running code in a notebook, and storing values in typed variables | [Slides](module0/class/module0_lecture.html) | — | — | — |
+| **1** — Conditions and Sequences | Lecture&nbsp;Thu&nbsp;Oct&nbsp;8<br>Lab&nbsp;Tue&nbsp;Oct&nbsp;13 | Branching on a condition, and holding a sequence of values | [Slides](module1/class/module1_lecture.html) | [Lab 1](module1/lab/module1_lab.html) | [.ipynb](module1/lab/module1_lab.ipynb) | [HW 1](assignments/hw1_conditions_sequences.ipynb) |
+| **2** — Collections, Loops, and Functions | Lecture&nbsp;Thu&nbsp;Oct&nbsp;15<br>Lab&nbsp;Tue&nbsp;Oct&nbsp;20 | Walking collections with loops, and packaging work into your own functions | [Slides](module2/class/module2_lecture.html) | [Lab 2](module2/lab/module2_lab.html) | [.ipynb](module2/lab/module2_lab.ipynb) | [HW 2](assignments/hw2_collections_loops_functions.ipynb) |
+| **3** — NumPy | Lecture&nbsp;Thu&nbsp;Oct&nbsp;22<br>Lab&nbsp;Tue&nbsp;Oct&nbsp;27 | Replacing loops with whole-array arithmetic, then selecting with masks | [Slides](module3/class/module3_lecture.html) | [Lab 3](module3/lab/module3_lab.html) | [.ipynb](module3/lab/module3_lab.ipynb) | [HW 3](assignments/hw3_numpy.ipynb) |
+| **4** — pandas and Wrangling | Lecture&nbsp;Thu&nbsp;Oct&nbsp;29<br>Lab&nbsp;Thu&nbsp;Nov&nbsp;5 | Loading a real table and performing elementary operations | [Slides](module4/class/module4_lecture.html) | [Lab 4](module4/lab/module4_lab.html) | [.ipynb](module4/lab/module4_lab.ipynb) | [HW 4](assignments/hw4_pandas_wrangling.ipynb) |
+| **5** — Visualisation and Description | Lecture&nbsp;Tue&nbsp;Nov&nbsp;10<br>Lab&nbsp;Thu&nbsp;Nov&nbsp;12 | Turning a table into a figure, and exploring a distribution | [Slides](module5/class/module5_lecture.html) | [Lab 5](module5/lab/module5_lab.html) | [.ipynb](module5/lab/module5_lab.ipynb) | [HW 5](assignments/hw5_visualisation.ipynb) |
+| **6** — Reproducible Pipeline | Tue&nbsp;Nov&nbsp;17<br>*combined&nbsp;session* | Running an analysis end to end — import, clean, join, group, summarise, visualise — culminating in a short written report | [Slides](module6/class/module6_session.html) | *in session* | [.ipynb](module6/lab/module6_studio.ipynb) | [HW 6](assignments/hw6_reproducible_pipeline.ipynb) |
 
-*Tuesday, October 6*
+: {.striped .hover tbl-colwidths="[17,15,25,9,9,11,14]"}
 
-Running code in a notebook, and storing values in typed variables.
-
-- [Lecture slides](module0/class/module0_lecture.html)
-
-### Module 1 — Conditions and Sequences
-
-*Lecture Thursday, October 8 · Lab Tuesday, October 13*
-
-Branching on a condition, and holding a sequence of values.
-
-- [Lecture slides](module1/class/module1_lecture.html)
-- [Lab 1](module1/lab/module1_lab.html) · [notebook to submit](module1/lab/module1_lab.ipynb)
-- [Homework 1](assignments/hw1_conditions_sequences.ipynb) — due the following Monday
-
-### Module 2 — Collections, Loops, and Functions
-
-*Lecture Thursday, October 15 · Lab Tuesday, October 20*
-
-Walking collections with loops, and packaging work into your own functions.
-
-- [Lecture slides](module2/class/module2_lecture.html)
-- [Lab 2](module2/lab/module2_lab.html) · [notebook to submit](module2/lab/module2_lab.ipynb)
-- [Homework 2](assignments/hw2_collections_loops_functions.ipynb) — due the following Monday
-
-### Module 3 — NumPy
-
-*Lecture Thursday, October 22 · Lab Tuesday, October 27*
-
-Replacing loops with whole-array arithmetic, then selecting with masks.
-
-- [Lecture slides](module3/class/module3_lecture.html)
-- [Lab 3](module3/lab/module3_lab.html) · [notebook to submit](module3/lab/module3_lab.ipynb)
-- [Homework 3](assignments/hw3_numpy.ipynb) — due the following Monday
-
-### Module 4 — pandas and Wrangling
-
-*Lecture Thursday, October 29 · Lab Thursday, November 5*
-
-Loading a real table  and performing elementary operations.
-
-- [Lecture slides](module4/class/module4_lecture.html)
-- [Lab 4](module4/lab/module4_lab.html) · [notebook to submit](module4/lab/module4_lab.ipynb)
-- [Homework 4](assignments/hw4_pandas_wrangling.ipynb) — due the following Monday
-
-### Module 5 — Visualisation and Description
-
-*Lecture Tuesday, November 10 · Lab Thursday, November 12*
-
-Turning a table into a figure, and exploring a distribution.
-
-- [Lecture slides](module5/class/module5_lecture.html)
-- [Lab 5](module5/lab/module5_lab.html) · [notebook to submit](module5/lab/module5_lab.ipynb)
-- [Homework 5](assignments/hw5_visualisation.ipynb) — due the following Monday
-
-### Module 6 — Reproducible Pipeline
-
-*Tuesday, November 17 · one combined session*
-
-Running an analysis end to end — import, clean, join, group, summarise, visualise, report, culminating in a short written report of your analysis. 
-
-- [Session slides](module6/class/module6_session.html) · [notebook to submit](module6/lab/module6_studio.ipynb)
-- [Homework 6](assignments/hw6_reproducible_pipeline.ipynb) — due the following Monday
+Module 0 has no lab and no homework. Module 6 is one combined session rather than a
+lecture and lab pair. **All homework is due the Monday after that module's lab.**
 
 ---
 
@@ -100,10 +48,11 @@ as published, including their suppression rules and known limitations.
 
 ## Homework
 
-**One homework per module, due the Monday after the lab.** Each is a single public-health
-question broken into parts, and each part exercises something taught in that module's
-lecture and lab. Homework notebooks give you the code that loads the data and nothing else — you write the
-rest from an empty cell. Work in Colab, then submit the saved notebook: `File > Download > Download .ipynb`. Make
+Each homework is a single public-health question broken into parts, and each part
+exercises something taught in that module's lecture and lab. Homework notebooks give you
+the code that loads the data and nothing else — you write the rest from an empty cell.
+
+Work in Colab, then submit the saved notebook: `File > Download > Download .ipynb`. Make
 sure your outputs and figures are visible in the file you upload. **Pairs are allowed.**
 
 ## Software

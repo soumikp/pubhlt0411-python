@@ -14,6 +14,9 @@ shared/
 # --- NOT PUBLISHED: local tooling config ---
 .claude/
 
+# --- NOT PUBLISHED: superseded drafts of the landing page ---
+index_backup_*.qmd
+
 # --- NOT PUBLISHED: per-module build documentation ---
 # Instructor-facing: file manifests, render commands, design rationale,
 # verification notes. Students reach modules only through index.qmd.
