@@ -198,8 +198,8 @@ Sessions meet Tuesday and Thursday, 9:30–10:45, in 105 Lawrence Hall.
 
 ::: {.callout-warning}
 ## This schedule is documented, not memorized
-The full calendar is on Canvas, and each module's README states its own dates. It appears
-here so the November inversion is expected rather than disorienting.
+The full calendar is on Canvas. It appears here so the November inversion is expected
+rather than disorienting.
 :::
 
 ::: {.notes}

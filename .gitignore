@@ -11,6 +11,14 @@ shared/
 *.docx
 ~$*.docx
 
+# --- NOT PUBLISHED: local tooling config ---
+.claude/
+
+# --- NOT PUBLISHED: per-module build documentation ---
+# Instructor-facing: file manifests, render commands, design rationale,
+# verification notes. Students reach modules only through index.qmd.
+module*/README.md
+
 # --- NOT PUBLISHED: authoring references and superseded work ---
 py4e-master/
 archive_v1/
