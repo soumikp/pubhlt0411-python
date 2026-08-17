@@ -37,6 +37,7 @@ Branching on a condition, and holding a sequence of values.
 
 - [Lecture slides](module1/class/module1_lecture.html)
 - [Lab 1](module1/lab/module1_lab.html) · [notebook to submit](module1/lab/module1_lab.ipynb)
+- [Homework 1](assignments/hw1_conditions_sequences.ipynb) — due the following Monday
 
 ### Module 2 — Collections, Loops, and Functions
 
@@ -46,6 +47,7 @@ Walking collections with loops, and packaging work into your own functions.
 
 - [Lecture slides](module2/class/module2_lecture.html)
 - [Lab 2](module2/lab/module2_lab.html) · [notebook to submit](module2/lab/module2_lab.ipynb)
+- [Homework 2](assignments/hw2_collections_loops_functions.ipynb) — due the following Monday
 
 ### Module 3 — NumPy
 
@@ -55,6 +57,7 @@ Replacing loops with whole-array arithmetic, then selecting with masks.
 
 - [Lecture slides](module3/class/module3_lecture.html)
 - [Lab 3](module3/lab/module3_lab.html) · [notebook to submit](module3/lab/module3_lab.ipynb)
+- [Homework 3](assignments/hw3_numpy.ipynb) — due the following Monday
 
 ### Module 4 — pandas and Wrangling
 
@@ -64,6 +67,7 @@ Loading a real table, and reshaping the question.
 
 - [Lecture slides](module4/class/module4_lecture.html)
 - [Lab 4](module4/lab/module4_lab.html) · [notebook to submit](module4/lab/module4_lab.ipynb)
+- [Homework 4](assignments/hw4_pandas_wrangling.ipynb) — due the following Monday
 
 ### Module 5 — Visualisation and Description
 
@@ -73,6 +77,7 @@ Turning a table into an honest figure, and interrogating a distribution.
 
 - [Lecture slides](module5/class/module5_lecture.html)
 - [Lab 5](module5/lab/module5_lab.html) · [notebook to submit](module5/lab/module5_lab.ipynb)
+- [Homework 5](assignments/hw5_visualisation.ipynb) — due the following Monday
 
 ### Module 6 — Reproducible Pipeline
 
@@ -82,6 +87,7 @@ Running an analysis end to end — import, clean, join, group, summarise, visual
 and writing up what it means. The final project begins here.
 
 - [Session slides](module6/class/module6_session.html) · [notebook to submit](module6/lab/module6_studio.ipynb)
+- [Homework 6](assignments/hw6_reproducible_pipeline.ipynb) — due the following Monday
 
 ---
 
@@ -98,8 +104,24 @@ Colab (`File > Upload notebook`), and work the exercises there. It carries the s
 examples and the same tasks as the lab on this site, so work can be moved across either by
 copying from the browser or by typing it directly into the notebook.
 
-Run the setup cell at the top first — it puts the lab's data files where the code expects
-them. Submit the completed `.ipynb`.
+Run the setup cell at the top first — it downloads the lab's data files from this site.
+Nothing to upload, and no Google Drive needed. Submit the completed `.ipynb`.
+
+## Homework
+
+**One homework per module, due the Monday after the lab.** Each is a single public-health
+question broken into parts, and each part exercises something taught in that module's
+lecture and lab.
+
+Homework notebooks give you the code that loads the data and nothing else — you write the
+rest from an empty cell. That is the difference between a lab and a homework: labs are
+scaffolded so a room can move together, and homework is where the scaffold comes off.
+
+Every homework ends with a written interpretation. **It is graded as heavily as the code.**
+A correct number with nothing said about what it means is an incomplete answer.
+
+Work in Colab, then submit the saved notebook: `File > Download > Download .ipynb`. Make
+sure your outputs and figures are visible in the file you upload. **Pairs are allowed.**
 
 ## Software
 

@@ -79,6 +79,26 @@ The January 2022 Omicron peak (4,294 deaths statewide) is clearly visible, as is
 December 2021 Delta wave. Students recognise this history, which makes the trend figure
 land.
 
+**⚠️ 2020 is badly undercounted in this file — do not teach the first wave from it.**
+Verified 2026-08-17: the source reports **1 death statewide** for March–June 2020, and the
+worst month of 2020 (December) shows 541. Pennsylvania's actual 2020 toll was in the
+thousands. **45% of all county-month cells are zero** (1,483 of 3,283), concentrated in
+2020. The series only becomes trustworthy from roughly **mid-2021**.
+
+Consequences for teaching:
+
+- **Any exercise about "the worst month" must sit in 2021-08 or later.** HW2 uses
+  2021-08 → 2022-03 for this reason.
+- A whole-series total, mean, or trend line **understates 2020** and should not be
+  presented as the pandemic's full toll.
+- This is a **reporting artifact, not a finding.** Never let a student conclude that
+  Pennsylvania had few COVID deaths in 2020 — that conclusion is available from this file
+  and is wrong.
+
+**A county peak is not the state peak.** Statewide and Allegheny both peak 2022-01, but
+Westmoreland and Beaver peak 2021-12. Useful for teaching that a sum hides its parts;
+also a hazard if an exercise assumes January.
+
 ---
 
 ## `pa_hiv_county_year.csv` — S2 infectious disease, cross-section (330 rows)
