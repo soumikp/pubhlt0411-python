@@ -284,13 +284,17 @@ else:
 
 **Evaluation stops at the first `True` branch.** Order therefore determines behavior.
 
-The two thresholds are real:
+::: {.callout-tip}
+## The two thresholds are real:
 
 1\. **25.6** per 100,000: Pennsylvania's overdose mortality rate
 
 2\. **13.1** per 100,000: the Healthy People 2030 target
+:::
 
-::: {.callout-important}
+
+
+::: {.callout-note}
 ## Only one branch executes
 Once a condition matches, the remaining branches are not evaluated. A chain ordered from
 lowest threshold upward reports the wrong category for every value.
@@ -324,7 +328,7 @@ else:
     print("At or below the state rate")
 ```
 
-::: {.callout-warning}
+::: {.callout-important}
 ## A silent error: the comparison is valid but meaningless
 The code runs and prints an answer. It compares a **count** (60 deaths) against a **rate**
 (25.6 per 100,000) — quantities in different units. The comparison is arithmetically
@@ -380,6 +384,10 @@ of three. Say that this is the small version of something they'll use constantly
 :::
 
 # Sequences. {.unnumbered background-color="#003594"}
+
+::: {.section-subtitle}
+A sequence is a generic term for an ordered collection of items where each element can be efficiently accessed using an integer index
+:::
 
 ## A string is a sequence of characters {.smaller}
 
@@ -594,15 +602,22 @@ the real problem, which is a general and important lesson about tracebacks.
 **Objective:** print a warning for a county above the state rate.
 
 ```{pyodide}
+broken = """
 rate_per_100k = 41.7
 
 if rate_per_100k > 25.6:
 print("Above the state rate")
+"""
+
+try:
+    exec(broken)
+except IndentationError as e:
+    print(f"{type(e).__name__}: {e.msg}")
 ```
 
-::: {.callout-warning}
+::: {.callout-important}
 ## `IndentationError` — the block is missing
-The reported message is `expected an indented block after 'if' statement on line 3`.
+`IndentationError: expected an indented block after 'if' statement on line 4`
 
 A colon at the end of a line commits the following line to be indented. Python defines the
 conditional block by that indentation, so an unindented line leaves the `if` with no body.
@@ -614,12 +629,15 @@ conditional block by that indentation, so an unindented line leaves the `if` wit
 Run it broken. This error and its sibling — `unexpected indent`, from indenting a line that
 shouldn't be — account for a huge share of first-month errors.
 
-AUTHORING NOTE: elsewhere in this course a broken cell is wrapped in `try`/`except` so the
-error's NAME prints alongside its message, because the live runtime shows only the message.
-That is impossible here. An IndentationError is a *syntax* error: the cell never compiles,
-so there is no running code to wrap and nothing can catch it from inside the same cell. The
-callout therefore quotes the message alone and names the type in its heading. Do not
-"fix" this by adding a try/except — it will not run.
+The quoted code is scaffolding and worth one sentence if anyone asks: an IndentationError
+is a *syntax* error, so the cell never compiles and a plain `try`/`except` around the code
+itself cannot catch it. Holding the broken code as a string and running it with `exec()`
+delays the compile until runtime, which makes it catchable and lets the error's name print
+the same way it does everywhere else in the course. Students are not expected to write
+this, today or ever.
+
+Because of the string's leading newline the reported line number is 4, not 3. Do not
+"tidy" the newline away without re-checking the callout.
 
 The reassuring thing to say: this error is loud, immediate, and tells you the line number.
 Colab also auto-indents after a colon, so in practice this happens most often when pasting

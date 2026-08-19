@@ -434,10 +434,21 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoicmF0ZV9wZXJfMTAwayA9IDE5
 </div>
 </div>
 <p><strong>Evaluation stops at the first <code>True</code> branch.</strong> Order therefore determines behavior.</p>
-<p>The two thresholds are real:</p>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>The two thresholds are real:</strong></p>
+</div>
+<div class="callout-content">
 <p>1. <strong>25.6</strong> per 100,000: Pennsylvania’s overdose mortality rate</p>
 <p>2. <strong>13.1</strong> per 100,000: the Healthy People 2030 target</p>
-<div class="callout callout-important callout-titled callout-style-default">
+</div>
+</div>
+</div>
+<div class="callout callout-note callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
@@ -479,7 +490,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoib3ZlcmRvc2VfZGVhdGhzID0g
 </script>
 </div>
 </div>
-<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout callout-important callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
@@ -554,7 +565,9 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoidG90YWxfZGVhdGhzID0gMFxu
 <section>
 <section id="sequences." class="title-slide slide level1 unnumbered center" data-background-color="#003594">
 <h1>Sequences.</h1>
-
+<div class="section-subtitle">
+<p>A sequence is a generic term for an ordered collection of items where each element can be efficiently accessed using an integer index</p>
+</div>
 </section>
 <section id="a-string-is-a-sequence-of-characters" class="slide level2 smaller">
 <h2>A string is a sequence of characters</h2>
@@ -848,11 +861,11 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiY291bnRpZXMgPSBbXCJTY2h1
 
 </div>
 <script type="pyodide-15-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoicmF0ZV9wZXJfMTAwayA9IDQxLjdcblxuaWYgcmF0ZV9wZXJfMTAwayA+IDI1LjY6XG5wcmludChcIkFib3ZlIHRoZSBzdGF0ZSByYXRlXCIpIn0=
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiYnJva2VuID0gXCJcIlwiXG5yYXRlX3Blcl8xMDBrID0gNDEuN1xuXG5pZiByYXRlX3Blcl8xMDBrID4gMjUuNjpcbnByaW50KFwiQWJvdmUgdGhlIHN0YXRlIHJhdGVcIilcblwiXCJcIlxuXG50cnk6XG4gICAgZXhlYyhicm9rZW4pXG5leGNlcHQgSW5kZW50YXRpb25FcnJvciBhcyBlOlxuICAgIHByaW50KGZcInt0eXBlKGUpLl9fbmFtZV9ffToge2UubXNnfVwiKSJ9
 </script>
 </div>
 </div>
-<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout callout-important callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
@@ -861,7 +874,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoicmF0ZV9wZXJfMTAwayA9IDQx
 <p><strong><code>IndentationError</code> — the block is missing</strong></p>
 </div>
 <div class="callout-content">
-<p>The reported message is <code>expected an indented block after 'if' statement on line 3</code>.</p>
+<p><code>IndentationError: expected an indented block after 'if' statement on line 4</code></p>
 <p>A colon at the end of a line commits the following line to be indented. Python defines the conditional block by that indentation, so an unindented line leaves the <code>if</code> with no body.</p>
 <p><strong>Resolution:</strong> indent the <code>print()</code> by four spaces.</p>
 </div>
@@ -869,7 +882,8 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoicmF0ZV9wZXJfMTAwayA9IDQx
 </div>
 <aside class="notes">
 <p>Run it broken. This error and its sibling — <code>unexpected indent</code>, from indenting a line that shouldn’t be — account for a huge share of first-month errors.</p>
-<p>AUTHORING NOTE: elsewhere in this course a broken cell is wrapped in <code>try</code>/<code>except</code> so the error’s NAME prints alongside its message, because the live runtime shows only the message. That is impossible here. An IndentationError is a <em>syntax</em> error: the cell never compiles, so there is no running code to wrap and nothing can catch it from inside the same cell. The callout therefore quotes the message alone and names the type in its heading. Do not “fix” this by adding a try/except — it will not run.</p>
+<p>The quoted code is scaffolding and worth one sentence if anyone asks: an IndentationError is a <em>syntax</em> error, so the cell never compiles and a plain <code>try</code>/<code>except</code> around the code itself cannot catch it. Holding the broken code as a string and running it with <code>exec()</code> delays the compile until runtime, which makes it catchable and lets the error’s name print the same way it does everywhere else in the course. Students are not expected to write this, today or ever.</p>
+<p>Because of the string’s leading newline the reported line number is 4, not 3. Do not “tidy” the newline away without re-checking the callout.</p>
 <p>The reassuring thing to say: this error is loud, immediate, and tells you the line number. Colab also auto-indents after a colon, so in practice this happens most often when pasting code from somewhere else.</p>
 <p>Everyone hits this, repeatedly, including me. The fix is always four spaces.</p>
 <style type="text/css">
@@ -1293,8 +1307,8 @@ WyJkYXRhL3BhX292ZXJkb3NlX2NvdW50eV95ZWFyLmNzdiJd
     <script type="module">
     if (window.location.protocol === "file:") { alert("The OJS runtime does not work with file:// URLs. Please use a web server to view this document."); }
     window._ojs.paths.runtimeToDoc = "../../..";
-    window._ojs.paths.runtimeToRoot = "../../../../..";
-    window._ojs.paths.docToRoot = "../..";
+    window._ojs.paths.runtimeToRoot = "../../..";
+    window._ojs.paths.docToRoot = "";
     window._ojs.selfContained = false;
     window._ojs.runtime.interpretFromScriptTags();
     </script>
