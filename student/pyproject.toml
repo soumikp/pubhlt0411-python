@@ -1,0 +1,30 @@
+# =====================================================================
+# PUBHLT 0411 — Python for Public Health Data Analysis
+# The student environment.
+#
+# Students never install Python themselves. `uv sync` reads this file,
+# downloads the pinned Python, and builds .venv with the exact package
+# versions recorded in uv.lock — identically on Windows and macOS.
+#
+# uv.lock IS COMMITTED ON PURPOSE. It is what makes every machine in the
+# room run the same versions. Do not add it to .gitignore, and do not
+# regenerate it mid-semester without re-running tools/verify_notebooks.py.
+#
+# Upper bounds are deliberate. Majors ship breaking changes (pandas 3.0
+# removed DataFrame.append; numpy 2.0 changed scalar promotion), and a
+# student who syncs in November must get what was taught in October.
+# =====================================================================
+
+[project]
+name = "pubhlt0411"
+version = "2026.1"
+description = "PUBHLT 0411 — Python for Public Health Data Analysis (Fall 2026)"
+requires-python = "==3.12.*"
+
+dependencies = [
+    "jupyterlab>=4.2,<5",
+    "pandas>=2.2,<4",
+    "numpy>=1.26,<3",
+    "matplotlib>=3.8,<4",
+    "seaborn>=0.13,<0.14",
+]

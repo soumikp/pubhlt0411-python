@@ -60,38 +60,78 @@ execute:
 
 {{< include _extensions/r-wasm/live/_knitr.qmd >}}
 
-# 3,336 people. {.unnumbered background-color="#003594"}
+# 4,703 people. {.unnumbered background-color="#003594"}
 
-## Pennsylvania recorded 3,336 overdose deaths in 2024 {.smaller}
+::: {.section-subtitle}
+The opioid overdose epidemic is the worst public health crisis in Pennsylvania, and the nation, in almost a generation. 
+:::
 
-A single state-level count. It is also the population of a small Pennsylvania borough.
+## Pennsylvania recorded 4,703 overdose deaths in 2023 {.smaller}
 
-::: {.callout-important}
-## The question this session opens
-A state total describes no one. Pennsylvania comprises 67 counties whose overdose burdens
-differ by nearly an order of magnitude, and the state figure conceals that variation
-entirely.
+```{pyodide}
+#| edit: false
+#| echo: false
+import csv
+import matplotlib.pyplot as plt
+
+rows = [r for r in csv.DictReader(open("data/pa_overdose_county_year.csv"))
+        if r["year"] == "2023" and r["overdose_deaths"] != ""]
+rows = [r for r in rows if r["county"] != "Montour"]
+
+rates = sorted((float(r["rate_per_100k"]), r["county"]) for r in rows)
+state = (sum(int(r["overdose_deaths"]) for r in rows)
+         / sum(int(r["population"]) for r in rows) * 100000)
+
+fig, ax = plt.subplots(figsize=(9.4, 2.6))
+ax.scatter([r for r, _ in rates], [0] * len(rates), s=54, color="#003594",
+           alpha=0.55, edgecolor="white", linewidth=0.6, zorder=3)
+ax.axvline(state, color="#8a6400", linestyle="--", linewidth=1.6, zorder=2)
+ax.text(state + 6, 0.34, f"State rate {state:.1f}", color="#8a6400",
+        fontsize=9, ha="center", va="bottom")
+
+for name in ["Forest", "Philadelphia"]:
+    value = next(r for r, c in rates if c == name)
+    ax.annotate(f"{name} {value:.1f}", (value, 0), xytext=(0, -24),
+                textcoords="offset points", fontsize=9, ha="center",
+                color="#003594",
+                arrowprops=dict(arrowstyle="-", color="#6b7280", linewidth=0.8))
+
+ax.set_yticks([])
+ax.set_ylim(-0.7, 0.7)
+ax.set_xlim(-3, 92)
+ax.set_xlabel("Overdose deaths per 100,000 residents, 2023")
+for side in ("left", "right", "top"):
+    ax.spines[side].set_visible(False)
+ax.spines["bottom"].set_color("#6b7280")
+ax.tick_params(axis="x", colors="#6b7280")
+ax.text(0.0, -0.58, "Source: PA DOH, Estimated Drug Overdose Deaths, 2023",
+        transform=ax.transAxes, fontsize=7.5, color="#6b7280")
+plt.tight_layout()
+plt.show()
+```
+
+::: {.figure-description}
+**Figure 1.** Each dot is one Pennsylvania county's overdose death rate in 2023, plotted on
+a single axis. The dots spread from Forest County at 0.0 per 100,000 to Philadelphia at
+84.8, with most counties clustered between 15 and 40 and the state rate of 36.7 marked by a
+dashed line. 
+:::
+
+::: {.callout-tip}
+## Today we will discuss....
+A state total describes no one. The counties above differ by more than an order of
+magnitude, and the state figure conceals that variation entirely.
 
 **This session establishes what that number means for a single county.** The question is
-answered at the end, from data, using code written in this room.
+answered at the end, from data, using code we will write together.
 :::
 
-**Prerequisite assumed:** six weeks of R. The concepts of a variable, a data frame, and
-the distinction between a count and a rate carry over intact.
-
-::: {.notes}
-Open cold. Say the number, then pause before the borough line — it lands better spoken
-than read. Do not answer the question yet; the payoff slide at the end is where Schuylkill
-arrives.
-
-For the local comparison, pick whichever your room will feel: 3,336 is roughly the
-population of Jim Thorpe, or roughly a third of a typical Pitt first-year class.
-
-Say the prerequisite line out loud and mean it. This room is not full of beginners — they
-have six weeks of R behind them, and the whole module runs faster if you tell them you
-know that in the first two minutes. Something like: "You already know the hard part. What
-you don't know yet is where Python puts things."
+::: {.callout-note}
+## Prerequisite assumed
+Six weeks of R programming experience, but NOTHING else!
 :::
+
+
 
 ## The data has a named source and a documented limitation {.smaller}
 
@@ -102,158 +142,103 @@ Every dataset in this course traces to a public agency, and every limitation is 
 | **Source** | Pennsylvania Department of Health, *Estimated Drug Overdose Deaths* |
 | **Coverage** | 67 counties, 2019–2024 |
 | **Definition** | Accidental and undetermined drug overdose deaths |
-| **Known limitation** | PA DOH marks 2024 **provisional** — death certificates lag three to six months |
+| **Known limitation** | PA DOH marks 2024 **provisional** — death certificates lag three to six months. **This session therefore works in 2023,** the most recent complete year of data available |
+| **Second limitation** | Counts of 1–5 are **suppressed**, not published. Seven counties are blank in 2023 |
 
-The apparent decline in 2024 is therefore partly a real change and partly incomplete
-reporting. **Both facts are stated rather than reconciled.**
-
-::: {.callout-note}
-## Two readings of the same value
-`3336` is a quantity admitting arithmetic. It is also 3,336 deaths. Neither reading
-displaces the other, and this course maintains both.
-:::
-
-::: {.notes}
-This slide sets the honesty standard for the course, so do not rush it.
-
-On provisional data: students will notice 2024 looks better than 2023 and will want to
-call it good news. Ask them whether they believe it. The honest answer is "partly, and
-partly we don't know yet" — and getting comfortable saying that is a real public-health
-skill.
-
-On the two readings: say it once, here, plainly, and then let it go. If you repeat "the
-numbers are people" every module it becomes a slogan and stops meaning anything. Gravity,
-not sensation.
+::: {.callout-important}
+## Numbers are reductive! In public health we must remember the human beings behind the numbers.
+`4703` is a quantity admitting arithmetic, and will form the basis of several calculations we
+do this semester. It is also 4,703 deaths.
 :::
 
 # The course. {.unnumbered background-color="#003594"}
 
-## Six weeks address six questions about Pennsylvania {.smaller}
+::: {.section-subtitle}
+Seven questions to learn about public health in Pennsylvania using Python!
+:::
 
-Each question is answered with code written by the student.
+## Seven modules: seven questions about Pennsylvania {.smaller}
 
-| | Skill | Application |
-|---|---|---|
-| **0** | Running code in a notebook | Extracting one value from one file |
-| **1** | Interrogating values | Comparing two counties of similar size |
-| **2** | Handling many values at once | Identifying the pandemic's worst month |
-| **3** | Whole-dataset arithmetic | Identifying counties with the worst air quality |
-| **4** | Reshaping data to fit a question | Locating infant risk — and where it is unreportable |
-| **5** | Constructing figures from tables | Establishing what predicts asthma prevalence |
-| **6** | Conducting an analysis end to end | Producing a full report on firearm injury |
+Each question is answered with code *that we will write*
+
+::: {.module-map}
+|Module | Area | Skill | Question answered |
+|:--:|:-------|:---------------|:---------------------|
+| **0** | Substance use | Notebook basics and variables | What is Schuylkill County's overdose death rate? |
+| **1** | Substance use | Interrogating values, and acting on the answer | Has Centre County met the national overdose target of 13.1 per 100,000? |
+| **2** | Infectious disease | Handling many values at once, and code reuse | Which month of the COVID-19 pandemic killed the most Pennsylvanians? |
+| **3** | Environmental health | Whole-dataset arithmetic | How far above the EPA fine-particulate standard is the worst county's air? |
+| **4** | Newborn health | Reshaping and combining tables to fit a question | Why do some counties not publish an infant mortality rate? |
+| **5** | Chronic disease | Constructing figures, and describing what they show | Does adult asthma prevalence move with smoking across all 67 counties? |
+| **6** | Injury & violence | Conducting an analysis end to end, reproducibly | Is the rural firearm death rate really lower than the urban one? |
+:::
 
 **Every dataset originates with the PA Department of Health, the CDC, or the EPA.**
 
-::: {.notes}
-Do not name NumPy or pandas here. The names mean nothing on day one and naming them buys
-anxiety, not clarity. They meet NumPy in module 3 and pandas in module 4, when the names
-attach to something they have already felt the need for.
 
-If the room wants specifics, foreshadow module 4: the honest answer for twenty-three
-counties is that nobody will tell you the infant mortality rate. That is a real result,
-not a failure. Say it that way and leave it — the explanation is six weeks out.
-
-Worth saying plainly: "You'll write all of this yourself. I'm not going to hand you a
-notebook that already works."
-:::
-
-## The objective is analytic, not vocational {.smaller}
+::: {.callout-important}
+## The objective is analytic, not vocational
 
 The purpose of this course is **not** programming proficiency as an end in itself.
 
 The purpose is to pose a question about a population and obtain a defensible answer from
 data. **Code is instrumental.**
-
-::: {.callout-tip}
-## Prior R coursework transfers directly
-Six weeks of R established the conceptual apparatus: what a variable holds, why grouping
-precedes summarizing, why a rate supports comparison and a count does not. Python supplies
-a second implementation of familiar ideas.
-
-Where a Python construct has a direct R analogue, this course notes the correspondence in
-one line and proceeds.
 :::
 
-::: {.notes}
-This is where you set expectations for pace. Say it directly: "You're not here to become
-programmers, and I'm not going to teach this like a CS course, because you're not CS
-students."
 
-The bridge callouts are deliberately one line each. Do not build a comparison table
-between R and Python — it doubles the vocabulary load and teaches neither language well.
-If someone asks a detailed "but in R you'd..." question, answer it in ten seconds and move
-on.
-:::
 
-## The lecture and lab sequence inverts twice {.smaller}
+
+## Seven modules: when each one runs {.smaller}
 
 Sessions meet Tuesday and Thursday, 9:30–10:45, in 105 Lawrence Hall.
 
-1. **Modules 0–3** follow a Thursday lecture, Tuesday lab pattern. **Module 4 inverts** —
-   lecture Thursday 10/29, lab Thursday 11/5. **Module 5 inverts again** — lecture Tuesday,
-   lab Thursday.
-2. **Module 4's lab falls six days after its lecture**, spanning Election Day. This is the
-   densest module with the longest interval, and its lab restates prior material
-   accordingly.
-
-::: {.callout-warning}
-## This schedule is documented, not memorized
-The full calendar is on Canvas. It appears here so the November inversion is expected
-rather than disorienting.
+::: {.module-map}
+|Module | Area | Lecture | Lab — due 11:59pm | Homework — due 9:00am |
+|:-----:|:--------------------|:--------------------|:--------------------|:--------------------|
+| **0** | Substance use | Tue 10/6 | — | — |
+| **1** | Substance use | Thu 10/8 | Tue 10/13 | Thu 10/15 |
+| **2** | Infectious disease | Thu 10/15 | Tue 10/20 | Thu 10/22 |
+| **3** | Environmental health | Thu 10/22 | Tue 10/27 | Thu 10/29 |
+| **4** | Newborn health | Thu 10/29 | Thu 11/5 | Tue 11/10 |
+| **5** | Chronic disease | Tue 11/10 | Thu 11/12 | Tue 11/17 |
+| **6** | Injury & violence | Tue 11/17 | Tue 11/17 | — |
 :::
 
-::: {.notes}
-Thirty seconds on this, not three minutes. The only thing that matters is that when week
-nine feels off-rhythm, they know it's the schedule and not them. Say: "When this feels
-weird in November, it's supposed to."
+**Labs are due the day of the lab session at 11:59pm. Homework is due at 9:00am the morning the
+next module begins** — half an hour before that lecture.
 
-Module 6 on 11/17 is a single combined session — about twenty minutes of teaching, then
-studio time where they build the thing that becomes their project. Mention it now so the
-shape of the end of term is visible.
+::: {.callout-warning}
+## The Tuesday–Thursday rhythm breaks twice
+**Module 4's lab falls six days after its lecture**, spanning Election Day, when the
+University does not meet. 
+
+**Module 5 then inverts** — lecture Tuesday, lab Thursday.
+Module 6 is a single combined session.
 :::
 
 ## Assessment weights four components {.smaller}
 
+::: {.assessment-map}
 | Component | Weight | Detail |
-|---|---|---|
-| **Labs** (in class) | 30% | Submitted to Canvas the day of class. Lowest per module dropped. |
-| **Weekly homework** | 35% | Four per module, **due Mondays**. Lowest dropped. Pairs permitted. |
-| **Final project** | 30% | **Individual.** Presentations 12/1 and 12/3. |
-| **Participation** | 5% | Top Hat. |
+|:-----------------|:----:|:-------------------------------------------------------|
+| **Labs** (in class) | 40% | Six per module, submitted to Canvas by 11:59pm the day of the lab. No make-ups; **lowest per module dropped**. |
+| **Weekly homework** | 25% | Five per module, completed **on DataCamp**, due 9:00am the day the next module starts. Graded on completion. **Nothing is dropped.** |
+| **Final project** | 30% | **In pairs.** Teaching session 12/1 or 12/3 (60%), lab packet due exam week (40%). |
+| **Participation** | 5% | Regular attendance and consistent participation. |
+:::
 
-Four criteria determine marks: **correctness and reproducibility of code**, **quality of
-interpretation**, **presentation** — style, readability, grammar, spelling — and
-**effective integration of computer output into written work**.
 
 ::: {.callout-important}
-## Reproducibility is assessed explicitly
-Code that produced a result once and cannot produce it again constitutes incomplete work.
-Module 6 is organized around this criterion; it applies from the first submission.
-:::
-
-::: {.notes}
-Flag the grammar-and-spelling criterion out loud. It's in the syllabus, students routinely
-assume it's boilerplate, and it isn't — presentation quality is a named criterion and it
-does move grades.
-
-Reproducibility gets its own callout because it's the one criterion with no R analogue in
-their heads yet. Give them the concrete version: "If you restart your notebook and run
-every cell top to bottom, does it still produce your report? If not, it isn't finished."
-In module 6 that becomes an actual button they press.
-:::
-
 ## Generative AI is not permitted in this course {.smaller}
 
-The prohibition covers labs, homework, and the final project.
+The prohibition covers labs, homework, and the final project. It is important to have strong
+coding skills to understand where AI can produce errors/bugs, verbose code that can be made
+more efficient, or even hallucinates.
 
-**The rationale is specific.** The assessed outcome is the student's own capability. A
-model that produces working code yields a submission that executes and an analyst who
-cannot diagnose it. The skill is acquired during the six weeks it takes to acquire it.
-
-::: {.callout-warning}
-## The official environment ships an AI assistant enabled by default
-Google Colab includes Gemini. Disabling it is a required setup step, documented on the
-following slide, and takes approximately fifteen seconds.
+**This includes inline code completion.** JupyterLab as installed for this course ships no
+assistant and requires no action. The prohibition applies to any that is added — a Copilot
+extension, an AI-enabled editor opened alongside, or a browser assistant that completes code
+in the page.
 :::
 
 **Substitutes:** office hours, lab partners, the class channel, the instructor.
@@ -264,70 +249,268 @@ better to "here's why this rule exists" than to a threat, and the reason here is
 a good one. Say something like: "I'd rather you submit something broken that you
 understand than something perfect that you don't."
 
-Be candid about the awkward part — the university's official environment ships an AI
-assistant switched on, and we're asking them to turn it off. Naming that costs nothing and
-buys you credibility for the rest of the policy.
+The inline-completion point is worth its own sentence because students genuinely do not
+classify it as AI use — it feels like autocomplete. The argument that persuades is not the
+policy, it is the mechanism: accepting a suggested line removes the moment where you decide
+what the code should do, and that moment is the entire skill being taught. Somebody who
+accepts six suggestions has a working notebook and has learned nothing, and the course is
+six weeks long.
+
+Be candid about the limit of enforcement — it costs nothing and buys credibility: "I cannot
+check your laptop. I am not going to try. This works because you decide it works."
+
+If asked about VS Code, some of them will have it from other courses: fine as an editor
+provided Copilot is not enabled. Do not let it become a tooling debate; JupyterLab is what
+is supported.
 
 The substitutes line matters. Say you mean it, and say when your office hours are.
 :::
 
-# Colab. {.unnumbered background-color="#003594"}
+# Setup. {.unnumbered background-color="#003594"}
 
-## Google Colab is the course environment {.smaller}
+::: {.section-subtitle}
+Installing Python on your own machine 
+:::
 
-Colab provides a browser-based notebook executing on Google's infrastructure. No local
-installation is required.
+## Six steps, once {.smaller}
 
-**Access at [colab.research.google.com](https://colab.research.google.com) using a Pitt account.**
+The environment is installed locally and takes about fifteen minutes. Steps 1–5 are done
+once; step 6 confirms the result.
 
-| Operation | Location |
-|---|---|
-| New notebook | `File > New notebook` |
-| Rename | Click the title, upper left |
-| Save to Drive | `File > Save a copy in Drive` — **required before editing** |
-| Reconnect the runtime | `Runtime > Connect`, upper right |
+|Step | Windows | macOS |
+|:------|:-------:|:-------:|
+| **1.** Open a terminal | PowerShell | Terminal |
+|  **2.** Install uv | one line | one line |
+| **3.** Download and unzip the course folder | identical | identical |
+| **4.** Point the terminal at that folder | identical | identical |
+| **5.** Build the environment | `uv sync` | `uv sync` |
+| **6.** Check that it worked | `uv run jupyter lab` | `uv run jupyter lab` |
 
-::: {.callout-warning}
-## A shared notebook opens as a view, not as a file
-Editing a shared notebook without first saving a copy modifies nothing durable. `File >
-Save a copy in Drive` establishes an owned file. **Work is lost to this omission
-routinely.**
+**Python is not downloaded separately. Step 5 installs it.** Anaconda is not required, and
+an existing Python or Anaconda installation is left untouched.
+
+::: {.callout-note}
+## These instructions are on Canvas
+`SETUP.md` carries every step with its failure modes. Nothing here needs to be memorized
+or copied down.
 :::
 
 ::: {.notes}
-Do this live on the projector instead of reading the table. Two minutes, screen shared,
-and have them follow along on their own machines.
+This slide exists so they can see the whole shape before starting, and so nobody spends the
+next fifteen minutes wondering how much longer it goes on. Ten seconds on it.
 
-The "save a copy" warning is the single highest-value sentence in this section. It happens
-every term without exception. Tell them so: "Somebody in this room is going to lose an
-hour of lab work to this. It may as well be somebody who was warned."
+Say the reassuring things now, because half the room is braced for an ordeal. No separate
+Python download. No Anaconda. If they already have Python or Anaconda installed, this will
+not touch it or fight with it — that is the single most common anxiety and it is worth
+pre-empting.
 
-Anaconda is documented on Canvas as an optional local setup. Don't spend class time on it
-— Colab is official and everything graded runs there.
+Then set the expectation for the session: everyone does this together, on the projector,
+and nobody is behind. This is the one class where setup IS the content.
+
+If somebody is still stuck after ten minutes, pair them with a neighbour and move on. Do
+not let one broken laptop consume the session — office hours exist and the syllabus does
+not assess installation.
 :::
 
-## Disabling Gemini is a required setup step {.smaller}
+## Step 1 — Open a terminal {.smaller}
 
-**`Tools > Settings > AI Assistance`** — disable **both** settings:
+A terminal is a window where commands are typed rather than clicked.
 
-- **Show AI-powered code completions**
-- **Show generative AI features**
+| Windows | macOS |
+|:--|:--|
+| Start button → type `powershell` → open **Windows PowerShell** | `Cmd + Space` → type `terminal` → Return |
+| Prompt looks like `PS C:\Users\yourname>` | Prompt looks like `yourname@macbook ~ %` |
+
+Commands are typed at that prompt, exactly as written, each followed by Return.
+
+::: {.notes}
+Have the room do this now and physically look up when the window is open. It takes fifteen
+seconds and it tells you who is with you before anything can go wrong.
+
+For students who have never opened a terminal — and in this course that is most of them —
+name the thing they are feeling: it looks unfriendly and it is not. It is one instruction
+at a time, and nothing in this course requires them to be fluent in it.
+
+Worth one sentence: the prompt already tells you which folder you are in. That becomes the
+whole point of step 4.
+:::
+
+## Step 2 — Install uv {.smaller}
+
+::: {.setup-commands}
+<table>
+<thead><tr><th>Windows — PowerShell</th><th>macOS — Terminal</th></tr></thead>
+<tbody><tr>
+<td><code>powershell -ExecutionPolicy ByPass -c &quot;irm https://astral.sh/uv/install.ps1 | iex&quot;</code></td>
+<td><code>curl -LsSf https://astral.sh/uv/install.sh | sh</code></td>
+</tr></tbody>
+</table>
+:::
+
+About 35 MB, a few seconds, **no administrator rights and no password**.
 
 ::: {.callout-important}
-## Inline completion bypasses the decision being assessed
-Accepting a suggested line is not an authored line. Independent of intent, the result is
-submitted code the student did not choose. Disabling the feature eliminates the ambiguity.
+## Then close the terminal and open a new one
+The installer changes a setting that only a new window picks up. Confirm with `uv --version`,
+which should report a version number.
 :::
 
-**These settings can revert after a Colab update and warrant periodic verification.**
+::: {.notes}
+The closing-and-reopening is not a formality and it is the single most common failure in
+this entire process. Say it in advance, plainly: "Close the window. Open a new one. This is
+not superstition." Otherwise somebody types `uv --version`, sees "not recognized", and
+concludes the install failed.
+
+The Windows command must be the full line, including `-ExecutionPolicy ByPass`. The short
+version fails on any laptop where script execution is restricted, which describes a lot of
+managed machines. Do not let them shorten it.
+
+Ask for hands when `uv --version` prints a number. That is your gate — do not move to step 3
+until most of the room has it.
+:::
+
+## Step 3 — Download and unzip the course folder {.smaller}
+
+Download `pubhlt0411.zip` from Canvas and **extract it**. Suggested location:
+
+| Windows | macOS |
+|:--|:--|
+| `C:\Users\yourname\Documents\pubhlt0411` | `/Users/yourname/Documents/pubhlt0411` |
+
+::: {.callout-warning}
+## Two failures, both common
+**Opening a zip is not extracting it.** Windows displays the contents of a zip without
+unpacking them, and Python cannot work inside one. Right-click → *Extract All*.
+
+**Keep the folder out of OneDrive, Dropbox, and Google Drive.** Syncing software interferes
+with the files Python creates.
+:::
 
 ::: {.notes}
-Do this live as well, and ask for hands up when both toggles are off. Thirty seconds, and
-it's the only way to know the room actually did it rather than nodding.
+The zip trap is a Windows-specific one and it costs somebody twenty minutes every time it
+is not pre-empted. Say it as a rule with no exceptions: right-click, Extract All, then work
+in the extracted folder.
 
-The distinction worth drawing out loud: this isn't mainly about cheating. It's that inline
-completion removes the moment where you decide what the code should do — and that moment
-is the entire skill. Say that; it lands better than the policy framing.
+The OneDrive warning matters more at Pitt than elsewhere, because University accounts push
+Documents into OneDrive by default on some configurations. If a student's Documents folder
+is synced, have them use the Desktop instead. Worth checking on the projector.
+:::
+
+## Step 4 — Point the terminal at that folder {.smaller}
+
+Type `cd` and a space, then **drag the unzipped folder onto the terminal window** and press
+Return. Dragging pastes the path correctly, which is faster and more reliable than typing it.
+
+Confirm the location by listing what is there:
+
+| Windows | macOS |
+|:--|:--|
+| `dir` | `ls` |
+
+**`pyproject.toml` and a `data` folder should appear in the list.** If they do not, the
+terminal is pointed somewhere else — repeat this step.
+
+::: {.notes}
+The drag-and-drop trick is worth demonstrating rather than describing. It removes the entire
+category of typo-in-a-long-path problems, and most students have never seen it.
+
+`cd` means change directory. Say what it does once — it moves the terminal's attention to a
+folder — because the concept returns every session and in every FileNotFoundError for the
+rest of the course.
+
+The `dir` / `ls` check is the gate again. Make them actually run it and see `pyproject.toml`
+before going on. A student who is in the wrong folder at step 4 gets a confusing error at
+step 5, and by then the cause is two steps back.
+:::
+
+## Step 5 — Build the environment {.smaller}
+
+```bash
+uv sync
+```
+
+This installs **Python itself** and every package the course uses. A long list of package
+names scrolls past; that is expected.
+
+The first run downloads about 200 MB — a minute or two on a good connection, longer on
+classroom wifi.
+
+::: {.callout-note}
+## Everyone ends up with identical software
+`uv sync` reads a lockfile shipped with the course, so every machine in this room installs
+the same version of every package. **A result obtained on one laptop is obtainable on any
+other** — which is what makes reproducibility something the course can assess.
+:::
+
+::: {.notes}
+This is the step where they wait, so use the time. The lockfile point is the one worth
+making out loud, and it connects straight back to the reproducibility criterion on the
+assessment slide: "The reason I can hold you to reproducibility is that I have removed the
+excuse. You are all running the same thing."
+
+A `.venv` folder appears inside the course folder when this finishes. Tell them what it is
+in one sentence — it is their Python installation, it belongs to this course only, and
+deleting the course folder removes it completely. That answers the "is this going to clutter
+my computer" question before it is asked.
+
+If the download stalls, run it again rather than starting over; uv resumes. On Pitt wifi,
+PITTNET beats the guest network by a wide margin.
+:::
+
+## Step 6 — Check that it worked {.smaller}
+
+```bash
+uv run jupyter lab
+```
+
+JupyterLab opens in the browser. In the file list, open **`check_setup.ipynb`** and choose
+**Run → Run All Cells**.
+
+::: {.callout-important}
+## The notebook prints `SETUP OK`
+If it does, the environment is correct and nothing further is required. If it does not, the
+message states which check failed.
+:::
+
+**To stop JupyterLab:** return to the terminal and press `Ctrl + C` twice.
+
+::: {.notes}
+Have everybody run it and say "SETUP OK" out loud, or put a hand up. You want to leave this
+room knowing exactly who is working and who is not, because the alternative is discovering
+it on Thursday when they are also meeting `if` statements.
+
+The check notebook tests four things: the Python version, that the packages import, that the
+data files are findable, and that a real number comes out of a real file. A student who
+passes all four is genuinely ready.
+
+Then the daily routine, which is the thing they actually need to retain from this session:
+open a terminal, cd into the course folder, `uv run jupyter lab`. Three steps, every time.
+Steps 1 through 5 never happen again.
+:::
+
+## When something fails {.smaller}
+
+| Symptom | Cause and fix |
+|:--|:--|
+| `uv` is not recognized / command not found | The terminal was not reopened after step 2. Close **all** terminal windows, open a new one. Restart the computer if it persists. |
+| Windows: *running scripts is disabled* | The command was shortened. Retype the full line from step 2, including `-ExecutionPolicy ByPass`. |
+| macOS: *operation not permitted* | The terminal is denied access to that folder. Move the course folder to `Documents`. |
+| `uv sync` stops partway | The network dropped. Run it again — it resumes rather than restarting. |
+| `No such file or directory: 'data/...'` | JupyterLab was started outside the course folder. `Ctrl + C`, `cd` to the folder, start again. |
+
+**None of this is assessed.** Unresolved problems go to office hours or
+`soumik@pitt.edu` with a screenshot of the terminal.
+
+::: {.notes}
+Leave this slide up while you circulate. It is for them to read, not for you to present —
+do not narrate the table.
+
+The last line is the one to say out loud, and to mean: nobody in this course falls behind
+because of an installation. If they are stuck at the end of the session, they leave with a
+plan, not with a problem.
+
+The first row accounts for most of what you will actually see today. Check it first, every
+time, before diagnosing anything more interesting.
 :::
 
 ## A notebook preserves execution state, not screen order {.smaller}
@@ -353,8 +536,8 @@ Execution does not proceed top to bottom. The bracketed number beside each cell 
 the true sequence. This accounts for roughly half of all inexplicable notebook behavior.
 :::
 
-**Resolution:** `Runtime > Restart and run all`, which is also the test of whether a
-notebook is reproducible.
+**Resolution:** `Kernel > Restart Kernel and Run All Cells`, which is also the test of
+whether a notebook is reproducible.
 
 ::: {.notes}
 This is the most important idea in module 0 and the one with no R-script analogue — a
@@ -366,48 +549,60 @@ wrong that the point lands hard, and it's much better learned from a wrong guess
 a slide.
 
 Connect it forward explicitly: "restart and run all" is what reproducibility means in
-practice, and it's 30% of the grade in module 6.
+practice. It is one of the four criteria every submission is marked against, from the first
+lab onward, and module 6 is built around it.
 :::
 
-## Two mechanisms transfer files into Colab {.smaller}
+## A file is addressed by its path from the course folder {.smaller}
 
-**Upload** — the folder icon in the left sidebar, then the upload control. Immediate, but
-the file is discarded when the runtime disconnects.
-
-**Drive mount** — persistent, and the preferred mechanism:
+The data files ship with the course, inside a `data` folder. Nothing is uploaded.
 
 ```python
-from google.colab import drive
-drive.mount('/content/drive')
+pubhlt0411/                        <- start JupyterLab HERE
+├── data/
+│   └── pa_overdose_county_year.csv
+├── check_setup.ipynb
+└── pyproject.toml
 ```
 
-A mounted file is then addressed by path:
+A file is then read by its **relative path** — its location starting from the course folder:
 
 ```python
-'/content/drive/MyDrive/pubhlt0411/pa_overdose_county_year.csv'
+pd.read_csv("data/pa_overdose_county_year.csv")
 ```
 
-::: {.callout-note}
-## Uploaded files do not persist
-Runtime disconnection discards uploaded files. Mounting Drive establishes a stable path
-across sessions.
+::: {.callout-warning}
+## The path is relative to where JupyterLab was started
+`FileNotFoundError` on a file that plainly exists almost always means JupyterLab was
+started somewhere other than the course folder. **Stop it, `cd` to the course folder,
+start it again.**
 :::
 
 ::: {.notes}
-Demonstrate the mount live. The permissions pop-up is confusing the first time and much
-less confusing once they've watched somebody click through it.
+This replaces a whole category of Colab misery — no uploading, no re-uploading the same CSV
+four times in one lab, no Drive permissions pop-up. The files are simply there.
 
-Practical instruction: have them make a `pubhlt0411` folder in Drive today and drop the
-overdose CSV into it. Every later module assumes there's somewhere to put a file.
+The one failure mode worth drilling is the relative path, and it is worth demonstrating
+rather than describing. Start JupyterLab from the wrong folder deliberately, run the read,
+and show them the FileNotFoundError. Then fix it in front of them. A student who has seen
+that error once diagnoses it in ten seconds; a student who has not will email you.
 
-Worth saying: re-uploading the same CSV four times in one lab is a rite of passage, and
-you'd rather they skip it.
+Say the rule as a habit rather than a fact: "Always start Jupyter from the course folder.
+When a file is missing, that is the first thing to check, before you check the spelling."
 
-Note the slides they're looking at run Python in the browser instead — no Colab, no
-upload. That's a teaching convenience for lecture. Graded work happens in Colab.
+Relative paths also matter for a reason beyond convenience, and it is worth one sentence:
+`data/pa_overdose_county_year.csv` works on every machine in this room. A path like
+`C:\Users\yourname\Desktop\stuff.csv` works on exactly one. That is the difference between
+an analysis someone else can run and one they cannot.
 :::
 
 # Values. {.unnumbered background-color="#003594"}
+
+::: {.section-subtitle}
+"The time has come," the Walrus said, "to talk of many things".
+
+-- Lewis Carroll, Through the Looking-Glass.
+:::
 
 ## Assignment binds a name to a value {.smaller}
 
@@ -559,7 +754,10 @@ comparison.
 ```{pyodide}
 overdose_deaths = "60"
 
-print(overdose_deaths + 8)
+try:
+    print(overdose_deaths + 8)
+except TypeError as e:
+    print(f"{type(e).__name__}: {e}")
 ```
 
 ::: {.callout-warning}
@@ -573,11 +771,16 @@ but not across the two. Rather than infer an intent, the interpreter raises.
 :::
 
 ::: {.notes}
-Run it broken. Let the traceback appear on the projector and read the last line out loud —
-they need to learn early that the bottom line of a traceback is the sentence that matters,
-and that the wall of text above it is mostly noise.
+Run it broken and read the printed line out loud. Two parts, and both matter: the error's
+NAME on the left of the colon, and the explanation on the right. Students who learn to read
+the name first diagnose faster, because the name is what they can search for.
 
-Then fix it live and re-run.
+The `try`/`except` wrapper is scaffolding, not syntax they need today — say so in one
+sentence if anyone asks, and tell them it is how a program handles an error instead of
+stopping. Do not teach it; module 6 does.
+
+Then fix it live and re-run: delete the wrapper, write `int(overdose_deaths) + 8`, and show
+the 68.
 
 Be candid: everybody hits this one, including you, all semester. Data read from a file
 arrives as text constantly. Tell them they'll stop being surprised by it around week three.
@@ -611,19 +814,19 @@ first time they see it. Ask them how they'd catch it. The answer is `type()`, an
 have to be suspicious.
 
 Truncation bites whenever they compute a per-something count. If you want a second example,
-show `int(49.8)` returning 49 — that's the average deaths per county, and losing 0.8 of a
+show `int(70.2)` returning 70 — that's the average deaths per county, and losing 0.2 of a
 person is a real distortion.
 :::
 
 ## Seven arithmetic operators {.smaller}
 
 ```{pyodide}
-print(3336 + 67)      # addition
-print(3336 - 67)      # subtraction
-print(3336 * 2)       # multiplication
-print(3336 / 67)      # division       -> float, always
-print(3336 // 67)     # floor division -> 49, remainder discarded
-print(3336 % 67)      # modulo         -> 53, the remainder
+print(4703 + 67)      # addition
+print(4703 - 67)      # subtraction
+print(4703 * 2)       # multiplication
+print(4703 / 67)      # division       -> float, always
+print(4703 // 67)     # floor division -> 70, remainder discarded
+print(4703 % 67)      # modulo         -> 13, the remainder
 print(2 ** 10)        # exponentiation -> 1024
 ```
 
@@ -761,6 +964,10 @@ a bad one.
 
 # One real number. {.unnumbered background-color="#003594"}
 
+::: {.section-subtitle}
+Answering the question this session opened with
+:::
+
 ## The source file is accessible from this session {.smaller}
 
 `data/pa_overdose_county_year.csv` — 402 observations across 67 counties, 2019–2024.
@@ -827,24 +1034,100 @@ spends it.
 
 ## The state figure resolves into a ninefold difference {.smaller}
 
-**Schuylkill County: 41.7 per 100,000. Centre County: 4.4 per 100,000.**
+```{pyodide}
+#| edit: false
+#| echo: false
+import csv
+import matplotlib.pyplot as plt
 
-Comparable populations. **A ninefold difference in rate.**
+rows = [r for r in csv.DictReader(open("data/pa_overdose_county_year.csv"))
+        if r["year"] == "2023" and r["overdose_deaths"] != ""]
+rows = [r for r in rows if r["county"] != "Montour"]
+
+rates = sorted((float(r["rate_per_100k"]), r["county"]) for r in rows)
+state = (sum(int(r["overdose_deaths"]) for r in rows)
+         / sum(int(r["population"]) for r in rows) * 100000)
+
+highlight = {"Centre": "#8a6400", "Schuylkill": "#003594"}
+
+fig, ax = plt.subplots(figsize=(9.4, 2.6))
+
+# Every other county recedes into the background.
+ax.scatter([r for r, c in rates if c not in highlight],
+           [0] * (len(rates) - len(highlight)),
+           s=54, color="#6b7280", alpha=0.30,
+           edgecolor="white", linewidth=0.6, zorder=3)
+
+# The two counties of the comparison, marked by colour AND shape AND label.
+for name, colour in highlight.items():
+    value = next(r for r, c in rates if c == name)
+    marker = "D" if name == "Schuylkill" else "s"
+    ax.scatter([value], [0], s=150, color=colour, marker=marker,
+               edgecolor="white", linewidth=1.4, zorder=5)
+    ax.annotate(f"{name}\n{value:.1f}", (value, 0), xytext=(0, -30),
+                textcoords="offset points", fontsize=10, ha="center",
+                color=colour, fontweight="bold",
+                arrowprops=dict(arrowstyle="-", color=colour, linewidth=1.0))
+
+ax.axvline(state, color="#6b7280", linestyle="--", linewidth=1.2, zorder=2)
+# Label sits LEFT of the line and BELOW the span arrow: the Schuylkill marker is
+# at 41.7 and the arrow runs across y=0.62, so the slide-3 placement would
+# collide with both.
+ax.text(state - 1.5, 0.14, f"State rate {state:.1f}", color="#6b7280",
+        fontsize=9, ha="right", va="bottom")
+
+ax.annotate("", xy=(41.7, 0.62), xytext=(4.4, 0.62),
+            arrowprops=dict(arrowstyle="<->", color="#003594", linewidth=1.3))
+ax.text(23.0, 0.68, "9.5x", color="#003594", fontsize=11,
+        fontweight="bold", ha="center", va="bottom")
+
+ax.set_yticks([])
+ax.set_ylim(-0.9, 1.05)
+ax.set_xlim(-3, 92)
+ax.set_xlabel("Overdose deaths per 100,000 residents, 2023")
+for side in ("left", "right", "top"):
+    ax.spines[side].set_visible(False)
+ax.spines["bottom"].set_color("#6b7280")
+ax.tick_params(axis="x", colors="#6b7280")
+ax.text(0.0, -0.62, "Source: PA DOH, Estimated Drug Overdose Deaths, 2023",
+        transform=ax.transAxes, fontsize=7.5, color="#6b7280")
+plt.tight_layout()
+plt.show()
+```
+
+::: {.figure-description}
+**Figure 2.** The same 59 Pennsylvania counties shown at the start of this session, with two
+marked. Centre County, a gold square at 4.4 deaths per 100,000, sits near the low end of the
+distribution; Schuylkill County, a blue diamond at 41.7, sits in the upper third. An arrow
+spans the two, labelled 9.5x. The state rate of 36.7 is marked by a dashed line. Every other
+county is greyed.
+:::
+
+**Comparable populations. A ninefold difference in rate.**
 
 ::: {.callout-important}
 ## What the state total concealed
-3,336 describes Pennsylvania. It resolves into 41.7 in one county and 4.4 in another, and
-no resident experiences the state average. **This is the justification for conducting the
-remainder of the course at the county level.**
+4,703 describes Pennsylvania. It resolves into 41.7 in one county and 4.4 in another, and
+no resident experiences the state average.
 :::
 
 ::: {.notes}
 This is the payoff. Land it and stop — do not add another point after it.
 
-Say the closing line plainly, out loud: "Two counties, nearly the same size. There's the
-gap. You wrote the code that found it, in your first hour of Python." That sentence is
-spoken, not printed — it's the promise from the cold open being paid off, and it works
-because they did the work.
+The figure is deliberately the same one that opened the session, and the callback is the
+whole point. Say so: "This is the picture I showed you an hour ago. Nothing about it has
+changed. The only difference is that you can now find yourself on it."
+
+Give them a beat to locate the two marked counties among the grey ones. The visual argument
+is that these are not freak values at the extreme ends — Centre is near the bottom but
+Schuylkill is not the top, it is an ordinary county in the upper third. The gap between two
+unremarkable counties is ninefold. That is a stronger claim than min-versus-max, and it is
+worth making out loud because the eye does not make it automatically.
+
+Then the closing line, plainly: "Two counties, nearly the same size. There's the gap. You
+wrote the code that found it, in your first hour of Python." That sentence is spoken, not
+printed — it's the promise from the cold open being paid off, and it works because they did
+the work.
 
 Then hold the door open for Thursday: which county is which, and how would you know without
 me telling you? Module 1 makes them classify it themselves.
@@ -852,9 +1135,9 @@ me telling you? Module 1 makes them classify it themselves.
 
 ## Session outcomes {.smaller}
 
-- Executing cells in Colab, and accounting for **execution order as invocation order**
-- Disabling generative AI assistance, and the rationale for the requirement
-- Transferring files into Colab by upload or Drive mount
+- Installing the course environment, and verifying it with `check_setup.ipynb`
+- Executing cells in JupyterLab, and accounting for **execution order as invocation order**
+- Reading a data file by its path relative to the course folder
 - Binding values to descriptive identifiers
 - Distinguishing `int`, `float`, `str`, and `bool` via `type()`, and converting between them
 - Applying arithmetic operators, including `//`, `%`, and `**`
@@ -862,21 +1145,31 @@ me telling you? Module 1 makes them classify it themselves.
 
 ::: {.callout-tip}
 ## Preparation for Thursday
-Create a `pubhlt0411` folder in Drive. Open a new Colab notebook, save a copy to that
-folder, disable both AI settings, and compute the 2023 rate for one county of interest
-using the file posted to Canvas.
+**If `check_setup.ipynb` did not print `SETUP OK` today, resolve it before Thursday** — at
+office hours if necessary. Then start JupyterLab in the course folder, open a new notebook,
+and compute the 2023 overdose rate for one county of interest.
 :::
 
-**Module 1 addresses the classification: which county is which, and on what evidence.**
 
 ::: {.notes}
-The pre-work is genuinely two minutes, and its real purpose is to front-load every Colab
-problem into a moment when they aren't also trying to learn syntax. Tell them that's why —
-they'll actually do it if the reason is honest.
+Say the first part of that callout with some weight. A broken environment on Thursday costs
+them a lab, and the fix takes ten minutes today or at office hours. Nobody should be
+debugging an install while also meeting `if` statements for the first time.
+
+The rate calculation is genuinely two minutes, and its real purpose is to make them open
+the environment once between now and Thursday — the second launch is where the "which
+folder do I start it in" question actually surfaces.
 
 Suggest they pick their own county for the rate calculation. It stops being an exercise
 the moment it's their hometown.
 
 Close on the module 1 question. Same two counties, same framing, same numbers — the story
 continues on Thursday rather than restarting.
+:::
+
+
+# That's all folks! {.unnumbered background-color="#003594"}
+
+::: {.section-subtitle}
+See you on Thursday!
 :::

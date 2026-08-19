@@ -15,6 +15,21 @@ github-pages-setup.txt
 # --- NOT PUBLISHED: local tooling config ---
 .claude/
 
+# --- The student Python environment ---
+# .venv is per-machine and must never be committed.
+# student/uv.lock MUST be committed — it is what pins every student to
+# identical package versions. It is listed here only to say: do not add it.
+.venv/
+__pycache__/
+.ipynb_checkpoints/
+
+# --- Build outputs ---
+# student/ is the source of the distribution and IS tracked. The zip built
+# from it is not — rebuild with the command in student/README_INSTRUCTOR.md.
+pubhlt0411.zip
+# student/data/ is a COPY of the root data/ made at packaging time.
+student/data/
+
 # --- NOT PUBLISHED: superseded drafts of the landing page ---
 index_backup_*.qmd
 

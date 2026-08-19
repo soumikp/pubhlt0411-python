@@ -12,7 +12,7 @@
   <meta name="generator" content="quarto-1.9.37">
 
   <meta name="author" content="Soumik Purkayastha">
-  <meta name="dcterms.date" content="2026-08-11">
+  <meta name="dcterms.date" content="2026-08-19">
   <title>Module 1: Conditions and Sequences</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -216,7 +216,7 @@ Soumik Purkayastha
     </div>
 </div>
 
-  <p class="date">August 11, 2026</p>
+  <p class="date">August 19, 2026</p>
 </section>
 <section>
 <section id="two-counties." class="title-slide slide level1 unnumbered center" data-background-color="#003594">
@@ -858,14 +858,15 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoicmF0ZV9wZXJfMTAwayA9IDQx
 <p><strong><code>IndentationError</code> — the block is missing</strong></p>
 </div>
 <div class="callout-content">
-<p><code>IndentationError: expected an indented block after 'if' statement</code></p>
+<p>The reported message is <code>expected an indented block after 'if' statement on line 3</code>.</p>
 <p>A colon at the end of a line commits the following line to be indented. Python defines the conditional block by that indentation, so an unindented line leaves the <code>if</code> with no body.</p>
 <p><strong>Resolution:</strong> indent the <code>print()</code> by four spaces.</p>
 </div>
 </div>
 </div>
 <aside class="notes">
-<p>Run it broken. This error and its sibling — <code>IndentationError: unexpected indent</code>, from indenting a line that shouldn’t be — account for a huge share of first-month errors.</p>
+<p>Run it broken. This error and its sibling — <code>unexpected indent</code>, from indenting a line that shouldn’t be — account for a huge share of first-month errors.</p>
+<p>AUTHORING NOTE: elsewhere in this course a broken cell is wrapped in <code>try</code>/<code>except</code> so the error’s NAME prints alongside its message, because the live runtime shows only the message. That is impossible here. An IndentationError is a <em>syntax</em> error: the cell never compiles, so there is no running code to wrap and nothing can catch it from inside the same cell. The callout therefore quotes the message alone and names the type in its heading. Do not “fix” this by adding a try/except — it will not run.</p>
 <p>The reassuring thing to say: this error is loud, immediate, and tells you the line number. Colab also auto-indents after a colon, so in practice this happens most often when pasting code from somewhere else.</p>
 <p>Everyone hits this, repeatedly, including me. The fix is always four spaces.</p>
 <style type="text/css">
@@ -1291,8 +1292,8 @@ W10=
     <script type="module">
     if (window.location.protocol === "file:") { alert("The OJS runtime does not work with file:// URLs. Please use a web server to view this document."); }
     window._ojs.paths.runtimeToDoc = "../../..";
-    window._ojs.paths.runtimeToRoot = "../../../..";
-    window._ojs.paths.docToRoot = "..";
+    window._ojs.paths.runtimeToRoot = "../../..";
+    window._ojs.paths.docToRoot = "";
     window._ojs.selfContained = false;
     window._ojs.runtime.interpretFromScriptTags();
     </script>

@@ -343,7 +343,10 @@ import pandas as pd
 
 births = pd.read_csv("data/pa_maternal_infant.csv")
 
-print(births["infant_mortality"])
+try:
+    print(births["infant_mortality"])
+except KeyError as e:
+    print(f"{type(e).__name__}: {e}")
 ```
 
 **`KeyError: 'infant_mortality'`** — square brackets on a DataFrame select a column by name,

@@ -527,7 +527,7 @@ print("Above the state rate")
 
 ::: {.callout-warning}
 ## `IndentationError` — the block is missing
-`IndentationError: expected an indented block after 'if' statement`
+The reported message is `expected an indented block after 'if' statement on line 3`.
 
 A colon at the end of a line commits the following line to be indented. Python defines the
 conditional block by that indentation, so an unindented line leaves the `if` with no body.
@@ -536,8 +536,15 @@ conditional block by that indentation, so an unindented line leaves the `if` wit
 :::
 
 ::: {.notes}
-Run it broken. This error and its sibling — `IndentationError: unexpected indent`, from
-indenting a line that shouldn't be — account for a huge share of first-month errors.
+Run it broken. This error and its sibling — `unexpected indent`, from indenting a line that
+shouldn't be — account for a huge share of first-month errors.
+
+AUTHORING NOTE: elsewhere in this course a broken cell is wrapped in `try`/`except` so the
+error's NAME prints alongside its message, because the live runtime shows only the message.
+That is impossible here. An IndentationError is a *syntax* error: the cell never compiles,
+so there is no running code to wrap and nothing can catch it from inside the same cell. The
+callout therefore quotes the message alone and names the type in its heading. Do not
+"fix" this by adding a try/except — it will not run.
 
 The reassuring thing to say: this error is loud, immediate, and tells you the line number.
 Colab also auto-indents after a colon, so in practice this happens most often when pasting

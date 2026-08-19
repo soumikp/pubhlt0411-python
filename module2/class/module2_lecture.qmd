@@ -134,7 +134,10 @@ key. Expect the mistake once.
 ```{pyodide}
 covid_deaths = {"2021-12": 3365, "2022-01": 4294}
 
-print(covid_deaths["2022-06"])
+try:
+    print(covid_deaths["2022-06"])
+except KeyError as e:
+    print(f"{type(e).__name__}: {e}")
 ```
 
 ::: {.callout-warning}
