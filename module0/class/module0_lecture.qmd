@@ -1135,13 +1135,19 @@ me telling you? Module 1 makes them classify it themselves.
 
 ## Session outcomes {.smaller}
 
-- Installing the course environment, and verifying it with `check_setup.ipynb`
-- Executing cells in JupyterLab, and accounting for **execution order as invocation order**
-- Reading a data file by its path relative to the course folder
-- Binding values to descriptive identifiers
-- Distinguishing `int`, `float`, `str`, and `bool` via `type()`, and converting between them
-- Applying arithmetic operators, including `//`, `%`, and `**`
-- Formatting output with f-strings and the `:.1f` specifier
+1\. Installing the course environment, and verifying it with `check_setup.ipynb`
+
+2\. Executing cells in JupyterLab, and accounting for **execution order as invocation order**
+
+3\. Reading a data file by its path relative to the course folder
+
+4\. Binding values to descriptive identifiers
+
+5\. Distinguishing `int`, `float`, `str`, and `bool` via `type()`, and converting between them
+
+6\. Applying arithmetic operators, including `//`, `%`, and `**`
+
+7\. Formatting output with f-strings and the `:.1f` specifier
 
 ::: {.callout-tip}
 ## Preparation for Thursday

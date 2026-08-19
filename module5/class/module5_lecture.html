@@ -12,7 +12,7 @@
   <meta name="generator" content="quarto-1.9.37">
 
   <meta name="author" content="Soumik Purkayastha">
-  <meta name="dcterms.date" content="2026-08-12">
+  <meta name="dcterms.date" content="2026-08-19">
   <title>Module 5: Visualisation and description</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -101,7 +101,7 @@
     code span.vs { color: #032f62; } /* VerbatimString */
     code span.wa { color: #ff5555; } /* Warning */
   </style>
-  <link rel="stylesheet" href="module5_lecture_files/libs/revealjs/dist/theme/quarto-666ff9827213a6c9bf09c7334d073584.css">
+  <link rel="stylesheet" href="module5_lecture_files/libs/revealjs/dist/theme/quarto-f65754b8e6c989ec1e7ae6f2f12b17d1.css">
   <link href="module5_lecture_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="module5_lecture_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="module5_lecture_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -216,7 +216,7 @@ Soumik Purkayastha
     </div>
 </div>
 
-  <p class="date">August 12, 2026</p>
+  <p class="date">August 19, 2026</p>
 </section>
 <section>
 <section id="a-rate-that-refuses-to-move." class="title-slide slide level1 unnumbered center" data-background-color="#003594">
@@ -293,17 +293,15 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImZpZy1hbHQiOiJTY2F0dGVyIHBsb3Qgb2Yg
 </section>
 <section id="session-plan" class="slide level2 smaller">
 <h2>Session plan</h2>
-<ul>
-<li>The <strong>figure/axes model</strong> — the two objects every matplotlib figure is made of</li>
-<li>Bar, histogram, scatter, and line, and <strong>the question each one answers</strong></li>
-<li>Labels, titles, ticks, legends, and <strong>saving a figure to a file</strong></li>
-<li>Multi-panel figures with <code>plt.subplots()</code></li>
-<li>The pandas <code>.plot()</code> shortcut, and <strong>seaborn</strong> for grouped figures</li>
-<li><strong>Accessibility as a requirement</strong>: alt text, contrast, and never colour alone</li>
-<li><code>.describe()</code>, grouped summaries, and <strong><code>.corr()</code></strong> as co-movement</li>
-<li><strong>Rates against counts</strong> — the error that survives every other check</li>
-<li><strong>EDA as a method</strong>: question → figure → better question</li>
-</ul>
+<p>1. The <strong>figure/axes model</strong> — the two objects every matplotlib figure is made of</p>
+<p>2. Bar, histogram, scatter, and line, and <strong>the question each one answers</strong></p>
+<p>3. Labels, titles, ticks, legends, and <strong>saving a figure to a file</strong></p>
+<p>4. Multi-panel figures with <code>plt.subplots()</code></p>
+<p>5. The pandas <code>.plot()</code> shortcut, and <strong>seaborn</strong> for grouped figures</p>
+<p>6. <strong>Accessibility as a requirement</strong>: alt text, contrast, and never colour alone</p>
+<p>7. <code>.describe()</code>, grouped summaries, and <strong><code>.corr()</code></strong> as co-movement</p>
+<p>8. <strong>Rates against counts</strong> — the error that survives every other check</p>
+<p>9. <strong>EDA as a method</strong>: question → figure → better question</p>
 <div class="callout callout-note callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
@@ -350,10 +348,8 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiaW1wb3J0IG1hdHBsb3RsaWIu
 </script>
 </div>
 </div>
-<ul>
-<li>The <strong>figure</strong> is the canvas: its size, its resolution, and the file it saves to</li>
-<li>The <strong>axes</strong> is one set of coordinates drawn on that canvas: the data, the labels, the ticks</li>
-</ul>
+<p>1. The <strong>figure</strong> is the canvas: its size, its resolution, and the file it saves to</p>
+<p>2. The <strong>axes</strong> is one set of coordinates drawn on that canvas: the data, the labels, the ticks</p>
 <p><code>plt.subplots()</code> returns both, and nearly every figure in practice begins with that call.</p>
 <div class="callout callout-tip callout-titled callout-style-default">
 <div class="callout-body">
@@ -621,11 +617,9 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiaW1wb3J0IHBhbmRhcyBhcyBw
 </script>
 </div>
 </div>
-<ul>
-<li><code>dpi=200</code> sets the resolution; the default of 100 looks soft in a document</li>
-<li><code>bbox_inches="tight"</code> trims the surrounding whitespace and rescues cut-off labels</li>
-<li>The extension chooses the format: <code>.png</code> for slides and documents, <code>.pdf</code> for print</li>
-</ul>
+<p>1. <code>dpi=200</code> sets the resolution; the default of 100 looks soft in a document</p>
+<p>2. <code>bbox_inches="tight"</code> trims the surrounding whitespace and rescues cut-off labels</p>
+<p>3. The extension chooses the format: <code>.png</code> for slides and documents, <code>.pdf</code> for print</p>
 <div class="callout callout-tip callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
@@ -1365,14 +1359,12 @@ print("rate   vs population:", round(totals["rate_per_100k"].corr(totals["popula
 <h1>EDA as a method</h1>
 
 </section>
-<section id="a-figures-job-is-to-produce-a-better-question" class="slide level2 smaller scrollable">
+<section id="a-figures-job-is-to-produce-a-better-question" class="slide level2 smaller">
 <h2>A figure’s job is to produce a better question</h2>
-<ol type="1">
-<li><strong>Ask</strong> — one question the data could answer</li>
-<li><strong>Draw</strong> — the simplest figure that addresses it</li>
-<li><strong>Read</strong> — what the figure shows, and what it excludes</li>
-<li><strong>Ask again</strong> — the sharper question the figure exposed</li>
-</ol>
+<p>1. <strong>Ask</strong> — one question the data could answer</p>
+<p>2. <strong>Draw</strong> — the simplest figure that addresses it</p>
+<p>3. <strong>Read</strong> — what the figure shows, and what it excludes</p>
+<p>4. <strong>Ask again</strong> — the sharper question the figure exposed</p>
 <p>This session has run that loop three times.</p>
 <table class="caption-top">
 <colgroup>
@@ -1458,18 +1450,16 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImZpZy1hbHQiOiJTY2F0dGVyIHBsb3Qgb2Yg
 </section>
 <section id="session-outcomes" class="slide level2 smaller">
 <h2>Session outcomes</h2>
-<ul>
-<li>The <strong>figure/axes model</strong>, and <code>plt.subplots()</code> as the entry point to every figure</li>
-<li><code>ax.bar()</code>, <code>ax.hist()</code>, <code>ax.scatter()</code>, <code>ax.plot()</code> — and the question each answers</li>
-<li><strong>Zero baselines for bars</strong>; axis truncation as a distortion</li>
-<li>Labels, units, titles, sources, legends, and <code>savefig()</code> with <code>bbox_inches="tight"</code></li>
-<li><strong>Multi-panel figures</strong> indexed <code>axes[row, col]</code></li>
-<li>pandas <code>.plot()</code>; <strong>seaborn</strong> <code>boxplot</code> and <code>heatmap</code> via <code>micropip</code></li>
-<li><strong>Accessibility</strong>: alt text on every figure, marks at 3:1, and <strong>colour never alone</strong></li>
-<li><code>.describe()</code>, grouped <code>.agg()</code>, and <strong><code>.corr()</code></strong> as co-movement, never cause</li>
-<li><strong>Rates against counts</strong> — the denominator question</li>
-<li><strong>EDA</strong>: question → figure → better question</li>
-</ul>
+<p>1. The <strong>figure/axes model</strong>, and <code>plt.subplots()</code> as the entry point to every figure</p>
+<p>2. <code>ax.bar()</code>, <code>ax.hist()</code>, <code>ax.scatter()</code>, <code>ax.plot()</code> — and the question each answers</p>
+<p>3. <strong>Zero baselines for bars</strong>; axis truncation as a distortion</p>
+<p>4. Labels, units, titles, sources, legends, and <code>savefig()</code> with <code>bbox_inches="tight"</code></p>
+<p>5. <strong>Multi-panel figures</strong> indexed <code>axes[row, col]</code></p>
+<p>6. pandas <code>.plot()</code>; <strong>seaborn</strong> <code>boxplot</code> and <code>heatmap</code> via <code>micropip</code></p>
+<p>7. <strong>Accessibility</strong>: alt text on every figure, marks at 3:1, and <strong>colour never alone</strong></p>
+<p>8. <code>.describe()</code>, grouped <code>.agg()</code>, and <strong><code>.corr()</code></strong> as co-movement, never cause</p>
+<p>9. <strong>Rates against counts</strong> — the denominator question</p>
+<p>10. <strong>EDA</strong>: question → figure → better question</p>
 <div class="callout callout-tip callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">

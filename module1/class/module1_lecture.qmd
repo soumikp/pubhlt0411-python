@@ -50,6 +50,8 @@ engine: knitr
 
 pyodide:
   packages: []
+  resources:
+    - data/pa_overdose_county_year.csv
 
 execute:
   echo: true
@@ -62,18 +64,84 @@ execute:
 
 # Two counties. {.unnumbered background-color="#003594"}
 
-## Schuylkill and Centre counties differ ninefold {.smaller}
-
+::: {.section-subtitle}
 Two Pennsylvania counties. Populations within 10% of one another. One buries nine times as
 many residents to overdose as the other.
+:::
 
-::: {.callout-important}
+
+## Schuylkill and Centre counties differ ninefold {.smaller}
+
+```{pyodide}
+#| edit: false
+#| echo: false
+import csv
+import matplotlib.pyplot as plt
+
+rows = [r for r in csv.DictReader(open("data/pa_overdose_county_year.csv"))
+        if r["year"] == "2023" and r["overdose_deaths"] != ""]
+rows = [r for r in rows if r["county"] != "Montour"]
+
+rates = sorted((float(r["rate_per_100k"]), r["county"]) for r in rows)
+state = (sum(int(r["overdose_deaths"]) for r in rows)
+         / sum(int(r["population"]) for r in rows) * 100000)
+
+highlight = {"Centre": "#8a6400", "Schuylkill": "#003594"}
+
+fig, ax = plt.subplots(figsize=(9.4, 2.6))
+
+# Every other county recedes into the background.
+ax.scatter([r for r, c in rates if c not in highlight],
+           [0] * (len(rates) - len(highlight)),
+           s=54, color="#6b7280", alpha=0.30,
+           edgecolor="white", linewidth=0.6, zorder=3)
+
+# The two counties of the comparison, marked by colour AND shape AND label.
+for name, colour in highlight.items():
+    value = next(r for r, c in rates if c == name)
+    marker = "D" if name == "Schuylkill" else "s"
+    ax.scatter([value], [0], s=150, color=colour, marker=marker,
+               edgecolor="white", linewidth=1.4, zorder=5)
+    ax.annotate(f"{name}\n{value:.1f}", (value, 0), xytext=(0, -30),
+                textcoords="offset points", fontsize=10, ha="center",
+                color=colour, fontweight="bold",
+                arrowprops=dict(arrowstyle="-", color=colour, linewidth=1.0))
+
+ax.axvline(state, color="#6b7280", linestyle="--", linewidth=1.2, zorder=2)
+# Label sits LEFT of the line and BELOW the span arrow: the Schuylkill marker is
+# at 41.7 and the arrow runs across y=0.62, so the slide-3 placement would
+# collide with both.
+ax.text(state - 1.5, 0.14, f"State rate {state:.1f}", color="#6b7280",
+        fontsize=9, ha="right", va="bottom")
+
+ax.annotate("", xy=(41.7, 0.62), xytext=(4.4, 0.62),
+            arrowprops=dict(arrowstyle="<->", color="#003594", linewidth=1.3))
+ax.text(23.0, 0.68, "9.5x", color="#003594", fontsize=11,
+        fontweight="bold", ha="center", va="bottom")
+
+ax.set_yticks([])
+ax.set_ylim(-0.9, 1.05)
+ax.set_xlim(-3, 92)
+ax.set_xlabel("Overdose deaths per 100,000 residents, 2023")
+for side in ("left", "right", "top"):
+    ax.spines[side].set_visible(False)
+ax.spines["bottom"].set_color("#6b7280")
+ax.tick_params(axis="x", colors="#6b7280")
+ax.text(0.0, -0.62, "Source: PA DOH, Estimated Drug Overdose Deaths, 2023",
+        transform=ax.transAxes, fontsize=7.5, color="#6b7280")
+plt.tight_layout()
+plt.show()
+```
+
+::: {.figure-description}
+**Figure 1.** Centre County, a gold square at 4.4 deaths per 100,000, sits near the low end of the
+distribution; Schuylkill County, a blue diamond at 41.7, sits in the upper third. An arrow
+spans the two, labelled 9.5x. The state rate of 36.7 is marked by a dashed line. 
+:::
+
+::: {.callout-tip}
 ## The question this session opens
-Module 0 established the two rates. It did not establish **which county is which**, or how
-that determination would be made **without being told**.
-
-**This session establishes the classification.** Given a county's deaths and population,
-the code decides whether its burden is low, moderate, or high — and states the evidence.
+Module 0 established the two rates. **This session takes that rate and implements a classification:** given a county's deaths and population, the code decides whether its burden is low, moderate, or high — and states the evidence.
 :::
 
 **Required from Module 0:** assignment, `int` and `float`, arithmetic, f-strings.
@@ -142,9 +210,11 @@ print(population > 200000 or rate_per_100k > 25.6)
 print(not rate_per_100k > 25.6)
 ```
 
-- `and` — `True` only when **both** sides are `True`
-- `or` — `True` when **either** side is `True`
-- `not` — inverts the value
+1\. `and` — `True` only when **both** sides are `True`
+
+2\. `or` — `True` when **either** side is `True`
+
+3\. `not` — inverts the value
 
 ::: {.callout-tip}
 ## R analogue
@@ -174,8 +244,9 @@ if rate_per_100k > 25.6:
 
 Two pieces of syntax are mandatory:
 
-1. **The colon** ends the `if` line.
-2. **The indentation** — four spaces — marks the block that runs conditionally.
+1\. **The colon** ends the `if` line.
+
+2\. **The indentation** — four spaces — marks the conditional block.
 
 ```{pyodide}
 rate_per_100k = 4.4
@@ -215,8 +286,9 @@ else:
 
 The two thresholds are real:
 
-- **25.6** per 100,000 — Pennsylvania's overdose mortality rate
-- **13.1** per 100,000 — the Healthy People 2030 target
+1\. **25.6** per 100,000: Pennsylvania's overdose mortality rate
+
+2\. **13.1** per 100,000: the Healthy People 2030 target
 
 ::: {.callout-important}
 ## Only one branch executes
@@ -322,7 +394,7 @@ print(county[-1])
 print(len(county))
 ```
 
-```
+```python
  S  c  h  u  y  l  k  i  l  l
  0  1  2  3  4  5  6  7  8  9
 -10 -9 -8 -7 -6 -5 -4 -3 -2 -1
@@ -360,9 +432,11 @@ print(county[4:])
 print(county[::2])
 ```
 
-- Omitting `start` begins at the beginning
-- Omitting `stop` continues to the end
-- A third value is the **step**: `[::2]` takes every second character
+1\. Omitting `start` begins at the beginning
+
+2\. Omitting `stop` continues to the end
+
+3\. A third value is the **step**: `[::2]` takes every second character
 
 ::: {.callout-warning}
 ## The stop position is excluded
@@ -493,8 +567,9 @@ print("Centre" in counties)
 print("Erie" in counties)
 ```
 
-- `.append(value)` adds one value to the end
-- `value in sequence` tests membership and returns a boolean
+1\. `.append(value)` adds one value to the end
+
+2\. `value in sequence` tests membership and returns a boolean
 
 ::: {.callout-note}
 ## `.append()` returns nothing
@@ -676,12 +751,17 @@ forty-nine months of COVID deaths will not.
 
 ## Session outcomes {.smaller}
 
-- Evaluating comparisons and combining them with `and`, `or`, `not`
-- Branching with `if` / `elif` / `else`, and the **colon and four-space indent**
-- Accumulating with `+=`
-- Indexing and slicing strings and lists from **position zero**
-- Applying `.strip()`, `.upper()`, `.replace()`, and `.split()`
-- Building lists, extending them with `.append()`, and testing membership with `in`
+1\. Evaluating comparisons and combining them with `and`, `or`, `not`
+
+2\. Branching with `if` / `elif` / `else`, and the **colon and four-space indent**
+
+3\. Accumulating with `+=`
+
+4\. Indexing and slicing strings and lists from **position zero**
+
+5\. Applying `.strip()`, `.upper()`, `.replace()`, and `.split()`
+
+6\. Building lists, extending them with `.append()`, and testing membership with `in`
 
 ::: {.callout-tip}
 ## Preparation for the lab, Tuesday 10/13

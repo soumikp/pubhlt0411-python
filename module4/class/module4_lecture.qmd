@@ -166,10 +166,13 @@ print()
 print(births.dtypes)
 ```
 
-- `.head(n)` shows the first rows; `.tail(n)` the last
-- `.shape` gives rows and columns
-- `.dtypes` gives the type of each column
-- `.info()` combines all three and adds the count of non-missing values
+1\. `.head(n)` shows the first rows; `.tail(n)` the last
+
+2\. `.shape` gives rows and columns
+
+3\. `.dtypes` gives the type of each column
+
+4\. `.info()` combines all three and adds the count of non-missing values
 
 ::: {.callout-important}
 ## Inspect before computing
@@ -676,9 +679,11 @@ print(f"left:  {f2023.merge(counties, on='county', how='left').shape[0]} rows")
 print(f"outer: {f2023.merge(counties, on='county', how='outer').shape[0]} rows")
 ```
 
-- **`inner`** keeps only keys present in both — the default
-- **`left`** keeps every row of the left table, filling unmatched columns with `NaN`
-- **`outer`** keeps every row of both
+1\. **`inner`** keeps only keys present in both — the default
+
+2\. **`left`** keeps every row of the left table, filling unmatched columns with `NaN`
+
+3\. **`outer`** keeps every row of both
 
 ::: {.callout-warning}
 ## An `inner` join deletes rows silently
@@ -1249,17 +1254,25 @@ is +0.646 across the counties that report, and median income against infant mort
 
 ## Session outcomes {.smaller}
 
-- Reading a table with `pd.read_csv()`; **Series**, **DataFrame**, and **Index**
-- Inspecting with `.head()`, `.info()`, `.describe()`, `.shape`, and `.dtypes`
-- Selecting with `.loc` by label and `.iloc` by position
-- Filtering with boolean masks, **`&` and `|` with parentheses**, and `.isin()`
-- Deriving columns with `.assign()`, ordering with `.sort_values()`
-- Summarising with **`.groupby()`** and `.agg()`, `.value_counts()`, and `pd.crosstab()`
-- Handling missing data with `.isna()`, `.dropna()`, and `.fillna()` — **missing is not zero**
-- Joining with **`.merge()`**: inner, left, and outer, and what a broken key does
-- Reshaping with `.melt()` and `.pivot()`; cleaning with `.astype()`, `.str`, and
-  `pd.to_datetime()` / `.dt`
-- **Chaining** a pipeline into one readable expression
+1\. Reading a table with `pd.read_csv()`; **Series**, **DataFrame**, and **Index**
+
+2\. Inspecting with `.head()`, `.info()`, `.describe()`, `.shape`, and `.dtypes`
+
+3\. Selecting with `.loc` by label and `.iloc` by position
+
+4\. Filtering with boolean masks, **`&` and `|` with parentheses**, and `.isin()`
+
+5\. Deriving columns with `.assign()`, ordering with `.sort_values()`
+
+6\. Summarising with **`.groupby()`** and `.agg()`, `.value_counts()`, and `pd.crosstab()`
+
+7\. Handling missing data with `.isna()`, `.dropna()`, and `.fillna()` — **missing is not zero**
+
+8\. Joining with **`.merge()`**: inner, left, and outer, and what a broken key does
+
+9\. Reshaping with `.melt()` and `.pivot()`; cleaning with `.astype()`, `.str`, and `pd.to_datetime()` / `.dt`
+
+10\. **Chaining** a pipeline into one readable expression
 
 ::: {.callout-tip}
 ## Preparation for the lab, Thursday 11/5

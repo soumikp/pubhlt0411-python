@@ -1470,12 +1470,17 @@ Before this notebook counts as finished, restart the runtime and run every cell 
 
 ## Session outcomes {.smaller}
 
-- The **seven-stage pipeline** — import, clean, join, group, summarise, visualise, report
-- **Suppression** as a protective mechanism, and its non-random pattern
-- **The silent denominator error**, and the fact that it reverses this finding
-- **Notebook hygiene**: imports at the top, relative paths, seeds, restart-and-run-all
-- **Uncertainty stated verbally** — counts, coverage, and consistency across years
-- **The five-move report**, and computer output integrated into sentences
+1\. The **seven-stage pipeline** — import, clean, join, group, summarise, visualise, report
+
+2\. **Suppression** as a protective mechanism, and its non-random pattern
+
+3\. **The silent denominator error**, and the fact that it reverses this finding
+
+4\. **Notebook hygiene**: imports at the top, relative paths, seeds, restart-and-run-all
+
+5\. **Uncertainty stated verbally** — counts, coverage, and consistency across years
+
+6\. **The five-move report**, and computer output integrated into sentences
 
 ::: {.callout-tip}
 ## The finding, paid off

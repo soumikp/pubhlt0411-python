@@ -101,7 +101,7 @@
     code span.vs { color: #032f62; } /* VerbatimString */
     code span.wa { color: #ff5555; } /* Warning */
   </style>
-  <link rel="stylesheet" href="module4_lecture_files/libs/revealjs/dist/theme/quarto-9fa7b1445c4131f435e2d8b4886606e0.css">
+  <link rel="stylesheet" href="module4_lecture_files/libs/revealjs/dist/theme/quarto-f65754b8e6c989ec1e7ae6f2f12b17d1.css">
   <link href="module4_lecture_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="module4_lecture_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="module4_lecture_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -313,12 +313,10 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiaW1wb3J0IHBhbmRhcyBhcyBw
 </script>
 </div>
 </div>
-<ul>
-<li><code>.head(n)</code> shows the first rows; <code>.tail(n)</code> the last</li>
-<li><code>.shape</code> gives rows and columns</li>
-<li><code>.dtypes</code> gives the type of each column</li>
-<li><code>.info()</code> combines all three and adds the count of non-missing values</li>
-</ul>
+<p>1. <code>.head(n)</code> shows the first rows; <code>.tail(n)</code> the last</p>
+<p>2. <code>.shape</code> gives rows and columns</p>
+<p>3. <code>.dtypes</code> gives the type of each column</p>
+<p>4. <code>.info()</code> combines all three and adds the count of non-missing values</p>
 <div class="callout callout-important callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
@@ -886,11 +884,9 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiaW1wb3J0IHBhbmRhcyBhcyBw
 </script>
 </div>
 </div>
-<ul>
-<li><strong><code>inner</code></strong> keeps only keys present in both — the default</li>
-<li><strong><code>left</code></strong> keeps every row of the left table, filling unmatched columns with <code>NaN</code></li>
-<li><strong><code>outer</code></strong> keeps every row of both</li>
-</ul>
+<p>1. <strong><code>inner</code></strong> keeps only keys present in both — the default</p>
+<p>2. <strong><code>left</code></strong> keeps every row of the left table, filling unmatched columns with <code>NaN</code></p>
+<p>3. <strong><code>outer</code></strong> keeps every row of both</p>
 <div class="callout callout-warning callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
@@ -1451,18 +1447,16 @@ print(pd.crosstab(joined["metro"], joined["suppressed"]))</code>
 </section>
 <section id="session-outcomes" class="slide level2 smaller">
 <h2>Session outcomes</h2>
-<ul>
-<li>Reading a table with <code>pd.read_csv()</code>; <strong>Series</strong>, <strong>DataFrame</strong>, and <strong>Index</strong></li>
-<li>Inspecting with <code>.head()</code>, <code>.info()</code>, <code>.describe()</code>, <code>.shape</code>, and <code>.dtypes</code></li>
-<li>Selecting with <code>.loc</code> by label and <code>.iloc</code> by position</li>
-<li>Filtering with boolean masks, <strong><code>&amp;</code> and <code>|</code> with parentheses</strong>, and <code>.isin()</code></li>
-<li>Deriving columns with <code>.assign()</code>, ordering with <code>.sort_values()</code></li>
-<li>Summarising with <strong><code>.groupby()</code></strong> and <code>.agg()</code>, <code>.value_counts()</code>, and <code>pd.crosstab()</code></li>
-<li>Handling missing data with <code>.isna()</code>, <code>.dropna()</code>, and <code>.fillna()</code> — <strong>missing is not zero</strong></li>
-<li>Joining with <strong><code>.merge()</code></strong>: inner, left, and outer, and what a broken key does</li>
-<li>Reshaping with <code>.melt()</code> and <code>.pivot()</code>; cleaning with <code>.astype()</code>, <code>.str</code>, and <code>pd.to_datetime()</code> / <code>.dt</code></li>
-<li><strong>Chaining</strong> a pipeline into one readable expression</li>
-</ul>
+<p>1. Reading a table with <code>pd.read_csv()</code>; <strong>Series</strong>, <strong>DataFrame</strong>, and <strong>Index</strong></p>
+<p>2. Inspecting with <code>.head()</code>, <code>.info()</code>, <code>.describe()</code>, <code>.shape</code>, and <code>.dtypes</code></p>
+<p>3. Selecting with <code>.loc</code> by label and <code>.iloc</code> by position</p>
+<p>4. Filtering with boolean masks, <strong><code>&amp;</code> and <code>|</code> with parentheses</strong>, and <code>.isin()</code></p>
+<p>5. Deriving columns with <code>.assign()</code>, ordering with <code>.sort_values()</code></p>
+<p>6. Summarising with <strong><code>.groupby()</code></strong> and <code>.agg()</code>, <code>.value_counts()</code>, and <code>pd.crosstab()</code></p>
+<p>7. Handling missing data with <code>.isna()</code>, <code>.dropna()</code>, and <code>.fillna()</code> — <strong>missing is not zero</strong></p>
+<p>8. Joining with <strong><code>.merge()</code></strong>: inner, left, and outer, and what a broken key does</p>
+<p>9. Reshaping with <code>.melt()</code> and <code>.pivot()</code>; cleaning with <code>.astype()</code>, <code>.str</code>, and <code>pd.to_datetime()</code> / <code>.dt</code></p>
+<p>10. <strong>Chaining</strong> a pipeline into one readable expression</p>
 <div class="callout callout-tip callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">

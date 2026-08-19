@@ -122,9 +122,11 @@ print(pm25.dtype)
 print(pm25.shape)
 ```
 
-- `np.array()` builds an array from a list
-- `.dtype` reports the single type every element shares
-- `.shape` reports the size along each dimension, as a tuple
+1\. `np.array()` builds an array from a list
+
+2\. `.dtype` reports the single type every element shares
+
+3\. `.shape` reports the size along each dimension, as a tuple
 
 ::: {.callout-tip}
 ## `import numpy as np` is the universal convention
@@ -316,9 +318,11 @@ print(rates.mean(axis=1))
 print(rates.mean(axis=0))
 ```
 
-- No `axis=` collapses everything to a single number
-- `axis=1` collapses the **columns**, leaving one value per row — a per-county mean
-- `axis=0` collapses the **rows**, leaving one value per column — a per-year mean
+1\. No `axis=` collapses everything to a single number
+
+2\. `axis=1` collapses the **columns**, leaving one value per row — a per-county mean
+
+3\. `axis=0` collapses the **rows**, leaving one value per column — a per-year mean
 
 ::: {.callout-warning}
 ## `axis=` names the dimension removed, not the one kept
@@ -810,17 +814,27 @@ The equivalent loop would be fifteen lines, and it would be slower.
 
 ## Session outcomes {.smaller}
 
-- Building arrays with `np.array()`, and reading real ones with `np.genfromtxt()`
-- Inspecting `.dtype`, `.shape`, and `.size`
-- Indexing and slicing in one dimension, and `[row, column]` in two
-- **Vectorised arithmetic** — one expression applied to every element
-- Summarising with `.mean()`, `.std()`, `np.median()`, and `np.percentile()`
-- Collapsing a chosen dimension with **`axis=`**
-- Selecting with a **boolean mask**, and labelling with **`np.where()`**
-- Standardising to **z-scores**
-- Handling `np.nan` with `np.isnan()` and the `nan`-aware functions
-- Seeding `np.random` for reproducibility
-- Distinguishing a **view** from a **copy**
+1\. Building arrays with `np.array()`, and reading real ones with `np.genfromtxt()`
+
+2\. Inspecting `.dtype`, `.shape`, and `.size`
+
+3\. Indexing and slicing in one dimension, and `[row, column]` in two
+
+4\. **Vectorised arithmetic** — one expression applied to every element
+
+5\. Summarising with `.mean()`, `.std()`, `np.median()`, and `np.percentile()`
+
+6\. Collapsing a chosen dimension with **`axis=`**
+
+7\. Selecting with a **boolean mask**, and labelling with **`np.where()`**
+
+8\. Standardising to **z-scores**
+
+9\. Handling `np.nan` with `np.isnan()` and the `nan`-aware functions
+
+10\. Seeding `np.random` for reproducibility
+
+11\. Distinguishing a **view** from a **copy**
 
 ::: {.callout-tip}
 ## Preparation for the lab, Tuesday 10/27

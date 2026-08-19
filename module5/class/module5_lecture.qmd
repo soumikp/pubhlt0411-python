@@ -184,15 +184,23 @@ and then spend forty minutes learning to build it.
 
 ## Session plan {.smaller}
 
-- The **figure/axes model** — the two objects every matplotlib figure is made of
-- Bar, histogram, scatter, and line, and **the question each one answers**
-- Labels, titles, ticks, legends, and **saving a figure to a file**
-- Multi-panel figures with `plt.subplots()`
-- The pandas `.plot()` shortcut, and **seaborn** for grouped figures
-- **Accessibility as a requirement**: alt text, contrast, and never colour alone
-- `.describe()`, grouped summaries, and **`.corr()`** as co-movement
-- **Rates against counts** — the error that survives every other check
-- **EDA as a method**: question → figure → better question
+1\. The **figure/axes model** — the two objects every matplotlib figure is made of
+
+2\. Bar, histogram, scatter, and line, and **the question each one answers**
+
+3\. Labels, titles, ticks, legends, and **saving a figure to a file**
+
+4\. Multi-panel figures with `plt.subplots()`
+
+5\. The pandas `.plot()` shortcut, and **seaborn** for grouped figures
+
+6\. **Accessibility as a requirement**: alt text, contrast, and never colour alone
+
+7\. `.describe()`, grouped summaries, and **`.corr()`** as co-movement
+
+8\. **Rates against counts** — the error that survives every other check
+
+9\. **EDA as a method**: question → figure → better question
 
 ::: {.callout-note}
 ## Descriptive statistics only
@@ -228,8 +236,9 @@ print(type(fig))
 print(type(ax))
 ```
 
-- The **figure** is the canvas: its size, its resolution, and the file it saves to
-- The **axes** is one set of coordinates drawn on that canvas: the data, the labels, the ticks
+1\. The **figure** is the canvas: its size, its resolution, and the file it saves to
+
+2\. The **axes** is one set of coordinates drawn on that canvas: the data, the labels, the ticks
 
 `plt.subplots()` returns both, and nearly every figure in practice begins with that call.
 
@@ -566,9 +575,11 @@ print("written:", os.path.exists("asthma_distribution.png"))
 print("bytes:", os.path.getsize("asthma_distribution.png"))
 ```
 
-- `dpi=200` sets the resolution; the default of 100 looks soft in a document
-- `bbox_inches="tight"` trims the surrounding whitespace and rescues cut-off labels
-- The extension chooses the format: `.png` for slides and documents, `.pdf` for print
+1\. `dpi=200` sets the resolution; the default of 100 looks soft in a document
+
+2\. `bbox_inches="tight"` trims the surrounding whitespace and rescues cut-off labels
+
+3\. The extension chooses the format: `.png` for slides and documents, `.pdf` for print
 
 ::: {.callout-tip}
 ## `savefig()` before `show()`
@@ -1380,10 +1391,13 @@ is a fact about counts, not about the world.
 
 ## A figure's job is to produce a better question {.smaller}
 
-1. **Ask** — one question the data could answer
-2. **Draw** — the simplest figure that addresses it
-3. **Read** — what the figure shows, and what it excludes
-4. **Ask again** — the sharper question the figure exposed
+1\. **Ask** — one question the data could answer
+
+2\. **Draw** — the simplest figure that addresses it
+
+3\. **Read** — what the figure shows, and what it excludes
+
+4\. **Ask again** — the sharper question the figure exposed
 
 This session has run that loop three times.
 
@@ -1484,16 +1498,25 @@ the skill this course is actually teaching.
 
 ## Session outcomes {.smaller}
 
-- The **figure/axes model**, and `plt.subplots()` as the entry point to every figure
-- `ax.bar()`, `ax.hist()`, `ax.scatter()`, `ax.plot()` — and the question each answers
-- **Zero baselines for bars**; axis truncation as a distortion
-- Labels, units, titles, sources, legends, and `savefig()` with `bbox_inches="tight"`
-- **Multi-panel figures** indexed `axes[row, col]`
-- pandas `.plot()`; **seaborn** `boxplot` and `heatmap` via `micropip`
-- **Accessibility**: alt text on every figure, marks at 3:1, and **colour never alone**
-- `.describe()`, grouped `.agg()`, and **`.corr()`** as co-movement, never cause
-- **Rates against counts** — the denominator question
-- **EDA**: question → figure → better question
+1\. The **figure/axes model**, and `plt.subplots()` as the entry point to every figure
+
+2\. `ax.bar()`, `ax.hist()`, `ax.scatter()`, `ax.plot()` — and the question each answers
+
+3\. **Zero baselines for bars**; axis truncation as a distortion
+
+4\. Labels, units, titles, sources, legends, and `savefig()` with `bbox_inches="tight"`
+
+5\. **Multi-panel figures** indexed `axes[row, col]`
+
+6\. pandas `.plot()`; **seaborn** `boxplot` and `heatmap` via `micropip`
+
+7\. **Accessibility**: alt text on every figure, marks at 3:1, and **colour never alone**
+
+8\. `.describe()`, grouped `.agg()`, and **`.corr()`** as co-movement, never cause
+
+9\. **Rates against counts** — the denominator question
+
+10\. **EDA**: question → figure → better question
 
 ::: {.callout-tip}
 ## Preparation for the lab, Thursday 11/12

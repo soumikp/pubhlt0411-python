@@ -229,8 +229,9 @@ for year in range(2020, 2024):
     print(year)
 ```
 
-- `range(n)` yields `0` through `n - 1` — **n values, starting at zero**
-- `range(a, b)` yields `a` through `b - 1` — the stop is excluded, as in slicing
+1\. `range(n)` yields `0` through `n - 1` — **n values, starting at zero**
+
+2\. `range(a, b)` yields `a` through `b - 1` — the stop is excluded, as in slicing
 
 ::: {.callout-warning}
 ## `range()` excludes its endpoint
@@ -461,9 +462,11 @@ print(rate_per_100k(208, 157795))
 print(f"{rate_per_100k(4052, 1550542):.1f}")
 ```
 
-- `def` names the function; the parameters are named in parentheses
-- The **docstring** — a string on the first line — states what the function returns
-- `return` sends a value back to the caller
+1\. `def` names the function; the parameters are named in parentheses
+
+2\. The **docstring** — a string on the first line — states what the function returns
+
+3\. `return` sends a value back to the caller
 
 ::: {.callout-important}
 ## A function without `return` returns `None`
@@ -685,9 +688,11 @@ print(schuylkill.name)
 print(f"{schuylkill.rate_per_100k():.1f} per 100,000")
 ```
 
-- `__init__` runs when the object is created and stores its data
-- `self` refers to the object being operated on
-- An **attribute** holds data; a **method** performs an operation
+1\. `__init__` runs when the object is created and stores its data
+
+2\. `self` refers to the object being operated on
+
+3\. An **attribute** holds data; a **method** performs an operation
 
 ::: {.callout-important}
 ## Attributes and methods differ by the parentheses
@@ -845,15 +850,23 @@ answer changes for.
 
 ## Session outcomes {.smaller}
 
-- Storing labelled data in a **dictionary**, and retrieving it with `[key]` and `.get()`
-- Iterating with `for`, over a collection and over `range()`
-- Walking key–value pairs with **`.items()`**
-- Building results with the **accumulator pattern**, initialized outside the loop
-- Repeating with `while`, and exiting with `while True:` plus `break`
-- Defining functions with `def`, `return`, and a docstring
-- Returning several values, and unpacking **tuples**
-- Ordering with `sorted(key=)`, and distinguishing **counts from rates**
-- Reading a small class: `__init__`, `self`, attributes, and methods
+1\. Storing labelled data in a **dictionary**, and retrieving it with `[key]` and `.get()`
+
+2\. Iterating with `for`, over a collection and over `range()`
+
+3\. Walking key–value pairs with **`.items()`**
+
+4\. Building results with the **accumulator pattern**, initialized outside the loop
+
+5\. Repeating with `while`, and exiting with `while True:` plus `break`
+
+6\. Defining functions with `def`, `return`, and a docstring
+
+7\. Returning several values, and unpacking **tuples**
+
+8\. Ordering with `sorted(key=)`, and distinguishing **counts from rates**
+
+9\. Reading a small class: `__init__`, `self`, attributes, and methods
 
 ::: {.callout-tip}
 ## Preparation for the lab, Tuesday 10/20

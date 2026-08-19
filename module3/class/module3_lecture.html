@@ -12,7 +12,7 @@
   <meta name="generator" content="quarto-1.9.37">
 
   <meta name="author" content="Soumik Purkayastha">
-  <meta name="dcterms.date" content="2026-08-11">
+  <meta name="dcterms.date" content="2026-08-19">
   <title>Module 3: NumPy</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -101,7 +101,7 @@
     code span.vs { color: #032f62; } /* VerbatimString */
     code span.wa { color: #ff5555; } /* Warning */
   </style>
-  <link rel="stylesheet" href="module3_lecture_files/libs/revealjs/dist/theme/quarto-9fa7b1445c4131f435e2d8b4886606e0.css">
+  <link rel="stylesheet" href="module3_lecture_files/libs/revealjs/dist/theme/quarto-f65754b8e6c989ec1e7ae6f2f12b17d1.css">
   <link href="module3_lecture_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="module3_lecture_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="module3_lecture_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -216,7 +216,7 @@ Soumik Purkayastha
     </div>
 </div>
 
-  <p class="date">August 11, 2026</p>
+  <p class="date">August 19, 2026</p>
 </section>
 <section>
 <section id="nine-micrograms." class="title-slide slide level1 unnumbered center" data-background-color="#003594">
@@ -270,11 +270,9 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiaW1wb3J0IG51bXB5IGFzIG5w
 </script>
 </div>
 </div>
-<ul>
-<li><code>np.array()</code> builds an array from a list</li>
-<li><code>.dtype</code> reports the single type every element shares</li>
-<li><code>.shape</code> reports the size along each dimension, as a tuple</li>
-</ul>
+<p>1. <code>np.array()</code> builds an array from a list</p>
+<p>2. <code>.dtype</code> reports the single type every element shares</p>
+<p>3. <code>.shape</code> reports the size along each dimension, as a tuple</p>
 <div class="callout callout-tip callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
@@ -474,11 +472,9 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiaW1wb3J0IG51bXB5IGFzIG5w
 </script>
 </div>
 </div>
-<ul>
-<li>No <code>axis=</code> collapses everything to a single number</li>
-<li><code>axis=1</code> collapses the <strong>columns</strong>, leaving one value per row — a per-county mean</li>
-<li><code>axis=0</code> collapses the <strong>rows</strong>, leaving one value per column — a per-year mean</li>
-</ul>
+<p>1. No <code>axis=</code> collapses everything to a single number</p>
+<p>2. <code>axis=1</code> collapses the <strong>columns</strong>, leaving one value per row — a per-county mean</p>
+<p>3. <code>axis=0</code> collapses the <strong>rows</strong>, leaving one value per column — a per-year mean</p>
 <div class="callout callout-warning callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
@@ -1012,19 +1008,17 @@ print(f"Counties over the 9.0 standard: {(pm25 &gt; 9.0).sum()}")</code>
 </section>
 <section id="session-outcomes" class="slide level2 smaller">
 <h2>Session outcomes</h2>
-<ul>
-<li>Building arrays with <code>np.array()</code>, and reading real ones with <code>np.genfromtxt()</code></li>
-<li>Inspecting <code>.dtype</code>, <code>.shape</code>, and <code>.size</code></li>
-<li>Indexing and slicing in one dimension, and <code>[row, column]</code> in two</li>
-<li><strong>Vectorised arithmetic</strong> — one expression applied to every element</li>
-<li>Summarising with <code>.mean()</code>, <code>.std()</code>, <code>np.median()</code>, and <code>np.percentile()</code></li>
-<li>Collapsing a chosen dimension with <strong><code>axis=</code></strong></li>
-<li>Selecting with a <strong>boolean mask</strong>, and labelling with <strong><code>np.where()</code></strong></li>
-<li>Standardising to <strong>z-scores</strong></li>
-<li>Handling <code>np.nan</code> with <code>np.isnan()</code> and the <code>nan</code>-aware functions</li>
-<li>Seeding <code>np.random</code> for reproducibility</li>
-<li>Distinguishing a <strong>view</strong> from a <strong>copy</strong></li>
-</ul>
+<p>1. Building arrays with <code>np.array()</code>, and reading real ones with <code>np.genfromtxt()</code></p>
+<p>2. Inspecting <code>.dtype</code>, <code>.shape</code>, and <code>.size</code></p>
+<p>3. Indexing and slicing in one dimension, and <code>[row, column]</code> in two</p>
+<p>4. <strong>Vectorised arithmetic</strong> — one expression applied to every element</p>
+<p>5. Summarising with <code>.mean()</code>, <code>.std()</code>, <code>np.median()</code>, and <code>np.percentile()</code></p>
+<p>6. Collapsing a chosen dimension with <strong><code>axis=</code></strong></p>
+<p>7. Selecting with a <strong>boolean mask</strong>, and labelling with <strong><code>np.where()</code></strong></p>
+<p>8. Standardising to <strong>z-scores</strong></p>
+<p>9. Handling <code>np.nan</code> with <code>np.isnan()</code> and the <code>nan</code>-aware functions</p>
+<p>10. Seeding <code>np.random</code> for reproducibility</p>
+<p>11. Distinguishing a <strong>view</strong> from a <strong>copy</strong></p>
 <div class="callout callout-tip callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
