@@ -10,6 +10,7 @@ PREPUBLISH_CHECKLIST.md
 shared/
 *.docx
 ~$*.docx
+github-pages-setup.txt
 
 # --- NOT PUBLISHED: local tooling config ---
 .claude/
