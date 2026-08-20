@@ -4,18 +4,18 @@
 # PUBHLT 0411 · Python for Public Health Data Analysis
 #
 # ⚠️ ONE COMBINED SESSION (§3, §4). Tue 11/17. NOT a lecture/lab pair.
-#    Structure: ~20 min teaching (slides 1-14), then STUDIO — the
-#    student builds the pipeline themselves in Exercises 1-9.
+#    Structure: ~20 min teaching (slides 1-14), then the LAB half —
+#    the student builds the pipeline themselves in Exercises 1-9.
 #    This is where the final project begins.
 #
 # Register: HANDOFF v3 §2 as amended 2026-08-11.
 #   Slides = academic, impersonal. No "you"/"we".
 #   Notes  = conversational, second person. Load-bearing.
-#   §2 "Labs — the third surface": the studio exercises are a LAB
-#   surface. Second person is permitted in `**Your turn.**` task
-#   instructions and in hints, and NOWHERE else. Because this document
-#   is both surfaces at once, the teaching half keeps speaker notes and
-#   the studio half does not.
+#   §2 "Labs — the third surface": Exercises 1-9 are a LAB surface.
+#   Second person is permitted in `**Your turn.**` task instructions
+#   and in hints, and NOWHERE else. Because this document is both
+#   surfaces at once, the teaching half keeps speaker notes and the
+#   lab half does not.
 #
 # ⚠️ THE CENTRAL FINDING, verified by running it against the real files:
 #    The payoff EXISTS ONLY IF SUPPRESSION IS HANDLED CORRECTLY.
@@ -153,7 +153,7 @@ writeup they turn in should too.
 | | |
 |---|---|
 | **First twenty minutes** | The pipeline as one object, and the one error that reverses this finding |
-| **The rest of the session** | Studio — build the analysis, end to end, on the real data |
+| **The rest of the session** | Lab — build the analysis, end to end, on the real data |
 | **What you leave with** | A document that runs top to bottom, and the paragraph that reports it |
 
 
