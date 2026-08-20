@@ -82,6 +82,10 @@ execute:
 
 # Twenty-three blanks. {.unnumbered background-color="#003594"}
 
+::: {.section-subtitle}
+Sometimes official statistics aren't reported because they're not trustworthy!
+:::
+
 ## In twenty-three Pennsylvania counties, no infant mortality rate is published {.smaller}
 
 The figure is not secret. It is **unstable** — too few births, too few deaths, and a rate
@@ -1145,6 +1149,10 @@ parentheses, so it appears here after the rule and not before it.
 
 # The twenty-three. {.unnumbered background-color="#003594"}
 
+::: {.section-subtitle}
+Which counties, and what they share.
+:::
+
 ## Exercise: who is missing, and what do they share? {.smaller}
 
 ```{pyodide}
@@ -1211,6 +1219,62 @@ survive a data update.
 :::
 
 ## Twenty-three rural counties {.smaller}
+
+```{pyodide}
+#| edit: false
+#| echo: false
+import pandas as pd
+import matplotlib.pyplot as plt
+
+births = pd.read_csv("data/pa_maternal_infant.csv")
+counties = pd.read_csv("data/pa_counties.csv")
+joined = births.merge(counties[["county", "metro", "population_2023"]],
+                      on="county", how="left")
+
+suppressed = joined[joined["infant_mortality_per_1000"].isna()]
+reporting = joined[joined["infant_mortality_per_1000"].notna()]
+
+fig, ax = plt.subplots(figsize=(9.6, 3.0))
+
+for group, y, colour, marker, label in [
+    (suppressed, 1, "#8a6400", "s", f"No published rate ({len(suppressed)})"),
+    (reporting, 0, "#003594", "o", f"Rate published ({len(reporting)})"),
+]:
+    ax.scatter(group["population_2023"], [y] * len(group), s=58,
+               color=colour, marker=marker, alpha=0.65,
+               edgecolor="white", linewidth=0.7, zorder=4, label=label)
+    med = group["population_2023"].median()
+    ax.plot([med, med], [y - 0.26, y + 0.26], color=colour,
+            linewidth=2.2, zorder=5)
+    ax.annotate(f"median {med:,.0f}", (med, y + 0.30), fontsize=9,
+                color=colour, ha="center", va="bottom", fontweight="bold")
+
+ax.set_xscale("log")
+ax.set_yticks([1, 0])
+ax.set_yticklabels(["Suppressed", "Reporting"], fontsize=10)
+ax.set_ylim(-0.55, 1.72)
+ax.set_xlabel("County population, 2023 (log scale)")
+ax.set_xticks([10_000, 30_000, 100_000, 300_000, 1_000_000])
+ax.set_xticklabels(["10k", "30k", "100k", "300k", "1M"])
+for side in ("left", "right", "top"):
+    ax.spines[side].set_visible(False)
+ax.spines["bottom"].set_color("#6b7280")
+ax.tick_params(axis="x", colors="#6b7280")
+ax.legend(fontsize=8.5, frameon=False, loc="upper right", ncol=2)
+ax.text(0.0, -0.34,
+        "Source: County Health Rankings 2024; Census population estimates",
+        transform=ax.transAxes, fontsize=7.5, color="#6b7280")
+plt.tight_layout()
+plt.show()
+```
+
+::: {.figure-description}
+**Figure 1.** Each mark is one county, positioned by population on a logarithmic scale. The
+twenty-three counties with no published infant mortality rate, gold squares on the upper row,
+sit almost entirely below 70,000 residents with a median of 37,607. The forty-four counties
+that do publish a rate, blue circles on the lower row, run from about 45,000 to well over a
+million with a median of 157,824. The two groups barely overlap.
+:::
 
 **Twenty-three of Pennsylvania's sixty-seven counties have no published infant mortality
 rate. Eighteen of them are nonmetro.**
@@ -1297,4 +1361,10 @@ surface it while there is still time to fix it.
 Module 5 opens with the scatter this module earned: child poverty against infant mortality,
 +0.646, over the forty-four counties that report. The 44 will be in the caption, because by
 then that is not a caveat, it is the house style.
+:::
+
+# That's all folks! {.unnumbered background-color="#003594"}
+
+::: {.section-subtitle}
+See you on Thursday — no class Tuesday, it's Election Day.
 :::
