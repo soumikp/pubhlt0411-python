@@ -757,11 +757,8 @@ lists. No new syntax is required beyond this session.
 
 **Module 2 addresses scale: sixty-seven counties and forty-nine months, without repetition.**
 
-::: {.notes}
-The outcomes list is deliberately mechanical — it's what they should be able to do, and
-it's the checklist for the lab.
+# That's all folks! {.unnumbered background-color="#003594"}
 
-Close on the scale problem. Everything today handled two or three counties by hand, and
-that approach fails immediately at sixty-seven. Loops and dictionaries are the answer, and
-that's Thursday.
+::: {.section-subtitle}
+See you on Tuesday!
 :::
