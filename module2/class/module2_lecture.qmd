@@ -7,12 +7,24 @@
 #   Slides = academic, impersonal. No "you"/"we".
 #   Notes  = conversational, second person. Load-bearing.
 #
-# Data: NONE. §4 specifies inline dicts built from the real COVID file.
-# Every value is computed from data/pa_covid_monthly.csv and verified.
+# Data: TAUGHT from inline dicts (§4) — students open no file in this
+# module. Every inline value is computed from data/pa_covid_monthly.csv
+# and verified.
+#
+# The ONE exception is the payoff slide's figure, which reads the real
+# file to plot all 49 months. It is `echo: false` and not assessed; the
+# teaching content remains inline.
+#
+# ⚠️ The file UNDERCOUNTS everything before 2021-08 — March and April 2020
+#    both read zero, and 2020 totals 975 deaths for the whole year. The
+#    figure draws that span shaded and dotted, labelled as unreliable.
+#    Never teach the first wave from this file.
 #
 # Required assets (same folder):
 #   pitt-theme.scss
 #   _extensions/r-wasm/live/
+#   data/pa_covid_monthly.csv  (must ALSO be listed under
+#   pyodide: resources: below, or Pyodide cannot see it)
 # =====================================================================
 title: "Module 2: Collections, Loops, and Functions"
 subtitle: "PUBHLT 0411 · Python for Public Health Data Analysis"
@@ -47,7 +59,9 @@ format:
 engine: knitr
 
 pyodide:
-  packages: []
+  packages: [matplotlib]
+  resources:
+    - data/pa_covid_monthly.csv
 
 execute:
   echo: true
@@ -595,6 +609,75 @@ print(f"Worst month: {worst_month} with {worst_deaths:,} deaths")
 ```
 
 ## January 2022 {.smaller}
+
+```{pyodide}
+#| edit: false
+#| echo: false
+import csv
+from collections import defaultdict
+import matplotlib.pyplot as plt
+
+monthly = defaultdict(int)
+for row in csv.DictReader(open("data/pa_covid_monthly.csv")):
+    monthly[row["month"][:7]] += int(row["covid_deaths"])
+
+months = sorted(monthly)
+deaths = [monthly[m] for m in months]
+x = range(len(months))
+
+# The file undercounts everything before August 2021 — March and April 2020
+# both read zero. That span is drawn, but marked as not trustworthy.
+CUTOFF = months.index("2021-08")
+peak = months.index("2022-01")
+
+fig, ax = plt.subplots(figsize=(9.6, 3.2))
+
+ax.axvspan(-0.5, CUTOFF - 0.5, color="#6b7280", alpha=0.10, zorder=1)
+ax.text((CUTOFF - 1) / 2, max(deaths) * 0.82,
+        "Undercounted in this file\n(March 2020 reads zero)",
+        color="#6b7280", fontsize=8, ha="center", va="center", style="italic")
+
+ax.plot(list(x)[:CUTOFF + 1], deaths[:CUTOFF + 1], color="#6b7280",
+        linewidth=1.4, linestyle=":", zorder=3)
+ax.plot(list(x)[CUTOFF:], deaths[CUTOFF:], color="#003594",
+        linewidth=2.0, zorder=4)
+
+ax.scatter([peak], [deaths[peak]], s=150, color="#003594", marker="D",
+           edgecolor="white", linewidth=1.4, zorder=6)
+ax.annotate(f"January 2022\n{deaths[peak]:,} deaths", (peak, deaths[peak]),
+            xytext=(14, -6), textcoords="offset points", fontsize=10,
+            color="#003594", fontweight="bold", ha="left", va="top")
+
+first = months.index("2020-03")
+ax.scatter([first], [deaths[first]], s=54, color="#8a6400", zorder=5)
+ax.annotate("March 2020", (first, deaths[first]), xytext=(6, 26),
+            textcoords="offset points", fontsize=8.5, color="#8a6400",
+            arrowprops=dict(arrowstyle="-", color="#8a6400", linewidth=0.8))
+
+ticks = [i for i, m in enumerate(months) if m.endswith(("-01", "-07"))]
+ax.set_xticks(ticks)
+ax.set_xticklabels([months[i] for i in ticks], rotation=45, ha="right",
+                   fontsize=8)
+ax.set_ylabel("COVID-19 deaths")
+ax.set_xlim(-0.5, len(months) - 0.5)
+ax.set_ylim(0, max(deaths) * 1.15)
+for side in ("right", "top"):
+    ax.spines[side].set_visible(False)
+ax.spines["left"].set_color("#6b7280")
+ax.spines["bottom"].set_color("#6b7280")
+ax.tick_params(colors="#6b7280")
+ax.text(0.0, -0.42, "Source: PA DOH, monthly COVID-19 deaths by county",
+        transform=ax.transAxes, fontsize=7.5, color="#6b7280")
+plt.tight_layout()
+plt.show()
+```
+
+::: {.figure-description}
+**Figure 1.** Statewide COVID-19 deaths for each of the 49 months in the file. The series
+rises through late 2021 to a sharp peak of 4,294 deaths in January 2022, marked by a blue
+diamond, then falls away and stays low through 2023. Months before August 2021 are shaded
+and drawn as a dotted line because the file undercounts them — March 2020 reads zero.
+:::
 
 **4,294 Pennsylvanians died of COVID-19 in January 2022** — the deadliest month of the
 pandemic in this state.

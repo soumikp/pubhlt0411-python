@@ -58,7 +58,7 @@ format:
 engine: knitr
 
 pyodide:
-  packages: [numpy]
+  packages: [numpy, matplotlib]
   resources:
     - data/pa_air_pollution.csv
     - data/pa_overdose_county_year.csv
@@ -73,6 +73,10 @@ execute:
 {{< include _extensions/r-wasm/live/_knitr.qmd >}}
 
 # Nine micrograms. {.unnumbered background-color="#003594"}
+
+::: {.section-subtitle}
+Sixty-seven counties and one federal threshold. No loops allowed!
+:::
 
 ## The EPA annual standard for PM2.5 is 9 micrograms per cubic metre {.smaller}
 
@@ -90,24 +94,6 @@ position.
 
 **Required from Module 2:** `for`, the accumulator pattern, `def` and `return`, and the
 distinction between counts and rates.
-
-::: {.notes}
-Ask which county is worst before showing anything. Allegheny is the answer and this room
-will guess it, because most of them live in it. That is the point — the number is about
-where they are sitting.
-
-Do not give the magnitude yet. "Over by a wide margin" is deliberately vague, and the
-payoff slide is where +4.37 standard deviations arrives.
-
-One caution for the instructor, not for the slide: PM2.5 in Pennsylvania is an
-industrial and density exposure, and the poorest counties here are rural with clean air.
-Do not let the discussion drift into an environmental-justice claim — county averages
-cannot support one, and the correlation actually runs the other way. Keep this a story
-about a regulatory threshold and an outlier.
-
-Module 2 wrote loops. Today those loops mostly disappear, and it is worth saying that up
-front so the disappearance reads as progress rather than as a new dialect.
-:::
 
 ## A NumPy array holds many values of one type {.smaller}
 
@@ -172,21 +158,6 @@ element by element. This is **vectorisation**.
 doubles each value, producing two. The operator is the same; the type decides the meaning.
 :::
 
-::: {.notes}
-This is the slide the module is built on. Everything after it is a variation.
-
-Demonstrate the list-versus-array multiplication live — it is a two-line demo and it
-genuinely surprises people. `*` on a list means "repeat," which is the string behaviour
-from Module 1 generalized. On an array it means multiply. Same symbol, and the type
-decides.
-
-For the R half of their brains: this is exactly R's vectorized arithmetic. `v * 2` in R
-does what an array does here, and R's vectors are closer to NumPy arrays than to Python
-lists. This is the one place in the course where R is the better preparation, so say so.
-
-The negative values in `excess` are counties under the standard. Bedford at 8.5 comes out
-at −0.5, meaning half a microgram of headroom.
-:::
 
 ## Reading a real file into an array {.smaller}
 
@@ -708,6 +679,10 @@ returns new memory, so writing to it is safe. Slices are views, masks are copies
 
 # The outlier. {.unnumbered background-color="#003594"}
 
+::: {.section-subtitle}
+Putting the session together.
+:::
+
 ## Exercise: standardize and rank {.smaller}
 
 ```{pyodide}
@@ -781,6 +756,86 @@ magnitude is the part nobody predicts.
 
 ## Allegheny County {.smaller}
 
+```{pyodide}
+#| edit: false
+#| echo: false
+import numpy as np
+import matplotlib.pyplot as plt
+
+counties = np.genfromtxt("data/pa_air_pollution.csv", delimiter=",",
+                         skip_header=1, usecols=0, dtype=str)
+pm25 = np.genfromtxt("data/pa_air_pollution.csv", delimiter=",",
+                     skip_header=1, usecols=1)
+
+state_mean = pm25.mean()
+STANDARD = 9.0
+
+fig, ax = plt.subplots(figsize=(9.4, 3.0))
+
+# Counties at or below the federal standard recede; those above it are marked.
+below = pm25 <= STANDARD
+ax.scatter(pm25[below], [0] * below.sum(), s=54, color="#6b7280", alpha=0.30,
+           edgecolor="white", linewidth=0.6, zorder=3)
+over = (pm25 > STANDARD) & (counties != "Allegheny")
+ax.scatter(pm25[over], [0] * over.sum(), s=54, color="#8a6400", alpha=0.75,
+           edgecolor="white", linewidth=0.6, zorder=4)
+
+a = pm25[counties == "Allegheny"][0]
+ax.scatter([a], [0], s=170, color="#003594", marker="D",
+           edgecolor="white", linewidth=1.4, zorder=6)
+
+ax.axvline(STANDARD, color="#8a6400", linestyle="--", linewidth=1.4, zorder=2)
+ax.text(STANDARD + 0.12, -0.52, "EPA standard 9.0", color="#8a6400",
+        fontsize=8.5, ha="left", va="top")
+ax.axvline(state_mean, color="#6b7280", linestyle=":", linewidth=1.2, zorder=2)
+ax.text(state_mean - 0.12, -0.52, f"State mean {state_mean:.2f}",
+        color="#6b7280", fontsize=8.5, ha="right", va="top")
+
+lan = pm25[counties == "Lancaster"][0]
+ax.annotate(f"Allegheny\n{a:.1f}", (a, 0), xytext=(0, -30),
+            textcoords="offset points", fontsize=10, ha="center",
+            color="#003594", fontweight="bold",
+            arrowprops=dict(arrowstyle="-", color="#003594", linewidth=1.0))
+ax.annotate(f"Lancaster {lan:.1f}", (lan, 0), xytext=(0, 22),
+            textcoords="offset points", fontsize=9, ha="center",
+            color="#8a6400",
+            arrowprops=dict(arrowstyle="-", color="#8a6400", linewidth=0.8,
+                            shrinkA=0, shrinkB=6))
+
+# The slide's claim, drawn: the gap to second place exceeds the gap from the
+# state mean to second place.
+ax.annotate("", xy=(a, 0.72), xytext=(lan, 0.72),
+            arrowprops=dict(arrowstyle="<->", color="#003594", linewidth=1.3))
+ax.text((a + lan) / 2, 0.78, f"{a - lan:.1f}", color="#003594",
+        fontsize=10, fontweight="bold", ha="center", va="bottom")
+
+ax.annotate("", xy=(lan, 0.72), xytext=(state_mean, 0.72),
+            arrowprops=dict(arrowstyle="<->", color="#6b7280", linewidth=1.1))
+ax.text((lan + state_mean) / 2, 0.78, f"{lan - state_mean:.1f}",
+        color="#6b7280", fontsize=10, ha="center", va="bottom")
+
+ax.set_yticks([])
+ax.set_ylim(-1.0, 1.35)
+ax.set_xlim(4.8, 15.2)
+ax.set_xlabel("Annual average PM2.5 (micrograms per cubic metre), 2024")
+for side in ("left", "right", "top"):
+    ax.spines[side].set_visible(False)
+ax.spines["bottom"].set_color("#6b7280")
+ax.tick_params(axis="x", colors="#6b7280")
+ax.text(0.0, -0.30, "Source: EPA Air Quality System, 2024",
+        transform=ax.transAxes, fontsize=7.5, color="#6b7280")
+plt.tight_layout()
+plt.show()
+```
+
+::: {.figure-description}
+**Figure 1.** Each dot is one Pennsylvania county's annual average PM2.5. Sixty-six counties
+fall between 5.5 and 11.1; Allegheny sits alone at 14.1, a blue diamond well to the right of
+every other county. Twenty-two counties exceed the EPA standard of 9.0, marked in gold, and
+all but Allegheny cluster between 9.1 and 11.1. Two arrows compare the gaps: 3.0 from
+Lancaster up to Allegheny, and 2.6 from the state mean of 8.49 up to Lancaster.
+:::
+
 **Allegheny County's PM2.5 average is 14.1 micrograms per cubic metre — a z-score of
 +4.37.**
 
@@ -852,4 +907,10 @@ Close on Module 4 and be concrete about what it fixes. Today the county names an
 measurements sat in two arrays held in alignment by nothing but care. A DataFrame keeps them
 in one object, so sorting or filtering moves them together and the alignment cannot break.
 Every complaint about the two `genfromtxt` calls is answered on Thursday.
+:::
+
+# That's all folks! {.unnumbered background-color="#003594"}
+
+::: {.section-subtitle}
+See you on Tuesday!
 :::
