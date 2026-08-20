@@ -66,7 +66,7 @@ We will examine 49 months of COVID-19 death data across all 67 counties in Penns
 
 ## Pennsylvania recorded COVID-19 deaths across 49 months and 67 counties {.smaller}
 
-That is $49 \times 67 = 3,283$ county-months of data. 
+That is $49 \times 67 = 3,283$ county-months of data.
 
 ::: {.callout-important}
 ## The question this session opens
@@ -544,8 +544,7 @@ construction on this slide — a value, a dot, an operation.
 # The worst month. {.unnumbered background-color="#003594"}
 
 ::: {.section-subtitle}
-Putting the session together to answer the question it opened with — and the answer is not
-the month most people would guess.
+Putting the session together to answer the question it opened with - which month was the worst?
 :::
 
 ## Exercise: find the deadliest month {.smaller}

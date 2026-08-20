@@ -590,6 +590,16 @@ $codeFont: "Fira Mono", "Source Code Pro", Menlo, Consolas, monospace;
   font-size: 0.95em;
 }
 
+// Inline math sits flush against the words on either side once the renderer
+// replaces the source span, so "$...$ county-months" reads as one word.
+// Adding spaces in the .qmd does NOT fix this — HTML collapses them, and the
+// gap is created at render time, not in the markup. Pad the span instead.
+.reveal .math.inline,
+.reveal mjx-container[display="false"] {
+  margin-left: 0.15em;
+  margin-right: 0.15em;
+}
+
 // ---- quarto-live output readability ----------------------------------
 // The interactive editor renders at --exercise-font-size (1.3rem on reveal),
 // but the cell OUTPUT (printed results) has no size of its own and falls back
