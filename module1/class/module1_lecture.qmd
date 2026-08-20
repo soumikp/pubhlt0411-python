@@ -408,7 +408,7 @@ print(len(county))
 -10 -9 -8 -7 -6 -5 -4 -3 -2 -1
 ```
 
-::: {.callout-important}
+::: {.callout-tip}
 ## The first position is `0`, and the last is `len() - 1`
 `county[10]` raises `IndexError: string index out of range`, because the valid positions of
 a ten-character string are `0` through `9`. Negative indices count backward from the end.
@@ -446,7 +446,7 @@ print(county[::2])
 
 3\. A third value is the **step**: `[::2]` takes every second character
 
-::: {.callout-warning}
+::: {.callout-tip}
 ## The stop position is excluded
 `county[0:4]` yields `Schu` — four characters, positions 0 through 3. The length of a slice
 is `stop - start`, which is the reason the convention is convenient.
@@ -602,22 +602,16 @@ the real problem, which is a general and important lesson about tracebacks.
 **Objective:** print a warning for a county above the state rate.
 
 ```{pyodide}
-broken = """
 rate_per_100k = 41.7
 
 if rate_per_100k > 25.6:
 print("Above the state rate")
-"""
-
-try:
-    exec(broken)
-except IndentationError as e:
-    print(f"{type(e).__name__}: {e.msg}")
 ```
+
 
 ::: {.callout-important}
 ## `IndentationError` — the block is missing
-`IndentationError: expected an indented block after 'if' statement on line 4`
+The reported message is `expected an indented block after 'if' statement on line 3`.
 
 A colon at the end of a line commits the following line to be indented. Python defines the
 conditional block by that indentation, so an unindented line leaves the `if` with no body.
@@ -629,24 +623,29 @@ conditional block by that indentation, so an unindented line leaves the `if` wit
 Run it broken. This error and its sibling — `unexpected indent`, from indenting a line that
 shouldn't be — account for a huge share of first-month errors.
 
-The quoted code is scaffolding and worth one sentence if anyone asks: an IndentationError
-is a *syntax* error, so the cell never compiles and a plain `try`/`except` around the code
-itself cannot catch it. Holding the broken code as a string and running it with `exec()`
-delays the compile until runtime, which makes it catchable and lets the error's name print
-the same way it does everywhere else in the course. Students are not expected to write
-this, today or ever.
+Note that the message points at **line 3**, the `if`, not line 4 where the unindented
+`print()` sits. That is correct and worth a sentence: Python reports where the promise was
+made, not where it was broken. The colon on line 3 committed the next line to be indented.
 
-Because of the string's leading newline the reported line number is 4, not 3. Do not
-"tidy" the newline away without re-checking the callout.
+AUTHORING NOTE: unlike the TypeError and KeyError slides elsewhere in the course, this cell
+is NOT wrapped in `try`/`except`, so the live runtime prints the message WITHOUT the
+`IndentationError:` prefix. That is unavoidable for a syntax error — the cell never
+compiles, so there is no running code to wrap. The callout quotes the bare message and
+names the type in its heading instead.
 
 The reassuring thing to say: this error is loud, immediate, and tells you the line number.
-Colab also auto-indents after a colon, so in practice this happens most often when pasting
-code from somewhere else.
+The editor also auto-indents after a colon, so in practice this happens most often when
+pasting code from somewhere else.
 
 Everyone hits this, repeatedly, including me. The fix is always four spaces.
 :::
 
-# Which is which. {.unnumbered background-color="#003594"}
+# Is a county in need of assistance? {.unnumbered background-color="#003594"}
+
+::: {.section-subtitle}
+Population size and overdose rate together determine how resources are allocated — and a
+county's classification is the first step in that decision.
+:::
 
 ## Exercise: classify a county by its rate {.smaller}
 
@@ -735,34 +734,6 @@ new, and together it answers the question the module opened with.
 Note the code says which is which without anyone being told. That was the promise.
 :::
 
-## Schuylkill is High. Centre is Low. {.smaller}
-
-**Schuylkill County: 41.7 per 100,000 — above the state rate of 25.6.**
-**Centre County: 4.4 per 100,000 — below the Healthy People 2030 target of 13.1.**
-
-Comparable populations. **A ninefold difference, and opposite classifications.**
-
-::: {.callout-important}
-## What separates them
-Overdose mortality concentrates in adults aged 35 to 64. Centre County's population is
-disproportionately young — a large university enrollment shifts the age structure. Schuylkill
-is an older county built on anthracite coal, an industry that left.
-:::
-
-::: {.notes}
-Land this and stop.
-
-If anyone guessed "Centre is higher, it's a college town" at the start, acknowledge it now
-— it's a reasonable inference from a real association between college and substance use,
-and it is beaten by age structure. Being wrong for a good reason is worth naming out loud.
-
-Say the structural framing deliberately and don't hedge it: this is a difference in who
-lives there and what happened to the work, not a difference in character. §5 of the
-handoff requires that framing and it's also just correct.
-
-Then hold the door for module 2: three counties took three lines. Sixty-seven counties and
-forty-nine months of COVID deaths will not.
-:::
 
 ## Session outcomes {.smaller}
 
