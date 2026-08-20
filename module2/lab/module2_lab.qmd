@@ -854,9 +854,11 @@ erie = County("Erie", 559)
 print(erie.name, erie.deaths)
 ```
 
-## Exercise 12 — Read a class — your turn {.smaller}
+## Exercise 12 — Write a class — your turn {.smaller}
 
-**Your turn.** Complete the method so it returns the county's rate.
+**Your turn.** Write a `County` class holding a county's `name`, `deaths` and `population`,
+with a `rate_per_100k()` method returning deaths per 100,000 residents. Build McKean County
+from it — 195 deaths, population 39,519 — and print its name and rate to one decimal place.
 
 ```{pyodide}
 #| exercise: ex12_class

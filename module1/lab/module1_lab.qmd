@@ -685,7 +685,10 @@ print(len(counties))
 
 ## Exercise 10 — Build parallel lists — your turn {.smaller}
 
-**Your turn.** Build two parallel lists and read the same position from each.
+**Your turn.** Build two parallel lists — `counties` and `rates` — by appending one county at
+a time: Schuylkill at 41.7, Centre at 4.4, Fayette at 62.1. Start both empty and use
+`.append()`. Then print the full list of counties, the third county with its rate, and
+whether Centre appears in the list.
 
 ```{pyodide}
 #| exercise: ex10_lists

@@ -33,6 +33,12 @@ student/data/
 # --- NOT PUBLISHED: superseded drafts of the landing page ---
 index_backup_*.qmd
 
+# --- NOT PUBLISHED: lab solutions ---
+# The repo is public and the site is served from it. moduleN_lab.ipynb (the
+# empty student copy) IS published; the solutions copy must never be.
+# Regenerate both with `python3 tools/make_notebooks.py`.
+*_solutions.ipynb
+
 # --- NOT PUBLISHED: per-module build documentation ---
 # Instructor-facing: file manifests, render commands, design rationale,
 # verification notes. Students reach modules only through index.qmd.
