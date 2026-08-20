@@ -154,27 +154,8 @@ writeup they turn in should too.
 |---|---|
 | **First twenty minutes** | The pipeline as one object, and the one error that reverses this finding |
 | **The rest of the session** | Studio — build the analysis, end to end, on the real data |
-| **What leaves the room** | A document that runs top to bottom, and the paragraph that reports it |
+| **What you leave with** | A document that runs top to bottom, and the paragraph that reports it |
 
-::: {.callout-note}
-## The writeup is thirty percent of the final grade
-The final project is assessed on the analysis and on the report of it. A correct pipeline
-described badly loses more points than a modest pipeline described precisely.
-:::
-
-::: {.notes}
-Say the structure plainly so nobody is waiting for a lab on Thursday. There is no Thursday.
-This is the combined session, the calendar says so, and what they build today is the skeleton
-of the project they present on December 1st and 3rd.
-
-Be blunt about the thirty percent. Every semester a few students treat the writing as
-something to do at 2am after the code works. The rubric does not agree. A student who gets
-nonmetro 18.5 and writes one careful paragraph about what it means and what it does not
-outscores a student with a beautiful notebook and no argument.
-
-The studio time is real work time. Circulate. The exercises are built so that the sixth one
-is the one that breaks people, and that is deliberate.
-:::
 
 ## The pipeline is seven stages, and the whole session is one pass through it {.smaller}
 
@@ -605,11 +586,11 @@ Then point at what is *not* in it. No "shockingly." No "this proves." No mechani
 without evidence. The suicide share is offered as consistent with an explanation, and the
 paragraph stops there, because that is where the data stops.
 
-This is the target for the studio. Their project paragraph will have a different question in
+This is the target for the lab. Their project paragraph will have a different question in
 it, and the same five moves.
 :::
 
-## Studio {.smaller}
+## Lab {.smaller}
 
 The remainder of the session is build time. **Nine exercises assemble the pipeline in the
 order it runs**, and the last one produces the paragraph.
