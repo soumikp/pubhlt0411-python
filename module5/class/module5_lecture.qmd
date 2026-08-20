@@ -1545,3 +1545,9 @@ Pennsylvania's data disagrees. Nonmetro 18.5 per 100,000 against metro 14.1. The
 that whole analysis end to end, and then write it up — and the writing is thirty percent of
 the grade, so it is worth saying now rather than in the last week.
 :::
+
+# That's all folks! {.unnumbered background-color="#003594"}
+
+::: {.section-subtitle}
+See you on Thursday!
+:::
