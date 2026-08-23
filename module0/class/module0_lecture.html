@@ -12,7 +12,7 @@
   <meta name="generator" content="quarto-1.9.37">
 
   <meta name="author" content="Soumik Purkayastha">
-  <meta name="dcterms.date" content="2026-08-20">
+  <meta name="dcterms.date" content="2026-08-23">
   <title>Module 0: Notebooks and Values</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -216,7 +216,7 @@ Soumik Purkayastha
     </div>
 </div>
 
-  <p class="date">August 20, 2026</p>
+  <p class="date">August 23, 2026</p>
 </section>
 <section>
 <section id="people." class="title-slide slide level1 unnumbered center" data-background-color="#003594">
@@ -599,12 +599,12 @@ eyJhdHRyIjp7ImVjaG8iOmZhbHNlLCJlZGl0IjpmYWxzZSwiZXZhbCI6dHJ1ZX0sImNvZGUiOiJpbXBv
 <td style="text-align: center;">one line</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;"><strong>3.</strong> Download and unzip the course folder</td>
+<td style="text-align: left;"><strong>3.</strong> Unzip the course folder inside <code>PUBHLT0411</code></td>
 <td style="text-align: center;">identical</td>
 <td style="text-align: center;">identical</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"><strong>4.</strong> Point the terminal at that folder</td>
+<td style="text-align: left;"><strong>4.</strong> Point the terminal at the <code>python</code> folder</td>
 <td style="text-align: center;">identical</td>
 <td style="text-align: center;">identical</td>
 </tr>
@@ -749,44 +749,40 @@ macOS — Terminal
           display:block!important;
       }</style></aside>
 </section>
-<section id="step-3-download-and-unzip-the-course-folder" class="slide level2 smaller">
-<h2>Step 3 — Download and unzip the course folder</h2>
-<p>Download <code>pubhlt0411.zip</code> from Canvas and <strong>extract it</strong>. Suggested location:</p>
-<table class="caption-top">
-<colgroup>
-<col style="width: 50%">
-<col style="width: 50%">
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: left;">Windows</th>
-<th style="text-align: left;">macOS</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"><code>C:\Users\yourname\Documents\pubhlt0411</code></td>
-<td style="text-align: left;"><code>/Users/yourname/Documents/pubhlt0411</code></td>
-</tr>
-</tbody>
-</table>
+<section id="step-3-unzip-the-course-folder-inside-pubhlt0411" class="slide level2 smaller">
+<h2>Step 3 — Unzip the course folder inside <code>PUBHLT0411</code></h2>
+<p>Download <code>python.zip</code> from Canvas and <strong>extract it into the <code>PUBHLT0411</code> folder already built for the R half.</strong> The result:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a>PUBHLT0411<span class="op">/</span>                <span class="op">&lt;-</span> the folder <span class="im">from</span> the R half</span>
+<span id="cb1-2"><a href=""></a>├── PUBHLT0411.Rproj</span>
+<span id="cb1-3"><a href=""></a>├── data<span class="op">/</span>                  <span class="op">&lt;-</span> R data</span>
+<span id="cb1-4"><a href=""></a>├── lecture<span class="op">/</span>  lab<span class="op">/</span>  final<span class="op">-</span>project<span class="op">/</span></span>
+<span id="cb1-5"><a href=""></a>└── python<span class="op">/</span>                <span class="op">&lt;-</span> extracted here</span>
+<span id="cb1-6"><a href=""></a>    ├── data<span class="op">/</span>              <span class="op">&lt;-</span> Python data</span>
+<span id="cb1-7"><a href=""></a>    ├── lab<span class="op">/</span></span>
+<span id="cb1-8"><a href=""></a>    ├── module0_lab.ipynb</span>
+<span id="cb1-9"><a href=""></a>    └── pyproject.toml</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="callout callout-warning callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>Two failures, both common</strong></p>
+<p><strong>Three failures, all common</strong></p>
 </div>
 <div class="callout-content">
 <p><strong>Opening a zip is not extracting it.</strong> Windows displays the contents of a zip without unpacking them, and Python cannot work inside one. Right-click → <em>Extract All</em>.</p>
-<p><strong>Keep the folder out of OneDrive, Dropbox, and Google Drive.</strong> Syncing software interferes with the files Python creates.</p>
+<p><strong><code>python</code> goes inside <code>PUBHLT0411</code>, not beside it.</strong> The two halves share one course folder.</p>
+<p><strong>Keep <code>PUBHLT0411</code> out of OneDrive, Dropbox, and Google Drive.</strong> Syncing software interferes with the files Python creates.</p>
 </div>
 </div>
 </div>
 <aside class="notes">
+<p>Most of the room already has a PUBHLT0411 folder from the R half — that is where this goes. Put the tree on the projector and let them match it against their own file browser before anybody types anything. Thirty seconds here saves the whole of step 4.</p>
 <p>The zip trap is a Windows-specific one and it costs somebody twenty minutes every time it is not pre-empted. Say it as a rule with no exceptions: right-click, Extract All, then work in the extracted folder.</p>
+<p>The nesting is the new failure mode, so name it. A student who drops <code>python</code> next to <code>PUBHLT0411</code> rather than inside it gets a working environment and a confusing conversation in week three when the folder structure is discussed. Two levels, one inside the other.</p>
+<p>Worth saying why the two halves share a folder rather than each having their own: one course, one place, and the same relative-path habit works in R and in Python. The R half made that folder non-negotiable and this respects it.</p>
 <p>The OneDrive warning matters more at Pitt than elsewhere, because University accounts push Documents into OneDrive by default on some configurations. If a student’s Documents folder is synced, have them use the Desktop instead. Worth checking on the projector.</p>
+<p>Anyone who does not have the R folder — a late add, or somebody who missed the R half — just makes an empty <code>PUBHLT0411</code> folder and extracts into it. Nothing downstream cares.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -799,9 +795,9 @@ macOS — Terminal
           display:block!important;
       }</style></aside>
 </section>
-<section id="step-4-point-the-terminal-at-that-folder" class="slide level2 smaller">
-<h2>Step 4 — Point the terminal at that folder</h2>
-<p>Type <code>cd</code> and a space, then <strong>drag the unzipped folder onto the terminal window</strong> and press Return. Dragging pastes the path correctly, which is faster and more reliable than typing it.</p>
+<section id="step-4-point-the-terminal-at-the-python-folder" class="slide level2 smaller">
+<h2>Step 4 — Point the terminal at the <code>python</code> folder</h2>
+<p>Type <code>cd</code> and a space, then <strong>drag the <code>python</code> folder onto the terminal window</strong> and press Return. Dragging pastes the path correctly, which is faster and more reliable than typing it.</p>
 <p>Confirm the location by listing what is there:</p>
 <table class="caption-top">
 <thead>
@@ -817,11 +813,12 @@ macOS — Terminal
 </tr>
 </tbody>
 </table>
-<p><strong><code>pyproject.toml</code> and a <code>data</code> folder should appear in the list.</strong> If they do not, the terminal is pointed somewhere else — repeat this step.</p>
+<p><strong><code>pyproject.toml</code> and a <code>data</code> folder should appear in the list.</strong> If instead <code>PUBHLT0411.Rproj</code> appears, the terminal is one level too high — <code>cd python</code> and check again.</p>
 <aside class="notes">
+<p>The folder to drag is <code>python</code>, not <code>PUBHLT0411</code>. This is the one step the nesting changes, and it is worth slowing down for: dragging the outer folder is the mistake, and it produces a step 5 that fails for a reason two steps back.</p>
 <p>The drag-and-drop trick is worth demonstrating rather than describing. It removes the entire category of typo-in-a-long-path problems, and most students have never seen it.</p>
 <p><code>cd</code> means change directory. Say what it does once — it moves the terminal’s attention to a folder — because the concept returns every session and in every FileNotFoundError for the rest of the course.</p>
-<p>The <code>dir</code> / <code>ls</code> check is the gate again. Make them actually run it and see <code>pyproject.toml</code> before going on. A student who is in the wrong folder at step 4 gets a confusing error at step 5, and by then the cause is two steps back.</p>
+<p>The <code>dir</code> / <code>ls</code> check is the gate again. Make them actually run it and see <code>pyproject.toml</code> before going on. Seeing <code>PUBHLT0411.Rproj</code> instead is the diagnostic worth naming out loud, because it names itself: the R half’s file means you are in the R half’s folder.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -836,7 +833,7 @@ macOS — Terminal
 </section>
 <section id="step-5-build-the-environment" class="slide level2 smaller">
 <h2>Step 5 — Build the environment</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href=""></a><span class="ex">uv</span> sync</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href=""></a><span class="ex">uv</span> sync</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>This installs <strong>Python itself</strong> and every package the course uses. A long list of package names scrolls past; that is expected.</p>
 <p>The first run downloads about 200 MB — a minute or two on a good connection, longer on classroom wifi.</p>
 <div class="callout callout-note callout-titled callout-style-default">
@@ -854,7 +851,7 @@ macOS — Terminal
 </div>
 <aside class="notes">
 <p>This is the step where they wait, so use the time. The lockfile point is the one worth making out loud, and it connects straight back to the reproducibility criterion on the assessment slide: “The reason I can hold you to reproducibility is that I have removed the excuse. You are all running the same thing.”</p>
-<p>A <code>.venv</code> folder appears inside the course folder when this finishes. Tell them what it is in one sentence — it is their Python installation, it belongs to this course only, and deleting the course folder removes it completely. That answers the “is this going to clutter my computer” question before it is asked.</p>
+<p>A <code>.venv</code> folder appears inside <code>python/</code> when this finishes. Tell them what it is in one sentence — it is their Python installation, it belongs to this course only, and deleting the folder removes it completely. That answers the “is this going to clutter my computer” question before it is asked.</p>
 <p>If the download stalls, run it again rather than starting over; uv resumes. On Pitt wifi, PITTNET beats the guest network by a wide margin.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -870,8 +867,8 @@ macOS — Terminal
 </section>
 <section id="step-6-check-that-it-worked" class="slide level2 smaller">
 <h2>Step 6 — Check that it worked</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href=""></a><span class="ex">uv</span> run jupyter lab</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>JupyterLab opens in the browser. In the file list, open <strong><code>check_setup.ipynb</code></strong> and choose <strong>Run → Run All Cells</strong>.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href=""></a><span class="ex">uv</span> run jupyter lab</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>JupyterLab opens in the browser. In the file list, open <strong><code>module0_lab.ipynb</code></strong> and choose <strong>Run → Run All Cells</strong>.</p>
 <div class="callout callout-important callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
@@ -889,7 +886,7 @@ macOS — Terminal
 <aside class="notes">
 <p>Have everybody run it and say “SETUP OK” out loud, or put a hand up. You want to leave this room knowing exactly who is working and who is not, because the alternative is discovering it on Thursday when they are also meeting <code>if</code> statements.</p>
 <p>The check notebook tests four things: the Python version, that the packages import, that the data files are findable, and that a real number comes out of a real file. A student who passes all four is genuinely ready.</p>
-<p>Then the daily routine, which is the thing they actually need to retain from this session: open a terminal, cd into the course folder, <code>uv run jupyter lab</code>. Three steps, every time. Steps 1 through 5 never happen again.</p>
+<p>Then the daily routine, which is the thing they actually need to retain from this session: open a terminal, cd into <code>PUBHLT0411/python</code>, <code>uv run jupyter lab</code>. Three steps, every time. Steps 1 through 5 never happen again.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -926,7 +923,7 @@ macOS — Terminal
 </tr>
 <tr class="odd">
 <td style="text-align: left;">macOS: <em>operation not permitted</em></td>
-<td style="text-align: left;">The terminal is denied access to that folder. Move the course folder to <code>Documents</code>.</td>
+<td style="text-align: left;">The terminal is denied access to that folder. Move <code>PUBHLT0411</code> to <code>Documents</code>.</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><code>uv sync</code> stops partway</td>
@@ -934,7 +931,11 @@ macOS — Terminal
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><code>No such file or directory: 'data/...'</code></td>
-<td style="text-align: left;">JupyterLab was started outside the course folder. <code>Ctrl + C</code>, <code>cd</code> to the folder, start again.</td>
+<td style="text-align: left;">JupyterLab was started outside the <code>python</code> folder. <code>Ctrl + C</code>, <code>cd</code> there, start again.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>dir</code>/<code>ls</code> shows <code>PUBHLT0411.Rproj</code></td>
+<td style="text-align: left;">The terminal is one level too high. <code>cd python</code>.</td>
 </tr>
 </tbody>
 </table>
@@ -959,12 +960,12 @@ macOS — Terminal
 <h2>A notebook preserves execution state, not screen order</h2>
 <p>Notebooks contain <strong>code</strong> cells and <strong>text</strong> cells. <code>Shift+Enter</code> executes a cell and advances.</p>
 <p>The consequential property: <strong>the interpreter retains what was executed, not what is displayed.</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href=""></a>population <span class="op">=</span> <span class="dv">143786</span>      <span class="co"># executed first</span></span>
-<span id="cb3-2"><a href=""></a></span>
-<span id="cb3-3"><a href=""></a>population <span class="op">=</span> <span class="dv">157795</span>      <span class="co"># executed second</span></span>
-<span id="cb3-4"><a href=""></a></span>
-<span id="cb3-5"><a href=""></a><span class="co"># The first cell is then edited to 999999 and NOT re-executed.</span></span>
-<span id="cb3-6"><a href=""></a><span class="co"># The value of population remains 157795.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href=""></a>population <span class="op">=</span> <span class="dv">143786</span>      <span class="co"># executed first</span></span>
+<span id="cb4-2"><a href=""></a></span>
+<span id="cb4-3"><a href=""></a>population <span class="op">=</span> <span class="dv">157795</span>      <span class="co"># executed second</span></span>
+<span id="cb4-4"><a href=""></a></span>
+<span id="cb4-5"><a href=""></a><span class="co"># The first cell is then edited to 999999 and NOT re-executed.</span></span>
+<span id="cb4-6"><a href=""></a><span class="co"># The value of population remains 157795.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="callout callout-warning callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
@@ -995,16 +996,18 @@ macOS — Terminal
           display:block!important;
       }</style></aside>
 </section>
-<section id="a-file-is-addressed-by-its-path-from-the-course-folder" class="slide level2 smaller">
-<h2>A file is addressed by its path from the course folder</h2>
+<section id="a-file-is-addressed-by-its-path-from-the-python-folder" class="slide level2 smaller">
+<h2>A file is addressed by its path from the <code>python</code> folder</h2>
 <p>The data files ship with the course, inside a <code>data</code> folder. Nothing is uploaded.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href=""></a>pubhlt0411<span class="op">/</span>                        <span class="op">&lt;-</span> start JupyterLab HERE</span>
-<span id="cb4-2"><a href=""></a>├── data<span class="op">/</span></span>
-<span id="cb4-3"><a href=""></a>│   └── pa_overdose_county_year.csv</span>
-<span id="cb4-4"><a href=""></a>├── check_setup.ipynb</span>
-<span id="cb4-5"><a href=""></a>└── pyproject.toml</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>A file is then read by its <strong>relative path</strong> — its location starting from the course folder:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href=""></a>pd.read_csv(<span class="st">"data/pa_overdose_county_year.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href=""></a>PUBHLT0411<span class="op">/</span></span>
+<span id="cb5-2"><a href=""></a>└── python<span class="op">/</span>                        <span class="op">&lt;-</span> start JupyterLab HERE</span>
+<span id="cb5-3"><a href=""></a>    ├── data<span class="op">/</span></span>
+<span id="cb5-4"><a href=""></a>    │   └── pa_overdose_county_year.csv</span>
+<span id="cb5-5"><a href=""></a>    ├── lab<span class="op">/</span></span>
+<span id="cb5-6"><a href=""></a>    ├── module0_lab.ipynb</span>
+<span id="cb5-7"><a href=""></a>    └── pyproject.toml</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>A file is then read by its <strong>relative path</strong> — its location starting from the <code>python</code> folder:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href=""></a>pd.read_csv(<span class="st">"data/pa_overdose_county_year.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="callout callout-warning callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
@@ -1014,14 +1017,16 @@ macOS — Terminal
 <p><strong>The path is relative to where JupyterLab was started</strong></p>
 </div>
 <div class="callout-content">
-<p><code>FileNotFoundError</code> on a file that plainly exists almost always means JupyterLab was started somewhere other than the course folder. <strong>Stop it, <code>cd</code> to the course folder, start it again.</strong></p>
+<p><code>FileNotFoundError</code> on a file that plainly exists almost always means JupyterLab was started somewhere other than the <code>python</code> folder. <strong>Stop it, <code>cd</code> there, start it again.</strong></p>
 </div>
 </div>
 </div>
 <aside class="notes">
 <p>This replaces a whole category of Colab misery — no uploading, no re-uploading the same CSV four times in one lab, no Drive permissions pop-up. The files are simply there.</p>
+<p>Note there are two <code>data</code> folders in the course — one for R, one for Python — and each half reads its own. That is not duplication for its own sake: it is what lets the same <code>data/filename</code> habit work in both halves without either one having to know about the other.</p>
 <p>The one failure mode worth drilling is the relative path, and it is worth demonstrating rather than describing. Start JupyterLab from the wrong folder deliberately, run the read, and show them the FileNotFoundError. Then fix it in front of them. A student who has seen that error once diagnoses it in ten seconds; a student who has not will email you.</p>
-<p>Say the rule as a habit rather than a fact: “Always start Jupyter from the course folder. When a file is missing, that is the first thing to check, before you check the spelling.”</p>
+<p>Starting one level too high — in <code>PUBHLT0411</code> rather than <code>python</code> — is the version of that mistake this course will actually produce, so use that as the demonstration.</p>
+<p>Say the rule as a habit rather than a fact: “Always start Jupyter from the <code>python</code> folder. When a file is missing, that is the first thing to check, before you check the spelling.”</p>
 <p>Relative paths also matter for a reason beyond convenience, and it is worth one sentence: <code>data/pa_overdose_county_year.csv</code> works on every machine in this room. A path like <code>C:\Users\yourname\Desktop\stuff.csv</code> works on exactly one. That is the difference between an analysis someone else can run and one they cannot.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1616,9 +1621,9 @@ eyJhdHRyIjp7ImVjaG8iOmZhbHNlLCJlZGl0IjpmYWxzZSwiZXZhbCI6dHJ1ZX0sImNvZGUiOiJpbXBv
 </section>
 <section id="session-outcomes" class="slide level2 smaller">
 <h2>Session outcomes</h2>
-<p>1. Installing the course environment, and verifying it with <code>check_setup.ipynb</code></p>
+<p>1. Installing the course environment, and verifying it with <code>module0_lab.ipynb</code></p>
 <p>2. Executing cells in JupyterLab, and accounting for <strong>execution order as invocation order</strong></p>
-<p>3. Reading a data file by its path relative to the course folder</p>
+<p>3. Reading a data file by its path relative to the <code>python</code> folder</p>
 <p>4. Binding values to descriptive identifiers</p>
 <p>5. Distinguishing <code>int</code>, <code>float</code>, <code>str</code>, and <code>bool</code> via <code>type()</code>, and converting between them</p>
 <p>6. Applying arithmetic operators, including <code>//</code>, <code>%</code>, and <code>**</code></p>
@@ -1632,7 +1637,7 @@ eyJhdHRyIjp7ImVjaG8iOmZhbHNlLCJlZGl0IjpmYWxzZSwiZXZhbCI6dHJ1ZX0sImNvZGUiOiJpbXBv
 <p><strong>Preparation for Thursday</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>If <code>check_setup.ipynb</code> did not print <code>SETUP OK</code> today, resolve it before Thursday</strong> — at office hours if necessary. Then start JupyterLab in the course folder, open a new notebook, and compute the 2023 overdose rate for one county of interest.</p>
+<p><strong>If <code>module0_lab.ipynb</code> did not print <code>SETUP OK</code> today, resolve it before Thursday</strong> — at office hours if necessary. Then start JupyterLab in the course folder, open a new notebook, and compute the 2023 overdose rate for one county of interest.</p>
 </div>
 </div>
 </div>

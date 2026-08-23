@@ -117,7 +117,7 @@ uv run jupyter lab
 ```
 
 Your browser opens to JupyterLab. In the file list on the left, double-click
-`check_setup.ipynb`, then from the menu choose **Run → Run All Cells**.
+`module0_lab.ipynb`, then from the menu choose **Run → Run All Cells**.
 
 If the notebook prints **SETUP OK**, you are finished. Bring your laptop to
 class.

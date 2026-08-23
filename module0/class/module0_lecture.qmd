@@ -281,8 +281,8 @@ once; step 6 confirms the result.
 |:------|:-------:|:-------:|
 | **1.** Open a terminal | PowerShell | Terminal |
 |  **2.** Install uv | one line | one line |
-| **3.** Download and unzip the course folder | identical | identical |
-| **4.** Point the terminal at that folder | identical | identical |
+| **3.** Unzip the course folder inside `PUBHLT0411` | identical | identical |
+| **4.** Point the terminal at the `python` folder | identical | identical |
 | **5.** Build the environment | `uv sync` | `uv sync` |
 | **6.** Check that it worked | `uv run jupyter lab` | `uv run jupyter lab` |
 
@@ -369,36 +369,62 @@ Ask for hands when `uv --version` prints a number. That is your gate — do not 
 until most of the room has it.
 :::
 
-## Step 3 — Download and unzip the course folder {.smaller}
+## Step 3 — Unzip the course folder inside `PUBHLT0411` {.smaller}
 
-Download `pubhlt0411.zip` from Canvas and **extract it**. Suggested location:
+Download `python.zip` from Canvas and **extract it into the `PUBHLT0411` folder already
+built for the R half.** The result:
 
-| Windows | macOS |
-|:--|:--|
-| `C:\Users\yourname\Documents\pubhlt0411` | `/Users/yourname/Documents/pubhlt0411` |
+```python
+PUBHLT0411/                <- the folder from the R half
+├── PUBHLT0411.Rproj
+├── data/                  <- R data
+├── lecture/  lab/  final-project/
+└── python/                <- extracted here
+    ├── data/              <- Python data
+    ├── lab/
+    ├── module0_lab.ipynb
+    └── pyproject.toml
+```
 
 ::: {.callout-warning}
-## Two failures, both common
+## Three failures, all common
 **Opening a zip is not extracting it.** Windows displays the contents of a zip without
 unpacking them, and Python cannot work inside one. Right-click → *Extract All*.
 
-**Keep the folder out of OneDrive, Dropbox, and Google Drive.** Syncing software interferes
-with the files Python creates.
+**`python` goes inside `PUBHLT0411`, not beside it.** The two halves share one course folder.
+
+**Keep `PUBHLT0411` out of OneDrive, Dropbox, and Google Drive.** Syncing software
+interferes with the files Python creates.
 :::
 
 ::: {.notes}
+Most of the room already has a PUBHLT0411 folder from the R half — that is where this goes.
+Put the tree on the projector and let them match it against their own file browser before
+anybody types anything. Thirty seconds here saves the whole of step 4.
+
 The zip trap is a Windows-specific one and it costs somebody twenty minutes every time it
 is not pre-empted. Say it as a rule with no exceptions: right-click, Extract All, then work
 in the extracted folder.
 
+The nesting is the new failure mode, so name it. A student who drops `python` next to
+`PUBHLT0411` rather than inside it gets a working environment and a confusing conversation
+in week three when the folder structure is discussed. Two levels, one inside the other.
+
+Worth saying why the two halves share a folder rather than each having their own: one
+course, one place, and the same relative-path habit works in R and in Python. The R half
+made that folder non-negotiable and this respects it.
+
 The OneDrive warning matters more at Pitt than elsewhere, because University accounts push
 Documents into OneDrive by default on some configurations. If a student's Documents folder
 is synced, have them use the Desktop instead. Worth checking on the projector.
+
+Anyone who does not have the R folder — a late add, or somebody who missed the R half —
+just makes an empty `PUBHLT0411` folder and extracts into it. Nothing downstream cares.
 :::
 
-## Step 4 — Point the terminal at that folder {.smaller}
+## Step 4 — Point the terminal at the `python` folder {.smaller}
 
-Type `cd` and a space, then **drag the unzipped folder onto the terminal window** and press
+Type `cd` and a space, then **drag the `python` folder onto the terminal window** and press
 Return. Dragging pastes the path correctly, which is faster and more reliable than typing it.
 
 Confirm the location by listing what is there:
@@ -407,10 +433,14 @@ Confirm the location by listing what is there:
 |:--|:--|
 | `dir` | `ls` |
 
-**`pyproject.toml` and a `data` folder should appear in the list.** If they do not, the
-terminal is pointed somewhere else — repeat this step.
+**`pyproject.toml` and a `data` folder should appear in the list.** If instead
+`PUBHLT0411.Rproj` appears, the terminal is one level too high — `cd python` and check again.
 
 ::: {.notes}
+The folder to drag is `python`, not `PUBHLT0411`. This is the one step the nesting changes,
+and it is worth slowing down for: dragging the outer folder is the mistake, and it produces
+a step 5 that fails for a reason two steps back.
+
 The drag-and-drop trick is worth demonstrating rather than describing. It removes the entire
 category of typo-in-a-long-path problems, and most students have never seen it.
 
@@ -419,8 +449,8 @@ folder — because the concept returns every session and in every FileNotFoundEr
 rest of the course.
 
 The `dir` / `ls` check is the gate again. Make them actually run it and see `pyproject.toml`
-before going on. A student who is in the wrong folder at step 4 gets a confusing error at
-step 5, and by then the cause is two steps back.
+before going on. Seeing `PUBHLT0411.Rproj` instead is the diagnostic worth naming out loud,
+because it names itself: the R half's file means you are in the R half's folder.
 :::
 
 ## Step 5 — Build the environment {.smaller}
@@ -448,10 +478,10 @@ making out loud, and it connects straight back to the reproducibility criterion 
 assessment slide: "The reason I can hold you to reproducibility is that I have removed the
 excuse. You are all running the same thing."
 
-A `.venv` folder appears inside the course folder when this finishes. Tell them what it is
-in one sentence — it is their Python installation, it belongs to this course only, and
-deleting the course folder removes it completely. That answers the "is this going to clutter
-my computer" question before it is asked.
+A `.venv` folder appears inside `python/` when this finishes. Tell them what it is in one
+sentence — it is their Python installation, it belongs to this course only, and deleting the
+folder removes it completely. That answers the "is this going to clutter my computer"
+question before it is asked.
 
 If the download stalls, run it again rather than starting over; uv resumes. On Pitt wifi,
 PITTNET beats the guest network by a wide margin.
@@ -463,7 +493,7 @@ PITTNET beats the guest network by a wide margin.
 uv run jupyter lab
 ```
 
-JupyterLab opens in the browser. In the file list, open **`check_setup.ipynb`** and choose
+JupyterLab opens in the browser. In the file list, open **`module0_lab.ipynb`** and choose
 **Run → Run All Cells**.
 
 ::: {.callout-important}
@@ -484,7 +514,7 @@ data files are findable, and that a real number comes out of a real file. A stud
 passes all four is genuinely ready.
 
 Then the daily routine, which is the thing they actually need to retain from this session:
-open a terminal, cd into the course folder, `uv run jupyter lab`. Three steps, every time.
+open a terminal, cd into `PUBHLT0411/python`, `uv run jupyter lab`. Three steps, every time.
 Steps 1 through 5 never happen again.
 :::
 
@@ -494,9 +524,10 @@ Steps 1 through 5 never happen again.
 |:--|:--|
 | `uv` is not recognized / command not found | The terminal was not reopened after step 2. Close **all** terminal windows, open a new one. Restart the computer if it persists. |
 | Windows: *running scripts is disabled* | The command was shortened. Retype the full line from step 2, including `-ExecutionPolicy ByPass`. |
-| macOS: *operation not permitted* | The terminal is denied access to that folder. Move the course folder to `Documents`. |
+| macOS: *operation not permitted* | The terminal is denied access to that folder. Move `PUBHLT0411` to `Documents`. |
 | `uv sync` stops partway | The network dropped. Run it again — it resumes rather than restarting. |
-| `No such file or directory: 'data/...'` | JupyterLab was started outside the course folder. `Ctrl + C`, `cd` to the folder, start again. |
+| `No such file or directory: 'data/...'` | JupyterLab was started outside the `python` folder. `Ctrl + C`, `cd` there, start again. |
+| `dir`/`ls` shows `PUBHLT0411.Rproj` | The terminal is one level too high. `cd python`. |
 
 **None of this is assessed.** Unresolved problems go to office hours or
 `soumik@pitt.edu` with a screenshot of the terminal.
@@ -553,19 +584,22 @@ practice. It is one of the four criteria every submission is marked against, fro
 lab onward, and module 6 is built around it.
 :::
 
-## A file is addressed by its path from the course folder {.smaller}
+## A file is addressed by its path from the `python` folder {.smaller}
 
 The data files ship with the course, inside a `data` folder. Nothing is uploaded.
 
 ```python
-pubhlt0411/                        <- start JupyterLab HERE
-├── data/
-│   └── pa_overdose_county_year.csv
-├── check_setup.ipynb
-└── pyproject.toml
+PUBHLT0411/
+└── python/                        <- start JupyterLab HERE
+    ├── data/
+    │   └── pa_overdose_county_year.csv
+    ├── lab/
+    ├── module0_lab.ipynb
+    └── pyproject.toml
 ```
 
-A file is then read by its **relative path** — its location starting from the course folder:
+A file is then read by its **relative path** — its location starting from the `python`
+folder:
 
 ```python
 pd.read_csv("data/pa_overdose_county_year.csv")
@@ -574,20 +608,26 @@ pd.read_csv("data/pa_overdose_county_year.csv")
 ::: {.callout-warning}
 ## The path is relative to where JupyterLab was started
 `FileNotFoundError` on a file that plainly exists almost always means JupyterLab was
-started somewhere other than the course folder. **Stop it, `cd` to the course folder,
-start it again.**
+started somewhere other than the `python` folder. **Stop it, `cd` there, start it again.**
 :::
 
 ::: {.notes}
 This replaces a whole category of Colab misery — no uploading, no re-uploading the same CSV
 four times in one lab, no Drive permissions pop-up. The files are simply there.
 
+Note there are two `data` folders in the course — one for R, one for Python — and each half
+reads its own. That is not duplication for its own sake: it is what lets the same
+`data/filename` habit work in both halves without either one having to know about the other.
+
 The one failure mode worth drilling is the relative path, and it is worth demonstrating
 rather than describing. Start JupyterLab from the wrong folder deliberately, run the read,
 and show them the FileNotFoundError. Then fix it in front of them. A student who has seen
 that error once diagnoses it in ten seconds; a student who has not will email you.
 
-Say the rule as a habit rather than a fact: "Always start Jupyter from the course folder.
+Starting one level too high — in `PUBHLT0411` rather than `python` — is the version of that
+mistake this course will actually produce, so use that as the demonstration.
+
+Say the rule as a habit rather than a fact: "Always start Jupyter from the `python` folder.
 When a file is missing, that is the first thing to check, before you check the spelling."
 
 Relative paths also matter for a reason beyond convenience, and it is worth one sentence:
@@ -1135,11 +1175,11 @@ me telling you? Module 1 makes them classify it themselves.
 
 ## Session outcomes {.smaller}
 
-1\. Installing the course environment, and verifying it with `check_setup.ipynb`
+1\. Installing the course environment, and verifying it with `module0_lab.ipynb`
 
 2\. Executing cells in JupyterLab, and accounting for **execution order as invocation order**
 
-3\. Reading a data file by its path relative to the course folder
+3\. Reading a data file by its path relative to the `python` folder
 
 4\. Binding values to descriptive identifiers
 
@@ -1151,7 +1191,7 @@ me telling you? Module 1 makes them classify it themselves.
 
 ::: {.callout-tip}
 ## Preparation for Thursday
-**If `check_setup.ipynb` did not print `SETUP OK` today, resolve it before Thursday** — at
+**If `module0_lab.ipynb` did not print `SETUP OK` today, resolve it before Thursday** — at
 office hours if necessary. Then start JupyterLab in the course folder, open a new notebook,
 and compute the 2023 overdose rate for one county of interest.
 :::

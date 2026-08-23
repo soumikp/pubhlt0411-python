@@ -29,6 +29,9 @@ __pycache__/
 pubhlt0411.zip
 # student/data/ is a COPY of the root data/ made at packaging time.
 student/data/
+# Likewise a COPY, of module0/lab/module0_lab.ipynb. It ships in the zip root
+# because students run it next to data/; the master lives with the other labs.
+student/module0_lab.ipynb
 
 # --- NOT PUBLISHED: superseded drafts of the landing page ---
 index_backup_*.qmd
