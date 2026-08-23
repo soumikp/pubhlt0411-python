@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Soumik Purkayastha, PhD">
 
-<title>PUBHLT 0411 — Python for Public Health Data Analysis</title>
+<title>PUBHLT0411 – Python for Public Health Data Analysis</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -36,7 +37,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="index_files/libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="index_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="index_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="index_files/libs/bootstrap/bootstrap-8ffd5f67044e5306d9846f29df41dda5.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="index_files/libs/bootstrap/bootstrap-138a6193a3bd40baf1e627da441a4734.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 
 
 </head>
@@ -49,7 +50,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">PUBHLT 0411 — Python for Public Health Data Analysis</h1>
+<h1 class="title">PUBHLT0411 – Python for Public Health Data Analysis</h1>
 <p class="subtitle lead">University of Pittsburgh · School of Public Health · Fall 2026</p>
 </div>
 
@@ -57,6 +58,12 @@ ul.task-list li input[type="checkbox"] {
 
 <div class="quarto-title-meta column-page">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Soumik Purkayastha, PhD </p>
+          </div>
+  </div>
     
   
     
@@ -67,110 +74,85 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="course-materials" class="level2">
-<h2 class="anchored" data-anchor-id="course-materials">Course materials</h2>
-<p>Interactive slides. Every code cell runs in the browser — nothing to install.</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>How to use these
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Click into any code block and press <strong>Run</strong>. Edit the code and run it again. Lab exercises have <strong>Hint</strong> and <strong>Solution</strong> buttons.</p>
-<p>The first cell on a page takes a few seconds to start while Python loads. After that it is immediate.</p>
-</div>
-</div>
-<table class="table-striped table-hover caption-top table">
-<colgroup>
-<col style="width: 22%">
-<col style="width: 17%">
-<col style="width: 32%">
-<col style="width: 14%">
-<col style="width: 15%">
-</colgroup>
+<section id="lecture-slides" class="level2">
+<h2 class="anchored" data-anchor-id="lecture-slides">Lecture slides</h2>
+<p>Below are interactive lecture slides so that you may follow along with the in-class exercises. Every code cell runs in the browser – click into a block and press <strong>Run</strong>, then edit it and run it again. The first cell on a page takes a few seconds to start while Python loads.</p>
+<style>
+.striped-table table tr.odd { background-color: #ffffff; }
+.striped-table table tr.even { background-color: #f2f2f2; }
+</style>
+<div class="striped-table">
+<table class="caption-top table">
 <thead>
 <tr class="header">
-<th style="text-align: left;">Module</th>
-<th style="text-align: left;">Dates</th>
-<th style="text-align: left;">What you learn</th>
-<th style="text-align: left;">Reading</th>
-<th style="text-align: left;">Slides</th>
+<th>Module</th>
+<th>Date</th>
+<th>Reading</th>
+<th>Slides</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;"><strong>0</strong> — Notebooks and Values</td>
-<td style="text-align: left;">Tue&nbsp;Oct&nbsp;6</td>
-<td style="text-align: left;">Running code in a notebook, and storing values in typed variables</td>
-<td style="text-align: left;">P4E:&nbsp;1–2</td>
-<td style="text-align: left;"><a href="module0/class/module0_lecture.html">Slides</a></td>
+<td><strong>Module 0:</strong> Notebooks and values</td>
+<td>Lecture Tue Oct 6</td>
+<td>P4E 1–2</td>
+<td><a href="module0/class/module0_lecture.html">Slides</a></td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"><strong>1</strong> — Conditions and Sequences</td>
-<td style="text-align: left;">Lecture&nbsp;Thu&nbsp;Oct&nbsp;8<br>Lab&nbsp;Tue&nbsp;Oct&nbsp;13</td>
-<td style="text-align: left;">Branching on a condition, and holding a sequence of values</td>
-<td style="text-align: left;">P4E:&nbsp;3,&nbsp;5,&nbsp;8<br>P4DA:&nbsp;2</td>
-<td style="text-align: left;"><a href="module1/class/module1_lecture.html">Slides</a></td>
+<td><strong>Module 1:</strong> Conditions and sequences</td>
+<td>Lecture Thu Oct 8<br>Lab Tue Oct 13</td>
+<td>P4E 3, 5, 8<br>P4DA 2</td>
+<td><a href="module1/class/module1_lecture.html">Slides</a></td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;"><strong>2</strong> — Collections, Loops, and Functions</td>
-<td style="text-align: left;">Lecture&nbsp;Thu&nbsp;Oct&nbsp;15<br>Lab&nbsp;Tue&nbsp;Oct&nbsp;20</td>
-<td style="text-align: left;">Walking collections with loops, and packaging work into your own functions</td>
-<td style="text-align: left;">P4E:&nbsp;4,&nbsp;5,&nbsp;9,&nbsp;10</td>
-<td style="text-align: left;"><a href="module2/class/module2_lecture.html">Slides</a></td>
+<td><strong>Module 2:</strong> Collections, loops, and functions</td>
+<td>Lecture Thu Oct 15<br>Lab Tue Oct 20</td>
+<td>P4E 4, 5, 9, 10</td>
+<td><a href="module2/class/module2_lecture.html">Slides</a></td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"><strong>3</strong> — NumPy</td>
-<td style="text-align: left;">Lecture&nbsp;Thu&nbsp;Oct&nbsp;22<br>Lab&nbsp;Tue&nbsp;Oct&nbsp;27</td>
-<td style="text-align: left;">Replacing loops with whole-array arithmetic, then selecting with masks</td>
-<td style="text-align: left;">P4DA:&nbsp;4</td>
-<td style="text-align: left;"><a href="module3/class/module3_lecture.html">Slides</a></td>
+<td><strong>Module 3:</strong> NumPy</td>
+<td>Lecture Thu Oct 22<br>Lab Tue Oct 27</td>
+<td>P4DA 4</td>
+<td><a href="module3/class/module3_lecture.html">Slides</a></td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;"><strong>4</strong> — pandas and Wrangling</td>
-<td style="text-align: left;">Lecture&nbsp;Thu&nbsp;Oct&nbsp;29<br>Lab&nbsp;Thu&nbsp;Nov&nbsp;5</td>
-<td style="text-align: left;">Loading a real table and performing elementary operations</td>
-<td style="text-align: left;">P4DA:&nbsp;5,&nbsp;7,&nbsp;8</td>
-<td style="text-align: left;"><a href="module4/class/module4_lecture.html">Slides</a></td>
+<td><strong>Module 4:</strong> pandas and wrangling</td>
+<td>Lecture Thu Oct 29<br>Lab Thu Nov 5</td>
+<td>P4DA 5, 7, 8</td>
+<td><a href="module4/class/module4_lecture.html">Slides</a></td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"><strong>5</strong> — Visualisation and Description</td>
-<td style="text-align: left;">Lecture&nbsp;Tue&nbsp;Nov&nbsp;10<br>Lab&nbsp;Thu&nbsp;Nov&nbsp;12</td>
-<td style="text-align: left;">Turning a table into a figure, and exploring a distribution</td>
-<td style="text-align: left;">P4DA:&nbsp;9,&nbsp;10</td>
-<td style="text-align: left;"><a href="module5/class/module5_lecture.html">Slides</a></td>
+<td><strong>Module 5:</strong> Visualization and description</td>
+<td>Lecture Tue Nov 10<br>Lab Thu Nov 12</td>
+<td>P4DA 9, 10</td>
+<td><a href="module5/class/module5_lecture.html">Slides</a></td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;"><strong>6</strong> — Reproducible Pipeline</td>
-<td style="text-align: left;">Tue&nbsp;Nov&nbsp;17<br><em>combined&nbsp;session</em></td>
-<td style="text-align: left;">Running an analysis end to end — import, clean, join, group, summarise, visualise — culminating in a short written report</td>
-<td style="text-align: left;">P4DA:&nbsp;13</td>
-<td style="text-align: left;"><a href="module6/class/module6_session.html">Slides</a></td>
+<td><strong>Module 6:</strong> Reproducible pipeline</td>
+<td>Lecture + Lab Tue Nov 17</td>
+<td>P4DA 13</td>
+<td><a href="module6/class/module6_session.html">Slides</a></td>
 </tr>
 </tbody>
 </table>
-<p>Module 0 has no lab. Module 6 is one combined session rather than a lecture and lab pair. There is no class on Tue Nov 3 (Election Day).</p>
-<p><strong>Readings.</strong> [P4E] <em>Python for Everybody</em> — <a href="https://www.py4e.com/html3/" class="uri">https://www.py4e.com/html3/</a> · [P4DA] <em>Python for Data Analysis, 3E</em> — <a href="https://wesmckinney.com/book/" class="uri">https://wesmckinney.com/book/</a></p>
-<hr>
+</div>
+<p>Module 0’s lab is a take home setup check with no submission component. Module 6 is one combined session rather than a lecture and lab pair. There is no class on Tue Nov 3 (Election Day).</p>
+<p><strong>Readings.</strong> [P4E] <em>Python for Everybody (3e)</em> – <a href="https://www.py4e.com/html3/" class="uri">https://www.py4e.com/html3/</a> · [P4DA] <em>Python for Data Analysis (3e)</em> – <a href="https://wesmckinney.com/book/" class="uri">https://wesmckinney.com/book/</a></p>
 </section>
 <section id="about-the-data" class="level2">
 <h2 class="anchored" data-anchor-id="about-the-data">About the data</h2>
-<p>Every dataset in this course is real and traces to a named public source — the Pennsylvania Department of Health, the CDC, or the EPA. County-level figures are reported as published, including their suppression rules and known limitations.</p>
+<p>Every dataset in this course is real and traces to a named public source – the Pennsylvania Department of Health, the CDC, or the EPA. County-level figures are reported as published, including their suppression rules and known limitations. All data files ship with the course download, so there is nothing to upload.</p>
 </section>
 <section id="labs-and-homework" class="level2">
 <h2 class="anchored" data-anchor-id="labs-and-homework">Labs and homework</h2>
-<p><strong>Labs</strong> are worked during the lab session and submitted to Canvas by midnight that same day. There are six labs across the Python half, and the lowest grade is dropped.</p>
-<p><strong>Homework</strong> is completed on <a href="https://www.datacamp.com">DataCamp</a>, not on this site. Each homework is an assigned set of DataCamp chapters covering the module just finished, due by midnight the day before the next lecture. Homework is graded on completion, recorded automatically — there is nothing to upload to Canvas. See Canvas and the syllabus for the assigned chapters and exact due dates.</p>
+<p><strong>Labs</strong> are worked on during each week’s lab session and submitted to Canvas by 11:59pm that same day. There are six labs across the Python half, and the lowest grade is dropped.</p>
+<p><strong>Homework</strong> is completed on <a href="https://www.datacamp.com">DataCamp</a>, not on this site or Canvas. Each homework is an assigned set of DataCamp chapters covering the module just finished, due by 9am the day the next module starts. Homework is graded on completion, recorded automatically through DataCamp, there is nothing to upload to Canvas. See Canvas and the syllabus for the assigned chapters and exact due dates.</p>
 </section>
 <section id="software" class="level2">
 <h2 class="anchored" data-anchor-id="software">Software</h2>
-<p>Coursework is completed in <a href="https://colab.research.google.com">Google Colab</a>. The slides on this site run Python directly in the browser through <a href="https://pyodide.org">Pyodide</a>, which requires no account and no installation.</p>
-<hr>
-<p><em>Soumik Purkayastha · Department of Biostatistics and Health Data Science · <a href="mailto:soumik@pitt.edu" class="email">soumik@pitt.edu</a></em></p>
+<p>All coursework will require the use of Python and JupyterLab, installed locally on your own machine. The course supplies everything as a single download from Canvas: you install a small tool called <a href="https://docs.astral.sh/uv/">uv</a>, which installs Python itself along with every package the course uses, pinned to the same versions on every machine. Setup takes about fifteen minutes and is done together in class during Module 0; <code>SETUP.md</code> in the download carries every step with its failure modes. A separate Python download is not required, and Anaconda is neither required nor recommended – an existing Python or Anaconda installation is left untouched.</p>
+<p>The slides on this site run Python directly in the browser through <a href="https://pyodide.org">Pyodide</a>, which requires no account and no installation.</p>
 </section>
 
 </main>

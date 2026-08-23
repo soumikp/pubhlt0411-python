@@ -427,7 +427,7 @@ eyJhdHRyIjp7ImVjaG8iOmZhbHNlLCJlZGl0IjpmYWxzZSwiZXZhbCI6dHJ1ZX0sImNvZGUiOiJpbXBv
 <td style="text-align: center;"><strong>0</strong></td>
 <td style="text-align: left;">Substance use</td>
 <td style="text-align: left;">Tue 10/6</td>
-<td style="text-align: left;">—</td>
+<td style="text-align: left;">Tue 10/6 — <em>not graded</em></td>
 <td style="text-align: left;">—</td>
 </tr>
 <tr class="even">
@@ -476,6 +476,7 @@ eyJhdHRyIjp7ImVjaG8iOmZhbHNlLCJlZGl0IjpmYWxzZSwiZXZhbCI6dHJ1ZX0sImNvZGUiOiJpbXBv
 </table>
 </div>
 <p><strong>Labs are due the day of the lab session at 11:59pm. Homework is due at 9:00am the morning the next module begins</strong> — half an hour before that lecture.</p>
+<p><strong>Module 0’s lab is the exception:</strong> <code>module0_lab.ipynb</code> is a systems check, not an assessment. It is run after class to confirm the environment works, and there is nothing to write and nothing to submit.</p>
 <div class="callout callout-warning callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
@@ -1022,7 +1023,7 @@ macOS — Terminal
 </div>
 </div>
 <aside class="notes">
-<p>This replaces a whole category of Colab misery — no uploading, no re-uploading the same CSV four times in one lab, no Drive permissions pop-up. The files are simply there.</p>
+<p>Worth naming what they are being spared, because most of them have met it in a cloud notebook: no uploading, no re-uploading the same CSV four times in one lab, no cloud-storage permissions pop-up. The files ship with the course and are simply there.</p>
 <p>Note there are two <code>data</code> folders in the course — one for R, one for Python — and each half reads its own. That is not duplication for its own sake: it is what lets the same <code>data/filename</code> habit work in both halves without either one having to know about the other.</p>
 <p>The one failure mode worth drilling is the relative path, and it is worth demonstrating rather than describing. Start JupyterLab from the wrong folder deliberately, run the read, and show them the FileNotFoundError. Then fix it in front of them. A student who has seen that error once diagnoses it in ten seconds; a student who has not will email you.</p>
 <p>Starting one level too high — in <code>PUBHLT0411</code> rather than <code>python</code> — is the version of that mistake this course will actually produce, so use that as the demonstration.</p>

@@ -265,8 +265,8 @@ This is the first genuinely new syntax of the course. R uses braces and treats w
 as decoration; Python uses whitespace *as* the syntax. Say that difference out loud,
 because it is the source of nearly every error in the next two weeks.
 
-Four spaces is the convention. Colab inserts them when you press Tab. Tell them not to mix
-tabs and spaces — the error is confusing and the fix is invisible.
+Four spaces is the convention. JupyterLab inserts them when you press Tab. Tell them not to
+mix tabs and spaces — the error is confusing and the fix is invisible.
 :::
 
 ## `elif` and `else` handle the remaining cases {.smaller}

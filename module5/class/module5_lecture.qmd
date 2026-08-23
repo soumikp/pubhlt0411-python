@@ -543,8 +543,8 @@ blank image.
 
 ::: {.notes}
 This cell writes a real file into the browser's virtual filesystem, which is why the
-existence check prints True. In Colab the same call puts a real PNG in the session folder,
-and it can be downloaded from the file browser on the left.
+existence check prints True. In JupyterLab the same call puts a real PNG in the `python`
+folder, next to the notebook, and it stays there after the session ends.
 
 The callout is a bug students hit within about a week of starting their project, and the
 symptom is baffling if the rule is unknown — the figure looked perfect on screen and the
@@ -631,7 +631,7 @@ a reader who cannot see it.
 
 ::: {.callout-warning}
 ## Where the description goes depends on the tool
-`fig-alt` works in Colab and in a rendered Quarto document. **It does not work in these
+`fig-alt` works in a rendered Quarto document. **It does not work in these
 slides** — the figures here are drawn in the browser, and the attribute never reaches them.
 Every figure in this deck therefore carries its description as **visible text underneath**,
 which reaches a screen reader in either case.
@@ -812,9 +812,9 @@ seaborn is **not bundled** with this browser's Python. `micropip` fetches it at 
 the download takes a few seconds on first use.
 
 ::: {.callout-tip}
-## In Colab, seaborn is already installed
-`import seaborn as sns` is enough there. The `micropip` step is specific to Python running
-inside a browser.
+## In JupyterLab, seaborn is already installed
+`import seaborn as sns` is enough there — it ships with the course environment. The
+`micropip` step is specific to Python running inside a browser.
 :::
 
 ::: {.notes}

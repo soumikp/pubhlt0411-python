@@ -12,7 +12,7 @@
   <meta name="generator" content="quarto-1.9.37">
 
   <meta name="author" content="Soumik Purkayastha">
-  <meta name="dcterms.date" content="2026-08-20">
+  <meta name="dcterms.date" content="2026-08-23">
   <title>Module 5: Visualisation and description</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -216,7 +216,7 @@ Soumik Purkayastha
     </div>
 </div>
 
-  <p class="date">August 20, 2026</p>
+  <p class="date">August 23, 2026</p>
 </section>
 <section>
 <section id="a-rate-that-refuses-to-move." class="title-slide slide level1 unnumbered center" data-background-color="#003594">
@@ -601,7 +601,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiaW1wb3J0IHBhbmRhcyBhcyBw
 </div>
 </div>
 <aside class="notes">
-<p>This cell writes a real file into the browser’s virtual filesystem, which is why the existence check prints True. In Colab the same call puts a real PNG in the session folder, and it can be downloaded from the file browser on the left.</p>
+<p>This cell writes a real file into the browser’s virtual filesystem, which is why the existence check prints True. In JupyterLab the same call puts a real PNG in the <code>python</code> folder, next to the notebook, and it stays there after the session ends.</p>
 <p>The callout is a bug students hit within about a week of starting their project, and the symptom is baffling if the rule is unknown — the figure looked perfect on screen and the saved file is blank. Order matters because <code>show()</code> flushes the canvas.</p>
 <p><code>bbox_inches="tight"</code> deserves its own sentence. The classic failure is a long y-axis label sliced off at the left edge of the saved file while looking fine in the notebook. That one argument fixes it permanently.</p>
 <style type="text/css">
@@ -682,7 +682,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImZpZy1hbHQiOiJGb3VyLXBhbmVsIGdyaWQg
 <p><strong>Where the description goes depends on the tool</strong></p>
 </div>
 <div class="callout-content">
-<p><code>fig-alt</code> works in Colab and in a rendered Quarto document. <strong>It does not work in these slides</strong> — the figures here are drawn in the browser, and the attribute never reaches them. Every figure in this deck therefore carries its description as <strong>visible text underneath</strong>, which reaches a screen reader in either case.</p>
+<p><code>fig-alt</code> works in a rendered Quarto document. <strong>It does not work in these slides</strong> — the figures here are drawn in the browser, and the attribute never reaches them. Every figure in this deck therefore carries its description as <strong>visible text underneath</strong>, which reaches a screen reader in either case.</p>
 </div>
 </div>
 </div>
@@ -861,10 +861,10 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiaW1wb3J0IG1pY3JvcGlwXG5h
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>In Colab, seaborn is already installed</strong></p>
+<p><strong>In JupyterLab, seaborn is already installed</strong></p>
 </div>
 <div class="callout-content">
-<p><code>import seaborn as sns</code> is enough there. The <code>micropip</code> step is specific to Python running inside a browser.</p>
+<p><code>import seaborn as sns</code> is enough there — it ships with the course environment. The <code>micropip</code> step is specific to Python running inside a browser.</p>
 </div>
 </div>
 </div>

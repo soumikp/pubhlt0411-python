@@ -27,6 +27,15 @@ __pycache__/
 # student/ is the source of the distribution and IS tracked. The zip built
 # from it is not — rebuild with the command in student/README_INSTRUCTOR.md.
 pubhlt0411.zip
+# LaTeX intermediates from rendering a deck to PDF. The .html is the
+# deliverable; these are regenerated on every render.
+*.aux
+*.vrb
+*.log
+*.snm
+*.nav
+*.toc
+module*/class/*.pdf
 # student/data/ is a COPY of the root data/ made at packaging time.
 student/data/
 # Likewise a COPY, of module0/lab/module0_lab.ipynb. It ships in the zip root

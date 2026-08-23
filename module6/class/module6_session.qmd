@@ -1334,7 +1334,7 @@ assert _lower.replace("nonmetro", "").count("metro") >= 1, \
 
 ::: {.callout-note}
 ## Where this goes
-In a Colab notebook or an ordinary Quarto document, this text is the figure's alt text. In
+In an ordinary Quarto document, this text is the figure's alt text. In
 these slides it is printed under the figure as visible text, because the slide format does not
 carry alt text through to the browser.
 :::

@@ -1,69 +1,52 @@
 ---
-title: "PUBHLT 0411 — Python for Public Health Data Analysis"
+title: "PUBHLT0411 -- Python for Public Health Data Analysis"
 subtitle: "University of Pittsburgh · School of Public Health · Fall 2026"
+author: Soumik Purkayastha, PhD
 format:
   html:
-    theme: cosmo
     toc: false
     page-layout: full
 ---
 
-## Course materials
+## Lecture slides
 
-Interactive slides. Every code cell runs in the browser — nothing to install.
+Below are interactive lecture slides so that you may follow along with the in-class exercises. Every code cell runs in the browser -- click into a block and press **Run**, then edit it and run it again. The first cell on a page takes a few seconds to start while Python loads.
 
-::: {.callout-note}
-## How to use these
-Click into any code block and press **Run**. Edit the code and run it again. Lab exercises
-have **Hint** and **Solution** buttons.
+```{=html}
+<style>
+.striped-table table tr.odd { background-color: #ffffff; }
+.striped-table table tr.even { background-color: #f2f2f2; }
+</style>
+```
 
-The first cell on a page takes a few seconds to start while Python loads. After that it is
-immediate.
+::: {.striped-table}
+| Module | Date | Reading | Slides |
+|---|---|---|---|
+| **Module 0:** Notebooks and values | Lecture Tue Oct 6 | P4E 1--2 | [Slides](module0/class/module0_lecture.html) |
+| **Module 1:** Conditions and sequences | Lecture Thu Oct 8<br>Lab Tue Oct 13 | P4E 3, 5, 8<br>P4DA 2 | [Slides](module1/class/module1_lecture.html) |
+| **Module 2:** Collections, loops, and functions | Lecture Thu Oct 15<br>Lab Tue Oct 20 | P4E 4, 5, 9, 10 | [Slides](module2/class/module2_lecture.html) |
+| **Module 3:** NumPy | Lecture Thu Oct 22<br>Lab Tue Oct 27 | P4DA 4 | [Slides](module3/class/module3_lecture.html) |
+| **Module 4:** pandas and wrangling | Lecture Thu Oct 29<br>Lab Thu Nov 5 | P4DA 5, 7, 8 | [Slides](module4/class/module4_lecture.html) |
+| **Module 5:** Visualization and description | Lecture Tue Nov 10<br>Lab Thu Nov 12 | P4DA 9, 10 | [Slides](module5/class/module5_lecture.html) |
+| **Module 6:** Reproducible pipeline | Lecture + Lab Tue Nov 17 | P4DA 13 | [Slides](module6/class/module6_session.html) |
 :::
 
-| Module | Dates | What you learn | Reading | Slides |
-|:--|:--|:--|:--|:--|
-| **0** — Notebooks and Values | Tue&nbsp;Oct&nbsp;6 | Running code in a notebook, and storing values in typed variables | P4E:&nbsp;1–2 | [Slides](module0/class/module0_lecture.html) |
-| **1** — Conditions and Sequences | Lecture&nbsp;Thu&nbsp;Oct&nbsp;8<br>Lab&nbsp;Tue&nbsp;Oct&nbsp;13 | Branching on a condition, and holding a sequence of values | P4E:&nbsp;3,&nbsp;5,&nbsp;8<br>P4DA:&nbsp;2 | [Slides](module1/class/module1_lecture.html) |
-| **2** — Collections, Loops, and Functions | Lecture&nbsp;Thu&nbsp;Oct&nbsp;15<br>Lab&nbsp;Tue&nbsp;Oct&nbsp;20 | Walking collections with loops, and packaging work into your own functions | P4E:&nbsp;4,&nbsp;5,&nbsp;9,&nbsp;10 | [Slides](module2/class/module2_lecture.html) |
-| **3** — NumPy | Lecture&nbsp;Thu&nbsp;Oct&nbsp;22<br>Lab&nbsp;Tue&nbsp;Oct&nbsp;27 | Replacing loops with whole-array arithmetic, then selecting with masks | P4DA:&nbsp;4 | [Slides](module3/class/module3_lecture.html) |
-| **4** — pandas and Wrangling | Lecture&nbsp;Thu&nbsp;Oct&nbsp;29<br>Lab&nbsp;Thu&nbsp;Nov&nbsp;5 | Loading a real table and performing elementary operations | P4DA:&nbsp;5,&nbsp;7,&nbsp;8 | [Slides](module4/class/module4_lecture.html) |
-| **5** — Visualisation and Description | Lecture&nbsp;Tue&nbsp;Nov&nbsp;10<br>Lab&nbsp;Thu&nbsp;Nov&nbsp;12 | Turning a table into a figure, and exploring a distribution | P4DA:&nbsp;9,&nbsp;10 | [Slides](module5/class/module5_lecture.html) |
-| **6** — Reproducible Pipeline | Tue&nbsp;Nov&nbsp;17<br>*combined&nbsp;session* | Running an analysis end to end — import, clean, join, group, summarise, visualise — culminating in a short written report | P4DA:&nbsp;13 | [Slides](module6/class/module6_session.html) |
+Module 0's lab is a take home setup check with no submission component. Module 6 is one combined session rather than a lecture and lab pair. There is no class on Tue Nov 3 (Election Day).
 
-: {.striped .hover tbl-colwidths="[22,17,32,14,15]"}
-
-Module 0 has no lab. Module 6 is one combined session rather than a lecture and lab pair.
-There is no class on Tue Nov 3 (Election Day).
-
-**Readings.** [P4E] *Python for Everybody* — <https://www.py4e.com/html3/> ·
-[P4DA] *Python for Data Analysis, 3E* — <https://wesmckinney.com/book/>
-
----
+**Readings.** [P4E] *Python for Everybody (3e)* -- <https://www.py4e.com/html3/> · [P4DA] *Python for Data Analysis (3e)* -- <https://wesmckinney.com/book/>
 
 ## About the data
 
-Every dataset in this course is real and traces to a named public source — the
-Pennsylvania Department of Health, the CDC, or the EPA. County-level figures are reported
-as published, including their suppression rules and known limitations.
+Every dataset in this course is real and traces to a named public source -- the Pennsylvania Department of Health, the CDC, or the EPA. County-level figures are reported as published, including their suppression rules and known limitations. All data files ship with the course download, so there is nothing to upload.
 
 ## Labs and homework
 
-**Labs** are worked during the lab session and submitted to Canvas by midnight that same
-day. There are six labs across the Python half, and the lowest grade is dropped.
+**Labs** are worked on during each week's lab session and submitted to Canvas by 11:59pm that same day. There are six labs across the Python half, and the lowest grade is dropped.
 
-**Homework** is completed on [DataCamp](https://www.datacamp.com), not on this site. Each
-homework is an assigned set of DataCamp chapters covering the module just finished, due by
-midnight the day before the next lecture. Homework is graded on completion, recorded
-automatically — there is nothing to upload to Canvas. See Canvas and the syllabus for the
-assigned chapters and exact due dates.
+**Homework** is completed on [DataCamp](https://www.datacamp.com), not on this site or Canvas. Each homework is an assigned set of DataCamp chapters covering the module just finished, due by 9am the day the next module starts. Homework is graded on completion, recorded automatically through DataCamp, there is nothing to upload to Canvas. See Canvas and the syllabus for the assigned chapters and exact due dates.
 
 ## Software
 
-Coursework is completed in [Google Colab](https://colab.research.google.com). The slides on
-this site run Python directly in the browser through
-[Pyodide](https://pyodide.org), which requires no account and no installation.
+All coursework will require the use of Python and JupyterLab, installed locally on your own machine. The course supplies everything as a single download from Canvas: you install a small tool called [uv](https://docs.astral.sh/uv/), which installs Python itself along with every package the course uses, pinned to the same versions on every machine. Setup takes about fifteen minutes and is done together in class during Module 0; `SETUP.md` in the download carries every step with its failure modes. A separate Python download is not required, and Anaconda is neither required nor recommended -- an existing Python or Anaconda installation is left untouched.
 
----
-
-*Soumik Purkayastha · Department of Biostatistics and Health Data Science · <soumik@pitt.edu>*
+The slides on this site run Python directly in the browser through [Pyodide](https://pyodide.org), which requires no account and no installation.

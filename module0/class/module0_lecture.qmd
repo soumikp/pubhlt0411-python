@@ -195,7 +195,7 @@ Sessions meet Tuesday and Thursday, 9:30–10:45, in 105 Lawrence Hall.
 ::: {.module-map}
 |Module | Area | Lecture | Lab — due 11:59pm | Homework — due 9:00am |
 |:-----:|:--------------------|:--------------------|:--------------------|:--------------------|
-| **0** | Substance use | Tue 10/6 | — | — |
+| **0** | Substance use | Tue 10/6 | Tue 10/6 — *not graded* | — |
 | **1** | Substance use | Thu 10/8 | Tue 10/13 | Thu 10/15 |
 | **2** | Infectious disease | Thu 10/15 | Tue 10/20 | Thu 10/22 |
 | **3** | Environmental health | Thu 10/22 | Tue 10/27 | Thu 10/29 |
@@ -206,6 +206,10 @@ Sessions meet Tuesday and Thursday, 9:30–10:45, in 105 Lawrence Hall.
 
 **Labs are due the day of the lab session at 11:59pm. Homework is due at 9:00am the morning the
 next module begins** — half an hour before that lecture.
+
+**Module 0's lab is the exception:** `module0_lab.ipynb` is a systems check, not an
+assessment. It is run after class to confirm the environment works, and there is nothing to
+write and nothing to submit.
 
 ::: {.callout-warning}
 ## The Tuesday–Thursday rhythm breaks twice
@@ -612,8 +616,9 @@ started somewhere other than the `python` folder. **Stop it, `cd` there, start i
 :::
 
 ::: {.notes}
-This replaces a whole category of Colab misery — no uploading, no re-uploading the same CSV
-four times in one lab, no Drive permissions pop-up. The files are simply there.
+Worth naming what they are being spared, because most of them have met it in a
+cloud notebook: no uploading, no re-uploading the same CSV four times in one lab, no
+cloud-storage permissions pop-up. The files ship with the course and are simply there.
 
 Note there are two `data` folders in the course — one for R, one for Python — and each half
 reads its own. That is not duplication for its own sake: it is what lets the same
