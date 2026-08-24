@@ -22,7 +22,7 @@ Below are interactive lecture slides so that you may follow along with the in-cl
 ::: {.striped-table}
 | Module | Date | Reading | Slides |
 |---|---|---|---|
-| **Module 0:** Notebooks and values | Lecture Tue Oct 6 | P4E 1--2 | [Slides](module0/class/module0_lecture.html) |
+| **Module 0:** Notebooks and values | Lecture Tue Oct 6<br>Lab take home | P4E 1--2 | [Slides](module0/class/module0_lecture.html) |
 | **Module 1:** Conditions and sequences | Lecture Thu Oct 8<br>Lab Tue Oct 13 | P4E 3, 5, 8<br>P4DA 2 | [Slides](module1/class/module1_lecture.html) |
 | **Module 2:** Collections, loops, and functions | Lecture Thu Oct 15<br>Lab Tue Oct 20 | P4E 4, 5, 9, 10 | [Slides](module2/class/module2_lecture.html) |
 | **Module 3:** NumPy | Lecture Thu Oct 22<br>Lab Tue Oct 27 | P4DA 4 | [Slides](module3/class/module3_lecture.html) |

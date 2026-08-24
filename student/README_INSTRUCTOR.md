@@ -1,7 +1,9 @@
 # The student distribution folder
 
 Everything in this folder goes to students. **This is the folder that becomes
-`pubhlt0411.zip` on Canvas.** Nothing else in the repository is distributed.
+`python.zip` on Canvas**, extracting to a folder named `python` inside the
+`PUBHLT0411` folder the R half already established. Nothing else in the
+repository is distributed.
 
 | File | Purpose |
 |---|---|
@@ -9,18 +11,49 @@ Everything in this folder goes to students. **This is the folder that becomes
 | `pyproject.toml` | Pins Python 3.12 and the four course packages |
 | `uv.lock` | Pins the exact version of all ~100 resolved packages |
 | `module0_lab.ipynb` | The Module 0 lab — prints `SETUP OK` when the install is correct |
-| `data/` | The nine course CSVs, copied from the repository root at packaging time |
+| `data/` | The seven CSVs the course reads, copied from the repository root at packaging time |
+
+**Labs 1–6 are NOT in the zip.** Each `moduleN_lab.ipynb` is attached to its
+Canvas lab assignment and posted the morning that lab runs. Students save it
+into `python/`, beside `module0_lab.ipynb`, where `data/...` resolves without
+a relative-path prefix. This keeps students from working ahead and lets a lab
+be corrected up to the hour it runs without reissuing the download.
 
 ## Building the zip
 
 From the repository root:
 
 ```bash
-rm -rf student/data && cp -r data student/data
+# 1. Refresh the copies. Only the seven CSVs the course actually reads —
+#    pa_air_quality.csv and pa_hiv_county_year.csv are used by no deck or
+#    lab, so they stay in the repo and out of the download.
+rm -rf student/data && mkdir student/data
+for f in pa_overdose_county_year pa_counties pa_covid_monthly \
+         pa_air_pollution pa_maternal_infant pa_asthma_prevalence \
+         pa_firearm_county_year; do cp "data/$f.csv" student/data/; done
+cp data/SOURCES.md student/data/
 cp module0/lab/module0_lab.ipynb student/module0_lab.ipynb
 rm -rf student/.venv
-cd student && zip -r ../pubhlt0411.zip . \
-    -x '.*' -x '__MACOSX/*' -x 'README_INSTRUCTOR.md' -x '.venv/*'
+
+# 2. Build python.zip, which extracts to a folder named `python`.
+#    The name matters: the deck's folder trees and Step 4's `cd python`
+#    both depend on it.
+rm -rf /tmp/python && cp -r student /tmp/python
+# Strip anything that must not reach a student. README_INSTRUCTOR.html is the
+# one that matters: rendering the .md produces an .html that is NOT covered by
+# excluding the .md by name, and it carries these build commands.
+# Each on its own line: in zsh an unmatched glob (e.g. no *.html present)
+# aborts the whole command, and anything listed after it is silently skipped.
+rm -f  /tmp/python/README_INSTRUCTOR.md
+rm -rf /tmp/python/.venv
+find /tmp/python -name '*.html' -delete
+find /tmp/python -type d -name '*_files' -exec rm -rf {} + 2>/dev/null
+find /tmp/python -name '.DS_Store' -delete
+(cd /tmp && zip -r python.zip python -x '.*' -x '__MACOSX/*' -x '*/.*')
+mv /tmp/python.zip . && rm -rf /tmp/python
+
+# 3. Confirm what actually shipped — should be exactly 14 files.
+unzip -l python.zip
 ```
 
 The result is about 340 KB. Everything else a student needs is downloaded by
@@ -40,8 +73,24 @@ which keeps it beside every other module's lab. Edit that one, then re-copy. It 
 in the zip *root* rather than in a `lab/` subfolder because students run it next to
 `data/`, and `SETUP.md` Step 6 walks them to it there.
 
-**Never ship `.venv/`.** It is machine-specific and roughly 300 MB. The commands
-above delete it before zipping; `.gitignore` also excludes it.
+**Never ship `.venv/`.** It is machine-specific and roughly 300 MB, and it
+hardcodes absolute paths from the machine that built it — it would be broken on
+every student laptop even if the size were acceptable. Students build their own
+with `uv sync`; that is what `uv.lock` is for. The build commands delete it, and
+`.gitignore` excludes it, but it reappears whenever `uv sync` is run inside
+`student/` — which happens when testing the zip. **Check before every build.**
+
+**This folder should contain exactly six items.** Anything else is litter:
+
+```
+student/
+├── SETUP.md
+├── module0_lab.ipynb
+├── pyproject.toml
+├── uv.lock
+├── data/
+└── README_INSTRUCTOR.md   (excluded from the zip)
+```
 
 **`uv.lock` is committed on purpose.** It is what makes every student's
 environment identical. Regenerating it mid-semester changes package versions

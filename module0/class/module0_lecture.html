@@ -759,9 +759,9 @@ macOS — Terminal
 <span id="cb1-4"><a href=""></a>├── lecture<span class="op">/</span>  lab<span class="op">/</span>  final<span class="op">-</span>project<span class="op">/</span></span>
 <span id="cb1-5"><a href=""></a>└── python<span class="op">/</span>                <span class="op">&lt;-</span> extracted here</span>
 <span id="cb1-6"><a href=""></a>    ├── data<span class="op">/</span>              <span class="op">&lt;-</span> Python data</span>
-<span id="cb1-7"><a href=""></a>    ├── lab<span class="op">/</span></span>
-<span id="cb1-8"><a href=""></a>    ├── module0_lab.ipynb</span>
-<span id="cb1-9"><a href=""></a>    └── pyproject.toml</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-7"><a href=""></a>    ├── module0_lab.ipynb</span>
+<span id="cb1-8"><a href=""></a>    ├── pyproject.toml</span>
+<span id="cb1-9"><a href=""></a>    └── uv.lock</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="callout callout-warning callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
@@ -1004,8 +1004,8 @@ macOS — Terminal
 <span id="cb5-2"><a href=""></a>└── python<span class="op">/</span>                        <span class="op">&lt;-</span> start JupyterLab HERE</span>
 <span id="cb5-3"><a href=""></a>    ├── data<span class="op">/</span></span>
 <span id="cb5-4"><a href=""></a>    │   └── pa_overdose_county_year.csv</span>
-<span id="cb5-5"><a href=""></a>    ├── lab<span class="op">/</span></span>
-<span id="cb5-6"><a href=""></a>    ├── module0_lab.ipynb</span>
+<span id="cb5-5"><a href=""></a>    ├── module0_lab.ipynb</span>
+<span id="cb5-6"><a href=""></a>    ├── module1_lab.ipynb           <span class="op">&lt;-</span> each lab saved here <span class="im">as</span> it <span class="kw">is</span> posted</span>
 <span id="cb5-7"><a href=""></a>    └── pyproject.toml</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>A file is then read by its <strong>relative path</strong> — its location starting from the <code>python</code> folder:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href=""></a>pd.read_csv(<span class="st">"data/pa_overdose_county_year.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>

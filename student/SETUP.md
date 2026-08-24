@@ -59,14 +59,29 @@ recognized" or "command not found", go to Troubleshooting below.
 
 ## Step 3 — Download the course folder
 
-Download `pubhlt0411.zip` from Canvas and **unzip it**.
+Download `python.zip` from Canvas and **unzip it into the `PUBHLT0411` folder
+you already made for the R half.** It extracts to a folder named `python`:
 
-Put the unzipped folder somewhere you can find again and that you control:
+```
+PUBHLT0411/                <- the folder from the R half
+├── PUBHLT0411.Rproj
+├── data/                  <- R data
+├── lecture/  lab/  final-project/
+└── python/                <- python.zip extracted here
+    ├── data/              <- Python data
+    ├── module0_lab.ipynb
+    ├── pyproject.toml
+    └── uv.lock
+```
 
-- **Windows:** `C:\Users\yourname\Documents\pubhlt0411`
-- **macOS:** `/Users/yourname/Documents/pubhlt0411`
+If you do not have a `PUBHLT0411` folder — a late add, or you missed the R
+half — just make an empty one and extract into it. Put it somewhere you can
+find again and that you control, such as `Documents`.
 
-Two warnings, both of which have cost students real time:
+Three warnings, all of which have cost students real time:
+
+- **`python` goes inside `PUBHLT0411`, not beside it.** The two halves of the
+  course share one folder.
 
 - **Actually unzip it.** Windows lets you open a zip file and look inside
   without extracting. That is not the same thing, and Python cannot work in
@@ -77,11 +92,14 @@ Two warnings, both of which have cost students real time:
 
 ---
 
-## Step 4 — Point the terminal at that folder
+## Step 4 — Point the terminal at the `python` folder
 
-In your terminal, type `cd `, then a space, then drag the unzipped folder from
-your file browser onto the terminal window and press Return. Dragging pastes
-the correct path, which saves you typing it.
+In your terminal, type `cd `, then a space, then drag the **`python`** folder
+from your file browser onto the terminal window and press Return. Dragging
+pastes the correct path, which saves you typing it.
+
+Drag `python`, not `PUBHLT0411`. Dragging the outer folder is the most common
+mistake here, and it makes Step 5 fail for a reason two steps back.
 
 You can confirm you are in the right place:
 
@@ -89,7 +107,8 @@ You can confirm you are in the right place:
 - **macOS:** type `ls`
 
 Either way you should see `pyproject.toml` and a `data` folder in the list. If
-you do not, you are in the wrong folder — try Step 4 again.
+you see `PUBHLT0411.Rproj` instead, you are one level too high — type
+`cd python` and check again.
 
 ---
 
@@ -121,6 +140,21 @@ Your browser opens to JupyterLab. In the file list on the left, double-click
 
 If the notebook prints **SETUP OK**, you are finished. Bring your laptop to
 class.
+
+---
+
+## After today — the routine for every session
+
+Steps 1–5 never happen again. From now on, three steps:
+
+1. Open a terminal
+2. `cd` into your `PUBHLT0411/python` folder
+3. `uv run jupyter lab`
+
+**Where lab notebooks go.** Each lab is posted to Canvas the morning it runs.
+Download `moduleN_lab.ipynb` and save it into `python/` — the same folder as
+`module0_lab.ipynb`, next to `data/`. A notebook saved anywhere else cannot
+find the data files and fails with `FileNotFoundError`.
 
 To stop JupyterLab when you are done, return to the terminal and press
 `Ctrl + C` twice.

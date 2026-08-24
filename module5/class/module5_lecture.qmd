@@ -12,7 +12,7 @@
 #      - every figure carries alt text (fig-alt on the cell)
 #      - colour is NEVER the only channel (marker/label/annotation too)
 #      - marks >= 3:1 against white
-#    MEASURED for this build with scratchpad_contrast.py:
+#    MEASURED for this build with _archive/dev/scratchpad_contrast.py:
 #      #003594 royal  10.84:1   #8a6400 bronze 5.38:1   #6b7280 gray 4.83:1
 #    ⚠️ MEASURED AND IMPORTANT: no two of those separate from EACH OTHER by
 #    3:1 (royal vs bronze = 2.02). That is WHY the second channel is
@@ -746,7 +746,8 @@ measurement. It works on this deck's blue section dividers because the backgroun
 which is the whole point: contrast is a property of a pair, never of a colour by itself.
 
 These numbers are not estimates. They come from the WCAG relative luminance formula, and the
-script that produced this table is in the repository as `scratchpad_contrast.py`. Anyone can
+script that produced this table is in the repository as
+`_archive/dev/scratchpad_contrast.py`. Anyone can
 check any pair in about ten seconds, and for the final project they should.
 :::
 

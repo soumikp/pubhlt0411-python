@@ -385,9 +385,9 @@ PUBHLT0411/                <- the folder from the R half
 ├── lecture/  lab/  final-project/
 └── python/                <- extracted here
     ├── data/              <- Python data
-    ├── lab/
     ├── module0_lab.ipynb
-    └── pyproject.toml
+    ├── pyproject.toml
+    └── uv.lock
 ```
 
 ::: {.callout-warning}
@@ -597,8 +597,8 @@ PUBHLT0411/
 └── python/                        <- start JupyterLab HERE
     ├── data/
     │   └── pa_overdose_county_year.csv
-    ├── lab/
     ├── module0_lab.ipynb
+    ├── module1_lab.ipynb           <- each lab saved here as it is posted
     └── pyproject.toml
 ```
 
