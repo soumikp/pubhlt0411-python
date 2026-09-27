@@ -12,7 +12,7 @@
   <meta name="generator" content="quarto-1.9.37">
 
   <meta name="author" content="Soumik Purkayastha">
-  <meta name="dcterms.date" content="2026-08-23">
+  <meta name="dcterms.date" content="2026-09-27">
   <title>Module 0: Notebooks and Values</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -216,7 +216,7 @@ Soumik Purkayastha
     </div>
 </div>
 
-  <p class="date">August 23, 2026</p>
+  <p class="date">September 27, 2026</p>
 </section>
 <section>
 <section id="people." class="title-slide slide level1 unnumbered center" data-background-color="#003594">
@@ -818,7 +818,7 @@ macOS — Terminal
 <aside class="notes">
 <p>The folder to drag is <code>python</code>, not <code>PUBHLT0411</code>. This is the one step the nesting changes, and it is worth slowing down for: dragging the outer folder is the mistake, and it produces a step 5 that fails for a reason two steps back.</p>
 <p>The drag-and-drop trick is worth demonstrating rather than describing. It removes the entire category of typo-in-a-long-path problems, and most students have never seen it.</p>
-<p><code>cd</code> means change directory. Say what it does once — it moves the terminal’s attention to a folder — because the concept returns every session and in every FileNotFoundError for the rest of the course.</p>
+<p><code>cd</code> means change directory. Say what it does once — it moves the terminal’s attention to a folder — because the concept returns every session, and a missed <code>cd</code> is the most common reason Jupyter will not start for the rest of the course.</p>
 <p>The <code>dir</code> / <code>ls</code> check is the gate again. Make them actually run it and see <code>pyproject.toml</code> before going on. Seeing <code>PUBHLT0411.Rproj</code> instead is the diagnostic worth naming out loud, because it names itself: the R half’s file means you are in the R half’s folder.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -931,10 +931,14 @@ macOS — Terminal
 <td style="text-align: left;">The network dropped. Run it again — it resumes rather than restarting.</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;"><code>No such file or directory: 'data/...'</code></td>
-<td style="text-align: left;">JupyterLab was started outside the <code>python</code> folder. <code>Ctrl + C</code>, <code>cd</code> there, start again.</td>
+<td style="text-align: left;"><code>Failed to spawn: jupyter</code> / <code>program not found</code></td>
+<td style="text-align: left;">You’re not in the <code>python</code> folder. <code>cd</code> into <code>PUBHLT0411/python</code> (check with <code>dir</code>, where you should see <code>pyproject.toml</code>), then <code>uv run jupyter lab</code> again.</td>
 </tr>
 <tr class="even">
+<td style="text-align: left;"><code>No such file or directory: 'data/...'</code></td>
+<td style="text-align: left;">The notebook isn’t saved inside the <code>python</code> folder. Save or move it into <code>python/</code>, next to <code>module0_lab.ipynb</code>, and reopen it from JupyterLab.</td>
+</tr>
+<tr class="odd">
 <td style="text-align: left;"><code>dir</code>/<code>ls</code> shows <code>PUBHLT0411.Rproj</code></td>
 <td style="text-align: left;">The terminal is one level too high. <code>cd python</code>.</td>
 </tr>
@@ -1015,19 +1019,19 @@ macOS — Terminal
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>The path is relative to where JupyterLab was started</strong></p>
+<p><strong>The path is relative to where the notebook is saved</strong></p>
 </div>
 <div class="callout-content">
-<p><code>FileNotFoundError</code> on a file that plainly exists almost always means JupyterLab was started somewhere other than the <code>python</code> folder. <strong>Stop it, <code>cd</code> there, start it again.</strong></p>
+<p><code>FileNotFoundError</code> on a file that plainly exists almost always means the notebook is saved somewhere other than the <code>python</code> folder. <strong>Move it into <code>python/</code>, reopen it.</strong></p>
 </div>
 </div>
 </div>
 <aside class="notes">
 <p>Worth naming what they are being spared, because most of them have met it in a cloud notebook: no uploading, no re-uploading the same CSV four times in one lab, no cloud-storage permissions pop-up. The files ship with the course and are simply there.</p>
 <p>Note there are two <code>data</code> folders in the course — one for R, one for Python — and each half reads its own. That is not duplication for its own sake: it is what lets the same <code>data/filename</code> habit work in both halves without either one having to know about the other.</p>
-<p>The one failure mode worth drilling is the relative path, and it is worth demonstrating rather than describing. Start JupyterLab from the wrong folder deliberately, run the read, and show them the FileNotFoundError. Then fix it in front of them. A student who has seen that error once diagnoses it in ten seconds; a student who has not will email you.</p>
-<p>Starting one level too high — in <code>PUBHLT0411</code> rather than <code>python</code> — is the version of that mistake this course will actually produce, so use that as the demonstration.</p>
-<p>Say the rule as a habit rather than a fact: “Always start Jupyter from the <code>python</code> folder. When a file is missing, that is the first thing to check, before you check the spelling.”</p>
+<p>The one failure mode worth drilling is the relative path, and it is worth demonstrating rather than describing. Save a copy of the lab notebook somewhere outside <code>python</code> — Downloads is where students will actually leave it — open it, run the read, and show them the FileNotFoundError. Then move it into <code>python/</code> in front of them. A student who has seen that error once diagnoses it in ten seconds; a student who has not will email you.</p>
+<p>Starting Jupyter in the wrong folder is a different failure, and a louder one. From <code>PUBHLT0411</code>, or from a home folder because nobody ran <code>cd</code>, uv finds no <code>pyproject.toml</code> and Jupyter never starts: the terminal says <code>Failed to spawn: jupyter</code>. It is worth one sentence so they do not confuse the two.</p>
+<p>Say the rule as a habit rather than a fact: “Every notebook lives in the <code>python</code> folder. When a file is missing, that is the first thing to check, before you check the spelling.”</p>
 <p>Relative paths also matter for a reason beyond convenience, and it is worth one sentence: <code>data/pa_overdose_county_year.csv</code> works on every machine in this room. A path like <code>C:\Users\yourname\Desktop\stuff.csv</code> works on exactly one. That is the difference between an analysis someone else can run and one they cannot.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
@@ -1904,8 +1908,8 @@ WyJkYXRhL3BhX292ZXJkb3NlX2NvdW50eV95ZWFyLmNzdiJd
     <script type="module">
     if (window.location.protocol === "file:") { alert("The OJS runtime does not work with file:// URLs. Please use a web server to view this document."); }
     window._ojs.paths.runtimeToDoc = "../../..";
-    window._ojs.paths.runtimeToRoot = "../../..";
-    window._ojs.paths.docToRoot = "";
+    window._ojs.paths.runtimeToRoot = "../../../../..";
+    window._ojs.paths.docToRoot = "../..";
     window._ojs.selfContained = false;
     window._ojs.runtime.interpretFromScriptTags();
     </script>

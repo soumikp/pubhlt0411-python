@@ -161,16 +161,6 @@ To stop JupyterLab when you are done, return to the terminal and press
 
 ---
 
-## Every time after this
-
-You only do Steps 1–5 once. From then on, each time you work:
-
-1. Open a terminal
-2. `cd` into the course folder (Step 4)
-3. `uv run jupyter lab`
-
----
-
 ## Troubleshooting
 
 **`uv` is not recognized / command not found.**
@@ -190,10 +180,16 @@ Your terminal is being denied access to that folder. Move the course folder to
 Usually the network dropped. Run it again — it resumes rather than starting
 over. On Pitt wifi, try `PITTNET` rather than the guest network.
 
+**`Failed to spawn: jupyter` / `program not found`.**
+You are not in the `python` folder, so `uv` cannot find the course
+environment. `cd` into `PUBHLT0411/python` and check with `dir` (Windows) or
+`ls` (macOS) — you should see `pyproject.toml` — then run `uv run jupyter lab`
+again.
+
 **`No such file or directory: 'data/...'` inside a notebook.**
-You started JupyterLab from the wrong folder. Stop it with `Ctrl + C`, `cd`
-into the course folder, and start it again. The notebooks find data by
-relative path, so where you launch from matters.
+The notebook is saved outside the `python` folder. Save or move it into
+`python/`, next to `module0_lab.ipynb`, and reopen it from JupyterLab. The
+notebooks find data by relative path, so where the notebook is saved matters.
 
 **Nothing above worked.**
 Bring the laptop to office hours. Do not spend an hour on this alone, and do

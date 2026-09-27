@@ -449,8 +449,8 @@ The drag-and-drop trick is worth demonstrating rather than describing. It remove
 category of typo-in-a-long-path problems, and most students have never seen it.
 
 `cd` means change directory. Say what it does once — it moves the terminal's attention to a
-folder — because the concept returns every session and in every FileNotFoundError for the
-rest of the course.
+folder — because the concept returns every session, and a missed `cd` is the most common
+reason Jupyter will not start for the rest of the course.
 
 The `dir` / `ls` check is the gate again. Make them actually run it and see `pyproject.toml`
 before going on. Seeing `PUBHLT0411.Rproj` instead is the diagnostic worth naming out loud,
@@ -530,7 +530,8 @@ Steps 1 through 5 never happen again.
 | Windows: *running scripts is disabled* | The command was shortened. Retype the full line from step 2, including `-ExecutionPolicy ByPass`. |
 | macOS: *operation not permitted* | The terminal is denied access to that folder. Move `PUBHLT0411` to `Documents`. |
 | `uv sync` stops partway | The network dropped. Run it again — it resumes rather than restarting. |
-| `No such file or directory: 'data/...'` | JupyterLab was started outside the `python` folder. `Ctrl + C`, `cd` there, start again. |
+| `Failed to spawn: jupyter` / `program not found` | You're not in the `python` folder. `cd` into `PUBHLT0411/python` (check with `dir`, where you should see `pyproject.toml`), then `uv run jupyter lab` again. |
+| `No such file or directory: 'data/...'` | The notebook isn't saved inside the `python` folder. Save or move it into `python/`, next to `module0_lab.ipynb`, and reopen it from JupyterLab. |
 | `dir`/`ls` shows `PUBHLT0411.Rproj` | The terminal is one level too high. `cd python`. |
 
 **None of this is assessed.** Unresolved problems go to office hours or
@@ -610,9 +611,9 @@ pd.read_csv("data/pa_overdose_county_year.csv")
 ```
 
 ::: {.callout-warning}
-## The path is relative to where JupyterLab was started
-`FileNotFoundError` on a file that plainly exists almost always means JupyterLab was
-started somewhere other than the `python` folder. **Stop it, `cd` there, start it again.**
+## The path is relative to where the notebook is saved
+`FileNotFoundError` on a file that plainly exists almost always means the notebook is
+saved somewhere other than the `python` folder. **Move it into `python/`, reopen it.**
 :::
 
 ::: {.notes}
@@ -625,14 +626,17 @@ reads its own. That is not duplication for its own sake: it is what lets the sam
 `data/filename` habit work in both halves without either one having to know about the other.
 
 The one failure mode worth drilling is the relative path, and it is worth demonstrating
-rather than describing. Start JupyterLab from the wrong folder deliberately, run the read,
-and show them the FileNotFoundError. Then fix it in front of them. A student who has seen
+rather than describing. Save a copy of the lab notebook somewhere outside `python` —
+Downloads is where students will actually leave it — open it, run the read, and show them
+the FileNotFoundError. Then move it into `python/` in front of them. A student who has seen
 that error once diagnoses it in ten seconds; a student who has not will email you.
 
-Starting one level too high — in `PUBHLT0411` rather than `python` — is the version of that
-mistake this course will actually produce, so use that as the demonstration.
+Starting Jupyter in the wrong folder is a different failure, and a louder one. From
+`PUBHLT0411`, or from a home folder because nobody ran `cd`, uv finds no `pyproject.toml`
+and Jupyter never starts: the terminal says `Failed to spawn: jupyter`. It is worth one
+sentence so they do not confuse the two.
 
-Say the rule as a habit rather than a fact: "Always start Jupyter from the `python` folder.
+Say the rule as a habit rather than a fact: "Every notebook lives in the `python` folder.
 When a file is missing, that is the first thing to check, before you check the spelling."
 
 Relative paths also matter for a reason beyond convenience, and it is worth one sentence:
