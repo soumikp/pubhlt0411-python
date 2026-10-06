@@ -44,15 +44,15 @@ autograding/
 # A simpler autograder, also work in progress; same rule.
 autograder-simple/
 autograder-simple.zip
-# LaTeX intermediates from rendering a deck to PDF. The .html is the
-# deliverable; these are regenerated on every render.
+# LaTeX intermediates from rendering a deck to PDF. Regenerated on every
+# render. The lecture PDFs themselves are published (the "static (pdf)" links
+# on the index), so module*/class/*.pdf is no longer ignored.
 *.aux
 *.vrb
 *.log
 *.snm
 *.nav
 *.toc
-module*/class/*.pdf
 # student/data/ is a COPY of the root data/ made at packaging time.
 student/data/
 # Likewise a COPY, of module0/lab/module0_lab.ipynb. It ships in the zip root
