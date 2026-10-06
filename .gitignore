@@ -41,6 +41,9 @@ pubhlt0411.zip
 # Contains SOLUTIONS-*.qmd, which the *_solutions.ipynb rule below does not
 # match. The repo is public — never track this.
 autograding/
+# A simpler autograder, also work in progress; same rule.
+autograder-simple/
+autograder-simple.zip
 # LaTeX intermediates from rendering a deck to PDF. The .html is the
 # deliverable; these are regenerated on every render.
 *.aux
