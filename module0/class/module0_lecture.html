@@ -532,6 +532,7 @@ eyJhdHRyIjp7ImVjaG8iOmZhbHNlLCJlZGl0IjpmYWxzZSwiZXZhbCI6dHJ1ZX0sImNvZGUiOiJpbXBv
 </tbody>
 </table>
 </div>
+<p><strong>Office hours:</strong> Thursdays, 1–2pm, A740 Crabtree Hall.</p>
 <div class="callout callout-important callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
@@ -547,23 +548,6 @@ eyJhdHRyIjp7ImVjaG8iOmZhbHNlLCJlZGl0IjpmYWxzZSwiZXZhbCI6dHJ1ZX0sImNvZGUiOiJpbXBv
 </div>
 </div>
 <p><strong>Substitutes:</strong> office hours, lab partners, the class channel, the instructor.</p>
-<aside class="notes">
-<p>Give the reason once, without an academic-integrity lecture. Undergraduates respond far better to “here’s why this rule exists” than to a threat, and the reason here is honestly a good one. Say something like: “I’d rather you submit something broken that you understand than something perfect that you don’t.”</p>
-<p>The inline-completion point is worth its own sentence because students genuinely do not classify it as AI use — it feels like autocomplete. The argument that persuades is not the policy, it is the mechanism: accepting a suggested line removes the moment where you decide what the code should do, and that moment is the entire skill being taught. Somebody who accepts six suggestions has a working notebook and has learned nothing, and the course is six weeks long.</p>
-<p>Be candid about the limit of enforcement — it costs nothing and buys credibility: “I cannot check your laptop. I am not going to try. This works because you decide it works.”</p>
-<p>If asked about VS Code, some of them will have it from other courses: fine as an editor provided Copilot is not enabled. Do not let it become a tooling debate; JupyterLab is what is supported.</p>
-<p>The substitutes line matters. Say you mean it, and say when your office hours are.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
 </section></section>
 <section>
 <section id="setup." class="title-slide slide level1 unnumbered center" data-background-color="#003594">
@@ -635,22 +619,6 @@ eyJhdHRyIjp7ImVjaG8iOmZhbHNlLCJlZGl0IjpmYWxzZSwiZXZhbCI6dHJ1ZX0sImNvZGUiOiJpbXBv
 </div>
 </div>
 </div>
-<aside class="notes">
-<p>This slide exists so they can see the whole shape before starting, and so nobody spends the next fifteen minutes wondering how much longer it goes on. Ten seconds on it.</p>
-<p>Say the reassuring things now, because half the room is braced for an ordeal. No separate Python download. No Anaconda. If they already have Python or Anaconda installed, this will not touch it or fight with it — that is the single most common anxiety and it is worth pre-empting.</p>
-<p>Then set the expectation for the session: everyone does this together, on the projector, and nobody is behind. This is the one class where setup IS the content.</p>
-<p>If somebody is still stuck after ten minutes, pair them with a neighbour and move on. Do not let one broken laptop consume the session — office hours exist and the syllabus does not assess installation.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
 </section>
 <section id="step-1-open-a-terminal" class="slide level2 smaller">
 <h2>Step 1 — Open a terminal</h2>
@@ -678,21 +646,6 @@ eyJhdHRyIjp7ImVjaG8iOmZhbHNlLCJlZGl0IjpmYWxzZSwiZXZhbCI6dHJ1ZX0sImNvZGUiOiJpbXBv
 </tbody>
 </table>
 <p>Commands are typed at that prompt, exactly as written, each followed by Return.</p>
-<aside class="notes">
-<p>Have the room do this now and physically look up when the window is open. It takes fifteen seconds and it tells you who is with you before anything can go wrong.</p>
-<p>For students who have never opened a terminal — and in this course that is most of them — name the thing they are feeling: it looks unfriendly and it is not. It is one instruction at a time, and nothing in this course requires them to be fluent in it.</p>
-<p>Worth one sentence: the prompt already tells you which folder you are in. That becomes the whole point of step 4.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
 </section>
 <section id="step-2-install-uv" class="slide level2 smaller">
 <h2>Step 2 — Install uv</h2>
@@ -734,21 +687,6 @@ macOS — Terminal
 </div>
 </div>
 </div>
-<aside class="notes">
-<p>The closing-and-reopening is not a formality and it is the single most common failure in this entire process. Say it in advance, plainly: “Close the window. Open a new one. This is not superstition.” Otherwise somebody types <code>uv --version</code>, sees “not recognized”, and concludes the install failed.</p>
-<p>The Windows command must be the full line, including <code>-ExecutionPolicy ByPass</code>. The short version fails on any laptop where script execution is restricted, which describes a lot of managed machines. Do not let them shorten it.</p>
-<p>Ask for hands when <code>uv --version</code> prints a number. That is your gate — do not move to step 3 until most of the room has it.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
 </section>
 <section id="step-3-unzip-the-course-folder-inside-pubhlt0411" class="slide level2 smaller">
 <h2>Step 3 — Unzip the course folder inside <code>PUBHLT0411</code></h2>
@@ -778,24 +716,6 @@ macOS — Terminal
 </div>
 </div>
 </div>
-<aside class="notes">
-<p>Most of the room already has a PUBHLT0411 folder from the R half — that is where this goes. Put the tree on the projector and let them match it against their own file browser before anybody types anything. Thirty seconds here saves the whole of step 4.</p>
-<p>The zip trap is a Windows-specific one and it costs somebody twenty minutes every time it is not pre-empted. Say it as a rule with no exceptions: right-click, Extract All, then work in the extracted folder.</p>
-<p>The nesting is the new failure mode, so name it. A student who drops <code>python</code> next to <code>PUBHLT0411</code> rather than inside it gets a working environment and a confusing conversation in week three when the folder structure is discussed. Two levels, one inside the other.</p>
-<p>Worth saying why the two halves share a folder rather than each having their own: one course, one place, and the same relative-path habit works in R and in Python. The R half made that folder non-negotiable and this respects it.</p>
-<p>The OneDrive warning matters more at Pitt than elsewhere, because University accounts push Documents into OneDrive by default on some configurations. If a student’s Documents folder is synced, have them use the Desktop instead. Worth checking on the projector.</p>
-<p>Anyone who does not have the R folder — a late add, or somebody who missed the R half — just makes an empty <code>PUBHLT0411</code> folder and extracts into it. Nothing downstream cares.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
 </section>
 <section id="step-4-point-the-terminal-at-the-python-folder" class="slide level2 smaller">
 <h2>Step 4 — Point the terminal at the <code>python</code> folder</h2>
@@ -816,22 +736,6 @@ macOS — Terminal
 </tbody>
 </table>
 <p><strong><code>pyproject.toml</code> and a <code>data</code> folder should appear in the list.</strong> If instead <code>PUBHLT0411.Rproj</code> appears, the terminal is one level too high — <code>cd python</code> and check again.</p>
-<aside class="notes">
-<p>The folder to drag is <code>python</code>, not <code>PUBHLT0411</code>. This is the one step the nesting changes, and it is worth slowing down for: dragging the outer folder is the mistake, and it produces a step 5 that fails for a reason two steps back.</p>
-<p>The drag-and-drop trick is worth demonstrating rather than describing. It removes the entire category of typo-in-a-long-path problems, and most students have never seen it.</p>
-<p><code>cd</code> means change directory. Say what it does once — it moves the terminal’s attention to a folder — because the concept returns every session, and a missed <code>cd</code> is the most common reason Jupyter will not start for the rest of the course.</p>
-<p>The <code>dir</code> / <code>ls</code> check is the gate again. Make them actually run it and see <code>pyproject.toml</code> before going on. Seeing <code>PUBHLT0411.Rproj</code> instead is the diagnostic worth naming out loud, because it names itself: the R half’s file means you are in the R half’s folder.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
 </section>
 <section id="step-5-build-the-environment" class="slide level2 smaller">
 <h2>Step 5 — Build the environment</h2>
@@ -851,21 +755,6 @@ macOS — Terminal
 </div>
 </div>
 </div>
-<aside class="notes">
-<p>This is the step where they wait, so use the time. The lockfile point is the one worth making out loud, and it connects straight back to the reproducibility criterion on the assessment slide: “The reason I can hold you to reproducibility is that I have removed the excuse. You are all running the same thing.”</p>
-<p>A <code>.venv</code> folder appears inside <code>python/</code> when this finishes. Tell them what it is in one sentence — it is their Python installation, it belongs to this course only, and deleting the folder removes it completely. That answers the “is this going to clutter my computer” question before it is asked.</p>
-<p>If the download stalls, run it again rather than starting over; uv resumes. On Pitt wifi, PITTNET beats the guest network by a wide margin.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
 </section>
 <section id="step-6-check-that-it-worked" class="slide level2 smaller">
 <h2>Step 6 — Check that it worked</h2>
@@ -885,21 +774,6 @@ macOS — Terminal
 </div>
 </div>
 <p><strong>To stop JupyterLab:</strong> return to the terminal and press <code>Ctrl + C</code> twice.</p>
-<aside class="notes">
-<p>Have everybody run it and say “SETUP OK” out loud, or put a hand up. You want to leave this room knowing exactly who is working and who is not, because the alternative is discovering it on Thursday when they are also meeting <code>if</code> statements.</p>
-<p>The check notebook tests four things: the Python version, that the packages import, that the data files are findable, and that a real number comes out of a real file. A student who passes all four is genuinely ready.</p>
-<p>Then the daily routine, which is the thing they actually need to retain from this session: open a terminal, cd into <code>PUBHLT0411/python</code>, <code>uv run jupyter lab</code>. Three steps, every time. Steps 1 through 5 never happen again.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
 </section>
 <section id="when-something-fails" class="slide level2 smaller">
 <h2>When something fails</h2>
@@ -946,21 +820,6 @@ macOS — Terminal
 </tbody>
 </table>
 <p><strong>None of this is assessed.</strong> Unresolved problems go to office hours or <code>soumik@pitt.edu</code> with a screenshot of the terminal.</p>
-<aside class="notes">
-<p>Leave this slide up while you circulate. It is for them to read, not for you to present — do not narrate the table.</p>
-<p>The last line is the one to say out loud, and to mean: nobody in this course falls behind because of an installation. If they are stuck at the end of the session, they leave with a plan, not with a problem.</p>
-<p>The first row accounts for most of what you will actually see today. Check it first, every time, before diagnosing anything more interesting.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
 </section>
 <section id="a-notebook-preserves-execution-state-not-screen-order" class="slide level2 smaller">
 <h2>A notebook preserves execution state, not screen order</h2>
@@ -986,21 +845,6 @@ macOS — Terminal
 </div>
 </div>
 <p><strong>Resolution:</strong> <code>Kernel &gt; Restart Kernel and Run All Cells</code>, which is also the test of whether a notebook is reproducible.</p>
-<aside class="notes">
-<p>This is the most important idea in module 0 and the one with no R-script analogue — a sourced R script runs top to bottom, always. A notebook does not.</p>
-<p>Do the worked example live: run three cells, go back and change the first, don’t re-run it, then print. Ask the room what it will print <em>before</em> you press it. Enough people guess wrong that the point lands hard, and it’s much better learned from a wrong guess than from a slide.</p>
-<p>Connect it forward explicitly: “restart and run all” is what reproducibility means in practice. It is one of the four criteria every submission is marked against, from the first lab onward, and module 6 is built around it.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
 </section>
 <section id="a-file-is-addressed-by-its-path-from-the-python-folder" class="slide level2 smaller">
 <h2>A file is addressed by its path from the <code>python</code> folder</h2>
@@ -1027,24 +871,6 @@ macOS — Terminal
 </div>
 </div>
 </div>
-<aside class="notes">
-<p>Worth naming what they are being spared, because most of them have met it in a cloud notebook: no uploading, no re-uploading the same CSV four times in one lab, no cloud-storage permissions pop-up. The files ship with the course and are simply there.</p>
-<p>Note there are two <code>data</code> folders in the course — one for R, one for Python — and each half reads its own. That is not duplication for its own sake: it is what lets the same <code>data/filename</code> habit work in both halves without either one having to know about the other.</p>
-<p>The one failure mode worth drilling is the relative path, and it is worth demonstrating rather than describing. Save a copy of the lab notebook somewhere outside <code>python</code> — Downloads is where students will actually leave it — open it, run the read, and show them the FileNotFoundError. Then move it into <code>python/</code> in front of them. A student who has seen that error once diagnoses it in ten seconds; a student who has not will email you.</p>
-<p>Starting Jupyter in the wrong folder is a different failure, and a louder one. From <code>PUBHLT0411</code>, or from a home folder because nobody ran <code>cd</code>, uv finds no <code>pyproject.toml</code> and Jupyter never starts: the terminal says <code>Failed to spawn: jupyter</code>. It is worth one sentence so they do not confuse the two.</p>
-<p>Say the rule as a habit rather than a fact: “Every notebook lives in the <code>python</code> folder. When a file is missing, that is the first thing to check, before you check the spelling.”</p>
-<p>Relative paths also matter for a reason beyond convenience, and it is worth one sentence: <code>data/pa_overdose_county_year.csv</code> works on every machine in this room. A path like <code>C:\Users\yourname\Desktop\stuff.csv</code> works on exactly one. That is the difference between an analysis someone else can run and one they cannot.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
 </section></section>
 <section>
 <section id="values." class="title-slide slide level1 unnumbered center" data-background-color="#003594">
@@ -1081,20 +907,6 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiY291bnR5ID0gXCJTY2h1eWxr
 </div>
 </div>
 </div>
-<aside class="notes">
-<p>Say the right-to-left reading out loud — it’s worth thirty seconds. Students who read <code>=</code> as “equals” get stuck in module 2 on <code>count = count + 1</code>, which is nonsense as an equation and obvious as an instruction.</p>
-<p>These are the real 2023 Schuylkill County numbers, and they stay these numbers all semester. When Schuylkill comes back in module 1, it comes back with the same variable names and the same values. That consistency is deliberate — tell them the stories recur.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
 </section>
 <section id="identifier-choice-is-a-documentation-decision" class="slide level2 smaller">
 <h2>Identifier choice is a documentation decision</h2>
@@ -1123,20 +935,6 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyBTeW50YWN0aWNhbGx5IHZh
 </div>
 </div>
 </div>
-<aside class="notes">
-<p>Don’t soften this one. The habit forms in the first week or it doesn’t form at all, and the cost of <code>x</code> stays invisible until the notebook is long enough to hurt. Tell them: “<code>x</code> costs you marks here, and it costs your future self twenty minutes.”</p>
-<p>R conventions are often <code>dot.separated</code> or <code>camelCase</code>. Python is near-universally <code>snake_case</code>. One line, then move on.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
 </section>
 <section id="every-value-carries-a-type-that-determines-valid-operations" class="slide level2 smaller">
 <h2>Every value carries a type that determines valid operations</h2>
@@ -1165,20 +963,6 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiY291bnR5ID0gXCJTY2h1eWxr
 </div>
 </div>
 </div>
-<aside class="notes">
-<p>Stress the capital <code>T</code>. <code>TRUE</code> raises a NameError in Python and it’s the single most common import from R muscle memory — they will all do it at least once.</p>
-<p>Worked example: ask what <code>type(60)</code> and <code>type(60.0)</code> return. Same number to a human, <code>int</code> and <code>float</code> to Python. That distinction is exactly what produces the division surprise two slides from now, so plant it here.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
 </section>
 <section id="exercise-bind-one-countys-values" class="slide level2 smaller">
 <h2>Exercise: bind one county’s values</h2>
@@ -1213,21 +997,6 @@ print(county, overdose_deaths, population)</code>
 <span id="interpolate-10-5"><a href="#interpolate-10-5"></a><span class="bu">print</span>(county, overdose_deaths, population)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
-<aside class="notes">
-<p>Fill this in with the room rather than letting them work alone. It’s the first <code>{pyodide}</code> cell they touch, and the point is the mechanics of running a cell, not the difficulty of the blank.</p>
-<p>Before you type the answer, ask why <code>"7"</code> in quotes would be wrong. Somebody will say “it’s text” — promise them the TypeError slide is two slides away and that they’re about to see exactly what goes wrong.</p>
-<p>Centre County is the counterweight to Schuylkill and returns in module 1 as the direct comparison.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
 </section>
 <section id="python-does-not-coerce-between-text-and-numbers" class="slide level2 smaller">
 <h2>Python does not coerce between text and numbers</h2>
@@ -1257,23 +1026,6 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoib3ZlcmRvc2VfZGVhdGhzID0g
 </div>
 </div>
 </div>
-<aside class="notes">
-<p>Run it broken and read the printed line out loud. Two parts, and both matter: the error’s NAME on the left of the colon, and the explanation on the right. Students who learn to read the name first diagnose faster, because the name is what they can search for.</p>
-<p>The <code>try</code>/<code>except</code> wrapper is scaffolding, not syntax they need today — say so in one sentence if anyone asks, and tell them it is how a program handles an error instead of stopping. Do not teach it; module 6 does.</p>
-<p>Then fix it live and re-run: delete the wrapper, write <code>int(overdose_deaths) + 8</code>, and show the 68.</p>
-<p>Be candid: everybody hits this one, including you, all semester. Data read from a file arrives as text constantly. Tell them they’ll stop being surprised by it around week three.</p>
-<p>Point out that this error is loud, and that loud is a gift — the dangerous errors are the silent ones that hand you a wrong number without complaint. That’s the next slide.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
 </section>
 <section id="conversion-between-types-is-explicit" class="slide level2 smaller">
 <h2>Conversion between types is explicit</h2>
@@ -1300,20 +1052,6 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiZGVhdGhzX2FzX3RleHQgPSBc
 </div>
 </div>
 </div>
-<aside class="notes">
-<p>Pause on the <code>608</code> line. It is not an error — Python did exactly what it was told and produced a wrong answer in silence. That’s the more dangerous failure mode and this is the first time they see it. Ask them how they’d catch it. The answer is <code>type()</code>, and that they have to be suspicious.</p>
-<p>Truncation bites whenever they compute a per-something count. If you want a second example, show <code>int(70.2)</code> returning 70 — that’s the average deaths per county, and losing 0.2 of a person is a real distortion.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
 </section>
 <section id="seven-arithmetic-operators" class="slide level2 smaller">
 <h2>Seven arithmetic operators</h2>
@@ -1340,20 +1078,6 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoicHJpbnQoNDcwMyArIDY3KSAg
 </div>
 </div>
 </div>
-<aside class="notes">
-<p><code>^</code> is the R import that hurts most. In R, <code>2^10</code> is 1024. In Python, <code>2^10</code> is 8 — wrong, silent, and plausible-looking enough to survive a code review. Demonstrate it if there’s time; the silence is the whole lesson.</p>
-<p><code>%</code> corresponds to R’s <code>%%</code>. One character, same job. Mention it and move on.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
 </section>
 <section id="exercise-compute-a-rate-per-100000" class="slide level2 smaller">
 <h2>Exercise: compute a rate per 100,000</h2>
@@ -1403,21 +1127,6 @@ print(rate_per_100k)</code>
 </div>
 </div>
 </div>
-<aside class="notes">
-<p>The comma warning in the hint is not hypothetical. <code>100,000</code> is legal Python that means something completely different — it builds a tuple — so it fails confusingly rather than cleanly. Somebody will do it.</p>
-<p>They have computed a rate in R already. Say so: this is the same arithmetic they already know, and the only new thing is where Python wants the parentheses.</p>
-<p>Leave the ugly output on screen. Don’t clean it up — it’s the motivation for the next slide, and they should feel the need before they’re handed the tool.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
 </section>
 <section id="f-strings-interpolate-values-into-text" class="slide level2 smaller">
 <h2>f-strings interpolate values into text</h2>
@@ -1446,21 +1155,6 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiY291bnR5ID0gXCJTY2h1eWxr
 </div>
 </div>
 </div>
-<aside class="notes">
-<p><code>.1f</code> is the one they’ll use constantly. This course reports rates to one decimal by convention, because a second decimal implies a precision the underlying data doesn’t support — worth saying, since they’ll otherwise copy whatever Python prints.</p>
-<p>R analogue: <code>sprintf("%.1f", x)</code> or <code>glue()</code>. One line.</p>
-<p>The forward-looking point is real, not theoretical. In module 4 they compute group rates across many counties, and rounding at the wrong step there produces totals that are visibly, embarrassingly wrong.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
 </section>
 <section id="comments-document-rationale-not-syntax" class="slide level2 smaller">
 <h2>Comments document rationale, not syntax</h2>
@@ -1488,20 +1182,6 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyBSZWR1bmRhbnQ6IHJlc3Rh
 </div>
 </div>
 </div>
-<aside class="notes">
-<p>The suppression comment is a genuine preview of module 4, where blank-versus-zero becomes an entire teaching case. Forest County has both, in the same column, in the real file — mention that if you want to make it concrete.</p>
-<p>The rule to give them out loud: comment the decision, not the syntax. If a line’s <em>what</em> isn’t obvious, the fix is usually a better variable name rather than a comment explaining a bad one.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
 </section></section>
 <section>
 <section id="one-real-number." class="title-slide slide level1 unnumbered center" data-background-color="#003594">
@@ -1534,20 +1214,6 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoid2l0aCBvcGVuKFwiZGF0YS9w
 </script>
 </div>
 </div>
-<aside class="notes">
-<p>Do not teach file reading here. This is a demonstration that the file is real and reachable — they watch it, they don’t reproduce it. Module 2 teaches loops and module 4 teaches pandas; both open this same file properly.</p>
-<p>What to point at: the header names, and that 403 lines is 402 county-years plus one header row. Real files have a header, and forgetting it is a classic off-by-one that will bite them in module 2.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
 </section>
 <section id="two-counties-of-comparable-population" class="slide level2 smaller">
 <h2>Two counties of comparable population</h2>
@@ -1562,21 +1228,6 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoic2NodXlsa2lsbF9kZWF0aHMg
 </script>
 </div>
 </div>
-<aside class="notes">
-<p>Run it, then stop talking. Let the output do the work — resist narrating over the moment the ratio appears.</p>
-<p>These are the real 2023 rows from the file on the previous slide: 60 deaths in Schuylkill, 7 in Centre. Centre’s low count is partly a young student population, which is module 1’s argument and not today’s.</p>
-<p>If a student asks “why is it so different?”, the honest answer is “that’s Thursday’s entire lecture.” Say it that way — the question is the hook for module 1, and answering it now spends it.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
 </section>
 <section id="the-state-figure-resolves-into-a-ninefold-difference" class="slide level2 smaller">
 <h2>The state figure resolves into a ninefold difference</h2>
@@ -1607,23 +1258,6 @@ eyJhdHRyIjp7ImVjaG8iOmZhbHNlLCJlZGl0IjpmYWxzZSwiZXZhbCI6dHJ1ZX0sImNvZGUiOiJpbXBv
 </div>
 </div>
 </div>
-<aside class="notes">
-<p>This is the payoff. Land it and stop — do not add another point after it.</p>
-<p>The figure is deliberately the same one that opened the session, and the callback is the whole point. Say so: “This is the picture I showed you an hour ago. Nothing about it has changed. The only difference is that you can now find yourself on it.”</p>
-<p>Give them a beat to locate the two marked counties among the grey ones. The visual argument is that these are not freak values at the extreme ends — Centre is near the bottom but Schuylkill is not the top, it is an ordinary county in the upper third. The gap between two unremarkable counties is ninefold. That is a stronger claim than min-versus-max, and it is worth making out loud because the eye does not make it automatically.</p>
-<p>Then the closing line, plainly: “Two counties, nearly the same size. There’s the gap. You wrote the code that found it, in your first hour of Python.” That sentence is spoken, not printed — it’s the promise from the cold open being paid off, and it works because they did the work.</p>
-<p>Then hold the door open for Thursday: which county is which, and how would you know without me telling you? Module 1 makes them classify it themselves.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
 </section>
 <section id="session-outcomes" class="slide level2 smaller">
 <h2>Session outcomes</h2>
@@ -1643,15 +1277,104 @@ eyJhdHRyIjp7ImVjaG8iOmZhbHNlLCJlZGl0IjpmYWxzZSwiZXZhbCI6dHJ1ZX0sImNvZGUiOiJpbXBv
 <p><strong>Preparation for Thursday</strong></p>
 </div>
 <div class="callout-content">
-<p><strong>If <code>module0_lab.ipynb</code> did not print <code>SETUP OK</code> today, resolve it before Thursday</strong> — at office hours if necessary. Then start JupyterLab in the course folder, open a new notebook, and compute the 2023 overdose rate for one county of interest.</p>
+<p><strong>If <code>module0_lab.ipynb</code> did not print <code>SETUP OK</code> today, resolve it before Thursday</strong> — come to my office (A740 Crabtree Hall) and we will troubleshoot it together. Then start JupyterLab in the course folder, open a new notebook, and compute the 2023 overdose rate for one county of interest.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="final-exercise-how-often" class="slide level2 smaller">
+<h2>Final exercise: how often?</h2>
+<style>
+.aabc { display: grid; grid-template-columns: 1fr 1fr; grid-template-areas: "a a" "b c"; gap: 0.8em; align-items: stretch; }
+.aabc > div { min-width: 0; }
+.aabc > div:first-child { grid-column: 1 / -1; }
+.aabc .callout { margin: 0; }
+</style>
+<div class="aabc">
+<div>
+<p>In 2023, how often did an overdose death occur in each county? Report days and hours.</p>
+<div class="cell" data-exercise="m0_gap">
+<div>
+<div id="pyodide-26" class="exercise-cell">
+
+</div>
+<script type="pyodide-26-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoibTBfZ2FwIn0sImNvZGUiOiJob3VycyA9IDM2NSAqIDI0XG5cbiMgaG91cnMgYmV0d2VlbiBkZWF0aHNcbnNjaHV5bGtpbGxfZ2FwID0gaG91cnMgLy8gNjBcbnNfZGF5cyA9IHNjaHV5bGtpbGxfZ2FwIC8vIDI0XG5zX2hvdXJzID0gc2NodXlsa2lsbF9nYXAgX19fX19fIDI0XG5cbnByaW50KGZcIlNjaHV5bGtpbGw6IHtzX2RheXN9IGQge3NfaG91cnN9IGhcIikifQ==
+</script>
+</div>
+</div>
+<div class="cell" data-exercise="m0_gap" data-hint="true">
+<div class="pyodide-ojs-exercise exercise-hint d-none" data-exercise="m0_gap">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="interpolate-28"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="interpolate-28-1"><a href="#interpolate-28-1"></a><span class="co"># `//` keeps the whole days; `%` keeps the hours left over.</span></span>
+<span id="interpolate-28-2"><a href="#interpolate-28-2"></a><span class="co"># 365 / 60 gives 6.083 days, which is not how anyone describes time.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<div class="cell" data-exercise="m0_gap" data-solution="true">
+<div class="pyodide-ojs-exercise exercise-solution d-none" data-exercise="m0_gap">
+<code id="interpolate-30" class="solution-code d-none">hours = 365 * 24
+
+# hours between deaths
+schuylkill_gap = hours // 60
+s_days = schuylkill_gap // 24
+s_hours = schuylkill_gap % 24
+
+centre_gap = hours // 7
+c_days = centre_gap // 24
+c_hours = centre_gap % 24
+
+print(f"Schuylkill: {s_days} d {s_hours} h")
+print(f"Centre:     {c_days} d {c_hours} h")</code>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="interpolate-31"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="interpolate-31-1"><a href="#interpolate-31-1"></a>hours <span class="op">=</span> <span class="dv">365</span> <span class="op">*</span> <span class="dv">24</span></span>
+<span id="interpolate-31-2"><a href="#interpolate-31-2"></a></span>
+<span id="interpolate-31-3"><a href="#interpolate-31-3"></a><span class="co"># hours between deaths</span></span>
+<span id="interpolate-31-4"><a href="#interpolate-31-4"></a>schuylkill_gap <span class="op">=</span> hours <span class="op">//</span> <span class="dv">60</span></span>
+<span id="interpolate-31-5"><a href="#interpolate-31-5"></a>s_days <span class="op">=</span> schuylkill_gap <span class="op">//</span> <span class="dv">24</span></span>
+<span id="interpolate-31-6"><a href="#interpolate-31-6"></a>s_hours <span class="op">=</span> schuylkill_gap <span class="op">%</span> <span class="dv">24</span></span>
+<span id="interpolate-31-7"><a href="#interpolate-31-7"></a></span>
+<span id="interpolate-31-8"><a href="#interpolate-31-8"></a>centre_gap <span class="op">=</span> hours <span class="op">//</span> <span class="dv">7</span></span>
+<span id="interpolate-31-9"><a href="#interpolate-31-9"></a>c_days <span class="op">=</span> centre_gap <span class="op">//</span> <span class="dv">24</span></span>
+<span id="interpolate-31-10"><a href="#interpolate-31-10"></a>c_hours <span class="op">=</span> centre_gap <span class="op">%</span> <span class="dv">24</span></span>
+<span id="interpolate-31-11"><a href="#interpolate-31-11"></a></span>
+<span id="interpolate-31-12"><a href="#interpolate-31-12"></a><span class="bu">print</span>(<span class="ss">f"Schuylkill: </span><span class="sc">{</span>s_days<span class="sc">}</span><span class="ss"> d </span><span class="sc">{</span>s_hours<span class="sc">}</span><span class="ss"> h"</span>)</span>
+<span id="interpolate-31-13"><a href="#interpolate-31-13"></a><span class="bu">print</span>(<span class="ss">f"Centre:     </span><span class="sc">{</span>c_days<span class="sc">}</span><span class="ss"> d </span><span class="sc">{</span>c_hours<span class="sc">}</span><span class="ss"> h"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</div>
+<div title="Your turn!">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Your turn!</strong></p>
+</div>
+<div class="callout-content">
+<p>Centre recorded 7 deaths. If the true count were 6 or 8, does “ninefold” survive?</p>
+</div>
+</div>
+</div>
+</div>
+<div title="Your turn!">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Your turn!</strong></p>
+</div>
+<div class="callout-content">
+<p>If Schuylkill had Centre’s rate, how many deaths would it have had?</p>
+</div>
+</div>
 </div>
 </div>
 </div>
 <aside class="notes">
-<p>Say the first part of that callout with some weight. A broken environment on Thursday costs them a lab, and the fix takes ten minutes today or at office hours. Nobody should be debugging an install while also meeting <code>if</code> statements for the first time.</p>
-<p>The rate calculation is genuinely two minutes, and its real purpose is to make them open the environment once between now and Thursday — the second launch is where the “which folder do I start it in” question actually surfaces.</p>
-<p>Suggest they pick their own county for the rate calculation. It stops being an exercise the moment it’s their hometown.</p>
-<p>Close on the module 1 question. Same two counties, same framing, same numbers — the story continues on Thursday rather than restarting.</p>
+<p>Answers. Schuylkill: 8,760 // 60 = 146 hours, so 6 days 2 hours. Centre: 8,760 // 7 = 1,251 hours, so 52 days 3 hours. Expect <code>365 / 60</code> first; its 6.083 days is the reason <code>//</code> and <code>%</code> exist.</p>
+<p>Ninefold: with 6, 7, or 8 Centre deaths the ratio is 11.0x, 9.4x, or 8.2x. One death moves the headline by more than one. Leave it open; Thursday explains Centre.</p>
+<p>Centre’s rate in Schuylkill: 7 * 143786 / 157795 = 6.4 expected deaths, so about 54 above that. Whether Centre is a fair benchmark is the real question.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -1674,7 +1397,7 @@ eyJhdHRyIjp7ImVjaG8iOmZhbHNlLCJlZGl0IjpmYWxzZSwiZXZhbCI6dHJ1ZX0sImNvZGUiOiJpbXBv
 eyJvcHRpb25zIjp7ImVudiI6eyJQTE9UTFlfUkVOREVSRVIiOiJwbG90bHlfbWltZXR5cGUifSwiaW5kZXhVUkwiOiJodHRwczovL2Nkbi5qc2RlbGl2ci5uZXQvcHlvZGlkZS92MC4yOC4xL2Z1bGwvIn0sInBhY2thZ2VzIjp7InBrZ3MiOlsicHlvZGlkZV9odHRwIiwibWljcm9waXAiLCJpcHl0aG9uIl19fQ==
 </script>
 <script type="ojs-module-contents">
-eyJjb250ZW50cyI6W3siY2VsbE5hbWUiOiJweW9kaWRlLTI1IiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldCIsInNvdXJjZSI6Il9weW9kaWRlX3ZhbHVlXzI1ID0ge1xuICBjb25zdCB7IGhpZ2hsaWdodFB5dGhvbiwgYjY0RGVjb2RlfSA9IHdpbmRvdy5fZXhlcmNpc2Vfb2pzX3J1bnRpbWU7XG5cbiAgY29uc3Qgc2NyaXB0Q29udGVudCA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoYHNjcmlwdFt0eXBlPVxcXCJweW9kaWRlLTI1LWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgLy8gRGVmYXVsdCBldmFsdWF0aW9uIGNvbmZpZ3VyYXRpb25cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oe1xuICAgIGlkOiBcInB5b2RpZGUtMjUtY29udGVudHNcIixcbiAgICBlY2hvOiB0cnVlLFxuICAgIG91dHB1dDogdHJ1ZVxuICB9LCBibG9jay5hdHRyKTtcblxuICAvLyBFdmFsdWF0ZSB0aGUgcHJvdmlkZWQgUHl0aG9uIGNvZGVcbiAgY29uc3QgcmVzdWx0ID0gcHlvZGlkZU9qcy5wcm9jZXNzKHtjb2RlOiBibG9jay5jb2RlLCBvcHRpb25zfSwge30pO1xuXG4gIC8vIEVhcmx5IHlpZWxkIHdoaWxlIHdlIHdhaXQgZm9yIHRoZSBmaXJzdCBldmFsdWF0aW9uIGFuZCByZW5kZXJcbiAgaWYgKG9wdGlvbnMub3V0cHV0ICYmICEoXCIyNVwiIGluIHB5b2RpZGVPanMucmVuZGVyZWRPanMpKSB7XG4gICAgY29uc3QgY29udGFpbmVyID0gZG9jdW1lbnQuY3JlYXRlRWxlbWVudChcImRpdlwiKTtcbiAgICBjb25zdCBzcGlubmVyID0gZG9jdW1lbnQuY3JlYXRlRWxlbWVudChcImRpdlwiKTtcblxuICAgIGlmIChvcHRpb25zLmVjaG8pIHtcbiAgICAgIC8vIFNob3cgb3V0cHV0IGFzIGhpZ2hsaWdodGVkIHNvdXJjZVxuICAgICAgY29uc3QgcHJlRWxlbSA9IGRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoXCJwcmVcIik7XG4gICAgICBjb250YWluZXIuY2xhc3NOYW1lID0gXCJzb3VyY2VDb2RlXCI7XG4gICAgICBwcmVFbGVtLmNsYXNzTmFtZSA9IFwic291cmNlQ29kZSBweXRob25cIjtcbiAgICAgIHByZUVsZW0uYXBwZW5kQ2hpbGQoaGlnaGxpZ2h0UHl0aG9uKGJsb2NrLmNvZGUpKTtcbiAgICAgIHNwaW5uZXIuY2xhc3NOYW1lID0gXCJzcGlubmVyLWdyb3cgc3Bpbm5lci1ncm93LXNtIG0tMiBwb3NpdGlvbi1hYnNvbHV0ZSB0b3AtMCBlbmQtMFwiO1xuICAgICAgcHJlRWxlbS5hcHBlbmRDaGlsZChzcGlubmVyKTtcbiAgICAgIGNvbnRhaW5lci5hcHBlbmRDaGlsZChwcmVFbGVtKTtcbiAgICB9IGVsc2Uge1xuICAgICAgc3Bpbm5lci5jbGFzc05hbWUgPSBcInNwaW5uZXItYm9yZGVyIHNwaW5uZXItYm9yZGVyLXNtXCI7XG4gICAgICBjb250YWluZXIuYXBwZW5kQ2hpbGQoc3Bpbm5lcik7XG4gICAgfVxuXG4gICAgeWllbGQgY29udGFpbmVyO1xuICB9XG5cbiAgcHlvZGlkZU9qcy5yZW5kZXJlZE9qc1tcIjI1XCJdID0gdHJ1ZTtcbiAgeWllbGQgYXdhaXQgcmVzdWx0O1xufVxuIn0seyJjZWxsTmFtZSI6InB5b2RpZGUtMjQiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0Iiwic291cmNlIjoidmlld29mIF9weW9kaWRlX2VkaXRvcl8yNCA9IHtcbiAgY29uc3QgeyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IsIGI2NERlY29kZSB9ID0gd2luZG93Ll9leGVyY2lzZV9vanNfcnVudGltZTtcblxuICBjb25zdCBzY3JpcHRDb250ZW50ID0gZG9jdW1lbnQucXVlcnlTZWxlY3Rvcihgc2NyaXB0W3R5cGU9XFxcInB5b2RpZGUtMjQtY29udGVudHNcXFwiXWApLnRleHRDb250ZW50O1xuICBjb25zdCBibG9jayA9IEpTT04ucGFyc2UoYjY0RGVjb2RlKHNjcmlwdENvbnRlbnQpKTtcblxuICBjb25zdCBvcHRpb25zID0gT2JqZWN0LmFzc2lnbih7IGlkOiBgcHlvZGlkZS0yNC1jb250ZW50c2AgfSwgYmxvY2suYXR0cik7XG4gIGNvbnN0IGVkaXRvciA9IG5ldyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IoXG4gICAgcHlvZGlkZU9qcy5weW9kaWRlUHJvbWlzZSxcbiAgICBibG9jay5jb2RlLFxuICAgIG9wdGlvbnNcbiAgKTtcblxuICByZXR1cm4gZWRpdG9yLmNvbnRhaW5lcjtcbn1cbl9weW9kaWRlX3ZhbHVlXzI0ID0gcHlvZGlkZU9qcy5wcm9jZXNzKF9weW9kaWRlX2VkaXRvcl8yNCwge30pO1xuIn0seyJjZWxsTmFtZSI6InB5b2RpZGUtMjMiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0Iiwic291cmNlIjoidmlld29mIF9weW9kaWRlX2VkaXRvcl8yMyA9IHtcbiAgY29uc3QgeyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IsIGI2NERlY29kZSB9ID0gd2luZG93Ll9leGVyY2lzZV9vanNfcnVudGltZTtcblxuICBjb25zdCBzY3JpcHRDb250ZW50ID0gZG9jdW1lbnQucXVlcnlTZWxlY3Rvcihgc2NyaXB0W3R5cGU9XFxcInB5b2RpZGUtMjMtY29udGVudHNcXFwiXWApLnRleHRDb250ZW50O1xuICBjb25zdCBibG9jayA9IEpTT04ucGFyc2UoYjY0RGVjb2RlKHNjcmlwdENvbnRlbnQpKTtcblxuICBjb25zdCBvcHRpb25zID0gT2JqZWN0LmFzc2lnbih7IGlkOiBgcHlvZGlkZS0yMy1jb250ZW50c2AgfSwgYmxvY2suYXR0cik7XG4gIGNvbnN0IGVkaXRvciA9IG5ldyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IoXG4gICAgcHlvZGlkZU9qcy5weW9kaWRlUHJvbWlzZSxcbiAgICBibG9jay5jb2RlLFxuICAgIG9wdGlvbnNcbiAgKTtcblxuICByZXR1cm4gZWRpdG9yLmNvbnRhaW5lcjtcbn1cbl9weW9kaWRlX3ZhbHVlXzIzID0gcHlvZGlkZU9qcy5wcm9jZXNzKF9weW9kaWRlX2VkaXRvcl8yMywge30pO1xuIn0seyJjZWxsTmFtZSI6InB5b2RpZGUtMjIiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0Iiwic291cmNlIjoidmlld29mIF9weW9kaWRlX2VkaXRvcl8yMiA9IHtcbiAgY29uc3QgeyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IsIGI2NERlY29kZSB9ID0gd2luZG93Ll9leGVyY2lzZV9vanNfcnVudGltZTtcblxuICBjb25zdCBzY3JpcHRDb250ZW50ID0gZG9jdW1lbnQucXVlcnlTZWxlY3Rvcihgc2NyaXB0W3R5cGU9XFxcInB5b2RpZGUtMjItY29udGVudHNcXFwiXWApLnRleHRDb250ZW50O1xuICBjb25zdCBibG9jayA9IEpTT04ucGFyc2UoYjY0RGVjb2RlKHNjcmlwdENvbnRlbnQpKTtcblxuICBjb25zdCBvcHRpb25zID0gT2JqZWN0LmFzc2lnbih7IGlkOiBgcHlvZGlkZS0yMi1jb250ZW50c2AgfSwgYmxvY2suYXR0cik7XG4gIGNvbnN0IGVkaXRvciA9IG5ldyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IoXG4gICAgcHlvZGlkZU9qcy5weW9kaWRlUHJvbWlzZSxcbiAgICBibG9jay5jb2RlLFxuICAgIG9wdGlvbnNcbiAgKTtcblxuICByZXR1cm4gZWRpdG9yLmNvbnRhaW5lcjtcbn1cbl9weW9kaWRlX3ZhbHVlXzIyID0gcHlvZGlkZU9qcy5wcm9jZXNzKF9weW9kaWRlX2VkaXRvcl8yMiwge30pO1xuIn0seyJjZWxsTmFtZSI6InB5b2RpZGUtMjEiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0Iiwic291cmNlIjoidmlld29mIF9weW9kaWRlX2VkaXRvcl8yMSA9IHtcbiAgY29uc3QgeyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IsIGI2NERlY29kZSB9ID0gd2luZG93Ll9leGVyY2lzZV9vanNfcnVudGltZTtcblxuICBjb25zdCBzY3JpcHRDb250ZW50ID0gZG9jdW1lbnQucXVlcnlTZWxlY3Rvcihgc2NyaXB0W3R5cGU9XFxcInB5b2RpZGUtMjEtY29udGVudHNcXFwiXWApLnRleHRDb250ZW50O1xuICBjb25zdCBibG9jayA9IEpTT04ucGFyc2UoYjY0RGVjb2RlKHNjcmlwdENvbnRlbnQpKTtcblxuICBjb25zdCBvcHRpb25zID0gT2JqZWN0LmFzc2lnbih7IGlkOiBgcHlvZGlkZS0yMS1jb250ZW50c2AgfSwgYmxvY2suYXR0cik7XG4gIGNvbnN0IGVkaXRvciA9IG5ldyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IoXG4gICAgcHlvZGlkZU9qcy5weW9kaWRlUHJvbWlzZSxcbiAgICBibG9jay5jb2RlLFxuICAgIG9wdGlvbnNcbiAgKTtcblxuICByZXR1cm4gZWRpdG9yLmNvbnRhaW5lcjtcbn1cbl9weW9kaWRlX3ZhbHVlXzIxID0gcHlvZGlkZU9qcy5wcm9jZXNzKF9weW9kaWRlX2VkaXRvcl8yMSwge30pO1xuIn0seyJjZWxsTmFtZSI6InB5b2RpZGUtMjAiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0Iiwic291cmNlIjoidmlld29mIF9weW9kaWRlX2VkaXRvcl8yMCA9IHtcbiAgY29uc3QgeyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IsIGI2NERlY29kZSB9ID0gd2luZG93Ll9leGVyY2lzZV9vanNfcnVudGltZTtcblxuICBjb25zdCBzY3JpcHRDb250ZW50ID0gZG9jdW1lbnQucXVlcnlTZWxlY3Rvcihgc2NyaXB0W3R5cGU9XFxcInB5b2RpZGUtMjAtY29udGVudHNcXFwiXWApLnRleHRDb250ZW50O1xuICBjb25zdCBibG9jayA9IEpTT04ucGFyc2UoYjY0RGVjb2RlKHNjcmlwdENvbnRlbnQpKTtcblxuICBjb25zdCBvcHRpb25zID0gT2JqZWN0LmFzc2lnbih7IGlkOiBgcHlvZGlkZS0yMC1jb250ZW50c2AgfSwgYmxvY2suYXR0cik7XG4gIGNvbnN0IGVkaXRvciA9IG5ldyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IoXG4gICAgcHlvZGlkZU9qcy5weW9kaWRlUHJvbWlzZSxcbiAgICBibG9jay5jb2RlLFxuICAgIG9wdGlvbnNcbiAgKTtcblxuICByZXR1cm4gZWRpdG9yLmNvbnRhaW5lcjtcbn1cbl9weW9kaWRlX3ZhbHVlXzIwID0gcHlvZGlkZU9qcy5wcm9jZXNzKF9weW9kaWRlX2VkaXRvcl8yMCwge30pO1xuIn0seyJjZWxsTmFtZSI6InB5b2RpZGUtMTQiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0Iiwic291cmNlIjoidmlld29mIF9weW9kaWRlX2VkaXRvcl8xNCA9IHtcbiAgY29uc3QgeyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IsIGI2NERlY29kZSB9ID0gd2luZG93Ll9leGVyY2lzZV9vanNfcnVudGltZTtcblxuICBjb25zdCBzY3JpcHRDb250ZW50ID0gZG9jdW1lbnQucXVlcnlTZWxlY3Rvcihgc2NyaXB0W3R5cGU9XFxcInB5b2RpZGUtMTQtY29udGVudHNcXFwiXWApLnRleHRDb250ZW50O1xuICBjb25zdCBibG9jayA9IEpTT04ucGFyc2UoYjY0RGVjb2RlKHNjcmlwdENvbnRlbnQpKTtcblxuICAvLyBEZWZhdWx0IGV4ZXJjaXNlIGNvbmZpZ3VyYXRpb25cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oXG4gICAge1xuICAgICAgaWQ6IFwicHlvZGlkZS0xNC1jb250ZW50c1wiLFxuICAgICAgZW52aXI6IGBleGVyY2lzZS1lbnYtJHtibG9jay5hdHRyLmV4ZXJjaXNlfWAsXG4gICAgICBlcnJvcjogZmFsc2UsXG4gICAgICBjYXB0aW9uOiAnRXhlcmNpc2UnLFxuICAgIH0sXG4gICAgYmxvY2suYXR0clxuICApO1xuXG4gIGNvbnN0IGVkaXRvciA9IG5ldyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IocHlvZGlkZU9qcy5weW9kaWRlUHJvbWlzZSwgYmxvY2suY29kZSwgb3B0aW9ucyk7XG4gIHJldHVybiBlZGl0b3IuY29udGFpbmVyO1xufVxudmlld29mIF9weW9kaWRlX3ZhbHVlXzE0ID0gcHlvZGlkZU9qcy5wcm9jZXNzKF9weW9kaWRlX2VkaXRvcl8xNCwge30pO1xuX3B5b2RpZGVfZmVlZGJhY2tfMTQgPSB7XG4gIGNvbnN0IHsgUHlvZGlkZUdyYWRlciB9ID0gd2luZG93Ll9leGVyY2lzZV9vanNfcnVudGltZTtcbiAgY29uc3QgZW1wdHlGZWVkYmFjayA9IGRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoJ2RpdicpO1xuXG4gIGNvbnN0IGdyYWRlciA9IG5ldyBQeW9kaWRlR3JhZGVyKF9weW9kaWRlX3ZhbHVlXzE0LmV2YWx1YXRvcik7XG4gIGNvbnN0IGZlZWRiYWNrID0gYXdhaXQgZ3JhZGVyLmdyYWRlRXhlcmNpc2UoKTtcbiAgaWYgKCFmZWVkYmFjaykgcmV0dXJuIGVtcHR5RmVlZGJhY2s7XG4gIHJldHVybiBmZWVkYmFjaztcbn1cbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLTEzIiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldCIsInNvdXJjZSI6InZpZXdvZiBfcHlvZGlkZV9lZGl0b3JfMTMgPSB7XG4gIGNvbnN0IHsgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yLCBiNjREZWNvZGUgfSA9IHdpbmRvdy5fZXhlcmNpc2Vfb2pzX3J1bnRpbWU7XG5cbiAgY29uc3Qgc2NyaXB0Q29udGVudCA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoYHNjcmlwdFt0eXBlPVxcXCJweW9kaWRlLTEzLWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtMTMtY29udGVudHNgIH0sIGJsb2NrLmF0dHIpO1xuICBjb25zdCBlZGl0b3IgPSBuZXcgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yKFxuICAgIHB5b2RpZGVPanMucHlvZGlkZVByb21pc2UsXG4gICAgYmxvY2suY29kZSxcbiAgICBvcHRpb25zXG4gICk7XG5cbiAgcmV0dXJuIGVkaXRvci5jb250YWluZXI7XG59XG5fcHlvZGlkZV92YWx1ZV8xMyA9IHB5b2RpZGVPanMucHJvY2VzcyhfcHlvZGlkZV9lZGl0b3JfMTMsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLTEyIiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldCIsInNvdXJjZSI6InZpZXdvZiBfcHlvZGlkZV9lZGl0b3JfMTIgPSB7XG4gIGNvbnN0IHsgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yLCBiNjREZWNvZGUgfSA9IHdpbmRvdy5fZXhlcmNpc2Vfb2pzX3J1bnRpbWU7XG5cbiAgY29uc3Qgc2NyaXB0Q29udGVudCA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoYHNjcmlwdFt0eXBlPVxcXCJweW9kaWRlLTEyLWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtMTItY29udGVudHNgIH0sIGJsb2NrLmF0dHIpO1xuICBjb25zdCBlZGl0b3IgPSBuZXcgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yKFxuICAgIHB5b2RpZGVPanMucHlvZGlkZVByb21pc2UsXG4gICAgYmxvY2suY29kZSxcbiAgICBvcHRpb25zXG4gICk7XG5cbiAgcmV0dXJuIGVkaXRvci5jb250YWluZXI7XG59XG5fcHlvZGlkZV92YWx1ZV8xMiA9IHB5b2RpZGVPanMucHJvY2VzcyhfcHlvZGlkZV9lZGl0b3JfMTIsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLTExIiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldCIsInNvdXJjZSI6InZpZXdvZiBfcHlvZGlkZV9lZGl0b3JfMTEgPSB7XG4gIGNvbnN0IHsgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yLCBiNjREZWNvZGUgfSA9IHdpbmRvdy5fZXhlcmNpc2Vfb2pzX3J1bnRpbWU7XG5cbiAgY29uc3Qgc2NyaXB0Q29udGVudCA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoYHNjcmlwdFt0eXBlPVxcXCJweW9kaWRlLTExLWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtMTEtY29udGVudHNgIH0sIGJsb2NrLmF0dHIpO1xuICBjb25zdCBlZGl0b3IgPSBuZXcgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yKFxuICAgIHB5b2RpZGVPanMucHlvZGlkZVByb21pc2UsXG4gICAgYmxvY2suY29kZSxcbiAgICBvcHRpb25zXG4gICk7XG5cbiAgcmV0dXJuIGVkaXRvci5jb250YWluZXI7XG59XG5fcHlvZGlkZV92YWx1ZV8xMSA9IHB5b2RpZGVPanMucHJvY2VzcyhfcHlvZGlkZV9lZGl0b3JfMTEsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLTUiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0Iiwic291cmNlIjoidmlld29mIF9weW9kaWRlX2VkaXRvcl81ID0ge1xuICBjb25zdCB7IFB5b2RpZGVFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS01LWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgLy8gRGVmYXVsdCBleGVyY2lzZSBjb25maWd1cmF0aW9uXG4gIGNvbnN0IG9wdGlvbnMgPSBPYmplY3QuYXNzaWduKFxuICAgIHtcbiAgICAgIGlkOiBcInB5b2RpZGUtNS1jb250ZW50c1wiLFxuICAgICAgZW52aXI6IGBleGVyY2lzZS1lbnYtJHtibG9jay5hdHRyLmV4ZXJjaXNlfWAsXG4gICAgICBlcnJvcjogZmFsc2UsXG4gICAgICBjYXB0aW9uOiAnRXhlcmNpc2UnLFxuICAgIH0sXG4gICAgYmxvY2suYXR0clxuICApO1xuXG4gIGNvbnN0IGVkaXRvciA9IG5ldyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IocHlvZGlkZU9qcy5weW9kaWRlUHJvbWlzZSwgYmxvY2suY29kZSwgb3B0aW9ucyk7XG4gIHJldHVybiBlZGl0b3IuY29udGFpbmVyO1xufVxudmlld29mIF9weW9kaWRlX3ZhbHVlXzUgPSBweW9kaWRlT2pzLnByb2Nlc3MoX3B5b2RpZGVfZWRpdG9yXzUsIHt9KTtcbl9weW9kaWRlX2ZlZWRiYWNrXzUgPSB7XG4gIGNvbnN0IHsgUHlvZGlkZUdyYWRlciB9ID0gd2luZG93Ll9leGVyY2lzZV9vanNfcnVudGltZTtcbiAgY29uc3QgZW1wdHlGZWVkYmFjayA9IGRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoJ2RpdicpO1xuXG4gIGNvbnN0IGdyYWRlciA9IG5ldyBQeW9kaWRlR3JhZGVyKF9weW9kaWRlX3ZhbHVlXzUuZXZhbHVhdG9yKTtcbiAgY29uc3QgZmVlZGJhY2sgPSBhd2FpdCBncmFkZXIuZ3JhZGVFeGVyY2lzZSgpO1xuICBpZiAoIWZlZWRiYWNrKSByZXR1cm4gZW1wdHlGZWVkYmFjaztcbiAgcmV0dXJuIGZlZWRiYWNrO1xufVxuIn0seyJjZWxsTmFtZSI6InB5b2RpZGUtNCIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJzb3VyY2UiOiJ2aWV3b2YgX3B5b2RpZGVfZWRpdG9yXzQgPSB7XG4gIGNvbnN0IHsgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yLCBiNjREZWNvZGUgfSA9IHdpbmRvdy5fZXhlcmNpc2Vfb2pzX3J1bnRpbWU7XG5cbiAgY29uc3Qgc2NyaXB0Q29udGVudCA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoYHNjcmlwdFt0eXBlPVxcXCJweW9kaWRlLTQtY29udGVudHNcXFwiXWApLnRleHRDb250ZW50O1xuICBjb25zdCBibG9jayA9IEpTT04ucGFyc2UoYjY0RGVjb2RlKHNjcmlwdENvbnRlbnQpKTtcblxuICBjb25zdCBvcHRpb25zID0gT2JqZWN0LmFzc2lnbih7IGlkOiBgcHlvZGlkZS00LWNvbnRlbnRzYCB9LCBibG9jay5hdHRyKTtcbiAgY29uc3QgZWRpdG9yID0gbmV3IFB5b2RpZGVFeGVyY2lzZUVkaXRvcihcbiAgICBweW9kaWRlT2pzLnB5b2RpZGVQcm9taXNlLFxuICAgIGJsb2NrLmNvZGUsXG4gICAgb3B0aW9uc1xuICApO1xuXG4gIHJldHVybiBlZGl0b3IuY29udGFpbmVyO1xufVxuX3B5b2RpZGVfdmFsdWVfNCA9IHB5b2RpZGVPanMucHJvY2VzcyhfcHlvZGlkZV9lZGl0b3JfNCwge30pO1xuIn0seyJjZWxsTmFtZSI6InB5b2RpZGUtMyIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJzb3VyY2UiOiJ2aWV3b2YgX3B5b2RpZGVfZWRpdG9yXzMgPSB7XG4gIGNvbnN0IHsgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yLCBiNjREZWNvZGUgfSA9IHdpbmRvdy5fZXhlcmNpc2Vfb2pzX3J1bnRpbWU7XG5cbiAgY29uc3Qgc2NyaXB0Q29udGVudCA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoYHNjcmlwdFt0eXBlPVxcXCJweW9kaWRlLTMtY29udGVudHNcXFwiXWApLnRleHRDb250ZW50O1xuICBjb25zdCBibG9jayA9IEpTT04ucGFyc2UoYjY0RGVjb2RlKHNjcmlwdENvbnRlbnQpKTtcblxuICBjb25zdCBvcHRpb25zID0gT2JqZWN0LmFzc2lnbih7IGlkOiBgcHlvZGlkZS0zLWNvbnRlbnRzYCB9LCBibG9jay5hdHRyKTtcbiAgY29uc3QgZWRpdG9yID0gbmV3IFB5b2RpZGVFeGVyY2lzZUVkaXRvcihcbiAgICBweW9kaWRlT2pzLnB5b2RpZGVQcm9taXNlLFxuICAgIGJsb2NrLmNvZGUsXG4gICAgb3B0aW9uc1xuICApO1xuXG4gIHJldHVybiBlZGl0b3IuY29udGFpbmVyO1xufVxuX3B5b2RpZGVfdmFsdWVfMyA9IHB5b2RpZGVPanMucHJvY2VzcyhfcHlvZGlkZV9lZGl0b3JfMywge30pO1xuIn0seyJjZWxsTmFtZSI6InB5b2RpZGUtMiIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJzb3VyY2UiOiJ2aWV3b2YgX3B5b2RpZGVfZWRpdG9yXzIgPSB7XG4gIGNvbnN0IHsgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yLCBiNjREZWNvZGUgfSA9IHdpbmRvdy5fZXhlcmNpc2Vfb2pzX3J1bnRpbWU7XG5cbiAgY29uc3Qgc2NyaXB0Q29udGVudCA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoYHNjcmlwdFt0eXBlPVxcXCJweW9kaWRlLTItY29udGVudHNcXFwiXWApLnRleHRDb250ZW50O1xuICBjb25zdCBibG9jayA9IEpTT04ucGFyc2UoYjY0RGVjb2RlKHNjcmlwdENvbnRlbnQpKTtcblxuICBjb25zdCBvcHRpb25zID0gT2JqZWN0LmFzc2lnbih7IGlkOiBgcHlvZGlkZS0yLWNvbnRlbnRzYCB9LCBibG9jay5hdHRyKTtcbiAgY29uc3QgZWRpdG9yID0gbmV3IFB5b2RpZGVFeGVyY2lzZUVkaXRvcihcbiAgICBweW9kaWRlT2pzLnB5b2RpZGVQcm9taXNlLFxuICAgIGJsb2NrLmNvZGUsXG4gICAgb3B0aW9uc1xuICApO1xuXG4gIHJldHVybiBlZGl0b3IuY29udGFpbmVyO1xufVxuX3B5b2RpZGVfdmFsdWVfMiA9IHB5b2RpZGVPanMucHJvY2VzcyhfcHlvZGlkZV9lZGl0b3JfMiwge30pO1xuIn0seyJjZWxsTmFtZSI6InB5b2RpZGUtMSIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJzb3VyY2UiOiJfcHlvZGlkZV92YWx1ZV8xID0ge1xuICBjb25zdCB7IGhpZ2hsaWdodFB5dGhvbiwgYjY0RGVjb2RlfSA9IHdpbmRvdy5fZXhlcmNpc2Vfb2pzX3J1bnRpbWU7XG5cbiAgY29uc3Qgc2NyaXB0Q29udGVudCA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoYHNjcmlwdFt0eXBlPVxcXCJweW9kaWRlLTEtY29udGVudHNcXFwiXWApLnRleHRDb250ZW50O1xuICBjb25zdCBibG9jayA9IEpTT04ucGFyc2UoYjY0RGVjb2RlKHNjcmlwdENvbnRlbnQpKTtcblxuICAvLyBEZWZhdWx0IGV2YWx1YXRpb24gY29uZmlndXJhdGlvblxuICBjb25zdCBvcHRpb25zID0gT2JqZWN0LmFzc2lnbih7XG4gICAgaWQ6IFwicHlvZGlkZS0xLWNvbnRlbnRzXCIsXG4gICAgZWNobzogdHJ1ZSxcbiAgICBvdXRwdXQ6IHRydWVcbiAgfSwgYmxvY2suYXR0cik7XG5cbiAgLy8gRXZhbHVhdGUgdGhlIHByb3ZpZGVkIFB5dGhvbiBjb2RlXG4gIGNvbnN0IHJlc3VsdCA9IHB5b2RpZGVPanMucHJvY2Vzcyh7Y29kZTogYmxvY2suY29kZSwgb3B0aW9uc30sIHt9KTtcblxuICAvLyBFYXJseSB5aWVsZCB3aGlsZSB3ZSB3YWl0IGZvciB0aGUgZmlyc3QgZXZhbHVhdGlvbiBhbmQgcmVuZGVyXG4gIGlmIChvcHRpb25zLm91dHB1dCAmJiAhKFwiMVwiIGluIHB5b2RpZGVPanMucmVuZGVyZWRPanMpKSB7XG4gICAgY29uc3QgY29udGFpbmVyID0gZG9jdW1lbnQuY3JlYXRlRWxlbWVudChcImRpdlwiKTtcbiAgICBjb25zdCBzcGlubmVyID0gZG9jdW1lbnQuY3JlYXRlRWxlbWVudChcImRpdlwiKTtcblxuICAgIGlmIChvcHRpb25zLmVjaG8pIHtcbiAgICAgIC8vIFNob3cgb3V0cHV0IGFzIGhpZ2hsaWdodGVkIHNvdXJjZVxuICAgICAgY29uc3QgcHJlRWxlbSA9IGRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoXCJwcmVcIik7XG4gICAgICBjb250YWluZXIuY2xhc3NOYW1lID0gXCJzb3VyY2VDb2RlXCI7XG4gICAgICBwcmVFbGVtLmNsYXNzTmFtZSA9IFwic291cmNlQ29kZSBweXRob25cIjtcbiAgICAgIHByZUVsZW0uYXBwZW5kQ2hpbGQoaGlnaGxpZ2h0UHl0aG9uKGJsb2NrLmNvZGUpKTtcbiAgICAgIHNwaW5uZXIuY2xhc3NOYW1lID0gXCJzcGlubmVyLWdyb3cgc3Bpbm5lci1ncm93LXNtIG0tMiBwb3NpdGlvbi1hYnNvbHV0ZSB0b3AtMCBlbmQtMFwiO1xuICAgICAgcHJlRWxlbS5hcHBlbmRDaGlsZChzcGlubmVyKTtcbiAgICAgIGNvbnRhaW5lci5hcHBlbmRDaGlsZChwcmVFbGVtKTtcbiAgICB9IGVsc2Uge1xuICAgICAgc3Bpbm5lci5jbGFzc05hbWUgPSBcInNwaW5uZXItYm9yZGVyIHNwaW5uZXItYm9yZGVyLXNtXCI7XG4gICAgICBjb250YWluZXIuYXBwZW5kQ2hpbGQoc3Bpbm5lcik7XG4gICAgfVxuXG4gICAgeWllbGQgY29udGFpbmVyO1xuICB9XG5cbiAgcHlvZGlkZU9qcy5yZW5kZXJlZE9qc1tcIjFcIl0gPSB0cnVlO1xuICB5aWVsZCBhd2FpdCByZXN1bHQ7XG59XG4ifSx7ImNlbGxOYW1lIjoiaW50ZXJwb2xhdGUtNyIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsInNvdXJjZSI6IntcbiAgY29uc3QgeyBpbnRlcnBvbGF0ZSB9ID0gd2luZG93Ll9leGVyY2lzZV9vanNfcnVudGltZTtcbiAgY29uc3QgYmxvY2tfaWQgPSBcIjdcIjtcbiAgY29uc3QgbGFuZ3VhZ2UgPSBcInB5dGhvblwiO1xuICBjb25zdCBkZWZfbWFwID0ge1xufTtcbiAgY29uc3QgZWxlbSA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKGBpbnRlcnBvbGF0ZS0ke2Jsb2NrX2lkfWApO1xuXG4gIC8vIFN0b3JlIG9yaWdpbmFsIHRlbXBsYXRlZCBIVE1MIGZvciByZWZlcmVuY2UgaW4gZnV0dXJlIHJlYWN0aXZlIHVwZGF0ZXNcbiAgaWYgKCFlbGVtLm9yaWdIVE1MKSBlbGVtLm9yaWdIVE1MID0gZWxlbS5pbm5lckhUTUw7XG5cbiAgLy8gSW50ZXJwb2xhdGUgcmVhY3RpdmUgT0pTIHZhcmlhYmxlcyBpbnRvIGVzdGFibGlzaGVkIEhUTUwgZWxlbWVudFxuICBlbGVtLmlubmVySFRNTCA9IGVsZW0ub3JpZ0hUTUw7XG4gIE9iamVjdC5rZXlzKGRlZl9tYXApLmZvckVhY2goKGRlZikgPT5cbiAgICBpbnRlcnBvbGF0ZShlbGVtLCBcIiR7XCIgKyBkZWYgKyBcIn1cIiwgZGVmX21hcFtkZWZdLCBsYW5ndWFnZSlcbiAgKTtcbn1cbiJ9LHsiY2VsbE5hbWUiOiJpbnRlcnBvbGF0ZS05IiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldFF1aWV0Iiwic291cmNlIjoie1xuICBjb25zdCB7IGludGVycG9sYXRlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuICBjb25zdCBibG9ja19pZCA9IFwiOVwiO1xuICBjb25zdCBsYW5ndWFnZSA9IFwibm9uZVwiO1xuICBjb25zdCBkZWZfbWFwID0ge1xufTtcbiAgY29uc3QgZWxlbSA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKGBpbnRlcnBvbGF0ZS0ke2Jsb2NrX2lkfWApO1xuXG4gIC8vIFN0b3JlIG9yaWdpbmFsIHRlbXBsYXRlZCBIVE1MIGZvciByZWZlcmVuY2UgaW4gZnV0dXJlIHJlYWN0aXZlIHVwZGF0ZXNcbiAgaWYgKCFlbGVtLm9yaWdIVE1MKSBlbGVtLm9yaWdIVE1MID0gZWxlbS5pbm5lckhUTUw7XG5cbiAgLy8gSW50ZXJwb2xhdGUgcmVhY3RpdmUgT0pTIHZhcmlhYmxlcyBpbnRvIGVzdGFibGlzaGVkIEhUTUwgZWxlbWVudFxuICBlbGVtLmlubmVySFRNTCA9IGVsZW0ub3JpZ0hUTUw7XG4gIE9iamVjdC5rZXlzKGRlZl9tYXApLmZvckVhY2goKGRlZikgPT5cbiAgICBpbnRlcnBvbGF0ZShlbGVtLCBcIiR7XCIgKyBkZWYgKyBcIn1cIiwgZGVmX21hcFtkZWZdLCBsYW5ndWFnZSlcbiAgKTtcbn1cbiJ9LHsiY2VsbE5hbWUiOiJpbnRlcnBvbGF0ZS0xMCIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsInNvdXJjZSI6IntcbiAgY29uc3QgeyBpbnRlcnBvbGF0ZSB9ID0gd2luZG93Ll9leGVyY2lzZV9vanNfcnVudGltZTtcbiAgY29uc3QgYmxvY2tfaWQgPSBcIjEwXCI7XG4gIGNvbnN0IGxhbmd1YWdlID0gXCJweXRob25cIjtcbiAgY29uc3QgZGVmX21hcCA9IHtcbn07XG4gIGNvbnN0IGVsZW0gPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZChgaW50ZXJwb2xhdGUtJHtibG9ja19pZH1gKTtcblxuICAvLyBTdG9yZSBvcmlnaW5hbCB0ZW1wbGF0ZWQgSFRNTCBmb3IgcmVmZXJlbmNlIGluIGZ1dHVyZSByZWFjdGl2ZSB1cGRhdGVzXG4gIGlmICghZWxlbS5vcmlnSFRNTCkgZWxlbS5vcmlnSFRNTCA9IGVsZW0uaW5uZXJIVE1MO1xuXG4gIC8vIEludGVycG9sYXRlIHJlYWN0aXZlIE9KUyB2YXJpYWJsZXMgaW50byBlc3RhYmxpc2hlZCBIVE1MIGVsZW1lbnRcbiAgZWxlbS5pbm5lckhUTUwgPSBlbGVtLm9yaWdIVE1MO1xuICBPYmplY3Qua2V5cyhkZWZfbWFwKS5mb3JFYWNoKChkZWYpID0+XG4gICAgaW50ZXJwb2xhdGUoZWxlbSwgXCIke1wiICsgZGVmICsgXCJ9XCIsIGRlZl9tYXBbZGVmXSwgbGFuZ3VhZ2UpXG4gICk7XG59XG4ifSx7ImNlbGxOYW1lIjoiaW50ZXJwb2xhdGUtMTYiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0UXVpZXQiLCJzb3VyY2UiOiJ7XG4gIGNvbnN0IHsgaW50ZXJwb2xhdGUgfSA9IHdpbmRvdy5fZXhlcmNpc2Vfb2pzX3J1bnRpbWU7XG4gIGNvbnN0IGJsb2NrX2lkID0gXCIxNlwiO1xuICBjb25zdCBsYW5ndWFnZSA9IFwicHl0aG9uXCI7XG4gIGNvbnN0IGRlZl9tYXAgPSB7XG59O1xuICBjb25zdCBlbGVtID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoYGludGVycG9sYXRlLSR7YmxvY2tfaWR9YCk7XG5cbiAgLy8gU3RvcmUgb3JpZ2luYWwgdGVtcGxhdGVkIEhUTUwgZm9yIHJlZmVyZW5jZSBpbiBmdXR1cmUgcmVhY3RpdmUgdXBkYXRlc1xuICBpZiAoIWVsZW0ub3JpZ0hUTUwpIGVsZW0ub3JpZ0hUTUwgPSBlbGVtLmlubmVySFRNTDtcblxuICAvLyBJbnRlcnBvbGF0ZSByZWFjdGl2ZSBPSlMgdmFyaWFibGVzIGludG8gZXN0YWJsaXNoZWQgSFRNTCBlbGVtZW50XG4gIGVsZW0uaW5uZXJIVE1MID0gZWxlbS5vcmlnSFRNTDtcbiAgT2JqZWN0LmtleXMoZGVmX21hcCkuZm9yRWFjaCgoZGVmKSA9PlxuICAgIGludGVycG9sYXRlKGVsZW0sIFwiJHtcIiArIGRlZiArIFwifVwiLCBkZWZfbWFwW2RlZl0sIGxhbmd1YWdlKVxuICApO1xufVxuIn0seyJjZWxsTmFtZSI6ImludGVycG9sYXRlLTE4IiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldFF1aWV0Iiwic291cmNlIjoie1xuICBjb25zdCB7IGludGVycG9sYXRlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuICBjb25zdCBibG9ja19pZCA9IFwiMThcIjtcbiAgY29uc3QgbGFuZ3VhZ2UgPSBcIm5vbmVcIjtcbiAgY29uc3QgZGVmX21hcCA9IHtcbn07XG4gIGNvbnN0IGVsZW0gPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZChgaW50ZXJwb2xhdGUtJHtibG9ja19pZH1gKTtcblxuICAvLyBTdG9yZSBvcmlnaW5hbCB0ZW1wbGF0ZWQgSFRNTCBmb3IgcmVmZXJlbmNlIGluIGZ1dHVyZSByZWFjdGl2ZSB1cGRhdGVzXG4gIGlmICghZWxlbS5vcmlnSFRNTCkgZWxlbS5vcmlnSFRNTCA9IGVsZW0uaW5uZXJIVE1MO1xuXG4gIC8vIEludGVycG9sYXRlIHJlYWN0aXZlIE9KUyB2YXJpYWJsZXMgaW50byBlc3RhYmxpc2hlZCBIVE1MIGVsZW1lbnRcbiAgZWxlbS5pbm5lckhUTUwgPSBlbGVtLm9yaWdIVE1MO1xuICBPYmplY3Qua2V5cyhkZWZfbWFwKS5mb3JFYWNoKChkZWYpID0+XG4gICAgaW50ZXJwb2xhdGUoZWxlbSwgXCIke1wiICsgZGVmICsgXCJ9XCIsIGRlZl9tYXBbZGVmXSwgbGFuZ3VhZ2UpXG4gICk7XG59XG4ifSx7ImNlbGxOYW1lIjoiaW50ZXJwb2xhdGUtMTkiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0UXVpZXQiLCJzb3VyY2UiOiJ7XG4gIGNvbnN0IHsgaW50ZXJwb2xhdGUgfSA9IHdpbmRvdy5fZXhlcmNpc2Vfb2pzX3J1bnRpbWU7XG4gIGNvbnN0IGJsb2NrX2lkID0gXCIxOVwiO1xuICBjb25zdCBsYW5ndWFnZSA9IFwicHl0aG9uXCI7XG4gIGNvbnN0IGRlZl9tYXAgPSB7XG59O1xuICBjb25zdCBlbGVtID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoYGludGVycG9sYXRlLSR7YmxvY2tfaWR9YCk7XG5cbiAgLy8gU3RvcmUgb3JpZ2luYWwgdGVtcGxhdGVkIEhUTUwgZm9yIHJlZmVyZW5jZSBpbiBmdXR1cmUgcmVhY3RpdmUgdXBkYXRlc1xuICBpZiAoIWVsZW0ub3JpZ0hUTUwpIGVsZW0ub3JpZ0hUTUwgPSBlbGVtLmlubmVySFRNTDtcblxuICAvLyBJbnRlcnBvbGF0ZSByZWFjdGl2ZSBPSlMgdmFyaWFibGVzIGludG8gZXN0YWJsaXNoZWQgSFRNTCBlbGVtZW50XG4gIGVsZW0uaW5uZXJIVE1MID0gZWxlbS5vcmlnSFRNTDtcbiAgT2JqZWN0LmtleXMoZGVmX21hcCkuZm9yRWFjaCgoZGVmKSA9PlxuICAgIGludGVycG9sYXRlKGVsZW0sIFwiJHtcIiArIGRlZiArIFwifVwiLCBkZWZfbWFwW2RlZl0sIGxhbmd1YWdlKVxuICApO1xufVxuIn0seyJjZWxsTmFtZSI6InB5b2RpZGUtcHJlbHVkZSIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsInNvdXJjZSI6InB5b2RpZGVPanMgPSB7XG4gIGNvbnN0IHtcbiAgICBQeW9kaWRlRXZhbHVhdG9yLFxuICAgIFB5b2RpZGVFbnZpcm9ubWVudE1hbmFnZXIsXG4gICAgc2V0dXBQeXRob24sXG4gICAgc3RhcnRQeW9kaWRlV29ya2VyLFxuICAgIGI2NERlY29kZSxcbiAgICBjb2xsYXBzZVBhdGgsXG4gIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHN0YXR1c0NvbnRhaW5lciA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKFwiZXhlcmNpc2UtbG9hZGluZy1zdGF0dXNcIik7XG4gIGNvbnN0IGluZGljYXRvckNvbnRhaW5lciA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKFwiZXhlcmNpc2UtbG9hZGluZy1pbmRpY2F0b3JcIik7XG4gIGluZGljYXRvckNvbnRhaW5lci5jbGFzc0xpc3QucmVtb3ZlKFwiZC1ub25lXCIpO1xuXG4gIGxldCBzdGF0dXNUZXh0ID0gZG9jdW1lbnQuY3JlYXRlRWxlbWVudChcImRpdlwiKVxuICBzdGF0dXNUZXh0LmNsYXNzTGlzdCA9IFwiZXhlcmNpc2UtbG9hZGluZy1kZXRhaWxzXCI7XG4gIHN0YXR1c1RleHQgPSBzdGF0dXNDb250YWluZXIuYXBwZW5kQ2hpbGQoc3RhdHVzVGV4dCk7XG4gIHN0YXR1c1RleHQudGV4dENvbnRlbnQgPSBgSW5pdGlhbGlzZWA7XG5cbiAgLy8gSG9pc3QgaW5kaWNhdG9yIG91dCBmcm9tIGZpbmFsIHNsaWRlIHdoZW4gcnVubmluZyB1bmRlciByZXZlYWxcbiAgY29uc3QgcmV2ZWFsU3RhdHVzID0gZG9jdW1lbnQucXVlcnlTZWxlY3RvcihcIi5yZXZlYWwgLmV4ZXJjaXNlLWxvYWRpbmctaW5kaWNhdG9yXCIpO1xuICBpZiAocmV2ZWFsU3RhdHVzKSB7XG4gICAgcmV2ZWFsU3RhdHVzLnJlbW92ZSgpO1xuICAgIGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoXCIucmV2ZWFsID4gLnNsaWRlc1wiKS5hcHBlbmRDaGlsZChyZXZlYWxTdGF0dXMpO1xuICB9XG5cbiAgLy8gTWFrZSBhbnkgcmV2ZWFsIHNsaWRlcyB3aXRoIGxpdmUgY2VsbHMgc2Nyb2xsYWJsZVxuICBkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKFwiLnJldmVhbCAuZXhlcmNpc2UtY2VsbFwiKS5mb3JFYWNoKChlbCkgPT4ge1xuICAgIGVsLmNsb3Nlc3QoJ3NlY3Rpb24uc2xpZGUnKS5jbGFzc0xpc3QuYWRkKFwic2Nyb2xsYWJsZVwiKTtcbiAgfSlcblxuICAvLyBQeW9kaWRlIHN1cHBsZW1lbnRhbCBkYXRhIGFuZCBvcHRpb25zXG4gIGNvbnN0IGRhdGFDb250ZW50ID0gZG9jdW1lbnQucXVlcnlTZWxlY3Rvcihgc2NyaXB0W3R5cGU9XFxcInB5b2RpZGUtZGF0YVxcXCJdYCkudGV4dENvbnRlbnQ7XG4gIGNvbnN0IGRhdGEgPSBKU09OLnBhcnNlKGI2NERlY29kZShkYXRhQ29udGVudCkpO1xuXG4gIC8vIEdyYWIgbGlzdCBvZiByZXNvdXJjZXMgdG8gYmUgZG93bmxvYWRlZFxuICBjb25zdCBmaWxlc0NvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwidmZzLWZpbGVcXFwiXWApLnRleHRDb250ZW50O1xuICBjb25zdCBmaWxlcyA9IEpTT04ucGFyc2UoYjY0RGVjb2RlKGZpbGVzQ29udGVudCkpO1xuXG4gIGxldCBweW9kaWRlUHJvbWlzZSA9IChhc3luYyAoKSA9PiB7XG4gICAgc3RhdHVzVGV4dC50ZXh0Q29udGVudCA9IGBEb3dubG9hZGluZyBQeW9kaWRlYDtcbiAgICBjb25zdCBweW9kaWRlID0gYXdhaXQgc3RhcnRQeW9kaWRlV29ya2VyKGRhdGEub3B0aW9ucyk7XG5cbiAgICBzdGF0dXNUZXh0LnRleHRDb250ZW50ID0gYERvd25sb2FkaW5nIHBhY2thZ2U6IG1pY3JvcGlwYDtcbiAgICBhd2FpdCBweW9kaWRlLmxvYWRQYWNrYWdlKFwibWljcm9waXBcIik7XG4gICAgY29uc3QgbWljcm9waXAgPSBhd2FpdCBweW9kaWRlLnB5aW1wb3J0KFwibWljcm9waXBcIik7XG4gICAgYXdhaXQgZGF0YS5wYWNrYWdlcy5wa2dzLm1hcCgocGtnKSA9PiAoKSA9PiB7XG4gICAgICBzdGF0dXNUZXh0LnRleHRDb250ZW50ID0gYERvd25sb2FkaW5nIHBhY2thZ2U6ICR7cGtnfWA7XG4gICAgICByZXR1cm4gbWljcm9waXAuaW5zdGFsbChwa2cpO1xuICAgIH0pLnJlZHVjZSgoY3VyLCBuZXh0KSA9PiBjdXIudGhlbihuZXh0KSwgUHJvbWlzZS5yZXNvbHZlKCkpO1xuICAgIGF3YWl0IG1pY3JvcGlwLmRlc3Ryb3koKTtcblxuICAgIC8vIERvd25sb2FkIGFuZCBpbnN0YWxsIHJlc291cmNlc1xuICAgIGF3YWl0IGZpbGVzLm1hcCgoZmlsZSkgPT4gYXN5bmMgKCkgPT4ge1xuICAgICAgY29uc3QgbmFtZSA9IGZpbGUuc3Vic3RyaW5nKGZpbGUubGFzdEluZGV4T2YoJy8nKSArIDEpO1xuICAgICAgc3RhdHVzVGV4dC50ZXh0Q29udGVudCA9IGBEb3dubG9hZGluZyByZXNvdXJjZTogJHtuYW1lfWA7XG4gICAgICBjb25zdCByZXNwb25zZSA9IGF3YWl0IGZldGNoKGZpbGUpO1xuICAgICAgaWYgKCFyZXNwb25zZS5vaykge1xuICAgICAgICB0aHJvdyBuZXcgRXJyb3IoYENhbid0IGRvd25sb2FkIFxcYCR7ZmlsZX1cXGAuIEVycm9yICR7cmVzcG9uc2Uuc3RhdHVzfTogXCIke3Jlc3BvbnNlLnN0YXR1c1RleHR9XCIuYCk7XG4gICAgICB9XG4gICAgICBjb25zdCBkYXRhID0gYXdhaXQgcmVzcG9uc2UuYXJyYXlCdWZmZXIoKTtcblxuICAgICAgLy8gU3RvcmUgVVJMcyBpbiB0aGUgY3dkIHdpdGhvdXQgYW55IHN1YmRpcmVjdG9yeSBzdHJ1Y3R1cmVcbiAgICAgIGlmIChmaWxlLmluY2x1ZGVzKFwiOi8vXCIpKSB7XG4gICAgICAgIGZpbGUgPSBuYW1lO1xuICAgICAgfVxuXG4gICAgICAvLyBDb2xsYXBzZSBoaWdoZXIgZGlyZWN0b3J5IHN0cnVjdHVyZVxuICAgICAgZmlsZSA9IGNvbGxhcHNlUGF0aChmaWxlKTtcblxuICAgICAgLy8gQ3JlYXRlIGRpcmVjdG9yeSB0cmVlLCBpZ25vcmluZyBcImRpcmVjdG9yeSBleGlzdHNcIiBWRlMgZXJyb3JzXG4gICAgICBjb25zdCBwYXJ0cyA9IGZpbGUuc3BsaXQoJy8nKS5zbGljZSgwLCAtMSk7XG4gICAgICBsZXQgcGF0aCA9ICcnO1xuICAgICAgd2hpbGUgKHBhcnRzLmxlbmd0aCA+IDApIHtcbiAgICAgICAgcGF0aCArPSBwYXJ0cy5zaGlmdCgpICsgJy8nO1xuICAgICAgICB0cnkge1xuICAgICAgICAgIGF3YWl0IHB5b2RpZGUuRlMubWtkaXIocGF0aCk7XG4gICAgICAgIH0gY2F0Y2ggKGUpIHtcbiAgICAgICAgICBpZiAoZS5uYW1lICE9PSBcIkVycm5vRXJyb3JcIikgdGhyb3cgZTtcbiAgICAgICAgICBpZiAoZS5lcnJubyAhPT0gMjApIHtcbiAgICAgICAgICAgIGNvbnN0IGVycm9yVGV4dFB0ciA9IGF3YWl0IHB5b2RpZGUuX21vZHVsZS5fc3RyZXJyb3IoZS5lcnJubyk7XG4gICAgICAgICAgICBjb25zdCBlcnJvclRleHQgPSBhd2FpdCBweW9kaWRlLl9tb2R1bGUuVVRGOFRvU3RyaW5nKGVycm9yVGV4dFB0cik7XG4gICAgICAgICAgICB0aHJvdyBuZXcgRXJyb3IoYEZpbGVzeXN0ZW0gRXJyb3IgJHtlLmVycm5vfSBcIiR7ZXJyb3JUZXh0fVwiLmApO1xuICAgICAgICAgIH1cbiAgICAgICAgfVxuICAgICAgfVxuXG4gICAgICAvLyBXcml0ZSB0aGlzIGZpbGUgdG8gdGhlIFZGU1xuICAgICAgdHJ5IHtcbiAgICAgICAgcmV0dXJuIGF3YWl0IHB5b2RpZGUuRlMud3JpdGVGaWxlKGZpbGUsIG5ldyBVaW50OEFycmF5KGRhdGEpKTtcbiAgICAgIH0gY2F0Y2ggKGUpIHtcbiAgICAgICAgaWYgKGUubmFtZSAhPT0gXCJFcnJub0Vycm9yXCIpIHRocm93IGU7XG4gICAgICAgIGNvbnN0IGVycm9yVGV4dFB0ciA9IGF3YWl0IHB5b2RpZGUuX21vZHVsZS5fc3RyZXJyb3IoZS5lcnJubyk7XG4gICAgICAgIGNvbnN0IGVycm9yVGV4dCA9IGF3YWl0IHB5b2RpZGUuX21vZHVsZS5VVEY4VG9TdHJpbmcoZXJyb3JUZXh0UHRyKTtcbiAgICAgICAgdGhyb3cgbmV3IEVycm9yKGBGaWxlc3lzdGVtIEVycm9yICR7ZS5lcnJub30gXCIke2Vycm9yVGV4dH1cIi5gKTtcbiAgICAgIH1cbiAgICB9KS5yZWR1Y2UoKGN1ciwgbmV4dCkgPT4gY3VyLnRoZW4obmV4dCksIFByb21pc2UucmVzb2x2ZSgpKTtcblxuICAgIHN0YXR1c1RleHQudGV4dENvbnRlbnQgPSBgUHlvZGlkZSBlbnZpcm9ubWVudCBzZXR1cGA7XG4gICAgYXdhaXQgc2V0dXBQeXRob24ocHlvZGlkZSk7XG5cbiAgICBzdGF0dXNUZXh0LnJlbW92ZSgpO1xuICAgIGlmIChzdGF0dXNDb250YWluZXIuY2hpbGRyZW4ubGVuZ3RoID09IDApIHtcbiAgICAgIHN0YXR1c0NvbnRhaW5lci5wYXJlbnROb2RlLnJlbW92ZSgpO1xuICAgIH1cbiAgICByZXR1cm4gcHlvZGlkZTtcbiAgfSkoKS5jYXRjaCgoZXJyKSA9PiB7XG4gICAgc3RhdHVzVGV4dC5zdHlsZS5jb2xvciA9IFwidmFyKC0tZXhlcmNpc2UtZWRpdG9yLWhsLWVyLCAjQUQwMDAwKVwiO1xuICAgIHN0YXR1c1RleHQudGV4dENvbnRlbnQgPSBlcnIubWVzc2FnZTtcbiAgICAvL2luZGljYXRvckNvbnRhaW5lci5xdWVyeVNlbGVjdG9yKFwiLnNwaW5uZXItZ3Jvd1wiKS5jbGFzc0xpc3QuYWRkKFwiZC1ub25lXCIpO1xuICAgIHRocm93IGVycjtcbiAgfSk7XG5cbiAgLy8gS2VlcCB0cmFjayBvZiBpbml0aWFsIE9KUyBibG9jayByZW5kZXJcbiAgY29uc3QgcmVuZGVyZWRPanMgPSB7fTtcblxuICBjb25zdCBwcm9jZXNzID0gYXN5bmMgKGNvbnRleHQsIGlucHV0cykgPT4ge1xuICAgIGNvbnN0IHB5b2RpZGUgPSBhd2FpdCBweW9kaWRlUHJvbWlzZTtcbiAgICBjb25zdCBldmFsdWF0b3IgPSBuZXcgUHlvZGlkZUV2YWx1YXRvcihweW9kaWRlLCBjb250ZXh0KTtcbiAgICBhd2FpdCBldmFsdWF0b3IucHJvY2VzcyhpbnB1dHMpO1xuICAgIHJldHVybiBldmFsdWF0b3IuY29udGFpbmVyO1xuICB9XG5cbiAgcmV0dXJuIHtcbiAgICBweW9kaWRlUHJvbWlzZSxcbiAgICByZW5kZXJlZE9qcyxcbiAgICBwcm9jZXNzLFxuICB9O1xufVxuIn1dfQ==
+eyJjb250ZW50cyI6W3siY2VsbE5hbWUiOiJweW9kaWRlLTI2IiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldCIsInNvdXJjZSI6InZpZXdvZiBfcHlvZGlkZV9lZGl0b3JfMjYgPSB7XG4gIGNvbnN0IHsgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yLCBiNjREZWNvZGUgfSA9IHdpbmRvdy5fZXhlcmNpc2Vfb2pzX3J1bnRpbWU7XG5cbiAgY29uc3Qgc2NyaXB0Q29udGVudCA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoYHNjcmlwdFt0eXBlPVxcXCJweW9kaWRlLTI2LWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgLy8gRGVmYXVsdCBleGVyY2lzZSBjb25maWd1cmF0aW9uXG4gIGNvbnN0IG9wdGlvbnMgPSBPYmplY3QuYXNzaWduKFxuICAgIHtcbiAgICAgIGlkOiBcInB5b2RpZGUtMjYtY29udGVudHNcIixcbiAgICAgIGVudmlyOiBgZXhlcmNpc2UtZW52LSR7YmxvY2suYXR0ci5leGVyY2lzZX1gLFxuICAgICAgZXJyb3I6IGZhbHNlLFxuICAgICAgY2FwdGlvbjogJ0V4ZXJjaXNlJyxcbiAgICB9LFxuICAgIGJsb2NrLmF0dHJcbiAgKTtcblxuICBjb25zdCBlZGl0b3IgPSBuZXcgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yKHB5b2RpZGVPanMucHlvZGlkZVByb21pc2UsIGJsb2NrLmNvZGUsIG9wdGlvbnMpO1xuICByZXR1cm4gZWRpdG9yLmNvbnRhaW5lcjtcbn1cbnZpZXdvZiBfcHlvZGlkZV92YWx1ZV8yNiA9IHB5b2RpZGVPanMucHJvY2VzcyhfcHlvZGlkZV9lZGl0b3JfMjYsIHt9KTtcbl9weW9kaWRlX2ZlZWRiYWNrXzI2ID0ge1xuICBjb25zdCB7IFB5b2RpZGVHcmFkZXIgfSA9IHdpbmRvdy5fZXhlcmNpc2Vfb2pzX3J1bnRpbWU7XG4gIGNvbnN0IGVtcHR5RmVlZGJhY2sgPSBkb2N1bWVudC5jcmVhdGVFbGVtZW50KCdkaXYnKTtcblxuICBjb25zdCBncmFkZXIgPSBuZXcgUHlvZGlkZUdyYWRlcihfcHlvZGlkZV92YWx1ZV8yNi5ldmFsdWF0b3IpO1xuICBjb25zdCBmZWVkYmFjayA9IGF3YWl0IGdyYWRlci5ncmFkZUV4ZXJjaXNlKCk7XG4gIGlmICghZmVlZGJhY2spIHJldHVybiBlbXB0eUZlZWRiYWNrO1xuICByZXR1cm4gZmVlZGJhY2s7XG59XG4ifSx7ImNlbGxOYW1lIjoicHlvZGlkZS0yNSIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJzb3VyY2UiOiJfcHlvZGlkZV92YWx1ZV8yNSA9IHtcbiAgY29uc3QgeyBoaWdobGlnaHRQeXRob24sIGI2NERlY29kZX0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS0yNS1jb250ZW50c1xcXCJdYCkudGV4dENvbnRlbnQ7XG4gIGNvbnN0IGJsb2NrID0gSlNPTi5wYXJzZShiNjREZWNvZGUoc2NyaXB0Q29udGVudCkpO1xuXG4gIC8vIERlZmF1bHQgZXZhbHVhdGlvbiBjb25maWd1cmF0aW9uXG4gIGNvbnN0IG9wdGlvbnMgPSBPYmplY3QuYXNzaWduKHtcbiAgICBpZDogXCJweW9kaWRlLTI1LWNvbnRlbnRzXCIsXG4gICAgZWNobzogdHJ1ZSxcbiAgICBvdXRwdXQ6IHRydWVcbiAgfSwgYmxvY2suYXR0cik7XG5cbiAgLy8gRXZhbHVhdGUgdGhlIHByb3ZpZGVkIFB5dGhvbiBjb2RlXG4gIGNvbnN0IHJlc3VsdCA9IHB5b2RpZGVPanMucHJvY2Vzcyh7Y29kZTogYmxvY2suY29kZSwgb3B0aW9uc30sIHt9KTtcblxuICAvLyBFYXJseSB5aWVsZCB3aGlsZSB3ZSB3YWl0IGZvciB0aGUgZmlyc3QgZXZhbHVhdGlvbiBhbmQgcmVuZGVyXG4gIGlmIChvcHRpb25zLm91dHB1dCAmJiAhKFwiMjVcIiBpbiBweW9kaWRlT2pzLnJlbmRlcmVkT2pzKSkge1xuICAgIGNvbnN0IGNvbnRhaW5lciA9IGRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoXCJkaXZcIik7XG4gICAgY29uc3Qgc3Bpbm5lciA9IGRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoXCJkaXZcIik7XG5cbiAgICBpZiAob3B0aW9ucy5lY2hvKSB7XG4gICAgICAvLyBTaG93IG91dHB1dCBhcyBoaWdobGlnaHRlZCBzb3VyY2VcbiAgICAgIGNvbnN0IHByZUVsZW0gPSBkb2N1bWVudC5jcmVhdGVFbGVtZW50KFwicHJlXCIpO1xuICAgICAgY29udGFpbmVyLmNsYXNzTmFtZSA9IFwic291cmNlQ29kZVwiO1xuICAgICAgcHJlRWxlbS5jbGFzc05hbWUgPSBcInNvdXJjZUNvZGUgcHl0aG9uXCI7XG4gICAgICBwcmVFbGVtLmFwcGVuZENoaWxkKGhpZ2hsaWdodFB5dGhvbihibG9jay5jb2RlKSk7XG4gICAgICBzcGlubmVyLmNsYXNzTmFtZSA9IFwic3Bpbm5lci1ncm93IHNwaW5uZXItZ3Jvdy1zbSBtLTIgcG9zaXRpb24tYWJzb2x1dGUgdG9wLTAgZW5kLTBcIjtcbiAgICAgIHByZUVsZW0uYXBwZW5kQ2hpbGQoc3Bpbm5lcik7XG4gICAgICBjb250YWluZXIuYXBwZW5kQ2hpbGQocHJlRWxlbSk7XG4gICAgfSBlbHNlIHtcbiAgICAgIHNwaW5uZXIuY2xhc3NOYW1lID0gXCJzcGlubmVyLWJvcmRlciBzcGlubmVyLWJvcmRlci1zbVwiO1xuICAgICAgY29udGFpbmVyLmFwcGVuZENoaWxkKHNwaW5uZXIpO1xuICAgIH1cblxuICAgIHlpZWxkIGNvbnRhaW5lcjtcbiAgfVxuXG4gIHB5b2RpZGVPanMucmVuZGVyZWRPanNbXCIyNVwiXSA9IHRydWU7XG4gIHlpZWxkIGF3YWl0IHJlc3VsdDtcbn1cbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLTI0IiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldCIsInNvdXJjZSI6InZpZXdvZiBfcHlvZGlkZV9lZGl0b3JfMjQgPSB7XG4gIGNvbnN0IHsgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yLCBiNjREZWNvZGUgfSA9IHdpbmRvdy5fZXhlcmNpc2Vfb2pzX3J1bnRpbWU7XG5cbiAgY29uc3Qgc2NyaXB0Q29udGVudCA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoYHNjcmlwdFt0eXBlPVxcXCJweW9kaWRlLTI0LWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtMjQtY29udGVudHNgIH0sIGJsb2NrLmF0dHIpO1xuICBjb25zdCBlZGl0b3IgPSBuZXcgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yKFxuICAgIHB5b2RpZGVPanMucHlvZGlkZVByb21pc2UsXG4gICAgYmxvY2suY29kZSxcbiAgICBvcHRpb25zXG4gICk7XG5cbiAgcmV0dXJuIGVkaXRvci5jb250YWluZXI7XG59XG5fcHlvZGlkZV92YWx1ZV8yNCA9IHB5b2RpZGVPanMucHJvY2VzcyhfcHlvZGlkZV9lZGl0b3JfMjQsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLTIzIiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldCIsInNvdXJjZSI6InZpZXdvZiBfcHlvZGlkZV9lZGl0b3JfMjMgPSB7XG4gIGNvbnN0IHsgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yLCBiNjREZWNvZGUgfSA9IHdpbmRvdy5fZXhlcmNpc2Vfb2pzX3J1bnRpbWU7XG5cbiAgY29uc3Qgc2NyaXB0Q29udGVudCA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoYHNjcmlwdFt0eXBlPVxcXCJweW9kaWRlLTIzLWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtMjMtY29udGVudHNgIH0sIGJsb2NrLmF0dHIpO1xuICBjb25zdCBlZGl0b3IgPSBuZXcgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yKFxuICAgIHB5b2RpZGVPanMucHlvZGlkZVByb21pc2UsXG4gICAgYmxvY2suY29kZSxcbiAgICBvcHRpb25zXG4gICk7XG5cbiAgcmV0dXJuIGVkaXRvci5jb250YWluZXI7XG59XG5fcHlvZGlkZV92YWx1ZV8yMyA9IHB5b2RpZGVPanMucHJvY2VzcyhfcHlvZGlkZV9lZGl0b3JfMjMsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLTIyIiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldCIsInNvdXJjZSI6InZpZXdvZiBfcHlvZGlkZV9lZGl0b3JfMjIgPSB7XG4gIGNvbnN0IHsgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yLCBiNjREZWNvZGUgfSA9IHdpbmRvdy5fZXhlcmNpc2Vfb2pzX3J1bnRpbWU7XG5cbiAgY29uc3Qgc2NyaXB0Q29udGVudCA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoYHNjcmlwdFt0eXBlPVxcXCJweW9kaWRlLTIyLWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtMjItY29udGVudHNgIH0sIGJsb2NrLmF0dHIpO1xuICBjb25zdCBlZGl0b3IgPSBuZXcgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yKFxuICAgIHB5b2RpZGVPanMucHlvZGlkZVByb21pc2UsXG4gICAgYmxvY2suY29kZSxcbiAgICBvcHRpb25zXG4gICk7XG5cbiAgcmV0dXJuIGVkaXRvci5jb250YWluZXI7XG59XG5fcHlvZGlkZV92YWx1ZV8yMiA9IHB5b2RpZGVPanMucHJvY2VzcyhfcHlvZGlkZV9lZGl0b3JfMjIsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLTIxIiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldCIsInNvdXJjZSI6InZpZXdvZiBfcHlvZGlkZV9lZGl0b3JfMjEgPSB7XG4gIGNvbnN0IHsgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yLCBiNjREZWNvZGUgfSA9IHdpbmRvdy5fZXhlcmNpc2Vfb2pzX3J1bnRpbWU7XG5cbiAgY29uc3Qgc2NyaXB0Q29udGVudCA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoYHNjcmlwdFt0eXBlPVxcXCJweW9kaWRlLTIxLWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtMjEtY29udGVudHNgIH0sIGJsb2NrLmF0dHIpO1xuICBjb25zdCBlZGl0b3IgPSBuZXcgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yKFxuICAgIHB5b2RpZGVPanMucHlvZGlkZVByb21pc2UsXG4gICAgYmxvY2suY29kZSxcbiAgICBvcHRpb25zXG4gICk7XG5cbiAgcmV0dXJuIGVkaXRvci5jb250YWluZXI7XG59XG5fcHlvZGlkZV92YWx1ZV8yMSA9IHB5b2RpZGVPanMucHJvY2VzcyhfcHlvZGlkZV9lZGl0b3JfMjEsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLTIwIiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldCIsInNvdXJjZSI6InZpZXdvZiBfcHlvZGlkZV9lZGl0b3JfMjAgPSB7XG4gIGNvbnN0IHsgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yLCBiNjREZWNvZGUgfSA9IHdpbmRvdy5fZXhlcmNpc2Vfb2pzX3J1bnRpbWU7XG5cbiAgY29uc3Qgc2NyaXB0Q29udGVudCA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoYHNjcmlwdFt0eXBlPVxcXCJweW9kaWRlLTIwLWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtMjAtY29udGVudHNgIH0sIGJsb2NrLmF0dHIpO1xuICBjb25zdCBlZGl0b3IgPSBuZXcgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yKFxuICAgIHB5b2RpZGVPanMucHlvZGlkZVByb21pc2UsXG4gICAgYmxvY2suY29kZSxcbiAgICBvcHRpb25zXG4gICk7XG5cbiAgcmV0dXJuIGVkaXRvci5jb250YWluZXI7XG59XG5fcHlvZGlkZV92YWx1ZV8yMCA9IHB5b2RpZGVPanMucHJvY2VzcyhfcHlvZGlkZV9lZGl0b3JfMjAsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLTE0IiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldCIsInNvdXJjZSI6InZpZXdvZiBfcHlvZGlkZV9lZGl0b3JfMTQgPSB7XG4gIGNvbnN0IHsgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yLCBiNjREZWNvZGUgfSA9IHdpbmRvdy5fZXhlcmNpc2Vfb2pzX3J1bnRpbWU7XG5cbiAgY29uc3Qgc2NyaXB0Q29udGVudCA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoYHNjcmlwdFt0eXBlPVxcXCJweW9kaWRlLTE0LWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgLy8gRGVmYXVsdCBleGVyY2lzZSBjb25maWd1cmF0aW9uXG4gIGNvbnN0IG9wdGlvbnMgPSBPYmplY3QuYXNzaWduKFxuICAgIHtcbiAgICAgIGlkOiBcInB5b2RpZGUtMTQtY29udGVudHNcIixcbiAgICAgIGVudmlyOiBgZXhlcmNpc2UtZW52LSR7YmxvY2suYXR0ci5leGVyY2lzZX1gLFxuICAgICAgZXJyb3I6IGZhbHNlLFxuICAgICAgY2FwdGlvbjogJ0V4ZXJjaXNlJyxcbiAgICB9LFxuICAgIGJsb2NrLmF0dHJcbiAgKTtcblxuICBjb25zdCBlZGl0b3IgPSBuZXcgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yKHB5b2RpZGVPanMucHlvZGlkZVByb21pc2UsIGJsb2NrLmNvZGUsIG9wdGlvbnMpO1xuICByZXR1cm4gZWRpdG9yLmNvbnRhaW5lcjtcbn1cbnZpZXdvZiBfcHlvZGlkZV92YWx1ZV8xNCA9IHB5b2RpZGVPanMucHJvY2VzcyhfcHlvZGlkZV9lZGl0b3JfMTQsIHt9KTtcbl9weW9kaWRlX2ZlZWRiYWNrXzE0ID0ge1xuICBjb25zdCB7IFB5b2RpZGVHcmFkZXIgfSA9IHdpbmRvdy5fZXhlcmNpc2Vfb2pzX3J1bnRpbWU7XG4gIGNvbnN0IGVtcHR5RmVlZGJhY2sgPSBkb2N1bWVudC5jcmVhdGVFbGVtZW50KCdkaXYnKTtcblxuICBjb25zdCBncmFkZXIgPSBuZXcgUHlvZGlkZUdyYWRlcihfcHlvZGlkZV92YWx1ZV8xNC5ldmFsdWF0b3IpO1xuICBjb25zdCBmZWVkYmFjayA9IGF3YWl0IGdyYWRlci5ncmFkZUV4ZXJjaXNlKCk7XG4gIGlmICghZmVlZGJhY2spIHJldHVybiBlbXB0eUZlZWRiYWNrO1xuICByZXR1cm4gZmVlZGJhY2s7XG59XG4ifSx7ImNlbGxOYW1lIjoicHlvZGlkZS0xMyIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJzb3VyY2UiOiJ2aWV3b2YgX3B5b2RpZGVfZWRpdG9yXzEzID0ge1xuICBjb25zdCB7IFB5b2RpZGVFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS0xMy1jb250ZW50c1xcXCJdYCkudGV4dENvbnRlbnQ7XG4gIGNvbnN0IGJsb2NrID0gSlNPTi5wYXJzZShiNjREZWNvZGUoc2NyaXB0Q29udGVudCkpO1xuXG4gIGNvbnN0IG9wdGlvbnMgPSBPYmplY3QuYXNzaWduKHsgaWQ6IGBweW9kaWRlLTEzLWNvbnRlbnRzYCB9LCBibG9jay5hdHRyKTtcbiAgY29uc3QgZWRpdG9yID0gbmV3IFB5b2RpZGVFeGVyY2lzZUVkaXRvcihcbiAgICBweW9kaWRlT2pzLnB5b2RpZGVQcm9taXNlLFxuICAgIGJsb2NrLmNvZGUsXG4gICAgb3B0aW9uc1xuICApO1xuXG4gIHJldHVybiBlZGl0b3IuY29udGFpbmVyO1xufVxuX3B5b2RpZGVfdmFsdWVfMTMgPSBweW9kaWRlT2pzLnByb2Nlc3MoX3B5b2RpZGVfZWRpdG9yXzEzLCB7fSk7XG4ifSx7ImNlbGxOYW1lIjoicHlvZGlkZS0xMiIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJzb3VyY2UiOiJ2aWV3b2YgX3B5b2RpZGVfZWRpdG9yXzEyID0ge1xuICBjb25zdCB7IFB5b2RpZGVFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS0xMi1jb250ZW50c1xcXCJdYCkudGV4dENvbnRlbnQ7XG4gIGNvbnN0IGJsb2NrID0gSlNPTi5wYXJzZShiNjREZWNvZGUoc2NyaXB0Q29udGVudCkpO1xuXG4gIGNvbnN0IG9wdGlvbnMgPSBPYmplY3QuYXNzaWduKHsgaWQ6IGBweW9kaWRlLTEyLWNvbnRlbnRzYCB9LCBibG9jay5hdHRyKTtcbiAgY29uc3QgZWRpdG9yID0gbmV3IFB5b2RpZGVFeGVyY2lzZUVkaXRvcihcbiAgICBweW9kaWRlT2pzLnB5b2RpZGVQcm9taXNlLFxuICAgIGJsb2NrLmNvZGUsXG4gICAgb3B0aW9uc1xuICApO1xuXG4gIHJldHVybiBlZGl0b3IuY29udGFpbmVyO1xufVxuX3B5b2RpZGVfdmFsdWVfMTIgPSBweW9kaWRlT2pzLnByb2Nlc3MoX3B5b2RpZGVfZWRpdG9yXzEyLCB7fSk7XG4ifSx7ImNlbGxOYW1lIjoicHlvZGlkZS0xMSIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJzb3VyY2UiOiJ2aWV3b2YgX3B5b2RpZGVfZWRpdG9yXzExID0ge1xuICBjb25zdCB7IFB5b2RpZGVFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS0xMS1jb250ZW50c1xcXCJdYCkudGV4dENvbnRlbnQ7XG4gIGNvbnN0IGJsb2NrID0gSlNPTi5wYXJzZShiNjREZWNvZGUoc2NyaXB0Q29udGVudCkpO1xuXG4gIGNvbnN0IG9wdGlvbnMgPSBPYmplY3QuYXNzaWduKHsgaWQ6IGBweW9kaWRlLTExLWNvbnRlbnRzYCB9LCBibG9jay5hdHRyKTtcbiAgY29uc3QgZWRpdG9yID0gbmV3IFB5b2RpZGVFeGVyY2lzZUVkaXRvcihcbiAgICBweW9kaWRlT2pzLnB5b2RpZGVQcm9taXNlLFxuICAgIGJsb2NrLmNvZGUsXG4gICAgb3B0aW9uc1xuICApO1xuXG4gIHJldHVybiBlZGl0b3IuY29udGFpbmVyO1xufVxuX3B5b2RpZGVfdmFsdWVfMTEgPSBweW9kaWRlT2pzLnByb2Nlc3MoX3B5b2RpZGVfZWRpdG9yXzExLCB7fSk7XG4ifSx7ImNlbGxOYW1lIjoicHlvZGlkZS01IiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldCIsInNvdXJjZSI6InZpZXdvZiBfcHlvZGlkZV9lZGl0b3JfNSA9IHtcbiAgY29uc3QgeyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IsIGI2NERlY29kZSB9ID0gd2luZG93Ll9leGVyY2lzZV9vanNfcnVudGltZTtcblxuICBjb25zdCBzY3JpcHRDb250ZW50ID0gZG9jdW1lbnQucXVlcnlTZWxlY3Rvcihgc2NyaXB0W3R5cGU9XFxcInB5b2RpZGUtNS1jb250ZW50c1xcXCJdYCkudGV4dENvbnRlbnQ7XG4gIGNvbnN0IGJsb2NrID0gSlNPTi5wYXJzZShiNjREZWNvZGUoc2NyaXB0Q29udGVudCkpO1xuXG4gIC8vIERlZmF1bHQgZXhlcmNpc2UgY29uZmlndXJhdGlvblxuICBjb25zdCBvcHRpb25zID0gT2JqZWN0LmFzc2lnbihcbiAgICB7XG4gICAgICBpZDogXCJweW9kaWRlLTUtY29udGVudHNcIixcbiAgICAgIGVudmlyOiBgZXhlcmNpc2UtZW52LSR7YmxvY2suYXR0ci5leGVyY2lzZX1gLFxuICAgICAgZXJyb3I6IGZhbHNlLFxuICAgICAgY2FwdGlvbjogJ0V4ZXJjaXNlJyxcbiAgICB9LFxuICAgIGJsb2NrLmF0dHJcbiAgKTtcblxuICBjb25zdCBlZGl0b3IgPSBuZXcgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yKHB5b2RpZGVPanMucHlvZGlkZVByb21pc2UsIGJsb2NrLmNvZGUsIG9wdGlvbnMpO1xuICByZXR1cm4gZWRpdG9yLmNvbnRhaW5lcjtcbn1cbnZpZXdvZiBfcHlvZGlkZV92YWx1ZV81ID0gcHlvZGlkZU9qcy5wcm9jZXNzKF9weW9kaWRlX2VkaXRvcl81LCB7fSk7XG5fcHlvZGlkZV9mZWVkYmFja181ID0ge1xuICBjb25zdCB7IFB5b2RpZGVHcmFkZXIgfSA9IHdpbmRvdy5fZXhlcmNpc2Vfb2pzX3J1bnRpbWU7XG4gIGNvbnN0IGVtcHR5RmVlZGJhY2sgPSBkb2N1bWVudC5jcmVhdGVFbGVtZW50KCdkaXYnKTtcblxuICBjb25zdCBncmFkZXIgPSBuZXcgUHlvZGlkZUdyYWRlcihfcHlvZGlkZV92YWx1ZV81LmV2YWx1YXRvcik7XG4gIGNvbnN0IGZlZWRiYWNrID0gYXdhaXQgZ3JhZGVyLmdyYWRlRXhlcmNpc2UoKTtcbiAgaWYgKCFmZWVkYmFjaykgcmV0dXJuIGVtcHR5RmVlZGJhY2s7XG4gIHJldHVybiBmZWVkYmFjaztcbn1cbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLTQiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0Iiwic291cmNlIjoidmlld29mIF9weW9kaWRlX2VkaXRvcl80ID0ge1xuICBjb25zdCB7IFB5b2RpZGVFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS00LWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtNC1jb250ZW50c2AgfSwgYmxvY2suYXR0cik7XG4gIGNvbnN0IGVkaXRvciA9IG5ldyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IoXG4gICAgcHlvZGlkZU9qcy5weW9kaWRlUHJvbWlzZSxcbiAgICBibG9jay5jb2RlLFxuICAgIG9wdGlvbnNcbiAgKTtcblxuICByZXR1cm4gZWRpdG9yLmNvbnRhaW5lcjtcbn1cbl9weW9kaWRlX3ZhbHVlXzQgPSBweW9kaWRlT2pzLnByb2Nlc3MoX3B5b2RpZGVfZWRpdG9yXzQsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLTMiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0Iiwic291cmNlIjoidmlld29mIF9weW9kaWRlX2VkaXRvcl8zID0ge1xuICBjb25zdCB7IFB5b2RpZGVFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS0zLWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtMy1jb250ZW50c2AgfSwgYmxvY2suYXR0cik7XG4gIGNvbnN0IGVkaXRvciA9IG5ldyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IoXG4gICAgcHlvZGlkZU9qcy5weW9kaWRlUHJvbWlzZSxcbiAgICBibG9jay5jb2RlLFxuICAgIG9wdGlvbnNcbiAgKTtcblxuICByZXR1cm4gZWRpdG9yLmNvbnRhaW5lcjtcbn1cbl9weW9kaWRlX3ZhbHVlXzMgPSBweW9kaWRlT2pzLnByb2Nlc3MoX3B5b2RpZGVfZWRpdG9yXzMsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLTIiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0Iiwic291cmNlIjoidmlld29mIF9weW9kaWRlX2VkaXRvcl8yID0ge1xuICBjb25zdCB7IFB5b2RpZGVFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS0yLWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtMi1jb250ZW50c2AgfSwgYmxvY2suYXR0cik7XG4gIGNvbnN0IGVkaXRvciA9IG5ldyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IoXG4gICAgcHlvZGlkZU9qcy5weW9kaWRlUHJvbWlzZSxcbiAgICBibG9jay5jb2RlLFxuICAgIG9wdGlvbnNcbiAgKTtcblxuICByZXR1cm4gZWRpdG9yLmNvbnRhaW5lcjtcbn1cbl9weW9kaWRlX3ZhbHVlXzIgPSBweW9kaWRlT2pzLnByb2Nlc3MoX3B5b2RpZGVfZWRpdG9yXzIsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLTEiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0Iiwic291cmNlIjoiX3B5b2RpZGVfdmFsdWVfMSA9IHtcbiAgY29uc3QgeyBoaWdobGlnaHRQeXRob24sIGI2NERlY29kZX0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS0xLWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgLy8gRGVmYXVsdCBldmFsdWF0aW9uIGNvbmZpZ3VyYXRpb25cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oe1xuICAgIGlkOiBcInB5b2RpZGUtMS1jb250ZW50c1wiLFxuICAgIGVjaG86IHRydWUsXG4gICAgb3V0cHV0OiB0cnVlXG4gIH0sIGJsb2NrLmF0dHIpO1xuXG4gIC8vIEV2YWx1YXRlIHRoZSBwcm92aWRlZCBQeXRob24gY29kZVxuICBjb25zdCByZXN1bHQgPSBweW9kaWRlT2pzLnByb2Nlc3Moe2NvZGU6IGJsb2NrLmNvZGUsIG9wdGlvbnN9LCB7fSk7XG5cbiAgLy8gRWFybHkgeWllbGQgd2hpbGUgd2Ugd2FpdCBmb3IgdGhlIGZpcnN0IGV2YWx1YXRpb24gYW5kIHJlbmRlclxuICBpZiAob3B0aW9ucy5vdXRwdXQgJiYgIShcIjFcIiBpbiBweW9kaWRlT2pzLnJlbmRlcmVkT2pzKSkge1xuICAgIGNvbnN0IGNvbnRhaW5lciA9IGRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoXCJkaXZcIik7XG4gICAgY29uc3Qgc3Bpbm5lciA9IGRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoXCJkaXZcIik7XG5cbiAgICBpZiAob3B0aW9ucy5lY2hvKSB7XG4gICAgICAvLyBTaG93IG91dHB1dCBhcyBoaWdobGlnaHRlZCBzb3VyY2VcbiAgICAgIGNvbnN0IHByZUVsZW0gPSBkb2N1bWVudC5jcmVhdGVFbGVtZW50KFwicHJlXCIpO1xuICAgICAgY29udGFpbmVyLmNsYXNzTmFtZSA9IFwic291cmNlQ29kZVwiO1xuICAgICAgcHJlRWxlbS5jbGFzc05hbWUgPSBcInNvdXJjZUNvZGUgcHl0aG9uXCI7XG4gICAgICBwcmVFbGVtLmFwcGVuZENoaWxkKGhpZ2hsaWdodFB5dGhvbihibG9jay5jb2RlKSk7XG4gICAgICBzcGlubmVyLmNsYXNzTmFtZSA9IFwic3Bpbm5lci1ncm93IHNwaW5uZXItZ3Jvdy1zbSBtLTIgcG9zaXRpb24tYWJzb2x1dGUgdG9wLTAgZW5kLTBcIjtcbiAgICAgIHByZUVsZW0uYXBwZW5kQ2hpbGQoc3Bpbm5lcik7XG4gICAgICBjb250YWluZXIuYXBwZW5kQ2hpbGQocHJlRWxlbSk7XG4gICAgfSBlbHNlIHtcbiAgICAgIHNwaW5uZXIuY2xhc3NOYW1lID0gXCJzcGlubmVyLWJvcmRlciBzcGlubmVyLWJvcmRlci1zbVwiO1xuICAgICAgY29udGFpbmVyLmFwcGVuZENoaWxkKHNwaW5uZXIpO1xuICAgIH1cblxuICAgIHlpZWxkIGNvbnRhaW5lcjtcbiAgfVxuXG4gIHB5b2RpZGVPanMucmVuZGVyZWRPanNbXCIxXCJdID0gdHJ1ZTtcbiAgeWllbGQgYXdhaXQgcmVzdWx0O1xufVxuIn0seyJjZWxsTmFtZSI6ImludGVycG9sYXRlLTciLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0UXVpZXQiLCJzb3VyY2UiOiJ7XG4gIGNvbnN0IHsgaW50ZXJwb2xhdGUgfSA9IHdpbmRvdy5fZXhlcmNpc2Vfb2pzX3J1bnRpbWU7XG4gIGNvbnN0IGJsb2NrX2lkID0gXCI3XCI7XG4gIGNvbnN0IGxhbmd1YWdlID0gXCJweXRob25cIjtcbiAgY29uc3QgZGVmX21hcCA9IHtcbn07XG4gIGNvbnN0IGVsZW0gPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZChgaW50ZXJwb2xhdGUtJHtibG9ja19pZH1gKTtcblxuICAvLyBTdG9yZSBvcmlnaW5hbCB0ZW1wbGF0ZWQgSFRNTCBmb3IgcmVmZXJlbmNlIGluIGZ1dHVyZSByZWFjdGl2ZSB1cGRhdGVzXG4gIGlmICghZWxlbS5vcmlnSFRNTCkgZWxlbS5vcmlnSFRNTCA9IGVsZW0uaW5uZXJIVE1MO1xuXG4gIC8vIEludGVycG9sYXRlIHJlYWN0aXZlIE9KUyB2YXJpYWJsZXMgaW50byBlc3RhYmxpc2hlZCBIVE1MIGVsZW1lbnRcbiAgZWxlbS5pbm5lckhUTUwgPSBlbGVtLm9yaWdIVE1MO1xuICBPYmplY3Qua2V5cyhkZWZfbWFwKS5mb3JFYWNoKChkZWYpID0+XG4gICAgaW50ZXJwb2xhdGUoZWxlbSwgXCIke1wiICsgZGVmICsgXCJ9XCIsIGRlZl9tYXBbZGVmXSwgbGFuZ3VhZ2UpXG4gICk7XG59XG4ifSx7ImNlbGxOYW1lIjoiaW50ZXJwb2xhdGUtOSIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsInNvdXJjZSI6IntcbiAgY29uc3QgeyBpbnRlcnBvbGF0ZSB9ID0gd2luZG93Ll9leGVyY2lzZV9vanNfcnVudGltZTtcbiAgY29uc3QgYmxvY2tfaWQgPSBcIjlcIjtcbiAgY29uc3QgbGFuZ3VhZ2UgPSBcIm5vbmVcIjtcbiAgY29uc3QgZGVmX21hcCA9IHtcbn07XG4gIGNvbnN0IGVsZW0gPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZChgaW50ZXJwb2xhdGUtJHtibG9ja19pZH1gKTtcblxuICAvLyBTdG9yZSBvcmlnaW5hbCB0ZW1wbGF0ZWQgSFRNTCBmb3IgcmVmZXJlbmNlIGluIGZ1dHVyZSByZWFjdGl2ZSB1cGRhdGVzXG4gIGlmICghZWxlbS5vcmlnSFRNTCkgZWxlbS5vcmlnSFRNTCA9IGVsZW0uaW5uZXJIVE1MO1xuXG4gIC8vIEludGVycG9sYXRlIHJlYWN0aXZlIE9KUyB2YXJpYWJsZXMgaW50byBlc3RhYmxpc2hlZCBIVE1MIGVsZW1lbnRcbiAgZWxlbS5pbm5lckhUTUwgPSBlbGVtLm9yaWdIVE1MO1xuICBPYmplY3Qua2V5cyhkZWZfbWFwKS5mb3JFYWNoKChkZWYpID0+XG4gICAgaW50ZXJwb2xhdGUoZWxlbSwgXCIke1wiICsgZGVmICsgXCJ9XCIsIGRlZl9tYXBbZGVmXSwgbGFuZ3VhZ2UpXG4gICk7XG59XG4ifSx7ImNlbGxOYW1lIjoiaW50ZXJwb2xhdGUtMTAiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0UXVpZXQiLCJzb3VyY2UiOiJ7XG4gIGNvbnN0IHsgaW50ZXJwb2xhdGUgfSA9IHdpbmRvdy5fZXhlcmNpc2Vfb2pzX3J1bnRpbWU7XG4gIGNvbnN0IGJsb2NrX2lkID0gXCIxMFwiO1xuICBjb25zdCBsYW5ndWFnZSA9IFwicHl0aG9uXCI7XG4gIGNvbnN0IGRlZl9tYXAgPSB7XG59O1xuICBjb25zdCBlbGVtID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoYGludGVycG9sYXRlLSR7YmxvY2tfaWR9YCk7XG5cbiAgLy8gU3RvcmUgb3JpZ2luYWwgdGVtcGxhdGVkIEhUTUwgZm9yIHJlZmVyZW5jZSBpbiBmdXR1cmUgcmVhY3RpdmUgdXBkYXRlc1xuICBpZiAoIWVsZW0ub3JpZ0hUTUwpIGVsZW0ub3JpZ0hUTUwgPSBlbGVtLmlubmVySFRNTDtcblxuICAvLyBJbnRlcnBvbGF0ZSByZWFjdGl2ZSBPSlMgdmFyaWFibGVzIGludG8gZXN0YWJsaXNoZWQgSFRNTCBlbGVtZW50XG4gIGVsZW0uaW5uZXJIVE1MID0gZWxlbS5vcmlnSFRNTDtcbiAgT2JqZWN0LmtleXMoZGVmX21hcCkuZm9yRWFjaCgoZGVmKSA9PlxuICAgIGludGVycG9sYXRlKGVsZW0sIFwiJHtcIiArIGRlZiArIFwifVwiLCBkZWZfbWFwW2RlZl0sIGxhbmd1YWdlKVxuICApO1xufVxuIn0seyJjZWxsTmFtZSI6ImludGVycG9sYXRlLTE2IiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldFF1aWV0Iiwic291cmNlIjoie1xuICBjb25zdCB7IGludGVycG9sYXRlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuICBjb25zdCBibG9ja19pZCA9IFwiMTZcIjtcbiAgY29uc3QgbGFuZ3VhZ2UgPSBcInB5dGhvblwiO1xuICBjb25zdCBkZWZfbWFwID0ge1xufTtcbiAgY29uc3QgZWxlbSA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKGBpbnRlcnBvbGF0ZS0ke2Jsb2NrX2lkfWApO1xuXG4gIC8vIFN0b3JlIG9yaWdpbmFsIHRlbXBsYXRlZCBIVE1MIGZvciByZWZlcmVuY2UgaW4gZnV0dXJlIHJlYWN0aXZlIHVwZGF0ZXNcbiAgaWYgKCFlbGVtLm9yaWdIVE1MKSBlbGVtLm9yaWdIVE1MID0gZWxlbS5pbm5lckhUTUw7XG5cbiAgLy8gSW50ZXJwb2xhdGUgcmVhY3RpdmUgT0pTIHZhcmlhYmxlcyBpbnRvIGVzdGFibGlzaGVkIEhUTUwgZWxlbWVudFxuICBlbGVtLmlubmVySFRNTCA9IGVsZW0ub3JpZ0hUTUw7XG4gIE9iamVjdC5rZXlzKGRlZl9tYXApLmZvckVhY2goKGRlZikgPT5cbiAgICBpbnRlcnBvbGF0ZShlbGVtLCBcIiR7XCIgKyBkZWYgKyBcIn1cIiwgZGVmX21hcFtkZWZdLCBsYW5ndWFnZSlcbiAgKTtcbn1cbiJ9LHsiY2VsbE5hbWUiOiJpbnRlcnBvbGF0ZS0xOCIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsInNvdXJjZSI6IntcbiAgY29uc3QgeyBpbnRlcnBvbGF0ZSB9ID0gd2luZG93Ll9leGVyY2lzZV9vanNfcnVudGltZTtcbiAgY29uc3QgYmxvY2tfaWQgPSBcIjE4XCI7XG4gIGNvbnN0IGxhbmd1YWdlID0gXCJub25lXCI7XG4gIGNvbnN0IGRlZl9tYXAgPSB7XG59O1xuICBjb25zdCBlbGVtID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoYGludGVycG9sYXRlLSR7YmxvY2tfaWR9YCk7XG5cbiAgLy8gU3RvcmUgb3JpZ2luYWwgdGVtcGxhdGVkIEhUTUwgZm9yIHJlZmVyZW5jZSBpbiBmdXR1cmUgcmVhY3RpdmUgdXBkYXRlc1xuICBpZiAoIWVsZW0ub3JpZ0hUTUwpIGVsZW0ub3JpZ0hUTUwgPSBlbGVtLmlubmVySFRNTDtcblxuICAvLyBJbnRlcnBvbGF0ZSByZWFjdGl2ZSBPSlMgdmFyaWFibGVzIGludG8gZXN0YWJsaXNoZWQgSFRNTCBlbGVtZW50XG4gIGVsZW0uaW5uZXJIVE1MID0gZWxlbS5vcmlnSFRNTDtcbiAgT2JqZWN0LmtleXMoZGVmX21hcCkuZm9yRWFjaCgoZGVmKSA9PlxuICAgIGludGVycG9sYXRlKGVsZW0sIFwiJHtcIiArIGRlZiArIFwifVwiLCBkZWZfbWFwW2RlZl0sIGxhbmd1YWdlKVxuICApO1xufVxuIn0seyJjZWxsTmFtZSI6ImludGVycG9sYXRlLTE5IiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldFF1aWV0Iiwic291cmNlIjoie1xuICBjb25zdCB7IGludGVycG9sYXRlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuICBjb25zdCBibG9ja19pZCA9IFwiMTlcIjtcbiAgY29uc3QgbGFuZ3VhZ2UgPSBcInB5dGhvblwiO1xuICBjb25zdCBkZWZfbWFwID0ge1xufTtcbiAgY29uc3QgZWxlbSA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKGBpbnRlcnBvbGF0ZS0ke2Jsb2NrX2lkfWApO1xuXG4gIC8vIFN0b3JlIG9yaWdpbmFsIHRlbXBsYXRlZCBIVE1MIGZvciByZWZlcmVuY2UgaW4gZnV0dXJlIHJlYWN0aXZlIHVwZGF0ZXNcbiAgaWYgKCFlbGVtLm9yaWdIVE1MKSBlbGVtLm9yaWdIVE1MID0gZWxlbS5pbm5lckhUTUw7XG5cbiAgLy8gSW50ZXJwb2xhdGUgcmVhY3RpdmUgT0pTIHZhcmlhYmxlcyBpbnRvIGVzdGFibGlzaGVkIEhUTUwgZWxlbWVudFxuICBlbGVtLmlubmVySFRNTCA9IGVsZW0ub3JpZ0hUTUw7XG4gIE9iamVjdC5rZXlzKGRlZl9tYXApLmZvckVhY2goKGRlZikgPT5cbiAgICBpbnRlcnBvbGF0ZShlbGVtLCBcIiR7XCIgKyBkZWYgKyBcIn1cIiwgZGVmX21hcFtkZWZdLCBsYW5ndWFnZSlcbiAgKTtcbn1cbiJ9LHsiY2VsbE5hbWUiOiJpbnRlcnBvbGF0ZS0yOCIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsInNvdXJjZSI6IntcbiAgY29uc3QgeyBpbnRlcnBvbGF0ZSB9ID0gd2luZG93Ll9leGVyY2lzZV9vanNfcnVudGltZTtcbiAgY29uc3QgYmxvY2tfaWQgPSBcIjI4XCI7XG4gIGNvbnN0IGxhbmd1YWdlID0gXCJweXRob25cIjtcbiAgY29uc3QgZGVmX21hcCA9IHtcbn07XG4gIGNvbnN0IGVsZW0gPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZChgaW50ZXJwb2xhdGUtJHtibG9ja19pZH1gKTtcblxuICAvLyBTdG9yZSBvcmlnaW5hbCB0ZW1wbGF0ZWQgSFRNTCBmb3IgcmVmZXJlbmNlIGluIGZ1dHVyZSByZWFjdGl2ZSB1cGRhdGVzXG4gIGlmICghZWxlbS5vcmlnSFRNTCkgZWxlbS5vcmlnSFRNTCA9IGVsZW0uaW5uZXJIVE1MO1xuXG4gIC8vIEludGVycG9sYXRlIHJlYWN0aXZlIE9KUyB2YXJpYWJsZXMgaW50byBlc3RhYmxpc2hlZCBIVE1MIGVsZW1lbnRcbiAgZWxlbS5pbm5lckhUTUwgPSBlbGVtLm9yaWdIVE1MO1xuICBPYmplY3Qua2V5cyhkZWZfbWFwKS5mb3JFYWNoKChkZWYpID0+XG4gICAgaW50ZXJwb2xhdGUoZWxlbSwgXCIke1wiICsgZGVmICsgXCJ9XCIsIGRlZl9tYXBbZGVmXSwgbGFuZ3VhZ2UpXG4gICk7XG59XG4ifSx7ImNlbGxOYW1lIjoiaW50ZXJwb2xhdGUtMzAiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0UXVpZXQiLCJzb3VyY2UiOiJ7XG4gIGNvbnN0IHsgaW50ZXJwb2xhdGUgfSA9IHdpbmRvdy5fZXhlcmNpc2Vfb2pzX3J1bnRpbWU7XG4gIGNvbnN0IGJsb2NrX2lkID0gXCIzMFwiO1xuICBjb25zdCBsYW5ndWFnZSA9IFwibm9uZVwiO1xuICBjb25zdCBkZWZfbWFwID0ge1xufTtcbiAgY29uc3QgZWxlbSA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKGBpbnRlcnBvbGF0ZS0ke2Jsb2NrX2lkfWApO1xuXG4gIC8vIFN0b3JlIG9yaWdpbmFsIHRlbXBsYXRlZCBIVE1MIGZvciByZWZlcmVuY2UgaW4gZnV0dXJlIHJlYWN0aXZlIHVwZGF0ZXNcbiAgaWYgKCFlbGVtLm9yaWdIVE1MKSBlbGVtLm9yaWdIVE1MID0gZWxlbS5pbm5lckhUTUw7XG5cbiAgLy8gSW50ZXJwb2xhdGUgcmVhY3RpdmUgT0pTIHZhcmlhYmxlcyBpbnRvIGVzdGFibGlzaGVkIEhUTUwgZWxlbWVudFxuICBlbGVtLmlubmVySFRNTCA9IGVsZW0ub3JpZ0hUTUw7XG4gIE9iamVjdC5rZXlzKGRlZl9tYXApLmZvckVhY2goKGRlZikgPT5cbiAgICBpbnRlcnBvbGF0ZShlbGVtLCBcIiR7XCIgKyBkZWYgKyBcIn1cIiwgZGVmX21hcFtkZWZdLCBsYW5ndWFnZSlcbiAgKTtcbn1cbiJ9LHsiY2VsbE5hbWUiOiJpbnRlcnBvbGF0ZS0zMSIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsInNvdXJjZSI6IntcbiAgY29uc3QgeyBpbnRlcnBvbGF0ZSB9ID0gd2luZG93Ll9leGVyY2lzZV9vanNfcnVudGltZTtcbiAgY29uc3QgYmxvY2tfaWQgPSBcIjMxXCI7XG4gIGNvbnN0IGxhbmd1YWdlID0gXCJweXRob25cIjtcbiAgY29uc3QgZGVmX21hcCA9IHtcbn07XG4gIGNvbnN0IGVsZW0gPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZChgaW50ZXJwb2xhdGUtJHtibG9ja19pZH1gKTtcblxuICAvLyBTdG9yZSBvcmlnaW5hbCB0ZW1wbGF0ZWQgSFRNTCBmb3IgcmVmZXJlbmNlIGluIGZ1dHVyZSByZWFjdGl2ZSB1cGRhdGVzXG4gIGlmICghZWxlbS5vcmlnSFRNTCkgZWxlbS5vcmlnSFRNTCA9IGVsZW0uaW5uZXJIVE1MO1xuXG4gIC8vIEludGVycG9sYXRlIHJlYWN0aXZlIE9KUyB2YXJpYWJsZXMgaW50byBlc3RhYmxpc2hlZCBIVE1MIGVsZW1lbnRcbiAgZWxlbS5pbm5lckhUTUwgPSBlbGVtLm9yaWdIVE1MO1xuICBPYmplY3Qua2V5cyhkZWZfbWFwKS5mb3JFYWNoKChkZWYpID0+XG4gICAgaW50ZXJwb2xhdGUoZWxlbSwgXCIke1wiICsgZGVmICsgXCJ9XCIsIGRlZl9tYXBbZGVmXSwgbGFuZ3VhZ2UpXG4gICk7XG59XG4ifSx7ImNlbGxOYW1lIjoicHlvZGlkZS1wcmVsdWRlIiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldFF1aWV0Iiwic291cmNlIjoicHlvZGlkZU9qcyA9IHtcbiAgY29uc3Qge1xuICAgIFB5b2RpZGVFdmFsdWF0b3IsXG4gICAgUHlvZGlkZUVudmlyb25tZW50TWFuYWdlcixcbiAgICBzZXR1cFB5dGhvbixcbiAgICBzdGFydFB5b2RpZGVXb3JrZXIsXG4gICAgYjY0RGVjb2RlLFxuICAgIGNvbGxhcHNlUGF0aCxcbiAgfSA9IHdpbmRvdy5fZXhlcmNpc2Vfb2pzX3J1bnRpbWU7XG5cbiAgY29uc3Qgc3RhdHVzQ29udGFpbmVyID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoXCJleGVyY2lzZS1sb2FkaW5nLXN0YXR1c1wiKTtcbiAgY29uc3QgaW5kaWNhdG9yQ29udGFpbmVyID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoXCJleGVyY2lzZS1sb2FkaW5nLWluZGljYXRvclwiKTtcbiAgaW5kaWNhdG9yQ29udGFpbmVyLmNsYXNzTGlzdC5yZW1vdmUoXCJkLW5vbmVcIik7XG5cbiAgbGV0IHN0YXR1c1RleHQgPSBkb2N1bWVudC5jcmVhdGVFbGVtZW50KFwiZGl2XCIpXG4gIHN0YXR1c1RleHQuY2xhc3NMaXN0ID0gXCJleGVyY2lzZS1sb2FkaW5nLWRldGFpbHNcIjtcbiAgc3RhdHVzVGV4dCA9IHN0YXR1c0NvbnRhaW5lci5hcHBlbmRDaGlsZChzdGF0dXNUZXh0KTtcbiAgc3RhdHVzVGV4dC50ZXh0Q29udGVudCA9IGBJbml0aWFsaXNlYDtcblxuICAvLyBIb2lzdCBpbmRpY2F0b3Igb3V0IGZyb20gZmluYWwgc2xpZGUgd2hlbiBydW5uaW5nIHVuZGVyIHJldmVhbFxuICBjb25zdCByZXZlYWxTdGF0dXMgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKFwiLnJldmVhbCAuZXhlcmNpc2UtbG9hZGluZy1pbmRpY2F0b3JcIik7XG4gIGlmIChyZXZlYWxTdGF0dXMpIHtcbiAgICByZXZlYWxTdGF0dXMucmVtb3ZlKCk7XG4gICAgZG9jdW1lbnQucXVlcnlTZWxlY3RvcihcIi5yZXZlYWwgPiAuc2xpZGVzXCIpLmFwcGVuZENoaWxkKHJldmVhbFN0YXR1cyk7XG4gIH1cblxuICAvLyBNYWtlIGFueSByZXZlYWwgc2xpZGVzIHdpdGggbGl2ZSBjZWxscyBzY3JvbGxhYmxlXG4gIGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3JBbGwoXCIucmV2ZWFsIC5leGVyY2lzZS1jZWxsXCIpLmZvckVhY2goKGVsKSA9PiB7XG4gICAgZWwuY2xvc2VzdCgnc2VjdGlvbi5zbGlkZScpLmNsYXNzTGlzdC5hZGQoXCJzY3JvbGxhYmxlXCIpO1xuICB9KVxuXG4gIC8vIFB5b2RpZGUgc3VwcGxlbWVudGFsIGRhdGEgYW5kIG9wdGlvbnNcbiAgY29uc3QgZGF0YUNvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS1kYXRhXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgZGF0YSA9IEpTT04ucGFyc2UoYjY0RGVjb2RlKGRhdGFDb250ZW50KSk7XG5cbiAgLy8gR3JhYiBsaXN0IG9mIHJlc291cmNlcyB0byBiZSBkb3dubG9hZGVkXG4gIGNvbnN0IGZpbGVzQ29udGVudCA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoYHNjcmlwdFt0eXBlPVxcXCJ2ZnMtZmlsZVxcXCJdYCkudGV4dENvbnRlbnQ7XG4gIGNvbnN0IGZpbGVzID0gSlNPTi5wYXJzZShiNjREZWNvZGUoZmlsZXNDb250ZW50KSk7XG5cbiAgbGV0IHB5b2RpZGVQcm9taXNlID0gKGFzeW5jICgpID0+IHtcbiAgICBzdGF0dXNUZXh0LnRleHRDb250ZW50ID0gYERvd25sb2FkaW5nIFB5b2RpZGVgO1xuICAgIGNvbnN0IHB5b2RpZGUgPSBhd2FpdCBzdGFydFB5b2RpZGVXb3JrZXIoZGF0YS5vcHRpb25zKTtcblxuICAgIHN0YXR1c1RleHQudGV4dENvbnRlbnQgPSBgRG93bmxvYWRpbmcgcGFja2FnZTogbWljcm9waXBgO1xuICAgIGF3YWl0IHB5b2RpZGUubG9hZFBhY2thZ2UoXCJtaWNyb3BpcFwiKTtcbiAgICBjb25zdCBtaWNyb3BpcCA9IGF3YWl0IHB5b2RpZGUucHlpbXBvcnQoXCJtaWNyb3BpcFwiKTtcbiAgICBhd2FpdCBkYXRhLnBhY2thZ2VzLnBrZ3MubWFwKChwa2cpID0+ICgpID0+IHtcbiAgICAgIHN0YXR1c1RleHQudGV4dENvbnRlbnQgPSBgRG93bmxvYWRpbmcgcGFja2FnZTogJHtwa2d9YDtcbiAgICAgIHJldHVybiBtaWNyb3BpcC5pbnN0YWxsKHBrZyk7XG4gICAgfSkucmVkdWNlKChjdXIsIG5leHQpID0+IGN1ci50aGVuKG5leHQpLCBQcm9taXNlLnJlc29sdmUoKSk7XG4gICAgYXdhaXQgbWljcm9waXAuZGVzdHJveSgpO1xuXG4gICAgLy8gRG93bmxvYWQgYW5kIGluc3RhbGwgcmVzb3VyY2VzXG4gICAgYXdhaXQgZmlsZXMubWFwKChmaWxlKSA9PiBhc3luYyAoKSA9PiB7XG4gICAgICBjb25zdCBuYW1lID0gZmlsZS5zdWJzdHJpbmcoZmlsZS5sYXN0SW5kZXhPZignLycpICsgMSk7XG4gICAgICBzdGF0dXNUZXh0LnRleHRDb250ZW50ID0gYERvd25sb2FkaW5nIHJlc291cmNlOiAke25hbWV9YDtcbiAgICAgIGNvbnN0IHJlc3BvbnNlID0gYXdhaXQgZmV0Y2goZmlsZSk7XG4gICAgICBpZiAoIXJlc3BvbnNlLm9rKSB7XG4gICAgICAgIHRocm93IG5ldyBFcnJvcihgQ2FuJ3QgZG93bmxvYWQgXFxgJHtmaWxlfVxcYC4gRXJyb3IgJHtyZXNwb25zZS5zdGF0dXN9OiBcIiR7cmVzcG9uc2Uuc3RhdHVzVGV4dH1cIi5gKTtcbiAgICAgIH1cbiAgICAgIGNvbnN0IGRhdGEgPSBhd2FpdCByZXNwb25zZS5hcnJheUJ1ZmZlcigpO1xuXG4gICAgICAvLyBTdG9yZSBVUkxzIGluIHRoZSBjd2Qgd2l0aG91dCBhbnkgc3ViZGlyZWN0b3J5IHN0cnVjdHVyZVxuICAgICAgaWYgKGZpbGUuaW5jbHVkZXMoXCI6Ly9cIikpIHtcbiAgICAgICAgZmlsZSA9IG5hbWU7XG4gICAgICB9XG5cbiAgICAgIC8vIENvbGxhcHNlIGhpZ2hlciBkaXJlY3Rvcnkgc3RydWN0dXJlXG4gICAgICBmaWxlID0gY29sbGFwc2VQYXRoKGZpbGUpO1xuXG4gICAgICAvLyBDcmVhdGUgZGlyZWN0b3J5IHRyZWUsIGlnbm9yaW5nIFwiZGlyZWN0b3J5IGV4aXN0c1wiIFZGUyBlcnJvcnNcbiAgICAgIGNvbnN0IHBhcnRzID0gZmlsZS5zcGxpdCgnLycpLnNsaWNlKDAsIC0xKTtcbiAgICAgIGxldCBwYXRoID0gJyc7XG4gICAgICB3aGlsZSAocGFydHMubGVuZ3RoID4gMCkge1xuICAgICAgICBwYXRoICs9IHBhcnRzLnNoaWZ0KCkgKyAnLyc7XG4gICAgICAgIHRyeSB7XG4gICAgICAgICAgYXdhaXQgcHlvZGlkZS5GUy5ta2RpcihwYXRoKTtcbiAgICAgICAgfSBjYXRjaCAoZSkge1xuICAgICAgICAgIGlmIChlLm5hbWUgIT09IFwiRXJybm9FcnJvclwiKSB0aHJvdyBlO1xuICAgICAgICAgIGlmIChlLmVycm5vICE9PSAyMCkge1xuICAgICAgICAgICAgY29uc3QgZXJyb3JUZXh0UHRyID0gYXdhaXQgcHlvZGlkZS5fbW9kdWxlLl9zdHJlcnJvcihlLmVycm5vKTtcbiAgICAgICAgICAgIGNvbnN0IGVycm9yVGV4dCA9IGF3YWl0IHB5b2RpZGUuX21vZHVsZS5VVEY4VG9TdHJpbmcoZXJyb3JUZXh0UHRyKTtcbiAgICAgICAgICAgIHRocm93IG5ldyBFcnJvcihgRmlsZXN5c3RlbSBFcnJvciAke2UuZXJybm99IFwiJHtlcnJvclRleHR9XCIuYCk7XG4gICAgICAgICAgfVxuICAgICAgICB9XG4gICAgICB9XG5cbiAgICAgIC8vIFdyaXRlIHRoaXMgZmlsZSB0byB0aGUgVkZTXG4gICAgICB0cnkge1xuICAgICAgICByZXR1cm4gYXdhaXQgcHlvZGlkZS5GUy53cml0ZUZpbGUoZmlsZSwgbmV3IFVpbnQ4QXJyYXkoZGF0YSkpO1xuICAgICAgfSBjYXRjaCAoZSkge1xuICAgICAgICBpZiAoZS5uYW1lICE9PSBcIkVycm5vRXJyb3JcIikgdGhyb3cgZTtcbiAgICAgICAgY29uc3QgZXJyb3JUZXh0UHRyID0gYXdhaXQgcHlvZGlkZS5fbW9kdWxlLl9zdHJlcnJvcihlLmVycm5vKTtcbiAgICAgICAgY29uc3QgZXJyb3JUZXh0ID0gYXdhaXQgcHlvZGlkZS5fbW9kdWxlLlVURjhUb1N0cmluZyhlcnJvclRleHRQdHIpO1xuICAgICAgICB0aHJvdyBuZXcgRXJyb3IoYEZpbGVzeXN0ZW0gRXJyb3IgJHtlLmVycm5vfSBcIiR7ZXJyb3JUZXh0fVwiLmApO1xuICAgICAgfVxuICAgIH0pLnJlZHVjZSgoY3VyLCBuZXh0KSA9PiBjdXIudGhlbihuZXh0KSwgUHJvbWlzZS5yZXNvbHZlKCkpO1xuXG4gICAgc3RhdHVzVGV4dC50ZXh0Q29udGVudCA9IGBQeW9kaWRlIGVudmlyb25tZW50IHNldHVwYDtcbiAgICBhd2FpdCBzZXR1cFB5dGhvbihweW9kaWRlKTtcblxuICAgIHN0YXR1c1RleHQucmVtb3ZlKCk7XG4gICAgaWYgKHN0YXR1c0NvbnRhaW5lci5jaGlsZHJlbi5sZW5ndGggPT0gMCkge1xuICAgICAgc3RhdHVzQ29udGFpbmVyLnBhcmVudE5vZGUucmVtb3ZlKCk7XG4gICAgfVxuICAgIHJldHVybiBweW9kaWRlO1xuICB9KSgpLmNhdGNoKChlcnIpID0+IHtcbiAgICBzdGF0dXNUZXh0LnN0eWxlLmNvbG9yID0gXCJ2YXIoLS1leGVyY2lzZS1lZGl0b3ItaGwtZXIsICNBRDAwMDApXCI7XG4gICAgc3RhdHVzVGV4dC50ZXh0Q29udGVudCA9IGVyci5tZXNzYWdlO1xuICAgIC8vaW5kaWNhdG9yQ29udGFpbmVyLnF1ZXJ5U2VsZWN0b3IoXCIuc3Bpbm5lci1ncm93XCIpLmNsYXNzTGlzdC5hZGQoXCJkLW5vbmVcIik7XG4gICAgdGhyb3cgZXJyO1xuICB9KTtcblxuICAvLyBLZWVwIHRyYWNrIG9mIGluaXRpYWwgT0pTIGJsb2NrIHJlbmRlclxuICBjb25zdCByZW5kZXJlZE9qcyA9IHt9O1xuXG4gIGNvbnN0IHByb2Nlc3MgPSBhc3luYyAoY29udGV4dCwgaW5wdXRzKSA9PiB7XG4gICAgY29uc3QgcHlvZGlkZSA9IGF3YWl0IHB5b2RpZGVQcm9taXNlO1xuICAgIGNvbnN0IGV2YWx1YXRvciA9IG5ldyBQeW9kaWRlRXZhbHVhdG9yKHB5b2RpZGUsIGNvbnRleHQpO1xuICAgIGF3YWl0IGV2YWx1YXRvci5wcm9jZXNzKGlucHV0cyk7XG4gICAgcmV0dXJuIGV2YWx1YXRvci5jb250YWluZXI7XG4gIH1cblxuICByZXR1cm4ge1xuICAgIHB5b2RpZGVQcm9taXNlLFxuICAgIHJlbmRlcmVkT2pzLFxuICAgIHByb2Nlc3MsXG4gIH07XG59XG4ifV19
 </script>
 <div id="exercise-loading-indicator" class="exercise-loading-indicator d-none d-flex align-items-center gap-2">
 <div id="exercise-loading-status" class="d-flex gap-2">

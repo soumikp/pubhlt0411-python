@@ -231,6 +231,8 @@ Module 6 is a single combined session.
 | **Participation** | 5% | Regular attendance and consistent participation. |
 :::
 
+**Office hours:** Thursdays, 1–2pm, A740 Crabtree Hall.
+
 
 ::: {.callout-important}
 ## Generative AI is not permitted in this course {.smaller}
@@ -246,29 +248,6 @@ in the page.
 :::
 
 **Substitutes:** office hours, lab partners, the class channel, the instructor.
-
-::: {.notes}
-Give the reason once, without an academic-integrity lecture. Undergraduates respond far
-better to "here's why this rule exists" than to a threat, and the reason here is honestly
-a good one. Say something like: "I'd rather you submit something broken that you
-understand than something perfect that you don't."
-
-The inline-completion point is worth its own sentence because students genuinely do not
-classify it as AI use — it feels like autocomplete. The argument that persuades is not the
-policy, it is the mechanism: accepting a suggested line removes the moment where you decide
-what the code should do, and that moment is the entire skill being taught. Somebody who
-accepts six suggestions has a working notebook and has learned nothing, and the course is
-six weeks long.
-
-Be candid about the limit of enforcement — it costs nothing and buys credibility: "I cannot
-check your laptop. I am not going to try. This works because you decide it works."
-
-If asked about VS Code, some of them will have it from other courses: fine as an editor
-provided Copilot is not enabled. Do not let it become a tooling debate; JupyterLab is what
-is supported.
-
-The substitutes line matters. Say you mean it, and say when your office hours are.
-:::
 
 # Setup. {.unnumbered background-color="#003594"}
 
@@ -299,23 +278,6 @@ an existing Python or Anaconda installation is left untouched.
 or copied down.
 :::
 
-::: {.notes}
-This slide exists so they can see the whole shape before starting, and so nobody spends the
-next fifteen minutes wondering how much longer it goes on. Ten seconds on it.
-
-Say the reassuring things now, because half the room is braced for an ordeal. No separate
-Python download. No Anaconda. If they already have Python or Anaconda installed, this will
-not touch it or fight with it — that is the single most common anxiety and it is worth
-pre-empting.
-
-Then set the expectation for the session: everyone does this together, on the projector,
-and nobody is behind. This is the one class where setup IS the content.
-
-If somebody is still stuck after ten minutes, pair them with a neighbour and move on. Do
-not let one broken laptop consume the session — office hours exist and the syllabus does
-not assess installation.
-:::
-
 ## Step 1 — Open a terminal {.smaller}
 
 A terminal is a window where commands are typed rather than clicked.
@@ -326,18 +288,6 @@ A terminal is a window where commands are typed rather than clicked.
 | Prompt looks like `PS C:\Users\yourname>` | Prompt looks like `yourname@macbook ~ %` |
 
 Commands are typed at that prompt, exactly as written, each followed by Return.
-
-::: {.notes}
-Have the room do this now and physically look up when the window is open. It takes fifteen
-seconds and it tells you who is with you before anything can go wrong.
-
-For students who have never opened a terminal — and in this course that is most of them —
-name the thing they are feeling: it looks unfriendly and it is not. It is one instruction
-at a time, and nothing in this course requires them to be fluent in it.
-
-Worth one sentence: the prompt already tells you which folder you are in. That becomes the
-whole point of step 4.
-:::
 
 ## Step 2 — Install uv {.smaller}
 
@@ -357,20 +307,6 @@ About 35 MB, a few seconds, **no administrator rights and no password**.
 ## Then close the terminal and open a new one
 The installer changes a setting that only a new window picks up. Confirm with `uv --version`,
 which should report a version number.
-:::
-
-::: {.notes}
-The closing-and-reopening is not a formality and it is the single most common failure in
-this entire process. Say it in advance, plainly: "Close the window. Open a new one. This is
-not superstition." Otherwise somebody types `uv --version`, sees "not recognized", and
-concludes the install failed.
-
-The Windows command must be the full line, including `-ExecutionPolicy ByPass`. The short
-version fails on any laptop where script execution is restricted, which describes a lot of
-managed machines. Do not let them shorten it.
-
-Ask for hands when `uv --version` prints a number. That is your gate — do not move to step 3
-until most of the room has it.
 :::
 
 ## Step 3 — Unzip the course folder inside `PUBHLT0411` {.smaller}
@@ -402,31 +338,6 @@ unpacking them, and Python cannot work inside one. Right-click → *Extract All*
 interferes with the files Python creates.
 :::
 
-::: {.notes}
-Most of the room already has a PUBHLT0411 folder from the R half — that is where this goes.
-Put the tree on the projector and let them match it against their own file browser before
-anybody types anything. Thirty seconds here saves the whole of step 4.
-
-The zip trap is a Windows-specific one and it costs somebody twenty minutes every time it
-is not pre-empted. Say it as a rule with no exceptions: right-click, Extract All, then work
-in the extracted folder.
-
-The nesting is the new failure mode, so name it. A student who drops `python` next to
-`PUBHLT0411` rather than inside it gets a working environment and a confusing conversation
-in week three when the folder structure is discussed. Two levels, one inside the other.
-
-Worth saying why the two halves share a folder rather than each having their own: one
-course, one place, and the same relative-path habit works in R and in Python. The R half
-made that folder non-negotiable and this respects it.
-
-The OneDrive warning matters more at Pitt than elsewhere, because University accounts push
-Documents into OneDrive by default on some configurations. If a student's Documents folder
-is synced, have them use the Desktop instead. Worth checking on the projector.
-
-Anyone who does not have the R folder — a late add, or somebody who missed the R half —
-just makes an empty `PUBHLT0411` folder and extracts into it. Nothing downstream cares.
-:::
-
 ## Step 4 — Point the terminal at the `python` folder {.smaller}
 
 Type `cd` and a space, then **drag the `python` folder onto the terminal window** and press
@@ -440,23 +351,6 @@ Confirm the location by listing what is there:
 
 **`pyproject.toml` and a `data` folder should appear in the list.** If instead
 `PUBHLT0411.Rproj` appears, the terminal is one level too high — `cd python` and check again.
-
-::: {.notes}
-The folder to drag is `python`, not `PUBHLT0411`. This is the one step the nesting changes,
-and it is worth slowing down for: dragging the outer folder is the mistake, and it produces
-a step 5 that fails for a reason two steps back.
-
-The drag-and-drop trick is worth demonstrating rather than describing. It removes the entire
-category of typo-in-a-long-path problems, and most students have never seen it.
-
-`cd` means change directory. Say what it does once — it moves the terminal's attention to a
-folder — because the concept returns every session, and a missed `cd` is the most common
-reason Jupyter will not start for the rest of the course.
-
-The `dir` / `ls` check is the gate again. Make them actually run it and see `pyproject.toml`
-before going on. Seeing `PUBHLT0411.Rproj` instead is the diagnostic worth naming out loud,
-because it names itself: the R half's file means you are in the R half's folder.
-:::
 
 ## Step 5 — Build the environment {.smaller}
 
@@ -477,21 +371,6 @@ the same version of every package. **A result obtained on one laptop is obtainab
 other** — which is what makes reproducibility something the course can assess.
 :::
 
-::: {.notes}
-This is the step where they wait, so use the time. The lockfile point is the one worth
-making out loud, and it connects straight back to the reproducibility criterion on the
-assessment slide: "The reason I can hold you to reproducibility is that I have removed the
-excuse. You are all running the same thing."
-
-A `.venv` folder appears inside `python/` when this finishes. Tell them what it is in one
-sentence — it is their Python installation, it belongs to this course only, and deleting the
-folder removes it completely. That answers the "is this going to clutter my computer"
-question before it is asked.
-
-If the download stalls, run it again rather than starting over; uv resumes. On Pitt wifi,
-PITTNET beats the guest network by a wide margin.
-:::
-
 ## Step 6 — Check that it worked {.smaller}
 
 ```bash
@@ -509,20 +388,6 @@ message states which check failed.
 
 **To stop JupyterLab:** return to the terminal and press `Ctrl + C` twice.
 
-::: {.notes}
-Have everybody run it and say "SETUP OK" out loud, or put a hand up. You want to leave this
-room knowing exactly who is working and who is not, because the alternative is discovering
-it on Thursday when they are also meeting `if` statements.
-
-The check notebook tests four things: the Python version, that the packages import, that the
-data files are findable, and that a real number comes out of a real file. A student who
-passes all four is genuinely ready.
-
-Then the daily routine, which is the thing they actually need to retain from this session:
-open a terminal, cd into `PUBHLT0411/python`, `uv run jupyter lab`. Three steps, every time.
-Steps 1 through 5 never happen again.
-:::
-
 ## When something fails {.smaller}
 
 | Symptom | Cause and fix |
@@ -537,18 +402,6 @@ Steps 1 through 5 never happen again.
 
 **None of this is assessed.** Unresolved problems go to office hours or
 `soumik@pitt.edu` with a screenshot of the terminal.
-
-::: {.notes}
-Leave this slide up while you circulate. It is for them to read, not for you to present —
-do not narrate the table.
-
-The last line is the one to say out loud, and to mean: nobody in this course falls behind
-because of an installation. If they are stuck at the end of the session, they leave with a
-plan, not with a problem.
-
-The first row accounts for most of what you will actually see today. Check it first, every
-time, before diagnosing anything more interesting.
-:::
 
 ## A notebook preserves execution state, not screen order {.smaller}
 
@@ -576,20 +429,6 @@ the true sequence. This accounts for roughly half of all inexplicable notebook b
 **Resolution:** `Kernel > Restart Kernel and Run All Cells`, which is also the test of
 whether a notebook is reproducible.
 
-::: {.notes}
-This is the most important idea in module 0 and the one with no R-script analogue — a
-sourced R script runs top to bottom, always. A notebook does not.
-
-Do the worked example live: run three cells, go back and change the first, don't re-run
-it, then print. Ask the room what it will print *before* you press it. Enough people guess
-wrong that the point lands hard, and it's much better learned from a wrong guess than from
-a slide.
-
-Connect it forward explicitly: "restart and run all" is what reproducibility means in
-practice. It is one of the four criteria every submission is marked against, from the first
-lab onward, and module 6 is built around it.
-:::
-
 ## A file is addressed by its path from the `python` folder {.smaller}
 
 The data files ship with the course, inside a `data` folder. Nothing is uploaded.
@@ -615,35 +454,6 @@ pd.read_csv("data/pa_overdose_county_year.csv")
 ## The path is relative to where the notebook is saved
 `FileNotFoundError` on a file that plainly exists almost always means the notebook is
 saved somewhere other than the `python` folder. **Move it into `python/`, reopen it.**
-:::
-
-::: {.notes}
-Worth naming what they are being spared, because most of them have met it in a
-cloud notebook: no uploading, no re-uploading the same CSV four times in one lab, no
-cloud-storage permissions pop-up. The files ship with the course and are simply there.
-
-Note there are two `data` folders in the course — one for R, one for Python — and each half
-reads its own. That is not duplication for its own sake: it is what lets the same
-`data/filename` habit work in both halves without either one having to know about the other.
-
-The one failure mode worth drilling is the relative path, and it is worth demonstrating
-rather than describing. Save a copy of the lab notebook somewhere outside `python` —
-Downloads is where students will actually leave it — open it, run the read, and show them
-the FileNotFoundError. Then move it into `python/` in front of them. A student who has seen
-that error once diagnoses it in ten seconds; a student who has not will email you.
-
-Starting Jupyter in the wrong folder is a different failure, and a louder one. From
-`PUBHLT0411`, or from a home folder because nobody ran `cd`, uv finds no `pyproject.toml`
-and Jupyter never starts: the terminal says `Failed to spawn: jupyter`. It is worth one
-sentence so they do not confuse the two.
-
-Say the rule as a habit rather than a fact: "Every notebook lives in the `python` folder.
-When a file is missing, that is the first thing to check, before you check the spelling."
-
-Relative paths also matter for a reason beyond convenience, and it is worth one sentence:
-`data/pa_overdose_county_year.csv` works on every machine in this room. A path like
-`C:\Users\yourname\Desktop\stuff.csv` works on exactly one. That is the difference between
-an analysis someone else can run and one they cannot.
 :::
 
 # Values. {.unnumbered background-color="#003594"}
@@ -676,16 +486,6 @@ The statement is read right to left: construct the value, then attach the name.
 `<-`.
 :::
 
-::: {.notes}
-Say the right-to-left reading out loud — it's worth thirty seconds. Students who read `=`
-as "equals" get stuck in module 2 on `count = count + 1`, which is nonsense as an equation
-and obvious as an instruction.
-
-These are the real 2023 Schuylkill County numbers, and they stay these numbers all
-semester. When Schuylkill comes back in module 1, it comes back with the same variable
-names and the same values. That consistency is deliberate — tell them the stories recur.
-:::
-
 ## Identifier choice is a documentation decision {.smaller}
 
 ```{pyodide}
@@ -711,15 +511,6 @@ Identifier quality falls under presentation, which is a named grading criterion 
 course.
 :::
 
-::: {.notes}
-Don't soften this one. The habit forms in the first week or it doesn't form at all, and
-the cost of `x` stays invisible until the notebook is long enough to hurt. Tell them: "`x`
-costs you marks here, and it costs your future self twenty minutes."
-
-R conventions are often `dot.separated` or `camelCase`. Python is near-universally
-`snake_case`. One line, then move on.
-:::
-
 ## Every value carries a type that determines valid operations {.smaller}
 
 Four types account for nearly all data handled in this course.
@@ -743,15 +534,6 @@ behaves unexpectedly.
 ## R analogue
 `character`, `integer`, `numeric`, `logical`. Python writes `True` and `False`, not `TRUE`
 and `FALSE`.
-:::
-
-::: {.notes}
-Stress the capital `T`. `TRUE` raises a NameError in Python and it's the single most common
-import from R muscle memory — they will all do it at least once.
-
-Worked example: ask what `type(60)` and `type(60.0)` return. Same number to a human, `int`
-and `float` to Python. That distinction is exactly what produces the division surprise two
-slides from now, so plant it here.
 :::
 
 ## Exercise: bind one county's values {.smaller}
@@ -784,19 +566,6 @@ population = 157795
 print(county, overdose_deaths, population)
 ```
 
-::: {.notes}
-Fill this in with the room rather than letting them work alone. It's the first `{pyodide}`
-cell they touch, and the point is the mechanics of running a cell, not the difficulty of
-the blank.
-
-Before you type the answer, ask why `"7"` in quotes would be wrong. Somebody will say "it's
-text" — promise them the TypeError slide is two slides away and that they're about to see
-exactly what goes wrong.
-
-Centre County is the counterweight to Schuylkill and returns in module 1 as the direct
-comparison.
-:::
-
 ## Python does not coerce between text and numbers {.smaller}
 
 **Scenario:** a file supplies `"60"` as text. Adding eight should yield `68`.
@@ -820,25 +589,6 @@ but not across the two. Rather than infer an intent, the interpreter raises.
 **Resolution:** convert explicitly — `int(overdose_deaths) + 8`.
 :::
 
-::: {.notes}
-Run it broken and read the printed line out loud. Two parts, and both matter: the error's
-NAME on the left of the colon, and the explanation on the right. Students who learn to read
-the name first diagnose faster, because the name is what they can search for.
-
-The `try`/`except` wrapper is scaffolding, not syntax they need today — say so in one
-sentence if anyone asks, and tell them it is how a program handles an error instead of
-stopping. Do not teach it; module 6 does.
-
-Then fix it live and re-run: delete the wrapper, write `int(overdose_deaths) + 8`, and show
-the 68.
-
-Be candid: everybody hits this one, including you, all semester. Data read from a file
-arrives as text constantly. Tell them they'll stop being surprised by it around week three.
-
-Point out that this error is loud, and that loud is a gift — the dangerous errors are the
-silent ones that hand you a wrong number without complaint. That's the next slide.
-:::
-
 ## Conversion between types is explicit {.smaller}
 
 ```{pyodide}
@@ -855,17 +605,6 @@ print(int(41.7))                      # 41  — truncation, not rounding
 ## `int()` truncates toward zero
 `int(41.7)` evaluates to `41`. The fractional component is discarded rather than rounded.
 `round(41.7)` performs rounding and evaluates to `42`.
-:::
-
-::: {.notes}
-Pause on the `608` line. It is not an error — Python did exactly what it was told and
-produced a wrong answer in silence. That's the more dangerous failure mode and this is the
-first time they see it. Ask them how they'd catch it. The answer is `type()`, and that they
-have to be suspicious.
-
-Truncation bites whenever they compute a per-something count. If you want a second example,
-show `int(70.2)` returning 70 — that's the average deaths per county, and losing 0.2 of a
-person is a real distortion.
 :::
 
 ## Seven arithmetic operators {.smaller}
@@ -885,14 +624,6 @@ print(2 ** 10)        # exponentiation -> 1024
 `/` returns a `float` even when the division is exact. `//` discards the remainder.
 Exponentiation is `**`; the `^` operator denotes bitwise exclusive-or and **evaluates
 without error to an incorrect result** when used for powers.
-:::
-
-::: {.notes}
-`^` is the R import that hurts most. In R, `2^10` is 1024. In Python, `2^10` is 8 — wrong,
-silent, and plausible-looking enough to survive a code review. Demonstrate it if there's
-time; the silence is the whole lesson.
-
-`%` corresponds to R's `%%`. One character, same job. Mention it and move on.
 :::
 
 ## Exercise: compute a rate per 100,000 {.smaller}
@@ -934,18 +665,6 @@ print(rate_per_100k)
 is addressed on the following slide.
 :::
 
-::: {.notes}
-The comma warning in the hint is not hypothetical. `100,000` is legal Python that means
-something completely different — it builds a tuple — so it fails confusingly rather than
-cleanly. Somebody will do it.
-
-They have computed a rate in R already. Say so: this is the same arithmetic they already
-know, and the only new thing is where Python wants the parentheses.
-
-Leave the ugly output on screen. Don't clean it up — it's the motivation for the next
-slide, and they should feel the need before they're handed the tool.
-:::
-
 ## f-strings interpolate values into text {.smaller}
 
 An `f` prefix on a string literal causes each `{expression}` to be evaluated and
@@ -968,18 +687,6 @@ Rounding applied at the point of printing does not affect stored values. Roundin
 during computation propagates through every subsequent step.
 :::
 
-::: {.notes}
-`.1f` is the one they'll use constantly. This course reports rates to one decimal by
-convention, because a second decimal implies a precision the underlying data doesn't
-support — worth saying, since they'll otherwise copy whatever Python prints.
-
-R analogue: `sprintf("%.1f", x)` or `glue()`. One line.
-
-The forward-looking point is real, not theoretical. In module 4 they compute group rates
-across many counties, and rounding at the wrong step there produces totals that are
-visibly, embarrassingly wrong.
-:::
-
 ## Comments document rationale, not syntax {.smaller}
 
 Text following `#` is ignored by the interpreter and addressed to the reader.
@@ -1000,16 +707,6 @@ print(f"{rate_per_100k:.1f}")
 ## Comments are assessed
 Interpretation and presentation together account for the majority of the grading criteria.
 Comments are where analytic reasoning becomes visible to a reader.
-:::
-
-::: {.notes}
-The suppression comment is a genuine preview of module 4, where blank-versus-zero becomes
-an entire teaching case. Forest County has both, in the same column, in the real file —
-mention that if you want to make it concrete.
-
-The rule to give them out loud: comment the decision, not the syntax. If a line's *what*
-isn't obvious, the fix is usually a better variable name rather than a comment explaining
-a bad one.
 :::
 
 # One real number. {.unnumbered background-color="#003594"}
@@ -1040,16 +737,6 @@ print(lines[1].rstrip())
 print(lines[2].rstrip())
 ```
 
-::: {.notes}
-Do not teach file reading here. This is a demonstration that the file is real and
-reachable — they watch it, they don't reproduce it. Module 2 teaches loops and module 4
-teaches pandas; both open this same file properly.
-
-What to point at: the header names, and that 403 lines is 402 county-years plus one header
-row. Real files have a header, and forgetting it is a classic off-by-one that will bite
-them in module 2.
-:::
-
 ## Two counties of comparable population {.smaller}
 
 Schuylkill and Centre, 2023. Both approximately 150,000 residents.
@@ -1068,19 +755,6 @@ print(f"Schuylkill: {schuylkill_rate:.1f} per 100,000")
 print(f"Centre:     {centre_rate:.1f} per 100,000")
 print(f"Ratio:      {schuylkill_rate / centre_rate:.1f}x")
 ```
-
-::: {.notes}
-Run it, then stop talking. Let the output do the work — resist narrating over the moment
-the ratio appears.
-
-These are the real 2023 rows from the file on the previous slide: 60 deaths in Schuylkill,
-7 in Centre. Centre's low count is partly a young student population, which is module 1's
-argument and not today's.
-
-If a student asks "why is it so different?", the honest answer is "that's Thursday's entire
-lecture." Say it that way — the question is the hook for module 1, and answering it now
-spends it.
-:::
 
 ## The state figure resolves into a ninefold difference {.smaller}
 
@@ -1161,28 +835,6 @@ county is greyed.
 no resident experiences the state average.
 :::
 
-::: {.notes}
-This is the payoff. Land it and stop — do not add another point after it.
-
-The figure is deliberately the same one that opened the session, and the callback is the
-whole point. Say so: "This is the picture I showed you an hour ago. Nothing about it has
-changed. The only difference is that you can now find yourself on it."
-
-Give them a beat to locate the two marked counties among the grey ones. The visual argument
-is that these are not freak values at the extreme ends — Centre is near the bottom but
-Schuylkill is not the top, it is an ordinary county in the upper third. The gap between two
-unremarkable counties is ninefold. That is a stronger claim than min-versus-max, and it is
-worth making out loud because the eye does not make it automatically.
-
-Then the closing line, plainly: "Two counties, nearly the same size. There's the gap. You
-wrote the code that found it, in your first hour of Python." That sentence is spoken, not
-printed — it's the promise from the cold open being paid off, and it works because they did
-the work.
-
-Then hold the door open for Thursday: which county is which, and how would you know without
-me telling you? Module 1 makes them classify it themselves.
-:::
-
 ## Session outcomes {.smaller}
 
 1\. Installing the course environment, and verifying it with `module0_lab.ipynb`
@@ -1201,28 +853,88 @@ me telling you? Module 1 makes them classify it themselves.
 
 ::: {.callout-tip}
 ## Preparation for Thursday
-**If `module0_lab.ipynb` did not print `SETUP OK` today, resolve it before Thursday** — at
-office hours if necessary. Then start JupyterLab in the course folder, open a new notebook,
+**If `module0_lab.ipynb` did not print `SETUP OK` today, resolve it before Thursday** — come
+to my office (A740 Crabtree Hall) and we will troubleshoot it together. Then start JupyterLab in the course folder, open a new notebook,
 and compute the 2023 overdose rate for one county of interest.
 :::
 
 
-::: {.notes}
-Say the first part of that callout with some weight. A broken environment on Thursday costs
-them a lab, and the fix takes ten minutes today or at office hours. Nobody should be
-debugging an install while also meeting `if` statements for the first time.
 
-The rate calculation is genuinely two minutes, and its real purpose is to make them open
-the environment once between now and Thursday — the second launch is where the "which
-folder do I start it in" question actually surfaces.
+## Final exercise: how often? {.smaller}
 
-Suggest they pick their own county for the rate calculation. It stops being an exercise
-the moment it's their hometown.
+```{=html}
+<style>
+.aabc { display: grid; grid-template-columns: 1fr 1fr; grid-template-areas: "a a" "b c"; gap: 0.8em; align-items: stretch; }
+.aabc > div { min-width: 0; }
+.aabc > div:first-child { grid-column: 1 / -1; }
+.aabc .callout { margin: 0; }
+</style>
+```
 
-Close on the module 1 question. Same two counties, same framing, same numbers — the story
-continues on Thursday rather than restarting.
+:::: {.aabc}
+
+::: {}
+In 2023, how often did an overdose death occur in each county? Report days and hours.
+
+```{pyodide}
+#| exercise: m0_gap
+hours = 365 * 24
+
+# hours between deaths
+schuylkill_gap = hours // 60
+s_days = schuylkill_gap // 24
+s_hours = schuylkill_gap ______ 24
+
+print(f"Schuylkill: {s_days} d {s_hours} h")
+```
+
+```{pyodide}
+#| exercise: m0_gap
+#| hint: true
+# `//` keeps the whole days; `%` keeps the hours left over.
+# 365 / 60 gives 6.083 days, which is not how anyone describes time.
+```
+
+```{pyodide}
+#| exercise: m0_gap
+#| solution: true
+hours = 365 * 24
+
+# hours between deaths
+schuylkill_gap = hours // 60
+s_days = schuylkill_gap // 24
+s_hours = schuylkill_gap % 24
+
+centre_gap = hours // 7
+c_days = centre_gap // 24
+c_hours = centre_gap % 24
+
+print(f"Schuylkill: {s_days} d {s_hours} h")
+print(f"Centre:     {c_days} d {c_hours} h")
+```
 :::
 
+::: {.callout-tip title="Your turn!"}
+Centre recorded 7 deaths. If the true count were 6 or 8, does "ninefold" survive?
+:::
+
+::: {.callout-tip title="Your turn!"}
+If Schuylkill had Centre's rate, how many deaths would it have had?
+:::
+
+::::
+
+::: {.notes}
+Answers. Schuylkill: 8,760 // 60 = 146 hours, so 6 days 2 hours. Centre: 8,760 // 7 = 1,251
+hours, so 52 days 3 hours. Expect `365 / 60` first; its 6.083 days is the reason `//` and
+`%` exist.
+
+Ninefold: with 6, 7, or 8 Centre deaths the ratio is 11.0x, 9.4x, or 8.2x. One death moves
+the headline by more than one. Leave it open; Thursday explains Centre.
+
+Centre's rate in Schuylkill: 7 * 143786 / 157795 = 6.4 expected deaths, so about 54 above
+that. Whether Centre is a fair benchmark is the real question.
+:::
 
 # That's all folks! {.unnumbered background-color="#003594"}
 
