@@ -385,6 +385,7 @@ PUBHLT0411/                <- the folder from the R half
 ├── lecture/  lab/  final-project/
 └── python/                <- extracted here
     ├── data/              <- Python data
+    ├── SETUP.md
     ├── module0_lab.ipynb
     ├── pyproject.toml
     └── uv.lock

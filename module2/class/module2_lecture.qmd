@@ -32,7 +32,7 @@ author:
   - name: Soumik Purkayastha
     affiliations:
       - name: Dept. of Biostatistics and Health Data Science, University of Pittsburgh
-date: today
+date: 2026-10-15
 date-format: long
 
 format:

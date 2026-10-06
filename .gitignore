@@ -67,6 +67,8 @@ index_backup_*.qmd
 # empty student copy) IS published; the solutions copy must never be.
 # Regenerate both with `python3 tools/make_notebooks.py`.
 *_solutions.ipynb
+# Flat copies of every lab (and solutions) for uploading to Canvas.
+canvas_labs/
 
 # --- NOT PUBLISHED: per-module build documentation ---
 # Instructor-facing: file manifests, render commands, design rationale,

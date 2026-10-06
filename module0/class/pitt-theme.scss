@@ -216,9 +216,18 @@ $codeFont: "Fira Mono", "Source Code Pro", Menlo, Consolas, monospace;
   border-left: 4px solid $pitt-royal;
   padding: 0.55em 0.8em;
   font-family: $codeFont;
-  font-size: 0.55em;
+  // Fixed rem, not em, so {.smaller} slides do not shrink it. Matches the
+  // quarto-live editor (--exercise-font-size: 1.3rem) so static and live
+  // code read at one size.
+  font-size: 1.3rem;
   line-height: 1.35;
   border-radius: 0 3px 3px 0;
+}
+
+// Quarto's `.reveal pre.sourceCode code { font-size: inherit }` outranks the
+// rule above for highlighted (```python, ```bash) blocks; restate the size.
+.reveal div.sourceCode pre.sourceCode code {
+  font-size: 1.3rem;
 }
 
 .reveal code {
