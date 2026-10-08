@@ -116,7 +116,7 @@ ax.text(state - 1.5, 0.14, f"State rate {state:.1f}", color="#6b7280",
 
 ax.annotate("", xy=(41.7, 0.62), xytext=(4.4, 0.62),
             arrowprops=dict(arrowstyle="<->", color="#003594", linewidth=1.3))
-ax.text(23.0, 0.68, "9.5x", color="#003594", fontsize=11,
+ax.text(23.0, 0.68, "9.4x", color="#003594", fontsize=11,
         fontweight="bold", ha="center", va="bottom")
 
 ax.set_yticks([])
@@ -136,7 +136,7 @@ plt.show()
 ::: {.figure-description}
 **Figure 1.** Centre County, a gold square at 4.4 deaths per 100,000, sits near the low end of the
 distribution; Schuylkill County, a blue diamond at 41.7, sits in the upper third. An arrow
-spans the two, labelled 9.5x. The state rate of 36.7 is marked by a dashed line. 
+spans the two, labelled 9.4x. The state rate of 36.7 is marked by a dashed line. 
 :::
 
 ::: {.callout-tip}
@@ -145,21 +145,6 @@ Module 0 established the two rates. **This session takes that rate and implement
 :::
 
 **Required from Module 0:** assignment, `int` and `float`, arithmetic, f-strings.
-
-::: {.notes}
-Do not put the answer on screen yet. Ask the room to guess which county carries the higher
-rate before you show anything — Centre is the one with Penn State in it, and if somebody
-reasons "college town, so higher," that's a genuinely good guess that happens to be wrong.
-It makes the payoff land harder.
-
-The honest mechanism, for when it comes up: Centre's population is young, and overdose
-mortality concentrates in people aged 35–64. Schuylkill is an older former-anthracite
-county. That's module 1's argument in one sentence, and it is worth having ready.
-
-Everything today is inline. They won't open a file until module 2 — the point is
-conditionals and sequences, not file I/O. But every number on these slides is lifted
-verbatim from the real 2023 file, so nothing changes when the file arrives.
-:::
 
 ## Comparison operators return a boolean {.smaller}
 
@@ -188,16 +173,6 @@ print(centre_rate >= 4.4)
 is among the most frequent errors in introductory Python.
 :::
 
-::: {.notes}
-The `=` versus `==` point deserves a full thirty seconds — they will all do it. In older
-Pythons `if rate = 41.7:` was a SyntaxError; it still is, so at least it's loud. Tell them
-the error message to expect.
-
-R analogue is exact: `==`, `!=`, `>=` all behave identically. This slide should feel like
-review, and saying so is worth doing — it builds confidence before the indentation rules,
-which do not feel like review.
-:::
-
 ## Boolean operators combine conditions {.smaller}
 
 ```{pyodide}
@@ -205,9 +180,9 @@ population = 143786
 overdose_deaths = 60
 rate_per_100k = 41.7
 
-print(population > 100000 and rate_per_100k > 25.6)
-print(population > 200000 or rate_per_100k > 25.6)
-print(not rate_per_100k > 25.6)
+print(population > 100000 and rate_per_100k > 36.7)
+print(population > 200000 or rate_per_100k > 36.7)
+print(not rate_per_100k > 36.7)
 ```
 
 1\. `and` — `True` only when **both** sides are `True`
@@ -222,23 +197,12 @@ R's `&&` and `||` correspond to `and` and `or`. Python spells them as words, and
 no `&&` operator for this purpose.
 :::
 
-::: {.notes}
-The word-versus-symbol difference is a real stumbling block coming from R. `&&` in Python
-is a SyntaxError; `&` exists but means something else (bitwise, and on pandas Series it
-becomes element-wise — that's module 4's parenthesis trap). Plant the seed now, don't
-explain it yet.
-
-Worked example if the room wants one: `population > 100000 and rate > 25.6` is exactly the
-kind of compound question public health asks — "large counties with high burden" — and
-it's how they'll filter a whole dataset in module 4.
-:::
-
 ## `if` executes a block when a condition holds {.smaller}
 
 ```{pyodide}
 rate_per_100k = 41.7
 
-if rate_per_100k > 25.6:
+if rate_per_100k > 36.7:
     print("Above the Pennsylvania rate")
 ```
 
@@ -251,22 +215,68 @@ Two pieces of syntax are mandatory:
 ```{pyodide}
 rate_per_100k = 4.4
 
-if rate_per_100k > 25.6:
+if rate_per_100k > 36.7:
     print("Above the Pennsylvania rate")
 
 print("This line runs regardless")
 ```
 
-::: {.notes}
-Run both cells. The second one printing only the last line is the whole idea — the
-indented line was skipped, the unindented line was not.
+## One threshold splits the counties in two {.smaller}
 
-This is the first genuinely new syntax of the course. R uses braces and treats whitespace
-as decoration; Python uses whitespace *as* the syntax. Say that difference out loud,
-because it is the source of nearly every error in the next two weeks.
+```{pyodide}
+#| edit: false
+#| echo: false
+import csv
+import matplotlib.pyplot as plt
 
-Four spaces is the convention. JupyterLab inserts them when you press Tab. Tell them not to
-mix tabs and spaces — the error is confusing and the fix is invisible.
+rows = [r for r in csv.DictReader(open("data/pa_overdose_county_year.csv"))
+        if r["year"] == "2023" and r["overdose_deaths"] != ""]
+pop = [int(r["population"]) for r in rows]
+rate = [float(r["rate_per_100k"]) for r in rows]
+
+X0, X1, TOP = 4000, 2500000, 120
+fig, ax = plt.subplots(figsize=(9.4, 3.5))
+ax.set_xscale("log")
+ax.set_xlim(X0, X1)
+ax.set_ylim(-3, TOP)
+
+# Binary: above the state rate, or not.
+ax.axhspan(36.7, TOP, color="#b42318", alpha=0.09, zorder=0)
+ax.axhline(36.7, color="#b42318", linestyle="--", linewidth=1.2, zorder=2)
+ax.text(2400000, 110, "Above state rate (16)", ha="right", va="center", fontsize=10,
+        color="#b42318", fontweight="bold")
+ax.text(2400000, 25, "At or below (44)", ha="right", va="center", fontsize=10,
+        color="#4b5563", fontweight="bold")
+
+ax.scatter(pop, rate, s=42, color="#6b7280", alpha=0.45,
+           edgecolor="white", linewidth=0.6, zorder=3)
+
+# The two counties of the comparison, marked by colour AND shape AND label.
+for name, colour, marker, dx, ha in [("Schuylkill", "#003594", "D", 12, "left"),
+                                     ("Centre", "#8a6400", "s", -10, "right")]:
+    r = next(r for r in rows if r["county"] == name)
+    xy = (int(r["population"]), float(r["rate_per_100k"]))
+    ax.scatter(*xy, s=130, color=colour, marker=marker,
+               edgecolor="white", linewidth=1.3, zorder=5)
+    ax.annotate(name, xy, xytext=(dx, 8), textcoords="offset points",
+                ha=ha, fontsize=10, color=colour, fontweight="bold")
+ax.set_xlabel("Population, 2023 (log scale)")
+ax.set_ylabel("Overdose deaths per 100,000")
+ax.set_xticks([10000, 100000, 1000000])
+ax.set_xticklabels(["10,000", "100,000", "1,000,000"])
+for side in ("right", "top"):
+    ax.spines[side].set_visible(False)
+ax.text(0.0, -0.2, "Source: PA DOH, Estimated Drug Overdose Deaths, 2023. "
+        "Seven counties with suppressed counts are not shown.",
+        transform=ax.transAxes, fontsize=7.5, color="#6b7280")
+plt.tight_layout()
+plt.show()
+```
+
+::: {.figure-description}
+**Figure 2.** Each point is a county, with population on a log scale across and overdose
+rate up. A dashed line at the state rate of 36.7 divides them: 16 counties lie above it,
+including Schuylkill; 44 lie at or below it, including Centre.
 :::
 
 ## `elif` and `else` handle the remaining cases {.smaller}
@@ -274,7 +284,7 @@ mix tabs and spaces — the error is confusing and the fix is invisible.
 ```{pyodide}
 rate_per_100k = 19.0
 
-if rate_per_100k >= 25.6:
+if rate_per_100k >= 36.7:
     print("High")
 elif rate_per_100k >= 13.1:
     print("Moderate")
@@ -287,7 +297,7 @@ else:
 ::: {.callout-tip}
 ## The two thresholds are real:
 
-1\. **25.6** per 100,000: Pennsylvania's overdose mortality rate
+1\. **36.7** per 100,000: Pennsylvania's overdose mortality rate, 2023
 
 2\. **13.1** per 100,000: the Healthy People 2030 target
 :::
@@ -300,29 +310,79 @@ Once a condition matches, the remaining branches are not evaluated. A chain orde
 lowest threshold upward reports the wrong category for every value.
 :::
 
-::: {.notes}
-Ask what happens if the two branches are swapped — `>= 13.1` tested first. Everything at
-41.7 comes back "Moderate," because 41.7 clears 13.1 and the chain stops there. It's a
-silent wrong answer, not an error, which makes it the dangerous kind.
+## Two thresholds give three bands {.smaller}
 
-The thresholds being real matters. This isn't an arbitrary grading scale — 13.1 is a
-national target the country committed to, and a county above 25.6 is above the state it
-sits in. When they classify a county in the lab, the label means something.
+```{pyodide}
+#| edit: false
+#| echo: false
+import csv
+import matplotlib.pyplot as plt
 
-19.0 is Franklin County, 2023. It's the middle case and it exists precisely so the `elif`
-has something real to catch.
+rows = [r for r in csv.DictReader(open("data/pa_overdose_county_year.csv"))
+        if r["year"] == "2023" and r["overdose_deaths"] != ""]
+pop = [int(r["population"]) for r in rows]
+rate = [float(r["rate_per_100k"]) for r in rows]
+
+X0, X1, TOP = 4000, 2500000, 120
+fig, ax = plt.subplots(figsize=(9.4, 3.5))
+ax.set_xscale("log")
+ax.set_xlim(X0, X1)
+ax.set_ylim(-3, TOP)
+
+# Three-way on rate alone: the national target and the state rate.
+ax.axhspan(36.7, TOP, color="#b42318", alpha=0.09, zorder=0)
+ax.axhspan(13.1, 36.7, color="#FFB81C", alpha=0.14, zorder=0)
+ax.axhspan(-3, 13.1, color="#2e6b30", alpha=0.10, zorder=0)
+ax.axhline(36.7, color="#b42318", linestyle="--", linewidth=1.2, zorder=2)
+ax.axhline(13.1, color="#2e6b30", linestyle="--", linewidth=1.2, zorder=2)
+ax.text(2400000, 110, "High (16)", ha="right", va="center", fontsize=10,
+        color="#b42318", fontweight="bold")
+ax.text(2400000, 25, "Moderate (39)", ha="right", va="center", fontsize=10,
+        color="#8a5a00", fontweight="bold")
+ax.text(2400000, 5, "Low (5)", ha="right", va="center", fontsize=10,
+        color="#2e6b30", fontweight="bold")
+
+ax.scatter(pop, rate, s=42, color="#6b7280", alpha=0.45,
+           edgecolor="white", linewidth=0.6, zorder=3)
+
+# The two counties of the comparison, marked by colour AND shape AND label.
+for name, colour, marker, dx, ha in [("Schuylkill", "#003594", "D", 12, "left"),
+                                     ("Centre", "#8a6400", "s", -10, "right")]:
+    r = next(r for r in rows if r["county"] == name)
+    xy = (int(r["population"]), float(r["rate_per_100k"]))
+    ax.scatter(*xy, s=130, color=colour, marker=marker,
+               edgecolor="white", linewidth=1.3, zorder=5)
+    ax.annotate(name, xy, xytext=(dx, 8), textcoords="offset points",
+                ha=ha, fontsize=10, color=colour, fontweight="bold")
+ax.set_xlabel("Population, 2023 (log scale)")
+ax.set_ylabel("Overdose deaths per 100,000")
+ax.set_xticks([10000, 100000, 1000000])
+ax.set_xticklabels(["10,000", "100,000", "1,000,000"])
+for side in ("right", "top"):
+    ax.spines[side].set_visible(False)
+ax.text(0.0, -0.2, "Source: PA DOH, Estimated Drug Overdose Deaths, 2023. "
+        "Seven counties with suppressed counts are not shown.",
+        transform=ax.transAxes, fontsize=7.5, color="#6b7280")
+plt.tight_layout()
+plt.show()
+```
+
+::: {.figure-description}
+**Figure 3.** The same counties, now in three bands. Above the state rate of 36.7: High,
+16 counties, including Schuylkill. Between the Healthy People 2030 target of 13.1 and
+the state rate: Moderate, 39 counties. Below 13.1: Low, 5 counties, including Centre.
 :::
 
 ## Checkpoint: the condition tests the wrong quantity {.smaller}
 
-**Objective:** report whether Schuylkill County exceeds the state rate of 25.6 per 100,000.
+**Objective:** report whether Schuylkill County exceeds the state rate of 36.7 per 100,000.
 
 ```{pyodide}
 overdose_deaths = 60
 population = 143786
 rate_per_100k = overdose_deaths / population * 100000
 
-if overdose_deaths > 25.6:
+if overdose_deaths > 36.7:
     print("Above the state rate")
 else:
     print("At or below the state rate")
@@ -331,25 +391,11 @@ else:
 ::: {.callout-important}
 ## A silent error: the comparison is valid but meaningless
 The code runs and prints an answer. It compares a **count** (60 deaths) against a **rate**
-(25.6 per 100,000) — quantities in different units. The comparison is arithmetically
+(36.7 per 100,000) — quantities in different units. The comparison is arithmetically
 legal, so no exception is raised.
 
-**Resolution:** compare `rate_per_100k > 25.6`. The correct answer is the same here, which
+**Resolution:** compare `rate_per_100k > 36.7`. The correct answer is the same here, which
 is what makes the error survive review.
-:::
-
-::: {.notes}
-Run it. It prints "Above the state rate," which is the *right answer for the wrong reason*
-— and that is the entire point. Ask the room whether the code is correct before you say
-anything. Most will say yes, because the output is right.
-
-Then change the county to Centre: 7 deaths, population 157,795. The buggy version compares
-7 > 25.6, prints "At or below," and is still right by accident. Try Butler — 43 deaths,
-rate 21.7. Now the bug fires: 43 > 25.6 says "above," the true rate 21.7 says below.
-
-This is the count-versus-rate confusion, and it is the single most common analytic error
-in county-level public health. They met it in R. Here it's a one-line bug that no error
-message will ever catch.
 :::
 
 ## Augmented assignment updates a value in place {.smaller}
@@ -372,15 +418,6 @@ The same form exists for the other operators: `-=`, `*=`, `/=`.
 ## Read the statement as an instruction, not an equation
 `total_deaths = total_deaths + 60` is false as algebra and correct as a sequence of steps:
 evaluate the right side, then rebind the name.
-:::
-
-::: {.notes}
-This connects straight back to module 0's right-to-left reading of `=`. If that landed,
-this slide is thirty seconds. If it didn't, this is the moment to repair it — `x = x + 1`
-is where the equation reading finally breaks down for good.
-
-Module 2 builds the accumulator pattern on exactly this, over sixty-seven counties instead
-of three. Say that this is the small version of something they'll use constantly.
 :::
 
 # Sequences. {.unnumbered background-color="#003594"}
@@ -414,19 +451,6 @@ print(len(county))
 a ten-character string are `0` through `9`. Negative indices count backward from the end.
 :::
 
-::: {.notes}
-Zero-indexing is the one place where R actively works against them — R starts at 1, Python
-starts at 0, and six weeks of muscle memory says the wrong thing. Say it plainly: "This is
-the one that will get you, because R lied to you."
-
-Draw the index ruler on the board if the room looks uncertain. The negative row is worth
-including — `[-1]` for "last" is used constantly and is much nicer than R's
-`length(x)` gymnastics.
-
-Have them predict `county[10]` before running it. The IndexError is the friendly kind: it
-tells you exactly what went wrong.
-:::
-
 ## A slice extracts a range of positions {.smaller}
 
 `sequence[start:stop]` includes `start` and **excludes** `stop`.
@@ -450,17 +474,6 @@ print(county[::2])
 ## The stop position is excluded
 `county[0:4]` yields `Schu` — four characters, positions 0 through 3. The length of a slice
 is `stop - start`, which is the reason the convention is convenient.
-:::
-
-::: {.notes}
-The exclusive stop is the second thing that trips people, right after zero-indexing. The
-compensation is that `stop - start` gives the length directly, and that slices join
-cleanly: `[0:4]` and `[4:]` reconstruct the original with no overlap and no gap.
-
-R's `substr()` is inclusive on both ends. Note the difference once and move on.
-
-`[::2]` is mostly a curiosity at this scale, but the step shows up again in module 3 for
-selecting every nth row.
 :::
 
 ## String methods transform text {.smaller}
@@ -488,20 +501,6 @@ print("Mc Kean".replace(" ", ""))
 reassigned.
 :::
 
-::: {.notes}
-`.strip()` looks decorative until they read a file. Values arrive from CSVs with trailing
-newlines constantly, and `"Schuylkill\n" == "Schuylkill"` is False — which produces a
-lookup that fails for no visible reason. Module 2 hits this within ten minutes of opening
-a file.
-
-`"Mc Kean"` is not a hypothetical. County Health Rankings writes "Mc Kean" and the Census
-writes "McKean," and that one space breaks a join in module 4. Flag it now as a real thing
-that happens, don't explain merging yet.
-
-The "methods return new values" point matters: `county.upper()` on its own line does
-nothing observable. Everyone writes that bug once.
-:::
-
 ## `.split()` divides a line into fields {.smaller}
 
 ```{pyodide}
@@ -520,15 +519,6 @@ string is.
 ## Fields extracted from text are text
 `fields[2]` is the string `"60"`, not the number `60`. Arithmetic requires explicit
 conversion with `int()` or `float()`.
-:::
-
-::: {.notes}
-This line is verbatim from the real CSV — it is exactly what module 2 reads off disk. Say
-so. They are seeing the actual shape of the data one module before they open it.
-
-The conversion point is module 0's TypeError returning in a context where it will actually
-bite them. `fields[2] + 8` gives `"608"`, silently. Ask what `fields[2] + fields[3]` gives
-if you want them to feel it — `"60143786"`, which is nobody's idea of a sum.
 :::
 
 ## A list holds an ordered sequence of values {.smaller}
@@ -550,17 +540,6 @@ Lists are indexed and sliced with the same notation as strings. **Position `i` i
 ## R analogue
 An R vector, with one difference: a Python list may hold values of mixed type, and it does
 not recycle.
-:::
-
-::: {.notes}
-Parallel lists are the structure module 2 replaces with a dictionary, and module 4
-replaces with a DataFrame. It's worth naming that trajectory — this is the crude version,
-and they will feel why it's crude the moment they need to sort one list and keep the other
-aligned.
-
-Ask what happens if a county is inserted into `counties` but not `rates`. Everything after
-the insertion point silently misaligns, and no error is raised. That fragility is the
-motivation for everything that follows.
 :::
 
 ## Lists are modified in place {.smaller}
@@ -585,18 +564,6 @@ The list is modified where it stands. Writing `counties = counties.append("Frank
 rebinds the name to `None` and discards the list.
 :::
 
-::: {.notes}
-The `counties = counties.append(...)` bug is worth demonstrating live if there's time — it
-produces `None`, and then the next line raises a TypeError about NoneType that looks
-completely unrelated to the actual mistake. Point out that the error appears one line after
-the real problem, which is a general and important lesson about tracebacks.
-
-`in` is genuinely useful and reads like English. It works on strings too — `"kill" in
-"Schuylkill"` is True, which surprises people.
-
-`.append()` plus a loop is the accumulator pattern, and that's module 2's opening move.
-:::
-
 ## Checkpoint: the block is not indented {.smaller}
 
 **Objective:** print a warning for a county above the state rate.
@@ -604,7 +571,7 @@ the real problem, which is a general and important lesson about tracebacks.
 ```{pyodide}
 rate_per_100k = 41.7
 
-if rate_per_100k > 25.6:
+if rate_per_100k > 36.7:
 print("Above the state rate")
 ```
 
@@ -617,27 +584,6 @@ A colon at the end of a line commits the following line to be indented. Python d
 conditional block by that indentation, so an unindented line leaves the `if` with no body.
 
 **Resolution:** indent the `print()` by four spaces.
-:::
-
-::: {.notes}
-Run it broken. This error and its sibling — `unexpected indent`, from indenting a line that
-shouldn't be — account for a huge share of first-month errors.
-
-Note that the message points at **line 3**, the `if`, not line 4 where the unindented
-`print()` sits. That is correct and worth a sentence: Python reports where the promise was
-made, not where it was broken. The colon on line 3 committed the next line to be indented.
-
-AUTHORING NOTE: unlike the TypeError and KeyError slides elsewhere in the course, this cell
-is NOT wrapped in `try`/`except`, so the live runtime prints the message WITHOUT the
-`IndentationError:` prefix. That is unavoidable for a syntax error — the cell never
-compiles, so there is no running code to wrap. The callout quotes the bare message and
-names the type in its heading instead.
-
-The reassuring thing to say: this error is loud, immediate, and tells you the line number.
-The editor also auto-indents after a colon, so in practice this happens most often when
-pasting code from somewhere else.
-
-Everyone hits this, repeatedly, including me. The fix is always four spaces.
 :::
 
 # Is a county in need of assistance? {.unnumbered background-color="#003594"}
@@ -659,7 +605,7 @@ population = 157854
 
 rate_per_100k = overdose_deaths / population * 100000
 
-if rate_per_100k >= 25.6:
+if rate_per_100k >= 36.7:
     classification = "High"
 elif rate_per_100k >= ______:
     classification = "Moderate"
@@ -685,7 +631,7 @@ population = 157854
 
 rate_per_100k = overdose_deaths / population * 100000
 
-if rate_per_100k >= 25.6:
+if rate_per_100k >= 36.7:
     classification = "High"
 elif rate_per_100k >= 13.1:
     classification = "Moderate"
@@ -694,17 +640,6 @@ else:
 
 print(f"{county}: {rate_per_100k:.1f} per 100,000 — {classification}")
 ```
-
-::: {.notes}
-Fill this in with the room. Franklin lands at 19.0 — above the national target, below the
-state rate — so it exercises the `elif` branch specifically, which the two headline
-counties never do.
-
-Ask what "Moderate" actually means before moving on. It means Franklin has not met a
-target the United States set for itself, while sitting below the state it belongs to. Both
-halves of that are true and they pull in opposite directions. That tension is the reason
-classification is a judgment call and not arithmetic.
-:::
 
 ## The classification applied to both counties {.smaller}
 
@@ -720,20 +655,119 @@ print(f"{counties[0]}: {schuylkill_rate:.1f} per 100,000")
 print(f"{counties[1]}: {centre_rate:.1f} per 100,000")
 print(f"Ratio: {schuylkill_rate / centre_rate:.1f}x")
 
-if schuylkill_rate >= 25.6:
+if schuylkill_rate >= 36.7:
     print(f"{counties[0]} is classified High")
 if centre_rate < 13.1:
     print(f"{counties[1]} is classified Low")
 ```
 
-::: {.notes}
-This is the payoff assembling itself from the pieces of today: parallel lists, indexing,
-arithmetic from module 0, comparison, and `if`. Point that out as it runs — nothing here is
-new, and together it answers the question the module opened with.
 
-Note the code says which is which without anyone being told. That was the promise.
+## A rate needs enough deaths to be trusted {.smaller}
+
+```{pyodide}
+county = "Elk"
+overdose_deaths = 14
+population = 30198
+rate_per_100k = overdose_deaths / population * 100000
+
+if rate_per_100k >= 36.7 and overdose_deaths >= 20:
+    classification = "Priority"
+elif rate_per_100k >= 36.7:
+    classification = "Watch"
+else:
+    classification = "Below state"
+
+print(f"{county}: {rate_per_100k:.1f} per 100,000, {overdose_deaths} deaths")
+print(classification)
+```
+
+**The second variable is the count behind the rate.** Elk's rate is high, but it rests on
+14 deaths: one more or one fewer moves it by more than 3 per 100,000.
+
+::: {.callout-tip}
+## This threshold is real too
+The National Center for Health Statistics marks a death rate as **unreliable when it is
+based on fewer than 20 deaths**.
 :::
 
+## Two variables give three classes {.smaller}
+
+```{pyodide}
+#| edit: false
+#| echo: false
+import csv
+import matplotlib.pyplot as plt
+
+rows = [r for r in csv.DictReader(open("data/pa_overdose_county_year.csv"))
+        if r["year"] == "2023" and r["overdose_deaths"] != ""]
+pop = [int(r["population"]) for r in rows]
+rate = [float(r["rate_per_100k"]) for r in rows]
+
+X0, X1, TOP = 4000, 2500000, 120
+fig, ax = plt.subplots(figsize=(9.4, 3.5))
+ax.set_xscale("log")
+ax.set_xlim(X0, X1)
+ax.set_ylim(-3, TOP)
+
+# Two variables: the rate, and whether it rests on at least 20 deaths.
+# A county with exactly 20 deaths has rate 20 / population * 100000,
+# so that curve separates reliable rates (right) from unreliable (left).
+import math
+xs = [X0 * (X1 / X0) ** (i / 200) for i in range(201)]
+curve = [20 / x * 100000 for x in xs]
+ax.fill_between(xs, [max(36.7, c) for c in curve], TOP,
+                color="#b42318", alpha=0.10, zorder=0)
+ax.fill_between(xs, 36.7, [min(TOP, max(36.7, c)) for c in curve],
+                color="#FFB81C", alpha=0.22, zorder=0)
+ax.axhspan(-3, 36.7, color="#4b5563", alpha=0.06, zorder=0)
+ax.axhline(36.7, color="#b42318", linestyle="--", linewidth=1.2, zorder=2)
+ax.plot(xs, curve, color="#8a5a00", linestyle=":", linewidth=1.6, zorder=2)
+ax.text(30000, 75, "20 deaths", color="#8a5a00", fontsize=9, rotation=-38)
+ax.text(2400000, 110, "Priority (14)", ha="right", va="center", fontsize=10,
+        color="#b42318", fontweight="bold")
+ax.text(4600, 110, "Watch (2)", ha="left", va="center", fontsize=10,
+        color="#8a5a00", fontweight="bold")
+ax.text(2400000, 25, "Below state (44)", ha="right", va="center", fontsize=10,
+        color="#4b5563", fontweight="bold")
+
+ax.scatter(pop, rate, s=42, color="#6b7280", alpha=0.45,
+           edgecolor="white", linewidth=0.6, zorder=3)
+
+# The two counties of the comparison, marked by colour AND shape AND label.
+for name, colour, marker, dx, ha in [("Schuylkill", "#003594", "D", 12, "left"),
+                                     ("Centre", "#8a6400", "s", -10, "right")]:
+    r = next(r for r in rows if r["county"] == name)
+    xy = (int(r["population"]), float(r["rate_per_100k"]))
+    ax.scatter(*xy, s=130, color=colour, marker=marker,
+               edgecolor="white", linewidth=1.3, zorder=5)
+    ax.annotate(name, xy, xytext=(dx, 8), textcoords="offset points",
+                ha=ha, fontsize=10, color=colour, fontweight="bold")
+
+for name, dx, dy, ha in [("Elk", 8, -2, "left"), ("Susquehanna", -8, -12, "right")]:
+    r = next(r for r in rows if r["county"] == name)
+    ax.annotate(name, (int(r["population"]), float(r["rate_per_100k"])),
+                xytext=(dx, dy), textcoords="offset points", fontsize=9, ha=ha,
+                color="#8a5a00", fontweight="bold")
+ax.set_xlabel("Population, 2023 (log scale)")
+ax.set_ylabel("Overdose deaths per 100,000")
+ax.set_xticks([10000, 100000, 1000000])
+ax.set_xticklabels(["10,000", "100,000", "1,000,000"])
+for side in ("right", "top"):
+    ax.spines[side].set_visible(False)
+ax.text(0.0, -0.2, "Source: PA DOH, Estimated Drug Overdose Deaths, 2023. "
+        "Seven counties with suppressed counts are not shown.",
+        transform=ax.transAxes, fontsize=7.5, color="#6b7280")
+plt.tight_layout()
+plt.show()
+```
+
+::: {.figure-description}
+**Figure 4.** The same counties, classified on rate and count together. A dotted curve
+marks where a county has exactly 20 deaths; counties to its left have fewer. Above the
+state rate and right of the curve: Priority, 14 counties, including Schuylkill. Above the
+state rate but left of the curve: Watch, 2 counties, Elk and Susquehanna. Below the state
+rate: 44 counties, including Centre, whose rate rests on 7 deaths.
+:::
 
 ## Session outcomes {.smaller}
 
@@ -756,6 +790,75 @@ lists. No new syntax is required beyond this session.
 :::
 
 **Module 2 addresses scale: sixty-seven counties and forty-nine months, without repetition.**
+
+## Final exercise: parse and classify {.smaller}
+
+```{=html}
+<style>
+.aabc { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8em; align-items: stretch; }
+.aabc > div { min-width: 0; }
+.aabc > div:first-child { grid-column: 1 / -1; }
+.aabc .callout { margin: 0; }
+</style>
+```
+
+:::: {.aabc}
+
+::: {}
+One line of the 2023 file, as text. Split it, convert the fields, and classify the county.
+
+```{pyodide}
+#| exercise: m1_parse
+line = "Montour,2023,20,17860"
+fields = line.split(______)
+county = fields[0]
+overdose_deaths = int(fields[2])
+population = int(fields[______])
+rate_per_100k = overdose_deaths / population * 100000
+if rate_per_100k >= 36.7 and overdose_deaths >= 20:
+    classification = "Priority"
+elif rate_per_100k >= 36.7:
+    classification = "Watch"
+else:
+    classification = "Below state"
+print(f"{county}: {rate_per_100k:.1f} on {overdose_deaths} deaths — {classification}")
+```
+
+```{pyodide}
+#| exercise: m1_parse
+#| hint: true
+# The fields are separated by commas. Positions start at zero:
+# county is 0, year is 1, deaths is 2, population is 3.
+```
+
+```{pyodide}
+#| exercise: m1_parse
+#| solution: true
+line = "Montour,2023,20,17860"
+fields = line.split(",")
+county = fields[0]
+overdose_deaths = int(fields[2])
+population = int(fields[3])
+rate_per_100k = overdose_deaths / population * 100000
+if rate_per_100k >= 36.7 and overdose_deaths >= 20:
+    classification = "Priority"
+elif rate_per_100k >= 36.7:
+    classification = "Watch"
+else:
+    classification = "Below state"
+print(f"{county}: {rate_per_100k:.1f} on {overdose_deaths} deaths — {classification}")
+```
+:::
+
+::: {.callout-tip title="Your turn!"}
+Centre's rate of 4.4 rests on 7 deaths. Does "ninefold" still stand?
+:::
+
+::: {.callout-tip title="Your turn!"}
+Montour has exactly 20 deaths. Should `>= 20` or `> 20` decide its class?
+:::
+
+::::
 
 # That's all folks! {.unnumbered background-color="#003594"}
 
