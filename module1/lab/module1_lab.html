@@ -6,13 +6,13 @@
 <script src="module1_lab_files/libs/quarto-html/tippy.umd.min.js"></script>
 <link href="module1_lab_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="module1_lab_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="module1_lab_files/libs/quarto-html/quarto-syntax-highlighting-acf12a64177840b8d86f2d4f01b2e9fb.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="module1_lab_files/libs/quarto-html/quarto-syntax-highlighting-de63f62b328812d8e578a4d74e282472.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="module1_lab_files/libs/quarto-contrib/live-runtime/live-runtime.js" type="module"></script>
 <link href="module1_lab_files/libs/quarto-contrib/live-runtime/live-runtime.css" rel="stylesheet"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.9.37">
+  <meta name="generator" content="quarto-1.9.38">
 
   <meta name="author" content="Soumik Purkayastha">
-  <meta name="dcterms.date" content="2026-08-20">
+  <meta name="dcterms.date" content="2026-10-01">
   <title>Py Lab 1: Conditions and Sequences</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -213,7 +213,7 @@ Soumik Purkayastha
 </div>
 </div>
 
-  <p class="date">August 20, 2026</p>
+  <p class="date">October 1, 2026</p>
 </section>
 <section>
 <section id="py-lab-1" class="title-slide slide level1 unnumbered center" data-background-color="#003594">
@@ -261,8 +261,8 @@ Soumik Purkayastha
 </thead>
 <tbody>
 <tr class="odd">
-<td>Pennsylvania overdose mortality rate</td>
-<td><strong>25.6</strong> per 100,000</td>
+<td>Pennsylvania overdose mortality rate, 2023</td>
+<td><strong>36.7</strong> per 100,000</td>
 </tr>
 <tr class="even">
 <td>Healthy People 2030 target</td>
@@ -297,21 +297,21 @@ Soumik Purkayastha
 
 </div>
 <script type="pyodide-1-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoic2NodXlsa2lsbF9yYXRlID0gNDEuN1xuc3RhdGVfcmF0ZSA9IDI1LjZcblxucHJpbnQoc2NodXlsa2lsbF9yYXRlID4gc3RhdGVfcmF0ZSkifQ==
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoic2NodXlsa2lsbF9yYXRlID0gNDEuN1xuc3RhdGVfcmF0ZSA9IDM2LjdcblxucHJpbnQoc2NodXlsa2lsbF9yYXRlID4gc3RhdGVfcmF0ZSkifQ==
 </script>
 </div>
 </div>
 </section>
 <section id="exercise-1-compare-two-rates-your-turn" class="slide level2 smaller">
 <h2>Exercise 1 — Compare two rates — your turn</h2>
-<p><strong>Your turn.</strong> Beaver County recorded 67 deaths in a population of 165,631. Compute its rate and test whether it exceeds the state rate.</p>
+<p><strong>Your turn.</strong> Beaver County recorded 67 deaths in a population of 165,631. Compute its rate and test whether it exceeds the state rate of 36.7 per 100,000.</p>
 <div class="cell" data-exercise="ex1_compare">
 <div>
 <div id="pyodide-2" class="exercise-cell">
 
 </div>
 <script type="pyodide-2-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXgxX2NvbXBhcmUifSwiY29kZSI6ImJlYXZlcl9kZWF0aHMgPSA2N1xuYmVhdmVyX3BvcHVsYXRpb24gPSAxNjU2MzFcbnN0YXRlX3JhdGUgPSAyNS42XG5cbmJlYXZlcl9yYXRlID0gYmVhdmVyX2RlYXRocyAvIGJlYXZlcl9wb3B1bGF0aW9uICogX19fX1xuXG5hYm92ZV9zdGF0ZSA9IGJlYXZlcl9yYXRlIF9fX18gc3RhdGVfcmF0ZVxuXG5wcmludChmXCJCZWF2ZXI6IHtiZWF2ZXJfcmF0ZTouMWZ9IHBlciAxMDAsMDAwXCIpXG5wcmludChcIkFib3ZlIHRoZSBzdGF0ZSByYXRlOlwiLCBhYm92ZV9zdGF0ZSkifQ==
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXgxX2NvbXBhcmUifSwiY29kZSI6ImJlYXZlcl9kZWF0aHMgPSA2N1xuYmVhdmVyX3BvcHVsYXRpb24gPSAxNjU2MzFcbnN0YXRlX3JhdGUgPSAzNi43XG5cbmJlYXZlcl9yYXRlID0gYmVhdmVyX2RlYXRocyAvIGJlYXZlcl9wb3B1bGF0aW9uICogX19fX1xuXG5hYm92ZV9zdGF0ZSA9IGJlYXZlcl9yYXRlIF9fX18gc3RhdGVfcmF0ZVxuXG5wcmludChmXCJCZWF2ZXI6IHtiZWF2ZXJfcmF0ZTouMWZ9IHBlciAxMDAsMDAwXCIpXG5wcmludChcIkFib3ZlIHRoZSBzdGF0ZSByYXRlOlwiLCBhYm92ZV9zdGF0ZSkifQ==
 </script>
 </div>
 </div>
@@ -326,7 +326,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXgxX2NvbXBhcmUifSwi
 <div class="pyodide-ojs-exercise exercise-solution d-none" data-exercise="ex1_compare">
 <code id="interpolate-6" class="solution-code d-none">beaver_deaths = 67
 beaver_population = 165631
-state_rate = 25.6
+state_rate = 36.7
 
 beaver_rate = beaver_deaths / beaver_population * 100000
 
@@ -336,7 +336,7 @@ print(f"Beaver: {beaver_rate:.1f} per 100,000")
 print("Above the state rate:", above_state)</code>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="interpolate-7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="interpolate-7-1"><a href="#interpolate-7-1"></a>beaver_deaths <span class="op">=</span> <span class="dv">67</span></span>
 <span id="interpolate-7-2"><a href="#interpolate-7-2"></a>beaver_population <span class="op">=</span> <span class="dv">165631</span></span>
-<span id="interpolate-7-3"><a href="#interpolate-7-3"></a>state_rate <span class="op">=</span> <span class="fl">25.6</span></span>
+<span id="interpolate-7-3"><a href="#interpolate-7-3"></a>state_rate <span class="op">=</span> <span class="fl">36.7</span></span>
 <span id="interpolate-7-4"><a href="#interpolate-7-4"></a></span>
 <span id="interpolate-7-5"><a href="#interpolate-7-5"></a>beaver_rate <span class="op">=</span> beaver_deaths <span class="op">/</span> beaver_population <span class="op">*</span> <span class="dv">100000</span></span>
 <span id="interpolate-7-6"><a href="#interpolate-7-6"></a></span>
@@ -348,7 +348,7 @@ print("Above the state rate:", above_state)</code>
 </div>
 <div class="cell" data-exercise="ex1_compare" data-check="true">
 <script type="exercise-check-ex1_compare-contents">
-eyJhdHRyIjp7ImNoZWNrIjp0cnVlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlLCJleGVyY2lzZSI6ImV4MV9jb21wYXJlIn0sImNvZGUiOiJhc3NlcnQgYWJzKGJlYXZlcl9yYXRlIC0gNDAuNDUxNCkgPCAwLjAxLCBcIkJlYXZlcidzIHJhdGUgc2hvdWxkIGJlIGFib3V0IDQwLjUgcGVyIDEwMCwwMDAuXCJcbmFzc2VydCBhYm92ZV9zdGF0ZSBpcyBUcnVlLCBcIkJlYXZlciBpcyBhYm92ZSB0aGUgc3RhdGUgcmF0ZSBvZiAyNS42LlwiIn0=
+eyJhdHRyIjp7ImNoZWNrIjp0cnVlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlLCJleGVyY2lzZSI6ImV4MV9jb21wYXJlIn0sImNvZGUiOiJhc3NlcnQgYWJzKGJlYXZlcl9yYXRlIC0gNDAuNDUxNCkgPCAwLjAxLCBcIkJlYXZlcidzIHJhdGUgc2hvdWxkIGJlIGFib3V0IDQwLjUgcGVyIDEwMCwwMDAuXCJcbmFzc2VydCBhYm92ZV9zdGF0ZSBpcyBUcnVlLCBcIkJlYXZlciBpcyBhYm92ZSB0aGUgc3RhdGUgcmF0ZSBvZiAzNi43LlwiIn0=
 </script>
 </div>
 </section></section>
@@ -366,21 +366,21 @@ eyJhdHRyIjp7ImNoZWNrIjp0cnVlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlLCJleGVyY2lzZSI6ImV4
 
 </div>
 <script type="pyodide-9-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoicG9wdWxhdGlvbiA9IDE0Mzc4NlxucmF0ZV9wZXJfMTAwayA9IDQxLjdcblxucHJpbnQocG9wdWxhdGlvbiA+IDEwMDAwMCBhbmQgcmF0ZV9wZXJfMTAwayA+IDI1LjYpIn0=
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoicG9wdWxhdGlvbiA9IDE0Mzc4NlxucmF0ZV9wZXJfMTAwayA9IDQxLjdcblxucHJpbnQocG9wdWxhdGlvbiA+IDEwMDAwMCBhbmQgcmF0ZV9wZXJfMTAwayA+IDM2LjcpIn0=
 </script>
 </div>
 </div>
 </section>
 <section id="exercise-2-combine-two-conditions-your-turn" class="slide level2 smaller">
 <h2>Exercise 2 — Combine two conditions — your turn</h2>
-<p><strong>Your turn.</strong> Public health planners often target <strong>large counties with high burden</strong>. Test whether Cambria County qualifies: 66 deaths, population 130,668. The thresholds are a population above 100,000 and a rate above the state rate.</p>
+<p><strong>Your turn.</strong> Public health planners often target <strong>large counties with high burden</strong>. Test whether Cambria County qualifies: 66 deaths, population 130,668. The thresholds are a population above 100,000 and a rate above the state rate of 36.7 per 100,000 (<code>state_rate</code> from Exercise 1).</p>
 <div class="cell" data-exercise="ex2_and">
 <div>
 <div id="pyodide-10" class="exercise-cell">
 
 </div>
 <script type="pyodide-10-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXgyX2FuZCJ9LCJjb2RlIjoiY2FtYnJpYV9kZWF0aHMgPSA2NlxuY2FtYnJpYV9wb3B1bGF0aW9uID0gMTMwNjY4XG5cbmNhbWJyaWFfcmF0ZSA9IGNhbWJyaWFfZGVhdGhzIC8gY2FtYnJpYV9wb3B1bGF0aW9uICogMTAwMDAwXG5cbmlzX3ByaW9yaXR5ID0gY2FtYnJpYV9wb3B1bGF0aW9uID4gMTAwMDAwIF9fX18gY2FtYnJpYV9yYXRlID4gMjUuNlxuXG5wcmludChmXCJDYW1icmlhOiB7Y2FtYnJpYV9yYXRlOi4xZn0gcGVyIDEwMCwwMDBcIilcbnByaW50KFwiUHJpb3JpdHkgY291bnR5OlwiLCBpc19wcmlvcml0eSkifQ==
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXgyX2FuZCJ9LCJjb2RlIjoiY2FtYnJpYV9kZWF0aHMgPSA2NlxuY2FtYnJpYV9wb3B1bGF0aW9uID0gMTMwNjY4XG5cbmNhbWJyaWFfcmF0ZSA9IGNhbWJyaWFfZGVhdGhzIC8gY2FtYnJpYV9wb3B1bGF0aW9uICogMTAwMDAwXG5cbmlzX3ByaW9yaXR5ID0gY2FtYnJpYV9wb3B1bGF0aW9uID4gMTAwMDAwIF9fX18gY2FtYnJpYV9yYXRlID4gMzYuN1xuXG5wcmludChmXCJDYW1icmlhOiB7Y2FtYnJpYV9yYXRlOi4xZn0gcGVyIDEwMCwwMDBcIilcbnByaW50KFwiUHJpb3JpdHkgY291bnR5OlwiLCBpc19wcmlvcml0eSkifQ==
 </script>
 </div>
 </div>
@@ -397,7 +397,7 @@ cambria_population = 130668
 
 cambria_rate = cambria_deaths / cambria_population * 100000
 
-is_priority = cambria_population &gt; 100000 and cambria_rate &gt; 25.6
+is_priority = cambria_population &gt; 100000 and cambria_rate &gt; 36.7
 
 print(f"Cambria: {cambria_rate:.1f} per 100,000")
 print("Priority county:", is_priority)</code>
@@ -406,7 +406,7 @@ print("Priority county:", is_priority)</code>
 <span id="interpolate-15-3"><a href="#interpolate-15-3"></a></span>
 <span id="interpolate-15-4"><a href="#interpolate-15-4"></a>cambria_rate <span class="op">=</span> cambria_deaths <span class="op">/</span> cambria_population <span class="op">*</span> <span class="dv">100000</span></span>
 <span id="interpolate-15-5"><a href="#interpolate-15-5"></a></span>
-<span id="interpolate-15-6"><a href="#interpolate-15-6"></a>is_priority <span class="op">=</span> cambria_population <span class="op">&gt;</span> <span class="dv">100000</span> <span class="kw">and</span> cambria_rate <span class="op">&gt;</span> <span class="fl">25.6</span></span>
+<span id="interpolate-15-6"><a href="#interpolate-15-6"></a>is_priority <span class="op">=</span> cambria_population <span class="op">&gt;</span> <span class="dv">100000</span> <span class="kw">and</span> cambria_rate <span class="op">&gt;</span> <span class="fl">36.7</span></span>
 <span id="interpolate-15-7"><a href="#interpolate-15-7"></a></span>
 <span id="interpolate-15-8"><a href="#interpolate-15-8"></a><span class="bu">print</span>(<span class="ss">f"Cambria: </span><span class="sc">{</span>cambria_rate<span class="sc">:.1f}</span><span class="ss"> per 100,000"</span>)</span>
 <span id="interpolate-15-9"><a href="#interpolate-15-9"></a><span class="bu">print</span>(<span class="st">"Priority county:"</span>, is_priority)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -432,14 +432,14 @@ eyJhdHRyIjp7ImNoZWNrIjp0cnVlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlLCJleGVyY2lzZSI6ImV4
 
 </div>
 <script type="pyodide-17-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoicmF0ZV9wZXJfMTAwayA9IDQxLjdcblxuaWYgcmF0ZV9wZXJfMTAwayA+IDI1LjY6XG4gICAgcHJpbnQoXCJBYm92ZSB0aGUgc3RhdGUgcmF0ZVwiKVxuZWxzZTpcbiAgICBwcmludChcIkF0IG9yIGJlbG93IHRoZSBzdGF0ZSByYXRlXCIpIn0=
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoicmF0ZV9wZXJfMTAwayA9IDQxLjdcblxuaWYgcmF0ZV9wZXJfMTAwayA+IDM2Ljc6XG4gICAgcHJpbnQoXCJBYm92ZSB0aGUgc3RhdGUgcmF0ZVwiKVxuZWxzZTpcbiAgICBwcmludChcIkF0IG9yIGJlbG93IHRoZSBzdGF0ZSByYXRlXCIpIn0=
 </script>
 </div>
 </div>
 </section>
 <section id="exercise-3-branch-on-a-condition-your-turn" class="slide level2 smaller">
 <h2>Exercise 3 — Branch on a condition — your turn</h2>
-<p><strong>Your turn.</strong> Adams County recorded 7 deaths in a population of 106,748. Report whether it has met the Healthy People 2030 target of 13.1 per 100,000.</p>
+<p><strong>Your turn.</strong> Adams County recorded 7 deaths in a population of 106,748. Report whether it has met the Healthy People 2030 target of 13.1 per 100,000: a rate below 13.1 has met it. Print <code>"Target met"</code> or <code>"Target not met"</code>.</p>
 <div class="cell" data-exercise="ex3_if">
 <div>
 <div id="pyodide-18" class="exercise-cell">
@@ -502,28 +502,28 @@ eyJhdHRyIjp7ImNoZWNrIjp0cnVlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlLCJleGVyY2lzZSI6ImV4
 
 </div>
 <script type="pyodide-25-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoicmF0ZV9wZXJfMTAwayA9IDE5LjBcblxuaWYgcmF0ZV9wZXJfMTAwayA+PSAyNS42OlxuICAgIHByaW50KFwiSGlnaFwiKVxuZWxpZiByYXRlX3Blcl8xMDBrID49IDEzLjE6XG4gICAgcHJpbnQoXCJNb2RlcmF0ZVwiKVxuZWxzZTpcbiAgICBwcmludChcIkxvd1wiKSJ9
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoicmF0ZV9wZXJfMTAwayA9IDE5LjBcblxuaWYgcmF0ZV9wZXJfMTAwayA+PSAzNi43OlxuICAgIHByaW50KFwiSGlnaFwiKVxuZWxpZiByYXRlX3Blcl8xMDBrID49IDEzLjE6XG4gICAgcHJpbnQoXCJNb2RlcmF0ZVwiKVxuZWxzZTpcbiAgICBwcmludChcIkxvd1wiKSJ9
 </script>
 </div>
 </div>
 </section>
 <section id="exercise-4-three-way-classification-your-turn" class="slide level2 smaller">
 <h2>Exercise 4 — Three-way classification — your turn</h2>
-<p><strong>Your turn.</strong> Classify Lebanon County: 31 deaths, population 144,252. Use the same two thresholds — the state rate of 25.6 and the national target of 13.1.</p>
+<p><strong>Your turn.</strong> Classify Lebanon County: 31 deaths, population 144,252. Use the same two thresholds — the state rate of 36.7 and the national target of 13.1. A rate at or above 36.7 is <code>"High"</code>, at or above 13.1 is <code>"Moderate"</code>, and anything lower is <code>"Low"</code>. Print the label.</p>
 <div class="cell" data-exercise="ex4_elif">
 <div>
 <div id="pyodide-26" class="exercise-cell">
 
 </div>
 <script type="pyodide-26-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXg0X2VsaWYifSwiY29kZSI6ImxlYmFub25fZGVhdGhzID0gMzFcbmxlYmFub25fcG9wdWxhdGlvbiA9IDE0NDI1MlxuXG5sZWJhbm9uX3JhdGUgPSBsZWJhbm9uX2RlYXRocyAvIGxlYmFub25fcG9wdWxhdGlvbiAqIDEwMDAwMFxuXG5pZiBsZWJhbm9uX3JhdGUgPj0gMjUuNjpcbiAgICBjbGFzc2lmaWNhdGlvbiA9IFwiSGlnaFwiXG5fX19fIGxlYmFub25fcmF0ZSA+PSAxMy4xOlxuICAgIGNsYXNzaWZpY2F0aW9uID0gXCJNb2RlcmF0ZVwiXG5lbHNlOlxuICAgIGNsYXNzaWZpY2F0aW9uID0gXCJMb3dcIlxuXG5wcmludChmXCJMZWJhbm9uOiB7bGViYW5vbl9yYXRlOi4xZn0gcGVyIDEwMCwwMDAg4oCUIHtjbGFzc2lmaWNhdGlvbn1cIikifQ==
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXg0X2VsaWYifSwiY29kZSI6ImxlYmFub25fZGVhdGhzID0gMzFcbmxlYmFub25fcG9wdWxhdGlvbiA9IDE0NDI1MlxuXG5sZWJhbm9uX3JhdGUgPSBsZWJhbm9uX2RlYXRocyAvIGxlYmFub25fcG9wdWxhdGlvbiAqIDEwMDAwMFxuXG5pZiBsZWJhbm9uX3JhdGUgPj0gMzYuNzpcbiAgICBjbGFzc2lmaWNhdGlvbiA9IFwiSGlnaFwiXG5fX19fIGxlYmFub25fcmF0ZSA+PSAxMy4xOlxuICAgIGNsYXNzaWZpY2F0aW9uID0gXCJNb2RlcmF0ZVwiXG5lbHNlOlxuICAgIGNsYXNzaWZpY2F0aW9uID0gXCJMb3dcIlxuXG5wcmludChmXCJMZWJhbm9uOiB7bGViYW5vbl9yYXRlOi4xZn0gcGVyIDEwMCwwMDAg4oCUIHtjbGFzc2lmaWNhdGlvbn1cIikifQ==
 </script>
 </div>
 </div>
 <div class="cell" data-exercise="ex4_elif" data-hint="true">
 <div class="pyodide-ojs-exercise exercise-hint d-none" data-exercise="ex4_elif">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="interpolate-28"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="interpolate-28-1"><a href="#interpolate-28-1"></a><span class="co"># The blank introduces the middle branch: elif.</span></span>
-<span id="interpolate-28-2"><a href="#interpolate-28-2"></a><span class="co"># Lebanon's rate is 21.5 — below the state rate, above the national target.</span></span>
+<span id="interpolate-28-2"><a href="#interpolate-28-2"></a><span class="co"># Lebanon's rate is 21.5 — below the state rate of 36.7, above the national target.</span></span>
 <span id="interpolate-28-3"><a href="#interpolate-28-3"></a><span class="co"># Writing a second plain `if` here would also run, but `elif` states the intent:</span></span>
 <span id="interpolate-28-4"><a href="#interpolate-28-4"></a><span class="co"># these three categories are mutually exclusive.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -535,7 +535,7 @@ lebanon_population = 144252
 
 lebanon_rate = lebanon_deaths / lebanon_population * 100000
 
-if lebanon_rate &gt;= 25.6:
+if lebanon_rate &gt;= 36.7:
     classification = "High"
 elif lebanon_rate &gt;= 13.1:
     classification = "Moderate"
@@ -548,7 +548,7 @@ print(f"Lebanon: {lebanon_rate:.1f} per 100,000 — {classification}")</code>
 <span id="interpolate-31-3"><a href="#interpolate-31-3"></a></span>
 <span id="interpolate-31-4"><a href="#interpolate-31-4"></a>lebanon_rate <span class="op">=</span> lebanon_deaths <span class="op">/</span> lebanon_population <span class="op">*</span> <span class="dv">100000</span></span>
 <span id="interpolate-31-5"><a href="#interpolate-31-5"></a></span>
-<span id="interpolate-31-6"><a href="#interpolate-31-6"></a><span class="cf">if</span> lebanon_rate <span class="op">&gt;=</span> <span class="fl">25.6</span>:</span>
+<span id="interpolate-31-6"><a href="#interpolate-31-6"></a><span class="cf">if</span> lebanon_rate <span class="op">&gt;=</span> <span class="fl">36.7</span>:</span>
 <span id="interpolate-31-7"><a href="#interpolate-31-7"></a>    classification <span class="op">=</span> <span class="st">"High"</span></span>
 <span id="interpolate-31-8"><a href="#interpolate-31-8"></a><span class="cf">elif</span> lebanon_rate <span class="op">&gt;=</span> <span class="fl">13.1</span>:</span>
 <span id="interpolate-31-9"><a href="#interpolate-31-9"></a>    classification <span class="op">=</span> <span class="st">"Moderate"</span></span>
@@ -560,7 +560,7 @@ print(f"Lebanon: {lebanon_rate:.1f} per 100,000 — {classification}")</code>
 </div>
 <div class="cell" data-exercise="ex4_elif" data-check="true">
 <script type="exercise-check-ex4_elif-contents">
-eyJhdHRyIjp7ImNoZWNrIjp0cnVlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlLCJleGVyY2lzZSI6ImV4NF9lbGlmIn0sImNvZGUiOiJhc3NlcnQgYWJzKGxlYmFub25fcmF0ZSAtIDIxLjQ5MDEpIDwgMC4wMSwgXCJMZWJhbm9uJ3MgcmF0ZSBzaG91bGQgYmUgYWJvdXQgMjEuNSBwZXIgMTAwLDAwMC5cIlxuYXNzZXJ0IGNsYXNzaWZpY2F0aW9uID09IFwiTW9kZXJhdGVcIiwgXCIyMS41IGZhbGxzIGJldHdlZW4gMTMuMSBhbmQgMjUuNiwgc28gdGhlIGxhYmVsIGlzIE1vZGVyYXRlLlwiIn0=
+eyJhdHRyIjp7ImNoZWNrIjp0cnVlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlLCJleGVyY2lzZSI6ImV4NF9lbGlmIn0sImNvZGUiOiJhc3NlcnQgYWJzKGxlYmFub25fcmF0ZSAtIDIxLjQ5MDEpIDwgMC4wMSwgXCJMZWJhbm9uJ3MgcmF0ZSBzaG91bGQgYmUgYWJvdXQgMjEuNSBwZXIgMTAwLDAwMC5cIlxuYXNzZXJ0IGNsYXNzaWZpY2F0aW9uID09IFwiTW9kZXJhdGVcIiwgXCIyMS41IGZhbGxzIGJldHdlZW4gMTMuMSBhbmQgMzYuNywgc28gdGhlIGxhYmVsIGlzIE1vZGVyYXRlLlwiIn0=
 </script>
 </div>
 </section></section>
@@ -585,7 +585,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoidG90YWwgPSAwXG50b3RhbCAr
 </section>
 <section id="exercise-5-accumulate-a-total-your-turn" class="slide level2 smaller">
 <h2>Exercise 5 — Accumulate a total — your turn</h2>
-<p><strong>Your turn.</strong> Total the deaths and the population across four counties, then compute the combined rate. Note that the combined rate is <strong>not</strong> the average of the four rates.</p>
+<p><strong>Your turn.</strong> Total the deaths and the population across four counties, then compute the combined rate. Schuylkill: 60 deaths, population 143,786. Centre: 7 deaths, 157,795. Franklin: 30 deaths, 157,854. Lebanon: 31 deaths, 144,252. Note that the combined rate is <strong>not</strong> the average of the four rates.</p>
 <div class="cell" data-exercise="ex5_accumulate">
 <div>
 <div id="pyodide-34" class="exercise-cell">
@@ -743,7 +743,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiY291bnR5ID0gXCJTY2h1eWxr
 </section>
 <section id="exercise-7-slice-a-string-your-turn" class="slide level2 smaller">
 <h2>Exercise 7 — Slice a string — your turn</h2>
-<p><strong>Your turn.</strong> A record line begins with a four-digit year. Extract the year and the rest of the line separately.</p>
+<p><strong>Your turn.</strong> A record line begins with a four-digit year. Extract the year and the rest of the line separately. <code>remainder</code> starts after the space: <code>"Schuylkill County"</code>.</p>
 <div class="cell" data-exercise="ex7_slice">
 <div>
 <div id="pyodide-50" class="exercise-cell">
@@ -807,7 +807,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoicmF3ID0gXCIgIFNjaHV5bGtp
 </section>
 <section id="exercise-8-clean-a-value-your-turn" class="slide level2 smaller">
 <h2>Exercise 8 — Clean a value — your turn</h2>
-<p><strong>Your turn.</strong> County Health Rankings writes <code>"Mc Kean"</code>; the Census writes <code>"McKean"</code>. Clean the first into the second, then confirm the two now match.</p>
+<p><strong>Your turn.</strong> County Health Rankings writes <code>"Mc Kean"</code>; the Census writes <code>"McKean"</code>. Clean the first into the second, then confirm the two now match: print <code>cleaned == "McKean"</code>, which should show <code>True</code>.</p>
 <div class="cell" data-exercise="ex8_clean">
 <div>
 <div id="pyodide-58" class="exercise-cell">
@@ -881,7 +881,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoibGluZSA9IFwiU2NodXlsa2ls
 </section>
 <section id="exercise-9-split-a-record-into-fields-your-turn" class="slide level2 smaller">
 <h2>Exercise 9 — Split a record into fields — your turn</h2>
-<p><strong>Your turn.</strong> This is one line from the course data file. Extract the county name and the death count, converting the count to a number.</p>
+<p><strong>Your turn.</strong> This is one line from the course data file. Its fields are county, year, deaths, population, and published rate. Extract the county name, and convert the death count and the population with <code>int()</code>. Then compute <code>rate_per_100k</code> from those two.</p>
 <div class="cell" data-exercise="ex9_split">
 <div>
 <div id="pyodide-66" class="exercise-cell">
@@ -952,7 +952,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiY291bnRpZXMgPSBbXCJTY2h1
 </section>
 <section id="exercise-10-build-parallel-lists-your-turn" class="slide level2 smaller">
 <h2>Exercise 10 — Build parallel lists — your turn</h2>
-<p><strong>Your turn.</strong> Build two parallel lists — <code>counties</code> and <code>rates</code> — by appending one county at a time: Schuylkill at 41.7, Centre at 4.4, Fayette at 62.1. Start both empty and use <code>.append()</code>. Then print the full list of counties, the third county with its rate, and whether Centre appears in the list.</p>
+<p><strong>Your turn.</strong> Build two parallel lists — <code>counties</code> and <code>rates</code> — by appending one county at a time: Schuylkill at 41.7, Centre at 4.4, Fayette at 62.1. Start both empty (<code>counties = []</code>) and use <code>.append()</code>. Then print the full list of counties, the third county with its rate, and whether Centre appears in the list.</p>
 <div class="cell" data-exercise="ex10_lists">
 <div>
 <div id="pyodide-74" class="exercise-cell">
@@ -1017,21 +1017,21 @@ eyJhdHRyIjp7ImNoZWNrIjp0cnVlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlLCJleGVyY2lzZSI6ImV4
 </section>
 <section id="exercise-11-classify-from-a-record-1" class="slide level2 smaller">
 <h2>Exercise 11 — Classify from a record</h2>
-<p><strong>Putting it together.</strong> Parse a record line, compute the rate, and classify it — the whole sequence in one exercise.</p>
+<p><strong>Putting it together.</strong> Parse a record line, compute the rate, and classify it — the whole sequence in one exercise. The fields are county, year, deaths, population, and published rate. Compute <code>rate_per_100k</code> from deaths and population, as in Exercise 9 (not the published field). Use the labels and thresholds from Exercise 4, and print the label.</p>
 <div class="cell" data-exercise="ex11_full">
 <div>
 <div id="pyodide-81" class="exercise-cell">
 
 </div>
 <script type="pyodide-81-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXgxMV9mdWxsIn0sImNvZGUiOiJsaW5lID0gXCJCbGFpciwyMDIzLDU0LDEyMDI3Myw0NC45XCJcblxuZmllbGRzID0gbGluZS5zcGxpdChcIixcIilcbmNvdW50eSA9IGZpZWxkc1swXVxuZGVhdGhzID0gaW50KGZpZWxkc1syXSlcbnBvcHVsYXRpb24gPSBpbnQoZmllbGRzWzNdKVxuXG5yYXRlX3Blcl8xMDBrID0gZGVhdGhzIC8gcG9wdWxhdGlvbiAqIDEwMDAwMFxuXG5pZiByYXRlX3Blcl8xMDBrID49IDI1LjY6XG4gICAgY2xhc3NpZmljYXRpb24gPSBcIkhpZ2hcIlxuZWxpZiByYXRlX3Blcl8xMDBrID49IF9fX186XG4gICAgY2xhc3NpZmljYXRpb24gPSBcIk1vZGVyYXRlXCJcbmVsc2U6XG4gICAgY2xhc3NpZmljYXRpb24gPSBcIkxvd1wiXG5cbnByaW50KGZcIntjb3VudHl9OiB7cmF0ZV9wZXJfMTAwazouMWZ9IHBlciAxMDAsMDAwIOKAlCB7Y2xhc3NpZmljYXRpb259XCIpIn0=
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXgxMV9mdWxsIn0sImNvZGUiOiJsaW5lID0gXCJCbGFpciwyMDIzLDU0LDEyMDI3Myw0NC45XCJcblxuZmllbGRzID0gbGluZS5zcGxpdChcIixcIilcbmNvdW50eSA9IGZpZWxkc1swXVxuZGVhdGhzID0gaW50KGZpZWxkc1syXSlcbnBvcHVsYXRpb24gPSBpbnQoZmllbGRzWzNdKVxuXG5yYXRlX3Blcl8xMDBrID0gZGVhdGhzIC8gcG9wdWxhdGlvbiAqIDEwMDAwMFxuXG5pZiByYXRlX3Blcl8xMDBrID49IDM2Ljc6XG4gICAgY2xhc3NpZmljYXRpb24gPSBcIkhpZ2hcIlxuZWxpZiByYXRlX3Blcl8xMDBrID49IF9fX186XG4gICAgY2xhc3NpZmljYXRpb24gPSBcIk1vZGVyYXRlXCJcbmVsc2U6XG4gICAgY2xhc3NpZmljYXRpb24gPSBcIkxvd1wiXG5cbnByaW50KGZcIntjb3VudHl9OiB7cmF0ZV9wZXJfMTAwazouMWZ9IHBlciAxMDAsMDAwIOKAlCB7Y2xhc3NpZmljYXRpb259XCIpIn0=
 </script>
 </div>
 </div>
 <div class="cell" data-exercise="ex11_full" data-hint="true">
 <div class="pyodide-ojs-exercise exercise-hint d-none" data-exercise="ex11_full">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="interpolate-83"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="interpolate-83-1"><a href="#interpolate-83-1"></a><span class="co"># The blank is the Healthy People 2030 target: 13.1</span></span>
-<span id="interpolate-83-2"><a href="#interpolate-83-2"></a><span class="co"># Blair's rate is 44.9, well above the state rate, so it classifies as High.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="interpolate-83-2"><a href="#interpolate-83-2"></a><span class="co"># Blair's rate is 44.9, above the state rate of 36.7, so it classifies as High.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 <div class="cell" data-exercise="ex11_full" data-solution="true">
@@ -1045,7 +1045,7 @@ population = int(fields[3])
 
 rate_per_100k = deaths / population * 100000
 
-if rate_per_100k &gt;= 25.6:
+if rate_per_100k &gt;= 36.7:
     classification = "High"
 elif rate_per_100k &gt;= 13.1:
     classification = "Moderate"
@@ -1062,7 +1062,7 @@ print(f"{county}: {rate_per_100k:.1f} per 100,000 — {classification}")</code>
 <span id="interpolate-86-7"><a href="#interpolate-86-7"></a></span>
 <span id="interpolate-86-8"><a href="#interpolate-86-8"></a>rate_per_100k <span class="op">=</span> deaths <span class="op">/</span> population <span class="op">*</span> <span class="dv">100000</span></span>
 <span id="interpolate-86-9"><a href="#interpolate-86-9"></a></span>
-<span id="interpolate-86-10"><a href="#interpolate-86-10"></a><span class="cf">if</span> rate_per_100k <span class="op">&gt;=</span> <span class="fl">25.6</span>:</span>
+<span id="interpolate-86-10"><a href="#interpolate-86-10"></a><span class="cf">if</span> rate_per_100k <span class="op">&gt;=</span> <span class="fl">36.7</span>:</span>
 <span id="interpolate-86-11"><a href="#interpolate-86-11"></a>    classification <span class="op">=</span> <span class="st">"High"</span></span>
 <span id="interpolate-86-12"><a href="#interpolate-86-12"></a><span class="cf">elif</span> rate_per_100k <span class="op">&gt;=</span> <span class="fl">13.1</span>:</span>
 <span id="interpolate-86-13"><a href="#interpolate-86-13"></a>    classification <span class="op">=</span> <span class="st">"Moderate"</span></span>
@@ -1074,7 +1074,7 @@ print(f"{county}: {rate_per_100k:.1f} per 100,000 — {classification}")</code>
 </div>
 <div class="cell" data-exercise="ex11_full" data-check="true">
 <script type="exercise-check-ex11_full-contents">
-eyJhdHRyIjp7ImNoZWNrIjp0cnVlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlLCJleGVyY2lzZSI6ImV4MTFfZnVsbCJ9LCJjb2RlIjoiYXNzZXJ0IGNvdW50eSA9PSBcIkJsYWlyXCIsIFwiUGFyc2UgdGhlIGNvdW50eSBuYW1lIGZyb20gdGhlIGZpcnN0IGZpZWxkLlwiXG5hc3NlcnQgYWJzKHJhdGVfcGVyXzEwMGsgLSA0NC44OTc3KSA8IDAuMDEsIFwiQmxhaXIncyByYXRlIGlzIGFib3V0IDQ0LjkgcGVyIDEwMCwwMDAuXCJcbmFzc2VydCBjbGFzc2lmaWNhdGlvbiA9PSBcIkhpZ2hcIiwgXCI0NC45IGlzIGFib3ZlIHRoZSBzdGF0ZSByYXRlIG9mIDI1LjYuXCIifQ==
+eyJhdHRyIjp7ImNoZWNrIjp0cnVlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlLCJleGVyY2lzZSI6ImV4MTFfZnVsbCJ9LCJjb2RlIjoiYXNzZXJ0IGNvdW50eSA9PSBcIkJsYWlyXCIsIFwiUGFyc2UgdGhlIGNvdW50eSBuYW1lIGZyb20gdGhlIGZpcnN0IGZpZWxkLlwiXG5hc3NlcnQgYWJzKHJhdGVfcGVyXzEwMGsgLSA0NC44OTc3KSA8IDAuMDEsIFwiQmxhaXIncyByYXRlIGlzIGFib3V0IDQ0LjkgcGVyIDEwMCwwMDAuXCJcbmFzc2VydCBjbGFzc2lmaWNhdGlvbiA9PSBcIkhpZ2hcIiwgXCI0NC45IGlzIGFib3ZlIHRoZSBzdGF0ZSByYXRlIG9mIDM2LjcuXCIifQ==
 </script>
 </div>
 </section></section>
@@ -1085,15 +1085,15 @@ eyJhdHRyIjp7ImNoZWNrIjp0cnVlLCJlZGl0Ijp0cnVlLCJldmFsIjp0cnVlLCJleGVyY2lzZSI6ImV4
 </section>
 <section id="exercise-12-find-the-error-1" class="slide level2 smaller">
 <h2>Exercise 12 — Find the error</h2>
-<p><strong>This code is broken.</strong> Run it, read the error, and repair it.</p>
-<p>The objective is to report whether Lawrence County exceeds the state rate. Lawrence recorded 61 deaths in a population of 84,472.</p>
+<p><strong>This code is broken.</strong> Run it, read the error, and repair it. There are two errors, and Python reports them one at a time: fix the first, run again, then fix the second.</p>
+<p>The objective is to report whether Lawrence County exceeds the state rate of 36.7 per 100,000. Lawrence recorded 61 deaths in a population of 84,472.</p>
 <div class="cell" data-exercise="ex12_debug">
 <div>
 <div id="pyodide-88" class="exercise-cell">
 
 </div>
 <script type="pyodide-88-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXgxMl9kZWJ1ZyJ9LCJjb2RlIjoibGF3cmVuY2VfZGVhdGhzID0gNjFcbmxhd3JlbmNlX3BvcHVsYXRpb24gPSA4NDQ3MlxuXG5sYXdyZW5jZV9yYXRlID0gbGF3cmVuY2VfZGVhdGhzIC8gbGF3cmVuY2VfcG9wdWxhdGlvbiAqIDEwMDAwMFxuXG5pZiBsYXdyZW5jZV9yYXRlID4gMjUuNlxucHJpbnQoXCJBYm92ZSB0aGUgc3RhdGUgcmF0ZVwiKVxuZWxzZTpcbiAgICBwcmludChcIkF0IG9yIGJlbG93IHRoZSBzdGF0ZSByYXRlXCIpIn0=
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXgxMl9kZWJ1ZyJ9LCJjb2RlIjoibGF3cmVuY2VfZGVhdGhzID0gNjFcbmxhd3JlbmNlX3BvcHVsYXRpb24gPSA4NDQ3MlxuXG5sYXdyZW5jZV9yYXRlID0gbGF3cmVuY2VfZGVhdGhzIC8gbGF3cmVuY2VfcG9wdWxhdGlvbiAqIDEwMDAwMFxuXG5pZiBsYXdyZW5jZV9yYXRlID4gMzYuN1xucHJpbnQoXCJBYm92ZSB0aGUgc3RhdGUgcmF0ZVwiKVxuZWxzZTpcbiAgICBwcmludChcIkF0IG9yIGJlbG93IHRoZSBzdGF0ZSByYXRlXCIpIn0=
 </script>
 </div>
 </div>
@@ -1112,7 +1112,7 @@ lawrence_population = 84472
 
 lawrence_rate = lawrence_deaths / lawrence_population * 100000
 
-if lawrence_rate &gt; 25.6:
+if lawrence_rate &gt; 36.7:
     print("Above the state rate")
 else:
     print("At or below the state rate")</code>
@@ -1121,7 +1121,7 @@ else:
 <span id="interpolate-93-3"><a href="#interpolate-93-3"></a></span>
 <span id="interpolate-93-4"><a href="#interpolate-93-4"></a>lawrence_rate <span class="op">=</span> lawrence_deaths <span class="op">/</span> lawrence_population <span class="op">*</span> <span class="dv">100000</span></span>
 <span id="interpolate-93-5"><a href="#interpolate-93-5"></a></span>
-<span id="interpolate-93-6"><a href="#interpolate-93-6"></a><span class="cf">if</span> lawrence_rate <span class="op">&gt;</span> <span class="fl">25.6</span>:</span>
+<span id="interpolate-93-6"><a href="#interpolate-93-6"></a><span class="cf">if</span> lawrence_rate <span class="op">&gt;</span> <span class="fl">36.7</span>:</span>
 <span id="interpolate-93-7"><a href="#interpolate-93-7"></a>    <span class="bu">print</span>(<span class="st">"Above the state rate"</span>)</span>
 <span id="interpolate-93-8"><a href="#interpolate-93-8"></a><span class="cf">else</span>:</span>
 <span id="interpolate-93-9"><a href="#interpolate-93-9"></a>    <span class="bu">print</span>(<span class="st">"At or below the state rate"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>

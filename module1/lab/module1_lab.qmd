@@ -76,7 +76,7 @@ Health file used throughout the course.
 
 | Anchor | Value |
 |---|---|
-| Pennsylvania overdose mortality rate | **25.6** per 100,000 |
+| Pennsylvania overdose mortality rate, 2023 | **36.7** per 100,000 |
 | Healthy People 2030 target | **13.1** per 100,000 |
 | Schuylkill County | 60 deaths, population 143,786 |
 | Centre County | 7 deaths, population 157,795 |
@@ -92,7 +92,7 @@ A rate per 100,000 is `deaths / population * 100000`.
 
 ```{pyodide}
 schuylkill_rate = 41.7
-state_rate = 25.6
+state_rate = 36.7
 
 print(schuylkill_rate > state_rate)
 ```
@@ -100,13 +100,13 @@ print(schuylkill_rate > state_rate)
 ## Exercise 1 — Compare two rates — your turn {.smaller}
 
 **Your turn.** Beaver County recorded 67 deaths in a population of 165,631. Compute its
-rate and test whether it exceeds the state rate.
+rate and test whether it exceeds the state rate of 36.7 per 100,000.
 
 ```{pyodide}
 #| exercise: ex1_compare
 beaver_deaths = 67
 beaver_population = 165631
-state_rate = 25.6
+state_rate = 36.7
 
 beaver_rate = beaver_deaths / beaver_population * ____
 
@@ -129,7 +129,7 @@ print("Above the state rate:", above_state)
 #| solution: true
 beaver_deaths = 67
 beaver_population = 165631
-state_rate = 25.6
+state_rate = 36.7
 
 beaver_rate = beaver_deaths / beaver_population * 100000
 
@@ -143,7 +143,7 @@ print("Above the state rate:", above_state)
 #| exercise: ex1_compare
 #| check: true
 assert abs(beaver_rate - 40.4514) < 0.01, "Beaver's rate should be about 40.5 per 100,000."
-assert above_state is True, "Beaver is above the state rate of 25.6."
+assert above_state is True, "Beaver is above the state rate of 36.7."
 ```
 
 # Exercise 2 — Combine two conditions {.unnumbered background-color="#003594"}
@@ -156,14 +156,14 @@ assert above_state is True, "Beaver is above the state rate of 25.6."
 population = 143786
 rate_per_100k = 41.7
 
-print(population > 100000 and rate_per_100k > 25.6)
+print(population > 100000 and rate_per_100k > 36.7)
 ```
 
 ## Exercise 2 — Combine two conditions — your turn {.smaller}
 
 **Your turn.** Public health planners often target **large counties with high burden**.
 Test whether Cambria County qualifies: 66 deaths, population 130,668. The thresholds are a
-population above 100,000 and a rate above the state rate.
+population above 100,000 and a rate above the state rate of 36.7 per 100,000 (`state_rate` from Exercise 1).
 
 ```{pyodide}
 #| exercise: ex2_and
@@ -172,7 +172,7 @@ cambria_population = 130668
 
 cambria_rate = cambria_deaths / cambria_population * 100000
 
-is_priority = cambria_population > 100000 ____ cambria_rate > 25.6
+is_priority = cambria_population > 100000 ____ cambria_rate > 36.7
 
 print(f"Cambria: {cambria_rate:.1f} per 100,000")
 print("Priority county:", is_priority)
@@ -193,7 +193,7 @@ cambria_population = 130668
 
 cambria_rate = cambria_deaths / cambria_population * 100000
 
-is_priority = cambria_population > 100000 and cambria_rate > 25.6
+is_priority = cambria_population > 100000 and cambria_rate > 36.7
 
 print(f"Cambria: {cambria_rate:.1f} per 100,000")
 print("Priority county:", is_priority)
@@ -215,7 +215,7 @@ assert is_priority is True, "Cambria satisfies both conditions."
 ```{pyodide}
 rate_per_100k = 41.7
 
-if rate_per_100k > 25.6:
+if rate_per_100k > 36.7:
     print("Above the state rate")
 else:
     print("At or below the state rate")
@@ -224,7 +224,8 @@ else:
 ## Exercise 3 — Branch on a condition — your turn {.smaller}
 
 **Your turn.** Adams County recorded 7 deaths in a population of 106,748. Report whether it
-has met the Healthy People 2030 target of 13.1 per 100,000.
+has met the Healthy People 2030 target of 13.1 per 100,000: a rate below 13.1 has met it.
+Print `"Target met"` or `"Target not met"`.
 
 ```{pyodide}
 #| exercise: ex3_if
@@ -280,7 +281,7 @@ assert message == "Target met", "Adams is below 13.1, so the target is met."
 ```{pyodide}
 rate_per_100k = 19.0
 
-if rate_per_100k >= 25.6:
+if rate_per_100k >= 36.7:
     print("High")
 elif rate_per_100k >= 13.1:
     print("Moderate")
@@ -291,7 +292,9 @@ else:
 ## Exercise 4 — Three-way classification — your turn {.smaller}
 
 **Your turn.** Classify Lebanon County: 31 deaths, population 144,252. Use the same two
-thresholds — the state rate of 25.6 and the national target of 13.1.
+thresholds — the state rate of 36.7 and the national target of 13.1. A rate at or above
+36.7 is `"High"`, at or above 13.1 is `"Moderate"`, and anything lower is `"Low"`. Print the
+label.
 
 ```{pyodide}
 #| exercise: ex4_elif
@@ -300,7 +303,7 @@ lebanon_population = 144252
 
 lebanon_rate = lebanon_deaths / lebanon_population * 100000
 
-if lebanon_rate >= 25.6:
+if lebanon_rate >= 36.7:
     classification = "High"
 ____ lebanon_rate >= 13.1:
     classification = "Moderate"
@@ -314,7 +317,7 @@ print(f"Lebanon: {lebanon_rate:.1f} per 100,000 — {classification}")
 #| exercise: ex4_elif
 #| hint: true
 # The blank introduces the middle branch: elif.
-# Lebanon's rate is 21.5 — below the state rate, above the national target.
+# Lebanon's rate is 21.5 — below the state rate of 36.7, above the national target.
 # Writing a second plain `if` here would also run, but `elif` states the intent:
 # these three categories are mutually exclusive.
 ```
@@ -327,7 +330,7 @@ lebanon_population = 144252
 
 lebanon_rate = lebanon_deaths / lebanon_population * 100000
 
-if lebanon_rate >= 25.6:
+if lebanon_rate >= 36.7:
     classification = "High"
 elif lebanon_rate >= 13.1:
     classification = "Moderate"
@@ -341,7 +344,7 @@ print(f"Lebanon: {lebanon_rate:.1f} per 100,000 — {classification}")
 #| exercise: ex4_elif
 #| check: true
 assert abs(lebanon_rate - 21.4901) < 0.01, "Lebanon's rate should be about 21.5 per 100,000."
-assert classification == "Moderate", "21.5 falls between 13.1 and 25.6, so the label is Moderate."
+assert classification == "Moderate", "21.5 falls between 13.1 and 36.7, so the label is Moderate."
 ```
 
 # Exercise 5 — Accumulate a total {.unnumbered background-color="#003594"}
@@ -361,7 +364,8 @@ print(total)
 ## Exercise 5 — Accumulate a total — your turn {.smaller}
 
 **Your turn.** Total the deaths and the population across four counties, then compute the
-combined rate. Note that the combined rate is **not** the average of the four rates.
+combined rate. Schuylkill: 60 deaths, population 143,786. Centre: 7 deaths, 157,795.
+Franklin: 30 deaths, 157,854. Lebanon: 31 deaths, 144,252. Note that the combined rate is **not** the average of the four rates.
 
 ```{pyodide}
 #| exercise: ex5_accumulate
@@ -502,7 +506,7 @@ print(county[4:])
 ## Exercise 7 — Slice a string — your turn {.smaller}
 
 **Your turn.** A record line begins with a four-digit year. Extract the year and the rest
-of the line separately.
+of the line separately. `remainder` starts after the space: `"Schuylkill County"`.
 
 ```{pyodide}
 #| exercise: ex7_slice
@@ -559,7 +563,8 @@ print(repr(raw.strip()))
 ## Exercise 8 — Clean a value — your turn {.smaller}
 
 **Your turn.** County Health Rankings writes `"Mc Kean"`; the Census writes `"McKean"`.
-Clean the first into the second, then confirm the two now match.
+Clean the first into the second, then confirm the two now match: print
+`cleaned == "McKean"`, which should show `True`.
 
 ```{pyodide}
 #| exercise: ex8_clean
@@ -619,8 +624,9 @@ print(fields[0])
 
 ## Exercise 9 — Split a record into fields — your turn {.smaller}
 
-**Your turn.** This is one line from the course data file. Extract the county name and the
-death count, converting the count to a number.
+**Your turn.** This is one line from the course data file. Its fields are county, year,
+deaths, population, and published rate. Extract the county name, and convert the death
+count and the population with `int()`. Then compute `rate_per_100k` from those two.
 
 ```{pyodide}
 #| exercise: ex9_split
@@ -686,7 +692,7 @@ print(len(counties))
 ## Exercise 10 — Build parallel lists — your turn {.smaller}
 
 **Your turn.** Build two parallel lists — `counties` and `rates` — by appending one county at
-a time: Schuylkill at 41.7, Centre at 4.4, Fayette at 62.1. Start both empty and use
+a time: Schuylkill at 41.7, Centre at 4.4, Fayette at 62.1. Start both empty (`counties = []`) and use
 `.append()`. Then print the full list of counties, the third county with its rate, and
 whether Centre appears in the list.
 
@@ -750,7 +756,9 @@ assert len(counties) == len(rates), "Parallel lists must stay the same length."
 ## Exercise 11 — Classify from a record {.smaller}
 
 **Putting it together.** Parse a record line, compute the rate, and classify it — the whole
-sequence in one exercise.
+sequence in one exercise. The fields are county, year, deaths, population, and published
+rate. Compute `rate_per_100k` from deaths and population, as in Exercise 9 (not the
+published field). Use the labels and thresholds from Exercise 4, and print the label.
 
 ```{pyodide}
 #| exercise: ex11_full
@@ -763,7 +771,7 @@ population = int(fields[3])
 
 rate_per_100k = deaths / population * 100000
 
-if rate_per_100k >= 25.6:
+if rate_per_100k >= 36.7:
     classification = "High"
 elif rate_per_100k >= ____:
     classification = "Moderate"
@@ -777,7 +785,7 @@ print(f"{county}: {rate_per_100k:.1f} per 100,000 — {classification}")
 #| exercise: ex11_full
 #| hint: true
 # The blank is the Healthy People 2030 target: 13.1
-# Blair's rate is 44.9, well above the state rate, so it classifies as High.
+# Blair's rate is 44.9, above the state rate of 36.7, so it classifies as High.
 ```
 
 ```{pyodide}
@@ -792,7 +800,7 @@ population = int(fields[3])
 
 rate_per_100k = deaths / population * 100000
 
-if rate_per_100k >= 25.6:
+if rate_per_100k >= 36.7:
     classification = "High"
 elif rate_per_100k >= 13.1:
     classification = "Moderate"
@@ -807,16 +815,17 @@ print(f"{county}: {rate_per_100k:.1f} per 100,000 — {classification}")
 #| check: true
 assert county == "Blair", "Parse the county name from the first field."
 assert abs(rate_per_100k - 44.8977) < 0.01, "Blair's rate is about 44.9 per 100,000."
-assert classification == "High", "44.9 is above the state rate of 25.6."
+assert classification == "High", "44.9 is above the state rate of 36.7."
 ```
 
 # Exercise 12 — Find the error {.unnumbered background-color="#003594"}
 
 ## Exercise 12 — Find the error {.smaller}
 
-**This code is broken.** Run it, read the error, and repair it.
+**This code is broken.** Run it, read the error, and repair it. There are two errors, and
+Python reports them one at a time: fix the first, run again, then fix the second.
 
-The objective is to report whether Lawrence County exceeds the state rate. Lawrence
+The objective is to report whether Lawrence County exceeds the state rate of 36.7 per 100,000. Lawrence
 recorded 61 deaths in a population of 84,472.
 
 ```{pyodide}
@@ -826,7 +835,7 @@ lawrence_population = 84472
 
 lawrence_rate = lawrence_deaths / lawrence_population * 100000
 
-if lawrence_rate > 25.6
+if lawrence_rate > 36.7
 print("Above the state rate")
 else:
     print("At or below the state rate")
@@ -849,7 +858,7 @@ lawrence_population = 84472
 
 lawrence_rate = lawrence_deaths / lawrence_population * 100000
 
-if lawrence_rate > 25.6:
+if lawrence_rate > 36.7:
     print("Above the state rate")
 else:
     print("At or below the state rate")
