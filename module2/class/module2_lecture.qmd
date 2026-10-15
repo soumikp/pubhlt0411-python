@@ -132,7 +132,7 @@ order = np.lexsort((-H.sum(axis=1), gap))
 H, rows, gap_sorted = H[order], [counties[i] for i in order], gap[order]
 
 GREY, BLUE = "#6b7280", "#003594"
-fig, (a1, a2) = plt.subplots(1, 2, figsize=(11.5, 4.6),
+fig, (a1, a2) = plt.subplots(1, 2, figsize=(10, 4.2),
                              gridspec_kw=dict(width_ratios=[1, 1.6]))
 
 # The file undercounts everything before 2021-08, so 2020 is greyed out.
