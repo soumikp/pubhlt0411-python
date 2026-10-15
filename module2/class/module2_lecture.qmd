@@ -59,7 +59,7 @@ format:
 engine: knitr
 
 pyodide:
-  packages: [matplotlib]
+  packages: [matplotlib, numpy]
   resources:
     - data/pa_covid_monthly.csv
 
@@ -92,6 +92,103 @@ hold the values, a loop to walk them, and a function to package the work for reu
 :::
 
 **Required from Module 1:** `if` / `elif` / `else`, indentation, lists, `.append()`, `+=`.
+
+## Two views of the same 3,283 county-months {.smaller}
+
+```{pyodide}
+#| edit: false
+#| echo: false
+import csv
+from collections import defaultdict
+import numpy as np
+import matplotlib.pyplot as plt
+
+deaths = defaultdict(lambda: defaultdict(int))   # county -> month -> deaths
+pop = {}
+for row in csv.DictReader(open("data/pa_covid_monthly.csv")):
+    deaths[row["county"]][row["month"][:7]] += int(row["covid_deaths"])
+    pop[row["county"]] = int(row["population"])
+
+counties = sorted(deaths)
+months = sorted({m for c in deaths.values() for m in c})
+years = sorted({m[:4] for m in months})
+n_mo = {y: sum(m.startswith(y) for m in months) for y in years}
+
+# Heatmap: county x year, deaths per 100k in that calendar year
+H = np.array([[sum(v for m, v in deaths[c].items() if m.startswith(y)) / pop[c] * 1e5
+               for y in years] for c in counties])
+
+# Seven counties report nothing in 2021-2022. That is a reporting gap, not
+# zero deaths: they are greyed out and left out of the mean.
+gap = np.array([H[i, years.index("2021")] == 0 and H[i, years.index("2022")] == 0
+                for i in range(len(counties))])
+ok = ~gap
+
+# Spaghetti: county x month, deaths per 100k
+R = np.array([[deaths[c][m] / pop[c] * 1e5 for m in months] for c in counties])
+mean = R[ok].mean(axis=0)
+
+order = np.lexsort((-H.sum(axis=1), gap))
+H, rows, gap_sorted = H[order], [counties[i] for i in order], gap[order]
+
+GREY, BLUE = "#6b7280", "#003594"
+fig, (a1, a2) = plt.subplots(1, 2, figsize=(11.5, 4.6),
+                             gridspec_kw=dict(width_ratios=[1, 1.6]))
+
+# The file undercounts everything before 2021-08, so 2020 is greyed out.
+Hm = np.ma.masked_array(H, mask=np.zeros_like(H, bool))
+Hm.mask[:, 0] = True
+Hm.mask[gap_sorted, :] = True
+a1.imshow(np.ones_like(H), aspect="auto", cmap="Greys", vmin=0, vmax=8)
+im = a1.imshow(Hm, aspect="auto", cmap="Blues", interpolation="nearest")
+g0 = int(np.argmax(gap_sorted))
+a1.axhline(g0 - 0.5, color="white", linewidth=2)
+a1.text(2, (g0 + len(rows) - 1) / 2, f"{gap_sorted.sum()} counties: no reports 2021–2022",
+        ha="center", va="center", fontsize=8, color=GREY, style="italic")
+a1.text(0, len(rows) / 2, "Undercounted", rotation=90, ha="center", va="center",
+        fontsize=8, color=GREY, style="italic")
+a1.set_xticks(range(len(years)))
+a1.set_xticklabels([f"{y}\n({n_mo[y]} mo)" if n_mo[y] < 12 else y for y in years],
+                   fontsize=9)
+show = sorted({0} | {rows.index(c) for c in ("Allegheny", "Philadelphia")})
+a1.set_yticks(show)
+a1.set_yticklabels([rows[i] for i in show], fontsize=8)
+a1.set_ylabel("67 counties, highest total rate at top", color=GREY)
+cb = fig.colorbar(im, ax=a1, fraction=0.05, pad=0.02)
+cb.set_label("Deaths per 100k in year", fontsize=9)
+a1.set_title("One row per county, one column per year", fontsize=11, loc="left")
+for s in a1.spines.values():
+    s.set_visible(False)
+
+x = np.arange(len(months))
+cut = months.index("2021-08")
+a2.axvspan(-0.5, cut - 0.5, color=GREY, alpha=0.10)
+a2.text((cut - 1) / 2, R.max() * 0.9, "Undercounted\nin this file", color=GREY,
+        fontsize=8, ha="center", style="italic")
+for r in R[ok]:
+    a2.plot(x, r, color=GREY, alpha=0.25, linewidth=0.7)
+a2.plot(x, mean, color=BLUE, linewidth=2.6,
+        label=f"Mean of {ok.sum()} reporting counties")
+a2.legend(frameon=False, loc="upper right", fontsize=9)
+ticks = [i for i, m in enumerate(months) if m.endswith(("-01", "-07"))]
+a2.set_xticks(ticks)
+a2.set_xticklabels([months[i] for i in ticks], rotation=45, ha="right", fontsize=8)
+a2.set_xlim(-0.5, len(months) - 0.5)
+a2.set_ylabel("Deaths per 100k in month")
+a2.set_title("One line per county, mean in blue", fontsize=11, loc="left")
+for s in ("top", "right"):
+    a2.spines[s].set_visible(False)
+for a in (a1, a2):
+    a.tick_params(colors=GREY)
+
+fig.text(0.01, 0.01, "Source: PA DOH, monthly COVID-19 deaths by county",
+         fontsize=7.5, color=GREY)
+plt.tight_layout(rect=(0, 0.03, 1, 1))
+plt.show()
+```
+
+Each cell of the heatmap and each point on a grey line is one county-month. Producing
+either figure requires walking all 3,283 of them.
 
 ## A dictionary maps keys to values {.smaller}
 
@@ -429,6 +526,31 @@ for county, deaths, population in by_deaths[:3]:
 
 `key=` receives a function returning the value to sort on. `lambda` writes that function
 inline.
+
+::: {.notes}
+Read the line left to right with them.
+
+`sorted(counties, ...)` gives you a **new** list. The original `counties` is unchanged.
+(`.sort()` would change the list in place.)
+
+Without `key=`, Python compares whole tuples, first element first. So you would get the
+counties in alphabetical order by name. You want them ordered by deaths, the second element.
+
+`key=` takes a function. Python calls it once on each tuple and sorts by what it returns.
+Here that is 4052, 2179, 401, 208, 325. The whole tuple moves with its number.
+
+`lambda record: record[1]` is that function in one line, with no name. It is the same as
+`def get_deaths(record): return record[1]`. `record` is just a parameter name: one tuple at
+a time. The next slide writes it as `lambda r: r[1]`; same thing.
+
+`reverse=True` sorts largest first. The default is smallest first.
+
+Result: Philadelphia, Allegheny, Schuylkill, Fayette, Centre. `[:3]` keeps the top three.
+
+The point to stress: `key=` decides what the ranking is based on. The checkpoint changes only
+the key, to deaths per 100,000, and the ranking changes completely. If you think of `key=` as
+"the column to sort by", the next slide is easy.
+:::
 
 ## Checkpoint: ranking by count answers a different question {.smaller}
 
