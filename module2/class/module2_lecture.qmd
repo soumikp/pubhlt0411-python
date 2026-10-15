@@ -132,7 +132,7 @@ order = np.lexsort((-H.sum(axis=1), gap))
 H, rows, gap_sorted = H[order], [counties[i] for i in order], gap[order]
 
 GREY, BLUE = "#6b7280", "#003594"
-fig, (a1, a2) = plt.subplots(1, 2, figsize=(10, 4.2),
+fig, (a1, a2) = plt.subplots(1, 2, figsize=(10, 3.6),
                              gridspec_kw=dict(width_ratios=[1, 1.6]))
 
 # The file undercounts everything before 2021-08, so 2020 is greyed out.
@@ -814,6 +814,68 @@ crossed ten thousand during that same January.
 
 **The worst of an epidemic is not always its beginning**, and a response calibrated to the
 first wave will misjudge the peak.
+:::
+
+## Challenge: the month it accelerated most {.smaller}
+
+The deadliest month need not be the month deaths **rose** the most. Find the largest rise.
+
+```{pyodide}
+#| exercise: m2_jump
+#| setup: true
+covid_deaths = {
+    "2021-08": 555, "2021-09": 1248, "2021-10": 2035, "2021-11": 2117,
+    "2021-12": 3365, "2022-01": 4294, "2022-02": 1819,
+}
+```
+
+```{pyodide}
+#| exercise: m2_jump
+def biggest_jump(series):
+    previous = None
+    best_month = ""
+    best_change = 0
+    for month, deaths in series.items():
+        if previous is not None:
+            change = deaths - ______
+            if change > best_change:
+                best_change = change
+                best_month = month
+        previous = ______
+    return best_month, best_change
+month, change = biggest_jump(covid_deaths)
+print(f"Largest rise: {month}, up {change:,} deaths")
+```
+
+```{pyodide}
+#| exercise: m2_jump
+#| hint: true
+# `previous` must hold the *last* month's deaths when the loop reaches the
+# current month. The first blank reads it; the second updates it, and it must
+# happen after the comparison, at the end of every pass through the loop.
+```
+
+```{pyodide}
+#| exercise: m2_jump
+#| solution: true
+def biggest_jump(series):
+    previous = None
+    best_month = ""
+    best_change = 0
+    for month, deaths in series.items():
+        if previous is not None:
+            change = deaths - previous
+            if change > best_change:
+                best_change = change
+                best_month = month
+        previous = deaths
+    return best_month, best_change
+month, change = biggest_jump(covid_deaths)
+print(f"Largest rise: {month}, up {change:,} deaths")
+```
+
+::: {.callout-tip title="Your turn!"}
+Why is `if previous is not None` needed? And why is the answer not January 2022?
 :::
 
 ## Session outcomes {.smaller}
