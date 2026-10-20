@@ -6,13 +6,13 @@
 <script src="module2_lab_files/libs/quarto-html/tippy.umd.min.js"></script>
 <link href="module2_lab_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="module2_lab_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="module2_lab_files/libs/quarto-html/quarto-syntax-highlighting-acf12a64177840b8d86f2d4f01b2e9fb.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="module2_lab_files/libs/quarto-html/quarto-syntax-highlighting-de63f62b328812d8e578a4d74e282472.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="module2_lab_files/libs/quarto-contrib/live-runtime/live-runtime.js" type="module"></script>
 <link href="module2_lab_files/libs/quarto-contrib/live-runtime/live-runtime.css" rel="stylesheet"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.9.37">
+  <meta name="generator" content="quarto-1.9.38">
 
   <meta name="author" content="Soumik Purkayastha">
-  <meta name="dcterms.date" content="2026-08-20">
+  <meta name="dcterms.date" content="2026-10-01">
   <title>Py Lab 2: Collections, Loops, and Functions</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -213,7 +213,7 @@ Soumik Purkayastha
 </div>
 </div>
 
-  <p class="date">August 20, 2026</p>
+  <p class="date">October 1, 2026</p>
 </section>
 <section>
 <section id="py-lab-2" class="title-slide slide level1 unnumbered center" data-background-color="#003594">
@@ -385,7 +385,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiYWxsZWdoZW55ID0ge1wiMjAy
 </section>
 <section id="exercise-2-handle-a-missing-key-your-turn" class="slide level2 smaller">
 <h2>Exercise 2 — Handle a missing key — your turn</h2>
-<p><strong>Your turn.</strong> Retrieve a month that exists and one that does not, without raising.</p>
+<p><strong>Your turn.</strong> Retrieve a month that exists and one that does not, without raising. Look up <code>"2022-01"</code> (recorded) and <code>"2023-05"</code> (absent), returning 0 when the month is missing.</p>
 <div class="cell" data-exercise="ex2_get">
 <div>
 <div id="pyodide-10" class="exercise-cell">
@@ -460,7 +460,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiYWxsZWdoZW55ID0ge1wiMjAy
 </section>
 <section id="exercise-3-loop-over-keyvalue-pairs-your-turn" class="slide level2 smaller">
 <h2>Exercise 3 — Loop over key–value pairs — your turn</h2>
-<p><strong>Your turn.</strong> Print each month alongside its death count.</p>
+<p><strong>Your turn.</strong> Print each month alongside its death count. <code>months_printed</code> counts the months printed (an integer).</p>
 <div class="cell" data-exercise="ex3_items">
 <div>
 <div id="pyodide-18" class="exercise-cell">
@@ -536,7 +536,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiYWxsZWdoZW55ID0ge1wiMjAy
 </section>
 <section id="exercise-4-accumulate-a-total-your-turn" class="slide level2 smaller">
 <h2>Exercise 4 — Accumulate a total — your turn</h2>
-<p><strong>Your turn.</strong> Total Allegheny’s deaths across the six months, then compute the monthly average.</p>
+<p><strong>Your turn.</strong> Total Allegheny’s deaths across the six months, then compute the monthly average. Store <code>average</code> unrounded; round only when you print it.</p>
 <div class="cell" data-exercise="ex4_accumulate">
 <div>
 <div id="pyodide-26" class="exercise-cell">
@@ -690,7 +690,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiYWxsZWdoZW55ID0ge1wiMjAy
 </section>
 <section id="exercise-6-count-with-a-condition-your-turn" class="slide level2 smaller">
 <h2>Exercise 6 — Count with a condition — your turn</h2>
-<p><strong>Your turn.</strong> Count the months exceeding 150 deaths, and collect their names in a list.</p>
+<p><strong>Your turn.</strong> Count the months exceeding 150 deaths, and collect their names in a list. Start the list empty (<code>high_month_names = []</code>) and <code>.append()</code> each month that qualifies.</p>
 <div class="cell" data-exercise="ex6_count">
 <div>
 <div id="pyodide-42" class="exercise-cell">
@@ -830,7 +830,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiYWxsZWdoZW55ID0ge1wiMjAy
 </section>
 <section id="exercise-8-stop-at-the-first-match-your-turn" class="slide level2 smaller">
 <h2>Exercise 8 — Stop at the first match — your turn</h2>
-<p><strong>Your turn.</strong> Identify the first month in which Allegheny exceeded 200 deaths, and stop searching there.</p>
+<p><strong>Your turn.</strong> Identify the first month in which Allegheny exceeded 200 deaths, and stop searching there: <code>break</code> works inside a <code>for</code> loop just as it does inside <code>while True</code>. <code>months_checked</code> counts every month examined, including the one that matched.</p>
 <div class="cell" data-exercise="ex8_break">
 <div>
 <div id="pyodide-58" class="exercise-cell">
@@ -911,7 +911,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiZGVmIGRvdWJsZSh2YWx1ZSk6
 </section>
 <section id="exercise-9-write-a-function-your-turn" class="slide level2 smaller">
 <h2>Exercise 9 — Write a function — your turn</h2>
-<p><strong>Your turn.</strong> Write a function computing a rate per 100,000, then apply it to two counties.</p>
+<p><strong>Your turn.</strong> Write a function <code>rate_per_100k(deaths, population)</code> that returns the rate per 100,000, then apply it to two counties. Potter: 89 deaths, population 15,999. Philadelphia: 4,052 deaths, population 1,550,542.</p>
 <div class="cell" data-exercise="ex9_function">
 <div>
 <div id="pyodide-66" class="exercise-cell">
@@ -993,7 +993,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiZGVmIGRlc2NyaWJlKGRlYXRo
 </section>
 <section id="exercise-10-return-two-values-your-turn" class="slide level2 smaller">
 <h2>Exercise 10 — Return two values — your turn</h2>
-<p><strong>Your turn.</strong> Return both the rate and a classification.</p>
+<p><strong>Your turn.</strong> Return both the rate and a classification. Write <code>summarize(county, deaths, population)</code>, returning the rate per 100,000 and the label <code>"High"</code> if the rate is above 250, otherwise <code>"Moderate"</code>. Apply it to Cambria County: 411 deaths, population 130,668.</p>
 <div class="cell" data-exercise="ex10_tuple">
 <div>
 <div id="pyodide-74" class="exercise-cell">
@@ -1067,7 +1067,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiY291bnRpZXMgPSBbKFwiUG90
 </section>
 <section id="exercise-11-rank-two-ways-your-turn" class="slide level2 smaller">
 <h2>Exercise 11 — Rank two ways — your turn</h2>
-<p><strong>Your turn.</strong> Rank the same five counties by death count and by death rate, then compare the two leaders.</p>
+<p><strong>Your turn.</strong> Rank these five counties (name, deaths, population) by death count and by death rate, then compare the two leaders. <code>top_by_deaths</code> and <code>top_by_rate</code> are the county <strong>names</strong> (strings) at the top of each ranking. Each ranking is a list of tuples: <code>by_deaths[0]</code> is the first tuple, and <code>by_deaths[0][0]</code> is the name inside it.</p>
 <div class="cell" data-exercise="ex11_sort">
 <div>
 <div id="pyodide-82" class="exercise-cell">

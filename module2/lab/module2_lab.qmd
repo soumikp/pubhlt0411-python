@@ -165,6 +165,8 @@ print(allegheny.get("2022-07", 0))
 ## Exercise 2 — Handle a missing key — your turn {.smaller}
 
 **Your turn.** Retrieve a month that exists and one that does not, without raising.
+Look up `"2022-01"` (recorded) and `"2023-05"` (absent), returning 0 when the month is
+missing.
 
 ```{pyodide}
 #| exercise: ex2_get
@@ -225,7 +227,8 @@ for month, deaths in allegheny.items():
 
 ## Exercise 3 — Loop over key–value pairs — your turn {.smaller}
 
-**Your turn.** Print each month alongside its death count.
+**Your turn.** Print each month alongside its death count. `months_printed` counts the
+months printed (an integer).
 
 ```{pyodide}
 #| exercise: ex3_items
@@ -296,7 +299,7 @@ print(total)
 ## Exercise 4 — Accumulate a total — your turn {.smaller}
 
 **Your turn.** Total Allegheny's deaths across the six months, then compute the monthly
-average.
+average. Store `average` unrounded; round only when you print it.
 
 ```{pyodide}
 #| exercise: ex4_accumulate
@@ -446,6 +449,7 @@ print(high_months)
 ## Exercise 6 — Count with a condition — your turn {.smaller}
 
 **Your turn.** Count the months exceeding 150 deaths, and collect their names in a list.
+Start the list empty (`high_month_names = []`) and `.append()` each month that qualifies.
 
 ```{pyodide}
 #| exercise: ex6_count
@@ -570,7 +574,8 @@ for month, deaths in allegheny.items():
 ## Exercise 8 — Stop at the first match — your turn {.smaller}
 
 **Your turn.** Identify the first month in which Allegheny exceeded 200 deaths, and stop
-searching there.
+searching there: `break` works inside a `for` loop just as it does inside `while True`.
+`months_checked` counts every month examined, including the one that matched.
 
 ```{pyodide}
 #| exercise: ex8_break
@@ -644,7 +649,9 @@ print(double(21))
 
 ## Exercise 9 — Write a function — your turn {.smaller}
 
-**Your turn.** Write a function computing a rate per 100,000, then apply it to two counties.
+**Your turn.** Write a function `rate_per_100k(deaths, population)` that returns the rate
+per 100,000, then apply it to two counties. Potter: 89 deaths, population 15,999.
+Philadelphia: 4,052 deaths, population 1,550,542.
 
 ```{pyodide}
 #| exercise: ex9_function
@@ -714,7 +721,10 @@ print(f"{rate:.1f}", is_high)
 
 ## Exercise 10 — Return two values — your turn {.smaller}
 
-**Your turn.** Return both the rate and a classification.
+**Your turn.** Return both the rate and a classification. Write
+`summarize(county, deaths, population)`, returning the rate per 100,000 and the label
+`"High"` if the rate is above 250, otherwise `"Moderate"`. Apply it to Cambria County:
+411 deaths, population 130,668.
 
 ```{pyodide}
 #| exercise: ex10_tuple
@@ -780,8 +790,10 @@ print(by_deaths[0][0])
 
 ## Exercise 11 — Rank two ways — your turn {.smaller}
 
-**Your turn.** Rank the same five counties by death count and by death rate, then compare
-the two leaders.
+**Your turn.** Rank these five counties (name, deaths, population) by death count and by death rate, then compare
+the two leaders. `top_by_deaths` and `top_by_rate` are the county **names** (strings) at the
+top of each ranking. Each ranking is a list of tuples: `by_deaths[0]` is the first
+tuple, and `by_deaths[0][0]` is the name inside it.
 
 ```{pyodide}
 #| exercise: ex11_sort
