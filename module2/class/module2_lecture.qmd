@@ -587,8 +587,7 @@ A county appears at the top of a count ranking largely because many people live 
 # Objects. {.unnumbered background-color="#003594"}
 
 ::: {.section-subtitle}
-Why `.items()`, `.append()`, and `.strip()` all use a dot — one idea that explains every
-method met so far, and every one still to come.
+What the dot in `.items()`, `.append()`, and `.strip()` means.
 :::
 
 ## Every value in Python is an object {.smaller}
