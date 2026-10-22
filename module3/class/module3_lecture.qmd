@@ -95,6 +95,110 @@ position.
 **Required from Module 2:** `for`, the accumulator pattern, `def` and `return`, and the
 distinction between counts and rates.
 
+## Most counties sit near the standard; Allegheny sits far above it {.smaller}
+
+```{pyodide}
+#| edit: false
+#| echo: false
+import csv
+import numpy as np
+import matplotlib.pyplot as plt
+
+rows = [r for r in csv.DictReader(open("data/pa_air_pollution.csv"))
+        if r["pm25_annual_avg"] != ""]
+pm25 = np.array([float(r["pm25_annual_avg"]) for r in rows])
+names = [r["county"] for r in rows]
+
+EPA = 9.0
+ROYAL, MED, SKY, GREY = "#003594", "#00205B", "#DBEEFF", "#6b7280"
+GOLD, GOLD_TEXT = "#FFB81C", "#8A6400"
+above = pm25 > EPA
+
+fig, ax = plt.subplots(figsize=(9.4, 3.3))
+
+# Region above the standard, tinted gold as decoration only.
+ax.axvspan(EPA, 16, color=GOLD, alpha=0.10, zorder=0)
+
+# Violin: the shape of all 67 values.
+v = ax.violinplot(pm25, positions=[0.35], vert=False, widths=0.95,
+                  showextrema=False, bw_method=0.35)
+for body in v["bodies"]:
+    body.set_facecolor(SKY)
+    body.set_edgecolor(ROYAL)
+    body.set_linewidth(1.2)
+    body.set_alpha(1)
+
+# Box inside the violin: quartiles, median, whiskers at 1.5 IQR.
+ax.boxplot(pm25, positions=[0.35], vert=False, widths=0.16,
+           patch_artist=True, showfliers=False,
+           boxprops=dict(facecolor="white", edgecolor=MED, linewidth=1.4),
+           medianprops=dict(color=MED, linewidth=2.6),
+           whiskerprops=dict(color=MED, linewidth=1.4),
+           capprops=dict(color=MED, linewidth=1.4), zorder=4)
+
+# One dot per county in a strip below, jittered vertically.
+rng = np.random.default_rng(3)
+jit = rng.uniform(-0.09, 0.09, pm25.size)
+ax.scatter(pm25[~above], -0.45 + jit[~above], s=34, color=GREY, alpha=0.45,
+           edgecolor="white", linewidth=0.6, zorder=3)
+ax.scatter(pm25[above], -0.45 + jit[above], s=34, color=ROYAL, alpha=0.85,
+           edgecolor="white", linewidth=0.6, zorder=3)
+
+ax.axvline(EPA, color=GOLD_TEXT, linestyle="--", linewidth=1.4, zorder=2)
+ax.text(EPA - 0.1, 0.98, "EPA standard 9.0", color=GOLD_TEXT, fontsize=9.5,
+        fontweight="bold", ha="right", va="top")
+ax.text(EPA + 0.1, 0.98, f"{above.sum()} of {pm25.size} counties above", color=ROYAL,
+        fontsize=9.5, fontweight="bold", ha="left", va="top")
+
+# The one county far past the rest.
+i = int(np.argmax(pm25))
+ax.scatter([pm25[i]], [0.35], s=110, marker="D", color=ROYAL,
+           edgecolor="white", linewidth=1.3, zorder=5)
+ax.annotate(f"{names[i]}\n{pm25[i]:.1f}", (pm25[i], 0.35), xytext=(0, 24),
+            textcoords="offset points", ha="center", va="bottom", fontsize=10,
+            color=ROYAL, fontweight="bold",
+            arrowprops=dict(arrowstyle="-", color=ROYAL, linewidth=1.0))
+
+med = np.median(pm25)
+ax.annotate(f"Median {med:.1f}", (med, 0.35 - 0.08), xytext=(0, -16),
+            textcoords="offset points", ha="center", va="top", fontsize=8.5,
+            color=MED)
+
+ax.set_yticks([0.35, -0.45])
+ax.set_yticklabels(["Violin + box", "Each county"], fontsize=9)
+ax.set_ylim(-0.7, 1.05)
+ax.set_xlim(5, 15)
+ax.set_xlabel("PM2.5 annual average (µg/m³)")
+for side in ("left", "right", "top"):
+    ax.spines[side].set_visible(False)
+ax.spines["bottom"].set_color(GREY)
+ax.tick_params(colors=GREY)
+ax.tick_params(axis="y", length=0)
+ax.text(0.0, -0.32, "Source: County Health Rankings, PM2.5 annual average, "
+        "67 Pennsylvania counties", transform=ax.transAxes, fontsize=7.5, color=GREY)
+plt.tight_layout()
+plt.show()
+```
+
+::: {.figure-description}
+**Figure 1.** PM2.5 annual averages for all 67 Pennsylvania counties, drawn as a violin
+with a box plot inside and one dot per county below. The median is 8.5 and the middle half
+runs from 7.5 to 9.2, so the bulk of the state straddles the dashed EPA line at 9.0. Twenty-two
+counties, in blue, sit above it. Allegheny, at 14.1, sits alone at the right edge.
+:::
+
+::: {.notes}
+The violin shows the shape; the box shows the five-number summary; the dots show that every
+shape is built from 67 real counties. Point at each layer in that order.
+
+The story is two-part. First, the standard cuts through the middle of the state, not the
+tail — a third of the counties are over. Second, Allegheny is a different kind of over: the
+next highest county is Lancaster at 11.1, three full units below.
+
+Producing this figure needs the median, the quartiles, and a count of values above 9. By the
+end of today each of those is one line of NumPy.
+:::
+
 ## A NumPy array holds many values of one type {.smaller}
 
 ```{pyodide}
@@ -600,42 +704,6 @@ that nobody in Cameron County died of an overdose in 2023. The state suppressed 
 precisely because it is not zero. Module 4 has the full treatment.
 :::
 
-## `np.random` needs a seed to be reproducible {.smaller}
-
-```{pyodide}
-import numpy as np
-
-rng = np.random.default_rng(2026)
-sample = rng.normal(loc=8.5, scale=1.3, size=5)
-
-print(np.round(sample, 2))
-
-rng_again = np.random.default_rng(2026)
-print(np.round(rng_again.normal(loc=8.5, scale=1.3, size=5), 2))
-```
-
-The same seed produces the same numbers. **Without a seed, every run differs and the
-analysis cannot be checked by anyone**, including its author.
-
-::: {.callout-tip}
-## Seeding is a reproducibility requirement, not a statistical one
-A seeded result is verifiable by a reader running the same file. This is a graded criterion
-in this course and a condition of publication in most journals.
-:::
-
-::: {.notes}
-`default_rng()` is the modern interface. Older code and older tutorials use
-`np.random.seed()` with `np.random.normal()`, which still works and which they will meet
-online. Point at it so they can read old code, then tell them to write the new form.
-
-Why simulate at all in a course about real data: to check whether a pattern could have
-arisen by chance, and to test code against inputs whose answer is known in advance. Both
-are legitimate and neither is taught in depth here.
-
-2026 as a seed has no properties. Any integer works. The number is a label so a reader can
-reproduce the run, not a parameter that tunes anything.
-:::
-
 ## A slice is a view; modifying it modifies the original {.smaller}
 
 ```{pyodide}
@@ -829,7 +897,7 @@ plt.show()
 ```
 
 ::: {.figure-description}
-**Figure 1.** Each dot is one Pennsylvania county's annual average PM2.5. Sixty-six counties
+**Figure 2.** Each dot is one Pennsylvania county's annual average PM2.5. Sixty-six counties
 fall between 5.5 and 11.1; Allegheny sits alone at 14.1, a blue diamond well to the right of
 every other county. Twenty-two counties exceed the EPA standard of 9.0, marked in gold, and
 all but Allegheny cluster between 9.1 and 11.1. Two arrows compare the gaps: 3.0 from
@@ -867,6 +935,79 @@ Then close the loop on Module 2: this took one line of arithmetic across 67 coun
 The equivalent loop would be fifteen lines, and it would be slower.
 :::
 
+## Challenge: the outlier hides the others {.smaller}
+
+Allegheny inflates the standard deviation for every county. Remove it and recompute.
+
+```{pyodide}
+#| exercise: m3_without
+#| setup: true
+import numpy as np
+
+counties = np.genfromtxt(
+    "data/pa_air_pollution.csv", delimiter=",", skip_header=1, usecols=0, dtype=str
+)
+pm25 = np.genfromtxt(
+    "data/pa_air_pollution.csv", delimiter=",", skip_header=1, usecols=1
+)
+z = (pm25 - pm25.mean()) / pm25.std()
+```
+
+```{pyodide}
+#| exercise: m3_without
+keep = counties ______ "Allegheny"
+rest = pm25[keep]
+z_rest = (rest - rest.mean()) / rest.______()
+
+top = z_rest.argmax()
+print(f"Without Allegheny, highest: {counties[keep][top]}, z = {z_rest[top]:+.2f}")
+print(f"Beyond 2 SD, all 67:        {((z > 2) | (z < -2)).sum()}")
+print(f"Beyond 2 SD, without it:    {((z_rest > 2) | (z_rest < -2)).sum()}")
+```
+
+```{pyodide}
+#| exercise: m3_without
+#| hint: true
+# The first blank builds a mask that is True for every county EXCEPT
+# Allegheny: the comparison operator for "not equal". The second blank is
+# the same summary method used in the z-score above.
+#
+# counties[keep] applies the same mask to the names, so position `top`
+# in z_rest lines up with position `top` in counties[keep].
+```
+
+```{pyodide}
+#| exercise: m3_without
+#| solution: true
+keep = counties != "Allegheny"
+rest = pm25[keep]
+z_rest = (rest - rest.mean()) / rest.std()
+
+top = z_rest.argmax()
+print(f"Without Allegheny, highest: {counties[keep][top]}, z = {z_rest[top]:+.2f}")
+print(f"Beyond 2 SD, all 67:        {((z > 2) | (z < -2)).sum()}")
+print(f"Beyond 2 SD, without it:    {((z_rest > 2) | (z_rest < -2)).sum()}")
+```
+
+::: {.callout-tip title="Your turn!"}
+Lancaster's PM2.5 did not change, yet its z-score rose from +2.03 to +2.47. Why? And why
+does removing one extreme county produce **more** counties beyond 2 SD, not fewer?
+:::
+
+::: {.notes}
+The answer: the standard deviation drops from 1.28 to 1.09 once Allegheny is gone, so every
+other county's distance is now measured in a smaller unit. Lancaster moves from +2.03 to
++2.47, and Cumberland and Delaware cross the line at +2.20. Three counties beyond 2 SD
+becomes four.
+
+The lesson to land: a z-score is relative to the collection, as the earlier callout said. One
+extreme value stretches the ruler and makes everything else look ordinary. This is why an
+outlier is worth checking before it is used to standardise anything.
+
+`!=` on an array of strings returns a mask, the same as `>` on numbers. They have seen `~`;
+`counties != "Allegheny"` is the direct form.
+:::
+
 ## Session outcomes {.smaller}
 
 1\. Building arrays with `np.array()`, and reading real ones with `np.genfromtxt()`
@@ -887,9 +1028,7 @@ The equivalent loop would be fifteen lines, and it would be slower.
 
 9\. Handling `np.nan` with `np.isnan()` and the `nan`-aware functions
 
-10\. Seeding `np.random` for reproducibility
-
-11\. Distinguishing a **view** from a **copy**
+10\. Distinguishing a **view** from a **copy**
 
 ::: {.callout-tip}
 ## Preparation for the lab, Tuesday 10/27
@@ -908,6 +1047,27 @@ measurements sat in two arrays held in alignment by nothing but care. A DataFram
 in one object, so sorting or filtering moves them together and the alignment cannot break.
 Every complaint about the two `genfromtxt` calls is answered on Thursday.
 :::
+
+## {#numpy-cheat-sheet background-iframe="https://assets.datacamp.com/blog_assets/Numpy_Python_Cheat_Sheet.pdf#toolbar=0&navpanes=0&view=Fit" background-interactive="true"}
+
+```{=html}
+<style>
+#numpy-cheat-sheet h2 { display: none; }
+body.cheat-sheet-active .reveal .footer,
+body.cheat-sheet-active .reveal .slide-number,
+body.cheat-sheet-active .reveal .slide-menu-button,
+body.cheat-sheet-active .reveal .progress { display: none !important; }
+</style>
+<script>
+// Full-bleed slide: hide the footer, slide number, and menu while the cheat sheet shows.
+window.addEventListener("load", () => {
+  const toggle = (slide) => document.body.classList.toggle(
+    "cheat-sheet-active", !!slide && slide.id === "numpy-cheat-sheet");
+  Reveal.on("slidechanged", (e) => toggle(e.currentSlide));
+  toggle(Reveal.getCurrentSlide());
+});
+</script>
+```
 
 # That's all folks! {.unnumbered background-color="#003594"}
 

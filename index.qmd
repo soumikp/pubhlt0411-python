@@ -25,7 +25,7 @@ Below are interactive lecture slides so that you may follow along with the in-cl
 | **Module 0:** Notebooks and values | Lecture Tue Oct 6<br>Lab take home | P4E 1--2 | [live (html)](module0/class/module0_lecture.html)<br>[static (pdf)](module0/class/module0_lecture.pdf) | [Lab 0](module0/lab/module0_lab.ipynb){download="module0_lab.ipynb"} |
 | **Module 1:** Conditions and sequences | Lecture Thu Oct 8<br>Lab Tue Oct 13 | P4E 3, 5, 8<br>P4DA 2 | [live (html)](module1/class/module1_lecture.html)<br>[static (pdf)](module1/class/module1_lecture.pdf) | [Lab 1](module1/lab/module1_lab.ipynb){download="module1_lab.ipynb"} |
 | **Module 2:** Collections, loops, and functions | Lecture Thu Oct 15<br>Lab Tue Oct 20 | P4E 4, 5, 9, 10 | [live (html)](module2/class/module2_lecture.html)<br>[static (pdf)](module2/class/module2_lecture.pdf) | [Lab 2](module2/lab/module2_lab.ipynb){download="module2_lab.ipynb"} |
-| **Module 3:** NumPy | Lecture Thu Oct 22<br>Lab Tue Oct 27 | P4DA 4 | [live (html)](module3/class/module3_lecture.html) |  |
+| **Module 3:** NumPy | Lecture Thu Oct 22<br>Lab Tue Oct 27 | P4DA 4 | [live (html)](module3/class/module3_lecture.html)<br>[static (pdf)](module3/class/module3_lecture.pdf) |  |
 | **Module 4:** pandas and wrangling | Lecture Thu Oct 29<br>Lab Thu Nov 5 | P4DA 5, 7, 8 | [live (html)](module4/class/module4_lecture.html) |  |
 | **Module 5:** Visualization and description | Lecture Tue Nov 10<br>Lab Thu Nov 12 | P4DA 9, 10 | [live (html)](module5/class/module5_lecture.html) |  |
 | **Module 6:** Reproducible pipeline | Lecture + Lab Tue Nov 17 | P4DA 13 | [live (html)](module6/class/module6_session.html) |  |
