@@ -85,142 +85,9 @@ The EPA annual PM2.5 standard is **9.0** micrograms per cubic metre. A rate per 
 `deaths / population * 100000`.
 :::
 
-# Exercise 1 — Build an array {.unnumbered background-color="#003594"}
+# Exercise 1 — Read a real file {.unnumbered background-color="#003594"}
 
-## Exercise 1 — Build an array {.smaller}
-
-**Worked example.** `np.array()` builds an array; `.shape` and `.dtype` describe it.
-
-```{pyodide}
-import numpy as np
-
-values = np.array([9.1, 14.1, 7.7])
-
-print(values)
-print(values.shape)
-print(values.dtype)
-```
-
-## Exercise 1 — Build an array — your turn {.smaller}
-
-**Your turn.** These are the PM2.5 averages for six southwestern Pennsylvania counties.
-Build the array and report its length and element type.
-
-```{pyodide}
-#| exercise: ex1_array
-import numpy as np
-
-# Allegheny, Beaver, Butler, Fayette, Washington, Westmoreland
-pm25 = np.____([14.1, 9.9, 10.0, 7.3, 9.3, 7.0])
-
-county_count = pm25.shape[0]
-element_type = pm25.dtype
-
-print(pm25)
-print(f"Counties: {county_count}")
-print(f"Type: {element_type}")
-```
-
-```{pyodide}
-#| exercise: ex1_array
-#| hint: true
-# The blank is array — the function that turns a list into a NumPy array.
-# .shape is a tuple, so .shape[0] pulls the length out of it.
-# Every value is a decimal, so the dtype comes out as float64.
-```
-
-```{pyodide}
-#| exercise: ex1_array
-#| solution: true
-import numpy as np
-
-# Allegheny, Beaver, Butler, Fayette, Washington, Westmoreland
-pm25 = np.array([14.1, 9.9, 10.0, 7.3, 9.3, 7.0])
-
-county_count = pm25.shape[0]
-element_type = pm25.dtype
-
-print(pm25)
-print(f"Counties: {county_count}")
-print(f"Type: {element_type}")
-```
-
-```{pyodide}
-#| exercise: ex1_array
-#| check: true
-import numpy as np
-assert isinstance(pm25, np.ndarray), "pm25 must be a NumPy array, not a list."
-assert county_count == 6, "Six counties are listed."
-assert element_type == np.float64, "Decimal values are read as float64."
-```
-
-# Exercise 2 — Vectorised arithmetic {.unnumbered background-color="#003594"}
-
-## Exercise 2 — Vectorised arithmetic {.smaller}
-
-**Worked example.** One expression applies to every element.
-
-```{pyodide}
-import numpy as np
-
-pm25 = np.array([14.1, 9.9, 7.3])
-
-print(pm25 - 9.0)
-```
-
-## Exercise 2 — Vectorised arithmetic — your turn {.smaller}
-
-**Your turn.** Compute how far each county sits above or below the 9.0 standard. A negative
-result means the county is under it.
-
-```{pyodide}
-#| exercise: ex2_vector
-import numpy as np
-
-pm25 = np.array([14.1, 9.9, 10.0, 7.3, 9.3, 7.0])
-
-excess = pm25 ____ 9.0
-
-print(excess)
-print(f"Largest exceedance: {excess.max():.1f}")
-print(f"Largest margin under: {excess.min():.1f}")
-```
-
-```{pyodide}
-#| exercise: ex2_vector
-#| hint: true
-# The blank is the subtraction operator: -
-# No loop is needed. Subtracting a single number from an array subtracts it
-# from every element and returns a new array of the same length.
-# Allegheny comes out at 5.1 above; Westmoreland at 2.0 below.
-```
-
-```{pyodide}
-#| exercise: ex2_vector
-#| solution: true
-import numpy as np
-
-pm25 = np.array([14.1, 9.9, 10.0, 7.3, 9.3, 7.0])
-
-excess = pm25 - 9.0
-
-print(excess)
-print(f"Largest exceedance: {excess.max():.1f}")
-print(f"Largest margin under: {excess.min():.1f}")
-```
-
-```{pyodide}
-#| exercise: ex2_vector
-#| check: true
-import numpy as np
-assert excess.shape == (6,), "The result has one value per county."
-assert abs(excess.max() - 5.1) < 0.001, "Allegheny at 14.1 is 5.1 above the standard."
-assert abs(excess.min() + 2.0) < 0.001, "Westmoreland at 7.0 is 2.0 below the standard."
-```
-
-# Exercise 3 — Read a real file {.unnumbered background-color="#003594"}
-
-## Exercise 3 — Read a real file {.smaller}
+## Exercise 1 — Read a real file {.smaller}
 
 **Worked example.** `np.genfromtxt()` reads one column of a CSV into an array.
 
@@ -233,12 +100,15 @@ pm25 = np.genfromtxt(
 print(pm25.shape)
 ```
 
-## Exercise 3 — Read a real file — your turn {.smaller}
+## Exercise 1 — Read a real file — your turn {.smaller}
 
-**Your turn.** Read the county names as well, and confirm the two arrays line up.
+**Your turn.** Read `data/pa_air_pollution.csv` with `np.genfromtxt()` (`delimiter=","`), skipping the header
+row. Column 0 holds the county names (pass `dtype=str`); column 1 holds PM2.5 in µg/m³. Build
+`counties` and `pm25` from it, and set `aligned` to `True` if the two arrays are the same
+size. Exercises 2 to 5 use these two arrays.
 
 ```{pyodide}
-#| exercise: ex3_read
+#| exercise: ex1_read
 import numpy as np
 
 counties = np.genfromtxt(
@@ -257,7 +127,7 @@ print(counties[1], pm25[1])
 ```
 
 ```{pyodide}
-#| exercise: ex3_read
+#| exercise: ex1_read
 #| hint: true
 # The blank is str. Without dtype=str, genfromtxt tries to read the names as
 # numbers and produces nan for every one of them.
@@ -265,7 +135,7 @@ print(counties[1], pm25[1])
 ```
 
 ```{pyodide}
-#| exercise: ex3_read
+#| exercise: ex1_read
 #| solution: true
 import numpy as np
 
@@ -285,7 +155,7 @@ print(counties[1], pm25[1])
 ```
 
 ```{pyodide}
-#| exercise: ex3_read
+#| exercise: ex1_read
 #| check: true
 assert n_counties == 67, "Pennsylvania has 67 counties."
 assert aligned, "The names array and the measurements array must be the same length."
@@ -299,9 +169,9 @@ rows. Nothing in the code enforces that. Sorting one array without the other sil
 destroys the correspondence — which is the problem the DataFrame in Module 4 solves.
 :::
 
-# Exercise 4 — Summary statistics {.unnumbered background-color="#003594"}
+# Exercise 2 — Summary statistics {.unnumbered background-color="#003594"}
 
-## Exercise 4 — Summary statistics {.smaller}
+## Exercise 2 — Summary statistics {.smaller}
 
 **Worked example.** Some summaries are methods; others are functions.
 
@@ -314,12 +184,13 @@ print(values.mean())
 print(np.median(values))
 ```
 
-## Exercise 4 — Summary statistics — your turn {.smaller}
+## Exercise 2 — Summary statistics — your turn {.smaller}
 
-**Your turn.** Describe the statewide PM2.5 distribution.
+**Your turn.** Describe the statewide PM2.5 distribution: its mean, median, and standard
+deviation (NumPy's default `.std()`).
 
 ```{pyodide}
-#| exercise: ex4_stats
+#| exercise: ex2_stats
 import numpy as np
 
 pm25 = np.genfromtxt(
@@ -337,7 +208,7 @@ print(f"Range:   {pm25.min()} to {pm25.max()}")
 ```
 
 ```{pyodide}
-#| exercise: ex4_stats
+#| exercise: ex2_stats
 #| hint: true
 # The blank is mean — a method, so it needs parentheses.
 # np.median() is a function instead, which is an inconsistency in NumPy
@@ -346,7 +217,7 @@ print(f"Range:   {pm25.min()} to {pm25.max()}")
 ```
 
 ```{pyodide}
-#| exercise: ex4_stats
+#| exercise: ex2_stats
 #| solution: true
 import numpy as np
 
@@ -365,16 +236,16 @@ print(f"Range:   {pm25.min()} to {pm25.max()}")
 ```
 
 ```{pyodide}
-#| exercise: ex4_stats
+#| exercise: ex2_stats
 #| check: true
 assert abs(pm_mean - 8.4896) < 0.001, "The statewide mean is 8.49."
 assert abs(pm_median - 8.5) < 0.001, "The median is 8.50."
 assert abs(pm_sd - 1.2832) < 0.001, "The standard deviation is 1.28 with NumPy's default ddof=0."
 ```
 
-# Exercise 5 — Boolean masking {.unnumbered background-color="#003594"}
+# Exercise 3 — Boolean masking {.unnumbered background-color="#003594"}
 
-## Exercise 5 — Boolean masking {.smaller}
+## Exercise 3 — Boolean masking {.smaller}
 
 **Worked example.** A comparison produces booleans; `.sum()` counts them.
 
@@ -388,13 +259,13 @@ print(over)
 print(over.sum())
 ```
 
-## Exercise 5 — Boolean masking — your turn {.smaller}
+## Exercise 3 — Boolean masking — your turn {.smaller}
 
-**Your turn.** Count the counties exceeding the federal standard, and compute their share
-of the state.
+**Your turn.** Count the counties exceeding the federal standard (above 9.0 µg/m³), and
+compute their share of the state as a fraction between 0 and 1.
 
 ```{pyodide}
-#| exercise: ex5_mask
+#| exercise: ex3_mask
 import numpy as np
 
 pm25 = np.genfromtxt(
@@ -411,7 +282,7 @@ print(f"Share of counties: {share_over:.1%}")
 ```
 
 ```{pyodide}
-#| exercise: ex5_mask
+#| exercise: ex3_mask
 #| hint: true
 # The blank is the greater-than operator: >
 # Exceeding the standard means strictly above 9.0, so >= would be the wrong test.
@@ -420,7 +291,7 @@ print(f"Share of counties: {share_over:.1%}")
 ```
 
 ```{pyodide}
-#| exercise: ex5_mask
+#| exercise: ex3_mask
 #| solution: true
 import numpy as np
 
@@ -438,15 +309,15 @@ print(f"Share of counties: {share_over:.1%}")
 ```
 
 ```{pyodide}
-#| exercise: ex5_mask
+#| exercise: ex3_mask
 #| check: true
 assert n_over == 22, "Twenty-two counties exceed the 9.0 standard."
 assert abs(share_over - 22 / 67) < 0.001, "That is 32.8% of Pennsylvania's counties."
 ```
 
-# Exercise 6 — Apply a mask to another array {.unnumbered background-color="#003594"}
+# Exercise 4 — Apply a mask to another array {.unnumbered background-color="#003594"}
 
-## Exercise 6 — Apply a mask to another array {.smaller}
+## Exercise 4 — Apply a mask to another array {.smaller}
 
 **Worked example.** A mask computed from one array can index another of the same length.
 
@@ -459,13 +330,13 @@ pm25 = np.array([9.1, 14.1, 7.7])
 print(names[pm25 > 9.0])
 ```
 
-## Exercise 6 — Apply a mask to another array — your turn {.smaller}
+## Exercise 4 — Apply a mask to another array — your turn {.smaller}
 
 **Your turn.** Name the counties over the standard, and compare the average concentration
-above and below it.
+above it with the average at or below it (`~` flips a mask).
 
 ```{pyodide}
-#| exercise: ex6_apply
+#| exercise: ex4_apply
 import numpy as np
 
 counties = np.genfromtxt(
@@ -487,7 +358,7 @@ print(f"Mean where under: {mean_under:.2f}")
 ```
 
 ```{pyodide}
-#| exercise: ex6_apply
+#| exercise: ex4_apply
 #| hint: true
 # The blank is over — the same mask, applied to the names array.
 # It works only because the two arrays were read from the same rows.
@@ -495,7 +366,7 @@ print(f"Mean where under: {mean_under:.2f}")
 ```
 
 ```{pyodide}
-#| exercise: ex6_apply
+#| exercise: ex4_apply
 #| solution: true
 import numpy as np
 
@@ -518,7 +389,7 @@ print(f"Mean where under: {mean_under:.2f}")
 ```
 
 ```{pyodide}
-#| exercise: ex6_apply
+#| exercise: ex4_apply
 #| check: true
 assert over_names.size == 22, "Twenty-two counties are over the standard."
 assert "Allegheny" in over_names, "Allegheny is over the standard at 14.1."
@@ -526,147 +397,9 @@ assert abs(mean_over - 9.7955) < 0.001, "The mean above the standard is 9.80."
 assert abs(mean_under - 7.8511) < 0.001, "The mean at or below is 7.85."
 ```
 
-# Exercise 7 — Combine two conditions {.unnumbered background-color="#003594"}
+# Exercise 5 — Standardise {.unnumbered background-color="#003594"}
 
-## Exercise 7 — Combine two conditions {.smaller}
-
-**Worked example.** Masks combine with `&` and `|`, and each comparison needs parentheses.
-
-```{pyodide}
-import numpy as np
-
-pm25 = np.array([14.1, 9.9, 7.3, 10.8])
-
-middle = (pm25 > 9.0) & (pm25 < 11.0)
-print(pm25[middle])
-```
-
-## Exercise 7 — Combine two conditions — your turn {.smaller}
-
-**Your turn.** Count the counties that exceed the standard but stay below 11.0 — over the
-limit, yet not extreme.
-
-```{pyodide}
-#| exercise: ex7_combine
-import numpy as np
-
-pm25 = np.genfromtxt(
-    "data/pa_air_pollution.csv", delimiter=",", skip_header=1, usecols=1
-)
-
-marginal = (pm25 > 9.0) ____ (pm25 < 11.0)
-
-n_marginal = marginal.sum()
-
-print(f"Over the standard but below 11.0: {n_marginal}")
-print(f"At or above 11.0: {(pm25 >= 11.0).sum()}")
-```
-
-```{pyodide}
-#| exercise: ex7_combine
-#| hint: true
-# The blank is & — both conditions must hold at once.
-# Writing `and` here raises ValueError, because `and` needs one true-or-false
-# value and a mask supplies 67 of them.
-# Twenty of the 22 counties over the standard fall below 11.0.
-```
-
-```{pyodide}
-#| exercise: ex7_combine
-#| solution: true
-import numpy as np
-
-pm25 = np.genfromtxt(
-    "data/pa_air_pollution.csv", delimiter=",", skip_header=1, usecols=1
-)
-
-marginal = (pm25 > 9.0) & (pm25 < 11.0)
-
-n_marginal = marginal.sum()
-
-print(f"Over the standard but below 11.0: {n_marginal}")
-print(f"At or above 11.0: {(pm25 >= 11.0).sum()}")
-```
-
-```{pyodide}
-#| exercise: ex7_combine
-#| check: true
-assert n_marginal == 20, "Twenty counties are over 9.0 and under 11.0."
-```
-
-# Exercise 8 — Label with `np.where()` {.unnumbered background-color="#003594"}
-
-## Exercise 8 — Label with `np.where()` {.smaller}
-
-**Worked example.** A mask filters; `np.where()` labels every element.
-
-```{pyodide}
-import numpy as np
-
-pm25 = np.array([14.1, 9.9, 7.3])
-
-print(np.where(pm25 > 9.0, "Over", "Under"))
-```
-
-## Exercise 8 — Label with `np.where()` — your turn {.smaller}
-
-**Your turn.** Label all 67 counties, then confirm the labels agree with the mask count.
-
-```{pyodide}
-#| exercise: ex8_where
-import numpy as np
-
-pm25 = np.genfromtxt(
-    "data/pa_air_pollution.csv", delimiter=",", skip_header=1, usecols=1
-)
-
-status = np.____(pm25 > 9.0, "Over standard", "At or below")
-
-n_labels = status.size
-n_over_label = (status == "Over standard").sum()
-
-print(f"Labels produced: {n_labels}")
-print(f"Labelled over:   {n_over_label}")
-print(status[:6])
-```
-
-```{pyodide}
-#| exercise: ex8_where
-#| hint: true
-# The blank is where.
-# Note the difference from Exercise 5: a mask returned 22 values, while
-# np.where() returns all 67, one label per county.
-```
-
-```{pyodide}
-#| exercise: ex8_where
-#| solution: true
-import numpy as np
-
-pm25 = np.genfromtxt(
-    "data/pa_air_pollution.csv", delimiter=",", skip_header=1, usecols=1
-)
-
-status = np.where(pm25 > 9.0, "Over standard", "At or below")
-
-n_labels = status.size
-n_over_label = (status == "Over standard").sum()
-
-print(f"Labels produced: {n_labels}")
-print(f"Labelled over:   {n_over_label}")
-print(status[:6])
-```
-
-```{pyodide}
-#| exercise: ex8_where
-#| check: true
-assert n_labels == 67, "np.where() returns one label per county, not just the matches."
-assert n_over_label == 22, "The labels must agree with the mask: 22 counties over."
-```
-
-# Exercise 9 — Standardise {.unnumbered background-color="#003594"}
-
-## Exercise 9 — Standardise {.smaller}
+## Exercise 5 — Standardise {.smaller}
 
 **Worked example.** A z-score is the distance from the mean in standard deviations.
 
@@ -678,12 +411,13 @@ z = (values - values.mean()) / values.std()
 print(np.round(z, 2))
 ```
 
-## Exercise 9 — Standardise — your turn {.smaller}
+## Exercise 5 — Standardise — your turn {.smaller}
 
-**Your turn.** Standardise all 67 counties and identify the outlier.
+**Your turn.** Standardise all 67 counties (use the default `.std()`, as in Exercise 2) and
+identify the outlier: the county with the largest z-score.
 
 ```{pyodide}
-#| exercise: ex9_zscore
+#| exercise: ex5_zscore
 import numpy as np
 
 counties = np.genfromtxt(
@@ -704,7 +438,7 @@ print(f"Counties above z = 2: {counties[z > 2]}")
 ```
 
 ```{pyodide}
-#| exercise: ex9_zscore
+#| exercise: ex5_zscore
 #| hint: true
 # The blank is std — the standard deviation, which is what a z-score divides by.
 # .argmax() gives the position of the largest value, not the value itself,
@@ -713,7 +447,7 @@ print(f"Counties above z = 2: {counties[z > 2]}")
 ```
 
 ```{pyodide}
-#| exercise: ex9_zscore
+#| exercise: ex5_zscore
 #| solution: true
 import numpy as np
 
@@ -735,7 +469,7 @@ print(f"Counties above z = 2: {counties[z > 2]}")
 ```
 
 ```{pyodide}
-#| exercise: ex9_zscore
+#| exercise: ex5_zscore
 #| check: true
 import numpy as np
 assert worst_county == "Allegheny", "Allegheny has the highest PM2.5 in the state."
@@ -750,95 +484,9 @@ typical Pennsylvania county. It does not describe a health effect, and it applie
 county-wide annual average — concentrations vary widely within any single county.
 :::
 
-# Exercise 10 — Two dimensions {.unnumbered background-color="#003594"}
+# Exercise 6 — Collapse with `axis=` {.unnumbered background-color="#003594"}
 
-## Exercise 10 — Two dimensions {.smaller}
-
-**Worked example.** A 2-D array is indexed `[row, column]`.
-
-```{pyodide}
-import numpy as np
-
-table = np.array([[1.0, 2.0], [3.0, 4.0]])
-print(table.shape)
-print(table[1, 0])
-```
-
-## Exercise 10 — Two dimensions — your turn {.smaller}
-
-**Your turn.** These are overdose death rates for four counties across 2019–2023. Select
-one cell, one row, and one column.
-
-```{pyodide}
-#| exercise: ex10_2d
-import numpy as np
-
-# rows: Allegheny, Philadelphia, Schuylkill, Centre
-# columns: 2019, 2020, 2021, 2022, 2023
-rates = np.array([
-    [46.5, 55.8, 58.5, 56.6, 54.7],
-    [74.4, 78.5, 82.4, 91.4, 84.8],
-    [41.7, 46.6, 39.6, 43.1, 41.7],
-    [ 5.1,  8.9,  7.6,  8.9,  4.4],
-])
-
-shape = rates.shape
-philadelphia_2022 = rates[1, 3]
-centre_all_years = rates[3]
-all_counties_2023 = rates[____, 4]
-
-print(f"Shape: {shape}")
-print(f"Philadelphia 2022: {philadelphia_2022}")
-print(f"Centre, all years: {centre_all_years}")
-print(f"All counties 2023: {all_counties_2023}")
-```
-
-```{pyodide}
-#| exercise: ex10_2d
-#| hint: true
-# The blank is a colon — : — meaning every row.
-# `rates[:, 4]` reads as "every row, column four", which is the 2023 figure
-# for all four counties.
-```
-
-```{pyodide}
-#| exercise: ex10_2d
-#| solution: true
-import numpy as np
-
-# rows: Allegheny, Philadelphia, Schuylkill, Centre
-# columns: 2019, 2020, 2021, 2022, 2023
-rates = np.array([
-    [46.5, 55.8, 58.5, 56.6, 54.7],
-    [74.4, 78.5, 82.4, 91.4, 84.8],
-    [41.7, 46.6, 39.6, 43.1, 41.7],
-    [ 5.1,  8.9,  7.6,  8.9,  4.4],
-])
-
-shape = rates.shape
-philadelphia_2022 = rates[1, 3]
-centre_all_years = rates[3]
-all_counties_2023 = rates[:, 4]
-
-print(f"Shape: {shape}")
-print(f"Philadelphia 2022: {philadelphia_2022}")
-print(f"Centre, all years: {centre_all_years}")
-print(f"All counties 2023: {all_counties_2023}")
-```
-
-```{pyodide}
-#| exercise: ex10_2d
-#| check: true
-import numpy as np
-assert shape == (4, 5), "Four counties by five years."
-assert abs(philadelphia_2022 - 91.4) < 0.001, "Philadelphia's 2022 rate is 91.4."
-assert all_counties_2023.size == 4, "A column holds one value per county, so four values."
-assert abs(all_counties_2023[3] - 4.4) < 0.001, "Centre's 2023 rate is 4.4."
-```
-
-# Exercise 11 — Collapse with `axis=` {.unnumbered background-color="#003594"}
-
-## Exercise 11 — Collapse with `axis=` {.smaller}
+## Exercise 6 — Collapse with `axis=` {.smaller}
 
 **Worked example.** `axis=` names the dimension removed.
 
@@ -851,13 +499,13 @@ print(table.mean(axis=1))   # one value per row
 print(table.mean(axis=0))   # one value per column
 ```
 
-## Exercise 11 — Collapse with `axis=` — your turn {.smaller}
+## Exercise 6 — Collapse with `axis=` — your turn {.smaller}
 
 **Your turn.** Compute the five-year average for each county, then the statewide-sample
 average for each year.
 
 ```{pyodide}
-#| exercise: ex11_axis
+#| exercise: ex6_axis
 import numpy as np
 
 rates = np.array([
@@ -875,7 +523,7 @@ print(f"Per-year means   ({by_year.size} values): {np.round(by_year, 1)}")
 ```
 
 ```{pyodide}
-#| exercise: ex11_axis
+#| exercise: ex6_axis
 #| hint: true
 # The blank is 1. Starting from shape (4, 5), axis=1 removes the 5 and leaves
 # four numbers — one per county.
@@ -884,7 +532,7 @@ print(f"Per-year means   ({by_year.size} values): {np.round(by_year, 1)}")
 ```
 
 ```{pyodide}
-#| exercise: ex11_axis
+#| exercise: ex6_axis
 #| solution: true
 import numpy as np
 
@@ -903,7 +551,7 @@ print(f"Per-year means   ({by_year.size} values): {np.round(by_year, 1)}")
 ```
 
 ```{pyodide}
-#| exercise: ex11_axis
+#| exercise: ex6_axis
 #| check: true
 import numpy as np
 assert by_county.size == 4, "axis=1 collapses the years, leaving one value per county."
@@ -912,9 +560,9 @@ assert abs(by_county[1] - 82.3) < 0.01, "Philadelphia's five-year mean is 82.3."
 assert abs(by_county[3] - 6.98) < 0.01, "Centre's five-year mean is 7.0."
 ```
 
-# Exercise 12 — Missing data {.unnumbered background-color="#003594"}
+# Exercise 7 — Missing data {.unnumbered background-color="#003594"}
 
-## Exercise 12 — Missing data {.smaller}
+## Exercise 7 — Missing data {.smaller}
 
 **Worked example.** One `nan` makes the whole mean `nan`; the `nan`-aware version skips it.
 
@@ -927,13 +575,13 @@ print(values.mean())
 print(np.nanmean(values))
 ```
 
-## Exercise 12 — Missing data — your turn {.smaller}
+## Exercise 7 — Missing data — your turn {.smaller}
 
-**Your turn.** Seven counties suppressed their 2023 overdose figures. Count them and
-compute the mean over the counties that reported.
+**Your turn.** Some counties in this sample of 15 suppressed their 2023 overdose figures.
+Count them and compute the mean over the counties that reported.
 
 ```{pyodide}
-#| exercise: ex12_nan
+#| exercise: ex7_nan
 import numpy as np
 
 # 2023 overdose rates per 100,000. nan marks a suppressed county —
@@ -953,7 +601,7 @@ print(f"Mean of reporting counties: {mean_reported:.1f} per 100,000")
 ```
 
 ```{pyodide}
-#| exercise: ex12_nan
+#| exercise: ex7_nan
 #| hint: true
 # The blank is isnan. Testing `rates_2023 == np.nan` returns all False,
 # because nan is not equal to anything — including itself.
@@ -961,7 +609,7 @@ print(f"Mean of reporting counties: {mean_reported:.1f} per 100,000")
 ```
 
 ```{pyodide}
-#| exercise: ex12_nan
+#| exercise: ex7_nan
 #| solution: true
 import numpy as np
 
@@ -982,7 +630,7 @@ print(f"Mean of reporting counties: {mean_reported:.1f} per 100,000")
 ```
 
 ```{pyodide}
-#| exercise: ex12_nan
+#| exercise: ex7_nan
 #| check: true
 import numpy as np
 assert n_suppressed == 4, "Four of the fifteen values are nan."
@@ -997,16 +645,16 @@ in small rural counties, so the counties omitted are not a random sample. **"42.
 across the 11 counties that reported" is the honest statement; the figure alone is not.**
 :::
 
-# Exercise 13 — Find the error {.unnumbered background-color="#003594"}
+# Exercise 8 — Find the error {.unnumbered background-color="#003594"}
 
-## Exercise 13 — Find the error {.smaller}
+## Exercise 8 — Find the error {.smaller}
 
 **This code is broken.** Run it, read the error, and repair it.
 
 The objective is to count the counties that exceed the standard but stay below 11.0.
 
 ```{pyodide}
-#| exercise: ex13_debug
+#| exercise: ex8_debug
 import numpy as np
 
 pm25 = np.genfromtxt(
@@ -1020,7 +668,7 @@ print(f"Over the standard but below 11.0: {n_marginal}")
 ```
 
 ```{pyodide}
-#| exercise: ex13_debug
+#| exercise: ex8_debug
 #| hint: true
 # ValueError: the truth value of an array with more than one element is ambiguous.
 # `and` demands a single True or False, and each comparison here produces 67 of them,
@@ -1031,7 +679,7 @@ print(f"Over the standard but below 11.0: {n_marginal}")
 ```
 
 ```{pyodide}
-#| exercise: ex13_debug
+#| exercise: ex8_debug
 #| solution: true
 import numpy as np
 
@@ -1046,7 +694,7 @@ print(f"Over the standard but below 11.0: {n_marginal}")
 ```
 
 ```{pyodide}
-#| exercise: ex13_debug
+#| exercise: ex8_debug
 #| check: true
 assert n_marginal == 20, "Twenty counties are over 9.0 and under 11.0."
 ```
@@ -1066,10 +714,9 @@ parentheses, because `&` binds more tightly than `>`.
 
 ::: {.callout-tip}
 ## What was covered
-`np.array()` · `.dtype` · `.shape` · `.size` · `np.genfromtxt()` · vectorised arithmetic ·
-`.mean()` · `.std()` · `np.median()` · indexing and slicing · `[row, column]` · `axis=` ·
-boolean masks · `&` and `|` · `~` · `np.where()` · z-scores · `.argmax()` · `np.nan` ·
-`np.isnan()` · `np.nanmean()`
+`np.genfromtxt()` · `.size` · `.mean()` · `.std()` · `np.median()` · boolean masks ·
+`~` · z-scores · `.argmax()` · `axis=` · `np.nan` · `np.isnan()` · `np.nanmean()` ·
+`&` and `|`
 :::
 
 **Module 4 attaches these arrays to labelled columns, so the county names and the
