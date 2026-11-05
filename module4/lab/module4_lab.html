@@ -585,7 +585,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiaW1wb3J0IHBhbmRhcyBhcyBw
 
 </div>
 <script type="pyodide-26-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXg0X2dyb3VwYnkifSwiY29kZSI6ImltcG9ydCBwYW5kYXMgYXMgcGRcblxuZmlyZWFybSA9IHBkLnJlYWRfY3N2KFwiZGF0YS9wYV9maXJlYXJtX2NvdW50eV95ZWFyLmNzdlwiKVxuXG5ieV95ZWFyID0gZmlyZWFybS5fX19fKFwieWVhclwiKVtcInJhdGVfcGVyXzEwMGtcIl0uYWdnKFtcImNvdW50XCIsIFwibWVhblwiXSkucm91bmQoMilcblxucHJpbnQoYnlfeWVhcilcbnByaW50KGZcIlxcblllYXJzIGNvdmVyZWQ6IHtsZW4oYnlfeWVhcil9XCIpIn0=
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXg0X2dyb3VwYnkifSwiY29kZSI6ImltcG9ydCBwYW5kYXMgYXMgcGRcblxuZmlyZWFybSA9IHBkLnJlYWRfY3N2KFwiZGF0YS9wYV9maXJlYXJtX2NvdW50eV95ZWFyLmNzdlwiKVxuXG5ieV95ZWFyID0gZmlyZWFybS5fX19fKFwieWVhclwiKVtcInJhdGVfcGVyXzEwMGtcIl0uYWdnKFtcImNvdW50XCIsIFwibWVhblwiXSkucm91bmQoMilcblxucHJpbnQoYnlfeWVhcikifQ==
 </script>
 </div>
 </div>
@@ -605,16 +605,14 @@ firearm = pd.read_csv("data/pa_firearm_county_year.csv")
 
 by_year = firearm.groupby("year")["rate_per_100k"].agg(["count", "mean"]).round(2)
 
-print(by_year)
-print(f"\nYears covered: {len(by_year)}")</code>
+print(by_year)</code>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="interpolate-31"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="interpolate-31-1"><a href="#interpolate-31-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="interpolate-31-2"><a href="#interpolate-31-2"></a></span>
 <span id="interpolate-31-3"><a href="#interpolate-31-3"></a>firearm <span class="op">=</span> pd.read_csv(<span class="st">"data/pa_firearm_county_year.csv"</span>)</span>
 <span id="interpolate-31-4"><a href="#interpolate-31-4"></a></span>
 <span id="interpolate-31-5"><a href="#interpolate-31-5"></a>by_year <span class="op">=</span> firearm.groupby(<span class="st">"year"</span>)[<span class="st">"rate_per_100k"</span>].agg([<span class="st">"count"</span>, <span class="st">"mean"</span>]).<span class="bu">round</span>(<span class="dv">2</span>)</span>
 <span id="interpolate-31-6"><a href="#interpolate-31-6"></a></span>
-<span id="interpolate-31-7"><a href="#interpolate-31-7"></a><span class="bu">print</span>(by_year)</span>
-<span id="interpolate-31-8"><a href="#interpolate-31-8"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Years covered: </span><span class="sc">{</span><span class="bu">len</span>(by_year)<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="interpolate-31-7"><a href="#interpolate-31-7"></a><span class="bu">print</span>(by_year)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 <div class="cell" data-exercise="ex4_groupby" data-check="true">
@@ -825,7 +823,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiaW1wb3J0IHBhbmRhcyBhcyBw
 
 </div>
 <script type="pyodide-50-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXg3X3Jlc2hhcGUifSwiY29kZSI6ImltcG9ydCBwYW5kYXMgYXMgcGRcblxub3ZlcmRvc2UgPSBwZC5yZWFkX2NzdihcImRhdGEvcGFfb3ZlcmRvc2VfY291bnR5X3llYXIuY3N2XCIpXG5cbndpZGUgPSBvdmVyZG9zZS5fX19fKGluZGV4PVwiY291bnR5XCIsIGNvbHVtbnM9XCJ5ZWFyXCIsIHZhbHVlcz1cInJhdGVfcGVyXzEwMGtcIilcblxucHJpbnQod2lkZS5zaGFwZSlcbnByaW50KHdpZGUubG9jW1tcIkFsbGVnaGVueVwiLCBcIkNlbnRyZVwiLCBcIlNjaHV5bGtpbGxcIl1dKVxuXG5sb25nID0gd2lkZS5yZXNldF9pbmRleCgpLm1lbHQoaWRfdmFycz1cImNvdW50eVwiLCB2YXJfbmFtZT1cInllYXJcIiwgdmFsdWVfbmFtZT1cInJhdGVfcGVyXzEwMGtcIilcblxucHJpbnQobG9uZy5zaGFwZSkifQ==
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXg3X3Jlc2hhcGUifSwiY29kZSI6ImltcG9ydCBwYW5kYXMgYXMgcGRcblxub3ZlcmRvc2UgPSBwZC5yZWFkX2NzdihcImRhdGEvcGFfb3ZlcmRvc2VfY291bnR5X3llYXIuY3N2XCIpXG5cbndpZGUgPSBvdmVyZG9zZS5fX19fKGluZGV4PVwiY291bnR5XCIsIGNvbHVtbnM9XCJ5ZWFyXCIsIHZhbHVlcz1cInJhdGVfcGVyXzEwMGtcIilcblxucHJpbnQod2lkZS5zaGFwZSlcblxubG9uZyA9IHdpZGUucmVzZXRfaW5kZXgoKS5tZWx0KGlkX3ZhcnM9XCJjb3VudHlcIiwgdmFyX25hbWU9XCJ5ZWFyXCIsIHZhbHVlX25hbWU9XCJyYXRlX3Blcl8xMDBrXCIpXG5cbnByaW50KGxvbmcuc2hhcGUpIn0=
 </script>
 </div>
 </div>
@@ -847,7 +845,6 @@ overdose = pd.read_csv("data/pa_overdose_county_year.csv")
 wide = overdose.pivot(index="county", columns="year", values="rate_per_100k")
 
 print(wide.shape)
-print(wide.loc[["Allegheny", "Centre", "Schuylkill"]])
 
 long = wide.reset_index().melt(id_vars="county", var_name="year", value_name="rate_per_100k")
 
@@ -859,11 +856,10 @@ print(long.shape)</code>
 <span id="interpolate-55-5"><a href="#interpolate-55-5"></a>wide <span class="op">=</span> overdose.pivot(index<span class="op">=</span><span class="st">"county"</span>, columns<span class="op">=</span><span class="st">"year"</span>, values<span class="op">=</span><span class="st">"rate_per_100k"</span>)</span>
 <span id="interpolate-55-6"><a href="#interpolate-55-6"></a></span>
 <span id="interpolate-55-7"><a href="#interpolate-55-7"></a><span class="bu">print</span>(wide.shape)</span>
-<span id="interpolate-55-8"><a href="#interpolate-55-8"></a><span class="bu">print</span>(wide.loc[[<span class="st">"Allegheny"</span>, <span class="st">"Centre"</span>, <span class="st">"Schuylkill"</span>]])</span>
-<span id="interpolate-55-9"><a href="#interpolate-55-9"></a></span>
-<span id="interpolate-55-10"><a href="#interpolate-55-10"></a><span class="bu">long</span> <span class="op">=</span> wide.reset_index().melt(id_vars<span class="op">=</span><span class="st">"county"</span>, var_name<span class="op">=</span><span class="st">"year"</span>, value_name<span class="op">=</span><span class="st">"rate_per_100k"</span>)</span>
-<span id="interpolate-55-11"><a href="#interpolate-55-11"></a></span>
-<span id="interpolate-55-12"><a href="#interpolate-55-12"></a><span class="bu">print</span>(<span class="bu">long</span>.shape)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="interpolate-55-8"><a href="#interpolate-55-8"></a></span>
+<span id="interpolate-55-9"><a href="#interpolate-55-9"></a><span class="bu">long</span> <span class="op">=</span> wide.reset_index().melt(id_vars<span class="op">=</span><span class="st">"county"</span>, var_name<span class="op">=</span><span class="st">"year"</span>, value_name<span class="op">=</span><span class="st">"rate_per_100k"</span>)</span>
+<span id="interpolate-55-10"><a href="#interpolate-55-10"></a></span>
+<span id="interpolate-55-11"><a href="#interpolate-55-11"></a><span class="bu">print</span>(<span class="bu">long</span>.shape)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 <div class="cell" data-exercise="ex7_reshape" data-check="true">
@@ -913,7 +909,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiaW1wb3J0IHBhbmRhcyBhcyBw
 
 </div>
 <script type="pyodide-58-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXg4X2RhdGVzIn0sImNvZGUiOiJpbXBvcnQgcGFuZGFzIGFzIHBkXG5cbmNvdmlkID0gcGQucmVhZF9jc3YoXCJkYXRhL3BhX2NvdmlkX21vbnRobHkuY3N2XCIpXG5jb3ZpZFtcIm1vbnRoXCJdID0gcGQuX19fXyhjb3ZpZFtcIm1vbnRoXCJdKVxuXG5ieV9tb250aCA9IGNvdmlkLmdyb3VwYnkoXCJtb250aFwiKVtcImNvdmlkX2RlYXRoc1wiXS5zdW0oKVxuXG5wZWFrX21vbnRoID0gYnlfbW9udGguaWR4bWF4KClcbnBlYWtfZGVhdGhzID0gYnlfbW9udGgubWF4KClcblxucHJpbnQoZlwiTW9udGhzIGNvdmVyZWQ6IHtieV9tb250aC5zaXplfVwiKVxucHJpbnQoZlwiV29yc3QgbW9udGg6ICAgIHtwZWFrX21vbnRoLmRhdGUoKX0gICh7cGVha19kZWF0aHN9IGRlYXRocylcIilcbnByaW50KClcbnByaW50KGNvdmlkLmdyb3VwYnkoY292aWRbXCJtb250aFwiXS5kdC55ZWFyKVtcImNvdmlkX2RlYXRoc1wiXS5zdW0oKSkifQ==
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImV4ZXJjaXNlIjoiZXg4X2RhdGVzIn0sImNvZGUiOiJpbXBvcnQgcGFuZGFzIGFzIHBkXG5cbmNvdmlkID0gcGQucmVhZF9jc3YoXCJkYXRhL3BhX2NvdmlkX21vbnRobHkuY3N2XCIpXG5jb3ZpZFtcIm1vbnRoXCJdID0gcGQuX19fXyhjb3ZpZFtcIm1vbnRoXCJdKVxuXG5ieV9tb250aCA9IGNvdmlkLmdyb3VwYnkoXCJtb250aFwiKVtcImNvdmlkX2RlYXRoc1wiXS5zdW0oKVxuXG5wZWFrX21vbnRoID0gYnlfbW9udGguaWR4bWF4KClcbnBlYWtfZGVhdGhzID0gYnlfbW9udGgubWF4KClcblxucHJpbnQoZlwiV29yc3QgbW9udGg6IHtwZWFrX21vbnRoLmRhdGUoKX0gICh7cGVha19kZWF0aHN9IGRlYXRocylcIikifQ==
 </script>
 </div>
 </div>
@@ -939,10 +935,7 @@ by_month = covid.groupby("month")["covid_deaths"].sum()
 peak_month = by_month.idxmax()
 peak_deaths = by_month.max()
 
-print(f"Months covered: {by_month.size}")
-print(f"Worst month:    {peak_month.date()}  ({peak_deaths} deaths)")
-print()
-print(covid.groupby(covid["month"].dt.year)["covid_deaths"].sum())</code>
+print(f"Worst month: {peak_month.date()}  ({peak_deaths} deaths)")</code>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="interpolate-63"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="interpolate-63-1"><a href="#interpolate-63-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="interpolate-63-2"><a href="#interpolate-63-2"></a></span>
 <span id="interpolate-63-3"><a href="#interpolate-63-3"></a>covid <span class="op">=</span> pd.read_csv(<span class="st">"data/pa_covid_monthly.csv"</span>)</span>
@@ -953,10 +946,7 @@ print(covid.groupby(covid["month"].dt.year)["covid_deaths"].sum())</code>
 <span id="interpolate-63-8"><a href="#interpolate-63-8"></a>peak_month <span class="op">=</span> by_month.idxmax()</span>
 <span id="interpolate-63-9"><a href="#interpolate-63-9"></a>peak_deaths <span class="op">=</span> by_month.<span class="bu">max</span>()</span>
 <span id="interpolate-63-10"><a href="#interpolate-63-10"></a></span>
-<span id="interpolate-63-11"><a href="#interpolate-63-11"></a><span class="bu">print</span>(<span class="ss">f"Months covered: </span><span class="sc">{</span>by_month<span class="sc">.</span>size<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="interpolate-63-12"><a href="#interpolate-63-12"></a><span class="bu">print</span>(<span class="ss">f"Worst month:    </span><span class="sc">{</span>peak_month<span class="sc">.</span>date()<span class="sc">}</span><span class="ss">  (</span><span class="sc">{</span>peak_deaths<span class="sc">}</span><span class="ss"> deaths)"</span>)</span>
-<span id="interpolate-63-13"><a href="#interpolate-63-13"></a><span class="bu">print</span>()</span>
-<span id="interpolate-63-14"><a href="#interpolate-63-14"></a><span class="bu">print</span>(covid.groupby(covid[<span class="st">"month"</span>].dt.year)[<span class="st">"covid_deaths"</span>].<span class="bu">sum</span>())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="interpolate-63-11"><a href="#interpolate-63-11"></a><span class="bu">print</span>(<span class="ss">f"Worst month: </span><span class="sc">{</span>peak_month<span class="sc">.</span>date()<span class="sc">}</span><span class="ss">  (</span><span class="sc">{</span>peak_deaths<span class="sc">}</span><span class="ss"> deaths)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 <div class="cell" data-exercise="ex8_dates" data-check="true">

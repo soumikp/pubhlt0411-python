@@ -377,7 +377,6 @@ firearm = pd.read_csv("data/pa_firearm_county_year.csv")
 by_year = firearm.____("year")["rate_per_100k"].agg(["count", "mean"]).round(2)
 
 print(by_year)
-print(f"\nYears covered: {len(by_year)}")
 ```
 
 ```{pyodide}
@@ -399,7 +398,6 @@ firearm = pd.read_csv("data/pa_firearm_county_year.csv")
 by_year = firearm.groupby("year")["rate_per_100k"].agg(["count", "mean"]).round(2)
 
 print(by_year)
-print(f"\nYears covered: {len(by_year)}")
 ```
 
 ```{pyodide}
@@ -630,7 +628,6 @@ overdose = pd.read_csv("data/pa_overdose_county_year.csv")
 wide = overdose.____(index="county", columns="year", values="rate_per_100k")
 
 print(wide.shape)
-print(wide.loc[["Allegheny", "Centre", "Schuylkill"]])
 
 long = wide.reset_index().melt(id_vars="county", var_name="year", value_name="rate_per_100k")
 
@@ -657,7 +654,6 @@ overdose = pd.read_csv("data/pa_overdose_county_year.csv")
 wide = overdose.pivot(index="county", columns="year", values="rate_per_100k")
 
 print(wide.shape)
-print(wide.loc[["Allegheny", "Centre", "Schuylkill"]])
 
 long = wide.reset_index().melt(id_vars="county", var_name="year", value_name="rate_per_100k")
 
@@ -716,10 +712,7 @@ by_month = covid.groupby("month")["covid_deaths"].sum()
 peak_month = by_month.idxmax()
 peak_deaths = by_month.max()
 
-print(f"Months covered: {by_month.size}")
-print(f"Worst month:    {peak_month.date()}  ({peak_deaths} deaths)")
-print()
-print(covid.groupby(covid["month"].dt.year)["covid_deaths"].sum())
+print(f"Worst month: {peak_month.date()}  ({peak_deaths} deaths)")
 ```
 
 ```{pyodide}
@@ -746,10 +739,7 @@ by_month = covid.groupby("month")["covid_deaths"].sum()
 peak_month = by_month.idxmax()
 peak_deaths = by_month.max()
 
-print(f"Months covered: {by_month.size}")
-print(f"Worst month:    {peak_month.date()}  ({peak_deaths} deaths)")
-print()
-print(covid.groupby(covid["month"].dt.year)["covid_deaths"].sum())
+print(f"Worst month: {peak_month.date()}  ({peak_deaths} deaths)")
 ```
 
 ```{pyodide}
