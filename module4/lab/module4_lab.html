@@ -6,13 +6,13 @@
 <script src="module4_lab_files/libs/quarto-html/tippy.umd.min.js"></script>
 <link href="module4_lab_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="module4_lab_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="module4_lab_files/libs/quarto-html/quarto-syntax-highlighting-de63f62b328812d8e578a4d74e282472.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="module4_lab_files/libs/quarto-html/quarto-syntax-highlighting-acf12a64177840b8d86f2d4f01b2e9fb.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="module4_lab_files/libs/quarto-contrib/live-runtime/live-runtime.js" type="module"></script>
 <link href="module4_lab_files/libs/quarto-contrib/live-runtime/live-runtime.css" rel="stylesheet"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.9.38">
+  <meta name="generator" content="quarto-1.9.37">
 
   <meta name="author" content="Soumik Purkayastha">
-  <meta name="dcterms.date" content="2026-10-28">
+  <meta name="dcterms.date" content="2026-11-05">
   <title>Py Lab 4: pandas and wrangling</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -213,7 +213,7 @@ Soumik Purkayastha
 </div>
 </div>
 
-  <p class="date">October 28, 2026</p>
+  <p class="date">November 5, 2026</p>
 </section>
 <section>
 <section id="py-lab-4" class="title-slide slide level1 unnumbered center" data-background-color="#003594">
@@ -335,7 +335,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiaW1wb3J0IHBhbmRhcyBhcyBw
 </section>
 <section id="exercise-1-find-the-missing-values-your-turn" class="slide level2 smaller">
 <h2>Exercise 1 — Find the missing values — your turn</h2>
-<p><strong>Your turn.</strong> Count the missing values in every column of the births file, then pull out the count for infant mortality. Read <code>data/pa_maternal_infant.csv</code> as <code>births</code>. <code>missing_per_column</code> is the Series of counts, one per column; <code>n_suppressed</code> is its value for <code>infant_mortality_per_1000</code>: index the Series by that label, <code>missing_per_column["infant_mortality_per_1000"]</code>.</p>
+<p><strong>Your turn.</strong> Count the missing values in every column of the births file, then pull out the count for infant mortality. Read <code>data/pa_maternal_infant.csv</code> as <code>births</code>. <code>missing_per_column</code> is a Series with one count per column. <code>n_suppressed</code> is the single number in it for <code>infant_mortality_per_1000</code>: select it by that label, as you would select a column. Print both.</p>
 <div class="cell" data-exercise="ex1_isna">
 <div>
 <div id="pyodide-2" class="exercise-cell">
@@ -416,7 +416,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiaW1wb3J0IHBhbmRhcyBhcyBw
 </section>
 <section id="exercise-2-combine-two-conditions-your-turn" class="slide level2 smaller">
 <h2>Exercise 2 — Combine two conditions — your turn</h2>
-<p><strong>Your turn.</strong> Find the counties where more than 6% of children are uninsured <strong>and</strong> more than 15% live in poverty. The columns are <code>uninsured_children_pct</code> and <code>children_in_poverty_pct</code>.</p>
+<p><strong>Your turn.</strong> Find the counties where more than 6% of children are uninsured <strong>and</strong> more than 15% live in poverty. Read <code>data/pa_maternal_infant.csv</code> as <code>births</code>; the columns are <code>uninsured_children_pct</code> and <code>children_in_poverty_pct</code>. <code>strained</code> is the rows of <code>births</code> that meet both conditions, as a DataFrame with all of its columns. <code>n_strained</code> is how many rows it has. Print <code>n_strained</code>, then each county with its two percentages.</p>
 <div class="cell" data-exercise="ex2_andor">
 <div>
 <div id="pyodide-10" class="exercise-cell">
@@ -504,7 +504,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiaW1wb3J0IHBhbmRhcyBhcyBw
 </section>
 <section id="exercise-3-derive-a-column-your-turn" class="slide level2 smaller">
 <h2>Exercise 3 — Derive a column — your turn</h2>
-<p><strong>Your turn.</strong> Compute the 2022 firearm death rate per 100,000 and confirm it reproduces the published column. Read <code>data/pa_firearm_county_year.csv</code>, keep the 2022 rows as <code>f2022</code>, and add a column <code>my_rate</code> with <code>.assign()</code>: <code>firearm_deaths / population * 100_000</code>. Set <code>allegheny</code> to Allegheny’s row of <code>f2022</code>, as a one-row DataFrame (a boolean mask on <code>county</code>), and compare <code>my_rate</code> with <code>rate_per_100k</code>. They agree to rounding.</p>
+<p><strong>Your turn.</strong> Compute the 2022 firearm death rate per 100,000 and confirm it reproduces the published column. Read <code>data/pa_firearm_county_year.csv</code> as <code>firearm</code>. <code>f2022</code> is its 2022 rows with one new column, <code>my_rate</code>, added with <code>.assign()</code>: <code>firearm_deaths / population * 100_000</code>. <code>allegheny</code> is Allegheny’s row of <code>f2022</code>, kept as a one-row DataFrame (filter on <code>county</code>). Print its <code>firearm_deaths</code>, <code>population</code>, <code>rate_per_100k</code>, and <code>my_rate</code>. The last two agree to rounding.</p>
 <div class="cell" data-exercise="ex3_assign">
 <div>
 <div id="pyodide-18" class="exercise-cell">
@@ -578,7 +578,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiaW1wb3J0IHBhbmRhcyBhcyBw
 </section>
 <section id="exercise-4-group-and-aggregate-your-turn" class="slide level2 smaller">
 <h2>Exercise 4 — Group and aggregate — your turn</h2>
-<p><strong>Your turn.</strong> Summarise firearm deaths by year: how many counties reported, and the mean rate among them. Group on <code>year</code> and aggregate <code>rate_per_100k</code> with <code>.agg(["count", "mean"])</code>, rounded to 2 places.</p>
+<p><strong>Your turn.</strong> Summarise the firearm death rate by year: how many counties reported a rate, and the mean rate among them. Read <code>data/pa_firearm_county_year.csv</code> as <code>firearm</code>. <code>by_year</code> is a table with one row per year and two columns, <code>count</code> and <code>mean</code>: group on <code>year</code>, then aggregate <code>rate_per_100k</code> with <code>.agg(["count", "mean"])</code> and round to 2 places. Print it, and compare the <code>count</code> column with the 67 counties in the state.</p>
 <div class="cell" data-exercise="ex4_groupby">
 <div>
 <div id="pyodide-26" class="exercise-cell">
@@ -644,7 +644,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiaW1wb3J0IHBhbmRhcyBhcyBw
 </section>
 <section id="exercise-5-group-by-a-joined-column-your-turn" class="slide level2 smaller">
 <h2>Exercise 5 — Group by a joined column — your turn</h2>
-<p><strong>Your turn.</strong> Compare mean low birthweight across the six regions, and report how many counties each region contains. Left-join the births file to <code>data/pa_counties.csv</code> on <code>county</code>, group on <code>region</code>, and aggregate <code>low_birthweight_pct</code> with <code>.agg(["size", "mean"])</code>, rounded to 2 places.</p>
+<p><strong>Your turn.</strong> Compare mean low birthweight across the six regions, and report how many counties each region contains. Read <code>data/pa_maternal_infant.csv</code> as <code>births</code> and <code>data/pa_counties.csv</code> as <code>counties</code>. <code>joined</code> is <code>births</code> left-joined to <code>counties</code> on <code>county</code>. <code>by_region</code> is a table with one row per region and two columns, <code>size</code> and <code>mean</code>: group <code>joined</code> on <code>region</code>, then aggregate <code>low_birthweight_pct</code> with <code>.agg(["size", "mean"])</code> and round to 2 places. Print it sorted by <code>mean</code>, highest first.</p>
 <div class="cell" data-exercise="ex5_groupjoin">
 <div>
 <div id="pyodide-34" class="exercise-cell">
@@ -715,8 +715,13 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiaW1wb3J0IHBhbmRhcyBhcyBw
 </section>
 <section id="exercise-6-the-suppression-bias-your-turn" class="slide level2 smaller">
 <h2>Exercise 6 — The suppression bias — your turn</h2>
-<p><strong>Your turn.</strong> Recompute the Northwest rate over the counties that actually reported, and measure the bias. Drop the suppressed rows before summing.</p>
-<p>Use the 2023 rows of <code>data/pa_overdose_county_year.csv</code>, left-joined to <code>data/pa_counties.csv</code> on <code>county</code> (<code>o</code>), and keep the <code>Northwest</code> region as <code>nw</code>. The <strong>naive</strong> rate sums <code>overdose_deaths</code> over all of <code>nw</code> and divides by the sum of <code>population_2023</code> over all of <code>nw</code> — so suppressed counties add population but no deaths. The <strong>correct</strong> rate does the same over <code>reported</code>, which is <code>nw</code> with the missing <code>overdose_deaths</code> rows dropped. Both are per 100,000. Print the bias, <code>naive - correct</code>.</p>
+<p><strong>Your turn.</strong> Measure how far suppression biases the 2023 Northwest overdose rate. A suppressed county has a blank death count, which <code>.sum()</code> skips, but its population still counts in the denominator.</p>
+<p>Read <code>data/pa_overdose_county_year.csv</code> as <code>overdose</code> and <code>data/pa_counties.csv</code> as <code>counties</code>. <code>o</code> is the 2023 rows of <code>overdose</code>, left-joined to <code>counties</code> on <code>county</code>. <code>nw</code> is the rows of <code>o</code> whose <code>region</code> is <code>"Northwest"</code>. Compute two rates, both per 100,000:</p>
+<ul>
+<li><code>naive</code>: the sum of <code>overdose_deaths</code> over all of <code>nw</code>, divided by the sum of <code>population_2023</code> over all of <code>nw</code>.</li>
+<li><code>correct</code>: the same calculation over <code>reported</code>, which is <code>nw</code> with the rows missing <code>overdose_deaths</code> dropped.</li>
+</ul>
+<p>Print both rates and the bias, <code>naive - correct</code>.</p>
 <div class="cell" data-exercise="ex6_bias">
 <div>
 <div id="pyodide-42" class="exercise-cell">
@@ -813,7 +818,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiaW1wb3J0IHBhbmRhcyBhcyBw
 </section>
 <section id="exercise-7-reshape-your-turn" class="slide level2 smaller">
 <h2>Exercise 7 — Reshape — your turn</h2>
-<p><strong>Your turn.</strong> The overdose file arrives long: one row per county-year. Spread it wide, one row per county and one column per year, then fold it back. Read <code>data/pa_overdose_county_year.csv</code>. <code>wide</code> is <code>.pivot()</code> with <code>index="county"</code>, <code>columns="year"</code>, and <code>values="rate_per_100k"</code>. <code>long</code> is <code>wide.reset_index()</code> melted with <code>id_vars="county"</code>, <code>var_name="year"</code>, and <code>value_name="rate_per_100k"</code>.</p>
+<p><strong>Your turn.</strong> The overdose file arrives long: one row per county-year. Spread it wide, one row per county and one column per year, then fold it back. Read <code>data/pa_overdose_county_year.csv</code> as <code>overdose</code>. <code>wide</code> is <code>overdose</code> reshaped with <code>.pivot()</code>, using <code>index="county"</code>, <code>columns="year"</code>, and <code>values="rate_per_100k"</code>. <code>long</code> is <code>wide.reset_index()</code> melted with <code>id_vars="county"</code>, <code>var_name="year"</code>, and <code>value_name="rate_per_100k"</code>. Print the shape of each.</p>
 <div class="cell" data-exercise="ex7_reshape">
 <div>
 <div id="pyodide-50" class="exercise-cell">
@@ -901,7 +906,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiaW1wb3J0IHBhbmRhcyBhcyBw
 </section>
 <section id="exercise-8-dates-your-turn" class="slide level2 smaller">
 <h2>Exercise 8 — Dates — your turn</h2>
-<p><strong>Your turn.</strong> Total COVID deaths by month across the state, then find the worst month. Read <code>data/pa_covid_monthly.csv</code>, convert <code>month</code> with <code>pd.to_datetime()</code>, and sum <code>covid_deaths</code> by month (<code>by_month</code>). <code>peak_month</code> is the month with the largest total (<code>.idxmax()</code>); <code>peak_deaths</code> is that total.</p>
+<p><strong>Your turn.</strong> Total COVID deaths by month across the state, then find the worst month. Read <code>data/pa_covid_monthly.csv</code> as <code>covid</code> and convert its <code>month</code> column with <code>pd.to_datetime()</code>. <code>by_month</code> is a Series of statewide totals, one per month: <code>covid_deaths</code> summed by <code>month</code>. <code>peak_month</code> is the month with the largest total (<code>.idxmax()</code>); <code>peak_deaths</code> is that total. Print both.</p>
 <div class="cell" data-exercise="ex8_dates">
 <div>
 <div id="pyodide-58" class="exercise-cell">

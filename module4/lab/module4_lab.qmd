@@ -128,7 +128,10 @@ print(counties.isna().sum())
 ## Exercise 1 — Find the missing values — your turn {.smaller}
 
 **Your turn.** Count the missing values in every column of the births file, then pull out the
-count for infant mortality. Read `data/pa_maternal_infant.csv` as `births`. `missing_per_column` is the Series of counts, one per column; `n_suppressed` is its value for `infant_mortality_per_1000`: index the Series by that label, `missing_per_column["infant_mortality_per_1000"]`.
+count for infant mortality. Read `data/pa_maternal_infant.csv` as `births`.
+`missing_per_column` is a Series with one count per column. `n_suppressed` is the single
+number in it for `infant_mortality_per_1000`: select it by that label, as you would select a
+column. Print both.
 
 ```{pyodide}
 #| exercise: ex1_isna
@@ -201,7 +204,10 @@ print(both[["county", "children_in_poverty_pct", "low_birthweight_pct"]].to_stri
 ## Exercise 2 — Combine two conditions — your turn {.smaller}
 
 **Your turn.** Find the counties where more than 6% of children are uninsured **and** more
-than 15% live in poverty. The columns are `uninsured_children_pct` and `children_in_poverty_pct`.
+than 15% live in poverty. Read `data/pa_maternal_infant.csv` as `births`; the columns are
+`uninsured_children_pct` and `children_in_poverty_pct`. `strained` is the rows of `births`
+that meet both conditions, as a DataFrame with all of its columns. `n_strained` is how many
+rows it has. Print `n_strained`, then each county with its two percentages.
 
 ```{pyodide}
 #| exercise: ex2_andor
@@ -282,7 +288,11 @@ print(checked[["county", "rate_per_100k", "rate_check"]].head(3).round(2))
 ## Exercise 3 — Derive a column — your turn {.smaller}
 
 **Your turn.** Compute the 2022 firearm death rate per 100,000 and confirm it reproduces the
-published column. Read `data/pa_firearm_county_year.csv`, keep the 2022 rows as `f2022`, and add a column `my_rate` with `.assign()`: `firearm_deaths / population * 100_000`. Set `allegheny` to Allegheny's row of `f2022`, as a one-row DataFrame (a boolean mask on `county`), and compare `my_rate` with `rate_per_100k`. They agree to rounding.
+published column. Read `data/pa_firearm_county_year.csv` as `firearm`. `f2022` is its 2022
+rows with one new column, `my_rate`, added with `.assign()`:
+`firearm_deaths / population * 100_000`. `allegheny` is Allegheny's row of `f2022`, kept as a
+one-row DataFrame (filter on `county`). Print its `firearm_deaths`, `population`,
+`rate_per_100k`, and `my_rate`. The last two agree to rounding.
 
 ```{pyodide}
 #| exercise: ex3_assign
@@ -352,8 +362,11 @@ print(overdose.groupby("year")["rate_per_100k"].agg(["count", "mean"]).round(2))
 
 ## Exercise 4 — Group and aggregate — your turn {.smaller}
 
-**Your turn.** Summarise firearm deaths by year: how many counties reported, and the mean
-rate among them. Group on `year` and aggregate `rate_per_100k` with `.agg(["count", "mean"])`, rounded to 2 places.
+**Your turn.** Summarise the firearm death rate by year: how many counties reported a rate,
+and the mean rate among them. Read `data/pa_firearm_county_year.csv` as `firearm`. `by_year`
+is a table with one row per year and two columns, `count` and `mean`: group on `year`, then
+aggregate `rate_per_100k` with `.agg(["count", "mean"])` and round to 2 places. Print it, and
+compare the `count` column with the 67 counties in the state.
 
 ```{pyodide}
 #| exercise: ex4_groupby
@@ -418,7 +431,11 @@ print(joined.groupby("metro")["median_household_income"].agg(["size", "median"])
 ## Exercise 5 — Group by a joined column — your turn {.smaller}
 
 **Your turn.** Compare mean low birthweight across the six regions, and report how many
-counties each region contains. Left-join the births file to `data/pa_counties.csv` on `county`, group on `region`, and aggregate `low_birthweight_pct` with `.agg(["size", "mean"])`, rounded to 2 places.
+counties each region contains. Read `data/pa_maternal_infant.csv` as `births` and
+`data/pa_counties.csv` as `counties`. `joined` is `births` left-joined to `counties` on
+`county`. `by_region` is a table with one row per region and two columns, `size` and `mean`:
+group `joined` on `region`, then aggregate `low_birthweight_pct` with
+`.agg(["size", "mean"])` and round to 2 places. Print it sorted by `mean`, highest first.
 
 ```{pyodide}
 #| exercise: ex5_groupjoin
@@ -489,15 +506,20 @@ print(f"Naive rate: {nw['overdose_deaths'].sum() / nw['population_2023'].sum() *
 
 ## Exercise 6 — The suppression bias — your turn {.smaller}
 
-**Your turn.** Recompute the Northwest rate over the counties that actually reported, and
-measure the bias. Drop the suppressed rows before summing.
+**Your turn.** Measure how far suppression biases the 2023 Northwest overdose rate. A
+suppressed county has a blank death count, which `.sum()` skips, but its population still
+counts in the denominator.
 
-Use the 2023 rows of `data/pa_overdose_county_year.csv`, left-joined to `data/pa_counties.csv` on `county` (`o`), and keep the
-`Northwest` region as `nw`. The **naive** rate sums `overdose_deaths` over all of `nw` and
-divides by the sum of `population_2023` over all of `nw` — so suppressed counties add
-population but no deaths. The **correct** rate does the same over `reported`, which is `nw`
-with the missing `overdose_deaths` rows dropped. Both are per 100,000. Print the bias,
-`naive - correct`.
+Read `data/pa_overdose_county_year.csv` as `overdose` and `data/pa_counties.csv` as
+`counties`. `o` is the 2023 rows of `overdose`, left-joined to `counties` on `county`. `nw` is
+the rows of `o` whose `region` is `"Northwest"`. Compute two rates, both per 100,000:
+
+- `naive`: the sum of `overdose_deaths` over all of `nw`, divided by the sum of
+  `population_2023` over all of `nw`.
+- `correct`: the same calculation over `reported`, which is `nw` with the rows missing
+  `overdose_deaths` dropped.
+
+Print both rates and the bias, `naive - correct`.
 
 ```{pyodide}
 #| exercise: ex6_bias
@@ -594,9 +616,10 @@ print(long.pivot(index="county", columns="year", values="rate_per_100k"))
 
 **Your turn.** The overdose file arrives long: one row per county-year. Spread it wide, one
 row per county and one column per year, then fold it back. Read
-`data/pa_overdose_county_year.csv`. `wide` is `.pivot()` with `index="county"`,
-`columns="year"`, and `values="rate_per_100k"`. `long` is `wide.reset_index()` melted with
-`id_vars="county"`, `var_name="year"`, and `value_name="rate_per_100k"`.
+`data/pa_overdose_county_year.csv` as `overdose`. `wide` is `overdose` reshaped with
+`.pivot()`, using `index="county"`, `columns="year"`, and `values="rate_per_100k"`. `long` is
+`wide.reset_index()` melted with `id_vars="county"`, `var_name="year"`, and
+`value_name="rate_per_100k"`. Print the shape of each.
 
 ```{pyodide}
 #| exercise: ex7_reshape
@@ -675,7 +698,11 @@ print(f"{covid['month'].min().date()} to {covid['month'].max().date()}")
 
 ## Exercise 8 — Dates — your turn {.smaller}
 
-**Your turn.** Total COVID deaths by month across the state, then find the worst month. Read `data/pa_covid_monthly.csv`, convert `month` with `pd.to_datetime()`, and sum `covid_deaths` by month (`by_month`). `peak_month` is the month with the largest total (`.idxmax()`); `peak_deaths` is that total.
+**Your turn.** Total COVID deaths by month across the state, then find the worst month. Read
+`data/pa_covid_monthly.csv` as `covid` and convert its `month` column with
+`pd.to_datetime()`. `by_month` is a Series of statewide totals, one per month: `covid_deaths`
+summed by `month`. `peak_month` is the month with the largest total (`.idxmax()`);
+`peak_deaths` is that total. Print both.
 
 ```{pyodide}
 #| exercise: ex8_dates
