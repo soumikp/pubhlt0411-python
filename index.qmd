@@ -28,7 +28,7 @@ Below are interactive lecture slides so that you may follow along with the in-cl
 | **Module 3:** NumPy | Lecture Thu Oct 22<br>Lab Tue Oct 27 | P4DA 4 | [live (html)](module3/class/module3_lecture.html)<br>[static (pdf)](module3/class/module3_lecture.pdf) | [Lab 3](module3/lab/module3_lab.ipynb){download="module3_lab.ipynb"} |
 | **Module 4:** pandas and wrangling | Lecture Thu Oct 29<br>Lab Thu Nov 5 | P4DA 5, 7, 8 | [live (html)](module4/class/module4_lecture.html)<br>[static (pdf)](module4/class/module4_lecture.pdf) | [Lab 4](module4/lab/module4_lab.ipynb){download="module4_lab.ipynb"} |
 | **Module 5:** Data visualization I | Lecture Tue Nov 10<br>Lab Thu Nov 12 | P4DA 9 | [live (html)](module5/class/module5_lecture.html)<br>[static (pdf)](module5/class/module5_lecture.pdf) | [Lab 5](module5/lab/module5_lab.ipynb){download="module5_lab.ipynb"} |
-| **Module 6:** Data visualization II | Lecture + Lab Tue Nov 17<br>Lab due Thu Nov 19 | P4DA 9 | [live (html)](module6/class/module6_lecture.html)<br>[static (pdf)](module6/class/module6_lecture.pdf) |  |
+| **Module 6:** Data visualization II | Lecture + Lab Tue Nov 17<br>Lab due Thu Nov 19 | P4DA 9 | [live (html)](module6/class/module6_lecture.html)<br>[static (pdf)](module6/class/module6_lecture.pdf) | [Lab 6](module6/lab/module6_lab.ipynb){download="module6_lab.ipynb"} |
 :::
 
 Module 0's lab is a take home setup check with no submission component. Module 6 is one class: the lecture, then Lab 6 Questions 1--3 in class; all eight questions are due Thu Nov 19 at 11:59 pm. There is no class on Tue Nov 3 (Election Day).
