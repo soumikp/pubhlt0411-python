@@ -1,0 +1,1175 @@
+---
+# =====================================================================
+# Module 6 — Data visualization II
+# PUBHLT 0411 · Python for Public Health Data Analysis
+#
+# DRAFT 2026-11-10. Follows the order of Rebecca Deek's R Module 3
+# ("Data visualization II"):
+#   more geoms (histogram, density, boxplot, violin) -> families ->
+#   layering (order matters) -> statistical transformations ->
+#   facets -> position adjustments -> scales -> colour scales ->
+#   themes -> combining -> saving -> appendix: why visualize.
+# Rebecca's three in-lecture exercises (debug, facets + position,
+# themes) are Lab 6 Questions 1-3, done in class; Lab 6 has 8 questions,
+# all due Thu 11/19 11:59pm (instructor, 11/10).
+# Added from the old Module 5: the correlation heatmap (diverging
+# scale) and rates vs counts, recomputed from 2021-08 on.
+#
+# One combined class, Tue 11/17: ~50 min lecture, 20 min lab.
+#
+# Register: HANDOFF v3 §2 as amended 2026-08-11.
+#   Slides = academic, impersonal. No "you"/"we".
+#   Notes  = conversational, second person. Load-bearing.
+#
+# Every line of code carries a comment (instructor request 2026-11-09).
+#
+# ⚠️ §8: DESCRIPTIVE ONLY. Trend lines are drawn with ci=None; the
+#    barplot error bar is shown once, as a default to switch off.
+# ⚠️ §5 rule 4: maternal and infant disparities are framed structurally,
+#    never as individual choice.
+# ⚠️ COVID file undercounts 2020. Rates vs counts uses 2021-08 onward.
+# ⚠️ matplotlib state is shared across cells in the browser. Never call
+#    sns.set_theme() in a live cell; use `with sns.axes_style(...)`.
+#
+# seaborn is NOT bundled in Pyodide. It installs at runtime:
+#     import micropip; await micropip.install("seaborn")
+#   The await MUST be at cell top level.
+#
+# Data: REAL. County Health Rankings & Roadmaps 2024 (maternal and
+#       infant), Census (counties), PA DOH (COVID). Mounted into the
+#       Pyodide VFS via `pyodide: resources:` below.
+#
+# Required assets (same folder):
+#   pitt-theme.scss
+#   _extensions/r-wasm/live/
+#   data/pa_maternal_infant.csv   data/pa_counties.csv
+#   data/pa_covid_monthly.csv
+# =====================================================================
+title: "Module 6: Data visualization II"
+subtitle: "PUBHLT 0411 · Python for Public Health Data Analysis"
+author:
+  - name: Soumik Purkayastha
+    affiliations:
+      - name: Dept. of Biostatistics and Health Data Science, University of Pittsburgh
+date: 2026-11-17
+date-format: long
+
+format:
+  live-revealjs:
+    theme: [white, pitt-theme.scss]
+    slide-number: c/t
+    show-slide-number: all
+    chalkboard: false
+    history: true
+    smaller: false
+    scrollable: true
+    incremental: false
+    fig-align: center
+    fig-cap-location: bottom
+    code-line-numbers: true
+    code-overflow: wrap
+    code-copy: hover
+    highlight-style: github
+    width: 1280
+    height: 720
+    margin: 0.08
+    footer: "soumik@pitt.edu  ·  PUBHLT 0411 · Module 6: Data visualization II"
+
+engine: knitr
+
+pyodide:
+  packages: [numpy, pandas, matplotlib]
+  resources:
+    - data/pa_maternal_infant.csv
+    - data/pa_counties.csv
+    - data/pa_covid_monthly.csv
+
+execute:
+  echo: true
+  warning: false
+  message: false
+  cache: false
+---
+
+{{< include _extensions/r-wasm/live/_knitr.qmd >}}
+
+## Housekeeping/setup {.smaller}
+
+```{pyodide}
+import micropip                                  # installer for packages the browser lacks
+await micropip.install("seaborn")                # fetch seaborn; first run takes a few seconds
+
+import numpy as np                               # arrays and arithmetic (Module 3)
+import pandas as pd                              # tables (Module 4)
+import matplotlib.pyplot as plt                  # figures, axes, labels (Module 5)
+import seaborn as sns                            # statistical figures (Module 5)
+
+births = pd.read_csv("data/pa_maternal_infant.csv")        # 67 counties, County Health Rankings 2024
+counties = pd.read_csv("data/pa_counties.csv")             # region, metro status, population
+joined = births.merge(counties, on="county")               # attach county attributes by key
+
+print(joined.shape)                              # rows, columns: expect (67, 14)
+```
+
+Every code cell in this deck loads its own data, so any slide runs on its own. In JupyterLab,
+`import seaborn as sns` is sufficient; the two `micropip` lines are for the browser only.
+
+::: {.notes}
+Run this first and let seaborn download while you introduce the data. Same opening as last
+week, new file.
+
+The births file is County Health Rankings 2024: one row per county, eight columns of maternal
+and child health. The counties file is the one they already know from Module 5. The merge gives
+fourteen columns, and every figure today draws from `joined`.
+
+Today is one class with the lab inside it. Tell them now: about fifty minutes of slides, then
+twenty minutes on Lab 6 Questions 1 to 3, which are built from this deck. Everything they need
+for those three is shown by the middle of the session.
+:::
+
+## The maternal and infant data {.smaller}
+
+```{pyodide}
+import pandas as pd                                        # tables
+
+births = pd.read_csv("data/pa_maternal_infant.csv")        # one row per county
+counties = pd.read_csv("data/pa_counties.csv")             # metro status per county
+joined = births.merge(counties, on="county")               # one table
+
+cols = ["low_birthweight_pct", "children_in_poverty_pct"]  # the two measures used today
+print(joined.groupby("metro")[cols].median())              # median of each, by metro status
+```
+
+Source: County Health Rankings & Roadmaps 2024. **Low birthweight** is the percentage of live
+births under 2,500 grams, 5.3% (Union) to 11.0% (Philadelphia).
+
+**Metro counties have the higher median low-birthweight rate, 8.1% against 7.3%, even though
+child poverty is higher in nonmetro counties.**
+
+::: {.callout-important}
+## The question this module opens
+Does child poverty account for the metro difference, or does the difference persist at the same
+level of poverty?
+:::
+
+::: {.notes}
+This is the cold open, and it is built to surprise. Most of the room expects rural counties to
+do worse on every maternal outcome, because nonmetro Pennsylvania is poorer: median child
+poverty 17.8% against 14.3%. And yet low birthweight runs the other way.
+
+Do not explain it. The obvious guess is that the metro number is dragged up by Philadelphia, and
+Philadelphia is indeed the top county at 11.0%. But it is one county of thirty-seven, and a
+median does not move much for one county. The facet slides answer the question properly.
+
+Framing, because this is maternal health: these are county rates, and differences between them
+reflect access to care, housing, income, and the structure of a place. Nothing on today's slides
+is about the choices of individual mothers, and you should say so if anyone drifts there.
+:::
+
+# More geoms {.unnumbered background-color="#003594"}
+
+## `sns.histplot()` and `sns.kdeplot()` {.smaller}
+
+A histogram counts rows in bins. A **density** curve is a smoothed outline of the same
+distribution, scaled so its area is 1.
+
+```{pyodide}
+import micropip                                            # installer for browser packages
+await micropip.install("seaborn")                          # fetch seaborn
+import pandas as pd                                        # tables
+import seaborn as sns                                      # statistical figures
+import matplotlib.pyplot as plt                            # figure and axes
+
+births = pd.read_csv("data/pa_maternal_infant.csv")        # one row per county
+
+fig, (hist, dens) = plt.subplots(1, 2, figsize=(9, 3))     # two panels
+sns.histplot(data=births, x="low_birthweight_pct",         # data; low birthweight -> x
+             binwidth=0.5,                                 # SETTING: every bin 0.5 points wide
+             color="#003594", ax=hist)                     # one colour; left panel
+sns.kdeplot(data=births, x="low_birthweight_pct",          # same column, smoothed
+            fill=True, color="#003594", ax=dens)           # shaded under the curve; right panel
+for ax in (hist, dens):                                    # both panels:
+    ax.set_xlabel("Low birthweight (% of live births)")    # x-axis label with units
+plt.tight_layout()                                         # stop panels overlapping
+plt.show()                                                 # render the figure
+```
+
+`binwidth=` and `bins=` are settings: fixed numbers, not columns, so they never go to a mapping.
+
+::: {.notes}
+Two views of one column. The histogram counts counties in half-point bins; the density draws a
+smooth outline whose area is one, so the y-axis is no longer a count.
+
+Read the shape. Most counties sit between six and nine percent, with a long right tail out to
+Philadelphia at eleven. The density makes the tail look gentler than the histogram does, which
+is the trade: smoothing hides the lumps and invents a little shape past the edges of the data.
+
+The R half makes the same point about `bins`: it is not inside `aes()` because it is not data.
+Same here. `binwidth=0.5` is a setting.
+:::
+
+## `sns.boxplot()` and `sns.violinplot()` {.smaller}
+
+A violin draws the density of each group on both sides of a centre line, where a boxplot draws
+only its quartiles.
+
+```{pyodide}
+import micropip                                            # installer for browser packages
+await micropip.install("seaborn")                          # fetch seaborn
+import pandas as pd                                        # tables
+import seaborn as sns                                      # statistical figures
+import matplotlib.pyplot as plt                            # figure and axes
+
+births = pd.read_csv("data/pa_maternal_infant.csv")        # one row per county
+counties = pd.read_csv("data/pa_counties.csv")             # metro status per county
+joined = births.merge(counties, on="county")               # one table
+PAL = {"Metro": "#003594", "Nonmetro": "#8a6400"}          # course colours, by group
+
+fig, (box, vio) = plt.subplots(1, 2, figsize=(9, 3))       # two panels
+sns.boxplot(data=joined, x="metro", y="low_birthweight_pct",    # metro -> x, outcome -> y
+            hue="metro", palette=PAL, legend=False, ax=box)     # colour by group, no legend
+sns.violinplot(data=joined, x="metro", y="low_birthweight_pct", # same mappings
+               hue="metro", palette=PAL, legend=False, ax=vio)  # colour by group, no legend
+for ax in (box, vio):                                      # both panels:
+    ax.set(xlabel="", ylabel="Low birthweight (%)")        # labels
+plt.tight_layout()                                         # stop panels overlapping
+plt.show()                                                 # render the figure
+```
+
+`hue=` repeats the `x` column so each box takes its colour from `palette`; `legend=False` drops
+the legend, which would only repeat the axis labels.
+
+::: {.notes}
+The boxplot is last week's: median line, box for the middle half, whiskers to one and a half box
+lengths, and single points beyond. The metro box sits higher. That is the cold open again.
+
+The violin shows what the box cannot. The metro violin has a long upper neck — that is
+Philadelphia and Fayette pulling up the tail — while the nonmetro violin is shorter and wider
+in the middle. Two groups with similar boxes can have very different violins, which is Rebecca's
+point on the matching R slide.
+
+The `hue` repeat is a seaborn 0.13 habit worth naming. Passing `palette` without `hue` still
+works but prints a warning that it will stop working. Map the same column to `hue` and switch the
+legend off.
+:::
+
+## seaborn's three families {.smaller}
+
+Every seaborn mark belongs to a family, and each family has a **figure-level** function that can
+split the data into panels.
+
+| Family | Figure-level | Axes-level marks |
+|---|---|---|
+| Relational: two numeric variables | `sns.relplot()` | `scatterplot`, `lineplot` |
+| Distributional: one numeric variable | `sns.displot()` | `histplot`, `kdeplot` |
+| Categorical: numeric by category | `sns.catplot()` | `boxplot`, `violinplot`, `countplot`, `barplot` |
+
+**Axes-level** functions draw on one `ax=`. **Figure-level** functions create their own figure
+and take `col=` and `row=` instead. The [seaborn gallery](https://seaborn.pydata.org/examples/index.html)
+shows a worked example of each.
+
+::: {.notes}
+This is the map for the rest of the session, and the Python counterpart of Rebecca's "ggplot2 has
+more than forty geoms" slide. seaborn has far fewer, organised into three families.
+
+The distinction that matters today is axes-level against figure-level. Everything so far has
+been axes-level: make the axes with `plt.subplots()`, pass `ax=ax`. The figure-level functions
+build the figure themselves, which is why they can make one panel per group. That is facets, and
+it is the middle of today.
+
+The gallery link is for the final project. Many of the figures there are two or three calls.
+:::
+
+# Layers and statistical transformations {.unnumbered background-color="#003594"}
+
+## Layering: order matters {.smaller}
+
+Each call draws on top of the previous one, so the layer that must be seen goes **last**.
+
+```{pyodide}
+import micropip                                            # installer for browser packages
+await micropip.install("seaborn")                          # fetch seaborn
+import pandas as pd                                        # tables
+import seaborn as sns                                      # statistical figures
+import matplotlib.pyplot as plt                            # figure and axes
+
+births = pd.read_csv("data/pa_maternal_infant.csv")        # one row per county
+counties = pd.read_csv("data/pa_counties.csv")             # metro status per county
+joined = births.merge(counties, on="county")               # one table
+metro = joined[joined["metro"] == "Metro"]                 # the group to highlight
+xy = dict(x="children_in_poverty_pct", y="low_birthweight_pct", s=40)  # shared mappings, size
+
+fig, (bad, good) = plt.subplots(1, 2, figsize=(10, 3.2), sharey=True)  # two panels
+sns.scatterplot(data=metro, **xy, color="#003594", ax=bad)   # layer 1: metro counties
+sns.scatterplot(data=joined, **xy, color="#d1d5db", ax=bad)  # layer 2: all 67, in grey, on top
+bad.set_title("Metro first, then all counties")            # panel title
+
+sns.scatterplot(data=joined, **xy, color="#d1d5db", ax=good) # layer 1: all 67 as a backdrop
+sns.scatterplot(data=metro, **xy, color="#003594", ax=good)  # layer 2: metro counties on top
+good.set_title("All counties first, then metro")           # panel title
+for ax in (bad, good):                                     # both panels:
+    ax.set(xlabel="Children in poverty (%)", ylabel="Low birthweight (%)")  # labels with units
+plt.tight_layout()                                         # stop panels overlapping
+plt.show()                                                 # render the figure
+```
+
+`zorder=` overrides the order: a layer with a higher `zorder` is drawn in front.
+
+::: {.notes}
+Same two layers, opposite order. On the left the grey layer goes down last and paints over every
+metro county; the figure shows no metro counties at all, and the code ran without complaint. On
+the right the grey goes first and becomes a backdrop, and the metro counties stand out against
+the rest of the state.
+
+This is Rebecca's "order matters" slide. Her example layers a violin and a boxplot. In seaborn
+that pair does not show the problem, because seaborn gives its boxes and points a higher `zorder`
+than its violins, so they land in front whatever the code order. That is worth one sentence if
+someone tries it: the library made the choice for you.
+
+`xy` is a dictionary of the arguments both calls share, unpacked with `**`. It keeps the calls
+from drifting apart, and it is the only new Python on the slide.
+:::
+
+## Statistical transformations {.smaller}
+
+Many marks compute something before drawing. `countplot` counts rows; `barplot` computes a
+**mean** of `y` and adds an error bar by default.
+
+```{pyodide}
+import micropip                                            # installer for browser packages
+await micropip.install("seaborn")                          # fetch seaborn
+import pandas as pd                                        # tables
+import seaborn as sns                                      # statistical figures
+import matplotlib.pyplot as plt                            # figure and axes
+
+births = pd.read_csv("data/pa_maternal_infant.csv")        # one row per county
+counties = pd.read_csv("data/pa_counties.csv")             # region per county
+joined = births.merge(counties, on="county")               # one table
+n = joined["region"].value_counts().reset_index()          # precomputed counts per region
+order = sorted(joined["region"].unique())                  # one region order for all panels
+
+fig, (cnt, pre, avg) = plt.subplots(1, 3, figsize=(11, 3), sharey=True)  # three panels
+sns.countplot(data=joined, y="region", order=order,        # seaborn counts the rows itself
+              color="#003594", ax=cnt)                     # one colour
+cnt.set(title="countplot", xlabel="Counties")              # panel title; x label
+sns.barplot(data=n, y="region", x="count", order=order,    # bar length = a column of counts
+            color="#003594", ax=pre)                       # one colour
+pre.set(title="barplot of counts", xlabel="Counties")      # panel title; x label
+sns.barplot(data=joined, y="region", x="low_birthweight_pct",  # bar length = a MEAN per region
+            order=order, color="#8a6400", ax=avg)          # same order; one colour
+avg.set(title="barplot of a column",                       # panel title
+        xlabel="Mean low birthweight (%)")                 # what the bar now shows
+for ax in (cnt, pre, avg):                                 # every panel:
+    ax.set_ylabel("")                                      # region names need no label
+plt.tight_layout()                                         # stop panels overlapping
+plt.show()                                                 # render the figure
+```
+
+`errorbar=None` removes the error bar. The interval it draws is inference, which this course
+does not cover.
+
+::: {.notes}
+Left and middle are the same picture by two routes. `countplot` does the counting; `barplot`
+draws whatever numbers it is handed. That is Rebecca's `stat = "count"` against
+`stat = "identity"`.
+
+The right panel is the trap. Hand `barplot` a raw column and it silently averages it per group
+and adds a black line. Nobody asked for a mean, and the line is a 95% bootstrap confidence
+interval — inference, which this course has deliberately not taught. Students paste this from the
+web and report the bar as if it were a count.
+
+The rule: know what the mark computed before reading it. For `barplot` on raw rows, add
+`errorbar=None`, and say "mean" in the axis label. Lab Question 6 is this slide.
+:::
+
+## One summary, or one per group {.smaller}
+
+A mapping applies to every layer that receives it. A layer without `hue=` summarises all rows at
+once.
+
+```{pyodide}
+import micropip                                            # installer for browser packages
+await micropip.install("seaborn")                          # fetch seaborn
+import pandas as pd                                        # tables
+import seaborn as sns                                      # statistical figures
+import matplotlib.pyplot as plt                            # figure and axes
+
+births = pd.read_csv("data/pa_maternal_infant.csv")        # one row per county
+counties = pd.read_csv("data/pa_counties.csv")             # metro status per county
+joined = births.merge(counties, on="county")               # one table
+PAL = {"Metro": "#003594", "Nonmetro": "#8a6400"}          # course colours, by group
+xy = dict(x="children_in_poverty_pct", y="low_birthweight_pct")  # shared mappings
+
+fig, (one, each) = plt.subplots(1, 2, figsize=(10, 3.4), sharey=True)  # two panels, one y scale
+sns.scatterplot(data=joined, **xy, hue="metro", style="metro",          # points by group
+                palette=PAL, ax=one)                                    # left panel
+sns.regplot(data=joined, **xy, scatter=False, ci=None,     # ONE straight line through all rows
+            color="black", ax=one)                         # no hue, so no grouping
+one.set_title("One line for all counties")                 # panel title
+
+for group, colour in PAL.items():                          # one layer per group:
+    rows = joined[joined["metro"] == group]                # that group's counties
+    sns.regplot(data=rows, **xy, ci=None, color=colour,    # points and a line per group
+                marker="o" if group == "Metro" else "X",   # second channel: marker shape
+                label=group, ax=each)                      # legend entry
+each.set_title("One line per group")                       # panel title
+each.legend(title="Metro status", frameon=False)           # legend
+for ax in (one, each):                                     # both panels:
+    ax.set(xlabel="Children in poverty (%)", ylabel="Low birthweight (%)")  # labels with units
+plt.tight_layout()                                         # stop panels overlapping
+plt.show()                                                 # render the figure
+```
+
+::: {.notes}
+`regplot` computes a straight-line fit and draws it. `ci=None` turns off the shaded band, which
+is inference again.
+
+Left: one line through all sixty-seven counties. The points are coloured by metro status, but
+the line ignores that, because the line layer never received `hue`. Rebecca's R slide makes the
+same point with `color` inside or outside the shared `aes()`.
+
+Right: one line per group. Read the gap between them. At the same level of child poverty, the
+metro line sits above the nonmetro line. That is the first real answer to the cold open: poverty
+does not account for the difference, because the difference is still there when poverty is held
+level.
+
+Careful with the language. This is a picture of county averages, not a model of anyone's risk.
+"Held level" here means "compare counties with similar poverty", nothing stronger.
+:::
+
+# Facets {.unnumbered background-color="#003594"}
+
+## Facets: one panel per group {.smaller}
+
+`col=` gives each value of a column its own panel. `col_wrap=` wraps a long row of panels onto
+several lines.
+
+```{pyodide}
+import micropip                                            # installer for browser packages
+await micropip.install("seaborn")                          # fetch seaborn
+import pandas as pd                                        # tables
+import seaborn as sns                                      # statistical figures
+import matplotlib.pyplot as plt                            # figure and axes
+
+births = pd.read_csv("data/pa_maternal_infant.csv")        # one row per county
+counties = pd.read_csv("data/pa_counties.csv")             # region per county
+joined = births.merge(counties, on="county")               # one table
+
+g = sns.relplot(data=joined,                               # figure-level: builds its own figure
+                x="children_in_poverty_pct",               # poverty -> x
+                y="low_birthweight_pct",                   # low birthweight -> y
+                col="region", col_wrap=3,                  # one panel per region, 3 per row
+                height=1.8, aspect=1.5,                    # each panel 1.8 in tall, 1.5x as wide
+                color="#003594")                           # one colour for every point
+g.set_titles("{col_name}")                                 # panel title = the region alone
+g.set_axis_labels("Children in poverty (%)",               # x-axis label, once per column
+                  "Low birthweight (%)")                   # y-axis label, once per row
+plt.show()                                                 # render the figure
+```
+
+`relplot` returns a **FacetGrid**, `g`, whose methods label every panel at once.
+
+::: {.notes}
+This is the alternative Module 5 promised for a scatter with too many colours. Six regions as six
+colours on one axes was unreadable; six panels is easy.
+
+`relplot` is the figure-level version of `scatterplot`. No `ax=` — it makes the axes. `col_wrap=3`
+is Rebecca's `facet_wrap`: one variable, laid out in rows of three.
+
+All six panels share both axes by default, so a point in the Northwest panel and a point in the
+Southeast panel are directly comparable. That default is usually right; the shared-axes slide
+returns to it.
+
+The conditioning variable must be categorical. Facet on a numeric column and seaborn makes one
+panel per distinct value — fifty panels of one point each.
+:::
+
+## Facet grids: two conditioning variables {.smaller}
+
+`row=` and `col=` together give one panel per **combination**. A numeric column becomes a
+condition once it is cut into groups.
+
+```{pyodide}
+import micropip                                            # installer for browser packages
+await micropip.install("seaborn")                          # fetch seaborn
+import numpy as np                                         # np.where
+import pandas as pd                                        # tables
+import seaborn as sns                                      # statistical figures
+import matplotlib.pyplot as plt                            # figure and axes
+
+births = pd.read_csv("data/pa_maternal_infant.csv")        # one row per county
+counties = pd.read_csv("data/pa_counties.csv")             # metro status per county
+joined = births.merge(counties, on="county")               # one table
+
+cut = joined["children_in_poverty_pct"].median()           # statewide median: 16.1%
+joined["poverty"] = np.where(                              # a new categorical column:
+    joined["children_in_poverty_pct"] > cut,               # above the median ...
+    "Higher child poverty", "Lower child poverty")         # ... or not
+
+g = sns.displot(data=joined, x="low_birthweight_pct",      # distribution of low birthweight
+                row="metro", col="poverty",                # metro by row, poverty by column
+                binwidth=0.5, height=1.5, aspect=2.4,      # bin width; panel size
+                color="#003594")                           # one colour
+g.set_titles("{row_name} · {col_name}")                    # both conditions in each title
+g.set_axis_labels("Low birthweight (%)", "Counties")       # axis labels
+plt.show()                                                 # render the figure
+
+print(joined.groupby(["metro", "poverty"])["low_birthweight_pct"].median())  # median per panel
+```
+
+::: {.notes}
+This is Rebecca's `facet_grid(smoke ~ race)`. There is no second categorical column in this file
+that answers the cold open, so the slide makes one: above or below the statewide median of child
+poverty, 16.1%. `np.where` is Module 3.
+
+Now read the printout, which is the cold open answered. Higher-poverty counties: metro 8.35,
+nonmetro 7.90. Lower-poverty counties: metro 7.70, nonmetro 6.40. Metro counties are higher in
+both columns. Poverty moves the rate, and the metro difference survives inside each poverty
+group.
+
+Point at the cell sizes too. Only seven nonmetro counties are below the poverty median; twenty-
+seven metro counties are. A grid shows thin cells honestly, and a pooled figure hides them.
+:::
+
+## Facets versus aesthetics {.smaller}
+
+A facet removes the other groups from view. Drawing all rows in grey behind each panel restores
+the comparison.
+
+```{pyodide}
+import micropip                                            # installer for browser packages
+await micropip.install("seaborn")                          # fetch seaborn
+import pandas as pd                                        # tables
+import seaborn as sns                                      # statistical figures
+import matplotlib.pyplot as plt                            # figure and axes
+
+births = pd.read_csv("data/pa_maternal_infant.csv")        # one row per county
+counties = pd.read_csv("data/pa_counties.csv")             # metro status per county
+joined = births.merge(counties, on="county")               # one table
+x, y = "children_in_poverty_pct", "low_birthweight_pct"    # the two columns
+
+g = sns.relplot(data=joined, x=x, y=y, col="metro",        # one panel per metro group
+                height=2.8, aspect=1.4, color="#003594",   # panel size; group colour
+                zorder=2)                                  # draw these points in front
+for ax in g.axes.flat:                                     # every panel:
+    ax.scatter(joined[x], joined[y], color="#d1d5db",      # all 67 counties in light grey
+               s=25, zorder=1)                             # ... behind the group's points
+g.set_titles("{col_name}")                                 # panel title = the group
+g.set_axis_labels("Children in poverty (%)", "Low birthweight (%)")  # axis labels
+plt.show()                                                 # render the figure
+```
+
+`g.axes.flat` reaches each panel's matplotlib axes, so any matplotlib call can add to it.
+
+::: {.notes}
+Rebecca's slide compares colour-and-shape on one panel against facets, and then adds the full data
+back. This slide goes straight to the useful version.
+
+The grey points are every county; the blue points are the panel's group. Now the comparison is
+inside each panel: the metro counties sit in the upper part of the grey cloud, the nonmetro
+counties in the lower part, at overlapping levels of poverty. That is the per-group line slide,
+seen a different way.
+
+`zorder` controls which layer is in front, regardless of the order of the code. Higher is in
+front. It is the escape hatch when a library draws in an order you did not choose.
+:::
+
+## Rows or columns; shared axes {.smaller}
+
+Panels **stacked in a column** share an x-axis, so their distributions line up. Panels **side by
+side** share a y-axis.
+
+```{pyodide}
+import micropip                                            # installer for browser packages
+await micropip.install("seaborn")                          # fetch seaborn
+import pandas as pd                                        # tables
+import seaborn as sns                                      # statistical figures
+import matplotlib.pyplot as plt                            # figure and axes
+
+births = pd.read_csv("data/pa_maternal_infant.csv")        # one row per county
+counties = pd.read_csv("data/pa_counties.csv")             # metro status per county
+joined = births.merge(counties, on="county")               # one table
+
+g = sns.displot(data=joined, x="low_birthweight_pct",      # distribution of low birthweight
+                row="metro",                               # one ROW per group: x-axes align
+                binwidth=0.5, height=1.4, aspect=4,        # bin width; wide, short panels
+                color="#003594")                           # one colour
+g.set_titles("{row_name}")                                 # panel title = the group
+g.set_axis_labels("Low birthweight (%)", "Counties")       # axis labels
+plt.show()                                                 # render the figure
+```
+
+`sharex=False` or `sharey=False` gives each panel its own scale, at the cost of the comparison.
+
+::: {.notes}
+Choose the direction from the comparison. Here the question is where the two distributions sit
+along the low-birthweight scale, so the panels are stacked and the x-axes line up. The metro
+histogram is shifted right; read it straight down.
+
+Side by side would line up the y-axes instead, which suits comparing heights — counts, or a
+response on the vertical axis.
+
+Turning sharing off is occasionally necessary, when one group's range dwarfs another's. Do it
+knowingly: two panels on different scales look comparable and are not.
+:::
+
+# Position adjustments {.unnumbered background-color="#003594"}
+
+## Position adjustments: bars {.smaller}
+
+When groups overlap in one bar, `multiple=` decides where each goes: **stack**, **dodge** (side
+by side), or **fill** (stack, scaled to proportions).
+
+```{pyodide}
+import micropip                                            # installer for browser packages
+await micropip.install("seaborn")                          # fetch seaborn
+import pandas as pd                                        # tables
+import seaborn as sns                                      # statistical figures
+import matplotlib.pyplot as plt                            # figure and axes
+
+counties = pd.read_csv("data/pa_counties.csv")             # region and metro per county
+PAL = {"Metro": "#003594", "Nonmetro": "#8a6400"}          # course colours, by group
+
+fig, axes = plt.subplots(1, 3, figsize=(11, 3), sharey=False)  # three panels
+for ax, how in zip(axes, ["stack", "dodge", "fill"]):     # one adjustment per panel
+    sns.histplot(data=counties, y="region", hue="metro",   # counts of counties per region
+                 multiple=how, shrink=0.8,                 # the adjustment; gaps between bars
+                 palette=PAL, legend=(how == "fill"),      # course colours; one legend only
+                 ax=ax)                                    # this panel
+    ax.set(title=f'multiple="{how}"', ylabel="")           # panel title; names on the left
+axes[2].set_xlabel("Proportion of counties")               # fill: the scale is a proportion
+sns.move_legend(axes[2], "upper left",                     # legend outside the last panel,
+                bbox_to_anchor=(1.02, 1), frameon=False)   # so it covers no bars
+plt.tight_layout()                                         # stop panels overlapping
+plt.show()                                                 # render the figure
+```
+
+::: {.notes}
+`histplot` counts a categorical column just as `countplot` does, and it accepts `multiple=`, which
+`countplot` does not. That is why it is used here.
+
+Stack answers "how many counties per region, and how many of each kind". Dodge makes the two
+groups easier to compare with each other. Fill throws away the totals and answers "what share of
+each region is metro". Three questions, three adjustments.
+
+Read fill: the Southeast is nearly all metro, the North Central and Northwest mostly nonmetro.
+This is the same picture of Pennsylvania as Module 5's countplot, now as proportions.
+:::
+
+## Position adjustments: histograms {.smaller}
+
+Stacked histograms hide the shape of every group except the bottom one. **Layering** with
+transparency, or drawing outlines with `element="step"`, keeps each group fully visible.
+
+```{pyodide}
+import micropip                                            # installer for browser packages
+await micropip.install("seaborn")                          # fetch seaborn
+import pandas as pd                                        # tables
+import seaborn as sns                                      # statistical figures
+import matplotlib.pyplot as plt                            # figure and axes
+
+births = pd.read_csv("data/pa_maternal_infant.csv")        # one row per county
+counties = pd.read_csv("data/pa_counties.csv")             # metro status per county
+joined = births.merge(counties, on="county")               # one table
+PAL = {"Metro": "#003594", "Nonmetro": "#8a6400"}          # course colours, by group
+opts = dict(data=joined, x="low_birthweight_pct", hue="metro",  # shared data and mappings
+            binwidth=0.5, palette=PAL)                     # bin width; course colours
+
+fig, axes = plt.subplots(1, 3, figsize=(11, 3), sharey=True)    # three panels, one y scale
+sns.histplot(**opts, multiple="stack", ax=axes[0])         # default for hue: stacked
+sns.histplot(**opts, multiple="layer", alpha=0.4, ax=axes[1])   # overlaid, see-through
+sns.histplot(**opts, element="step", fill=False, ax=axes[2])    # outlines only
+for ax, t in zip(axes, ["stack", "layer + alpha", "step outlines"]):  # each panel:
+    ax.set(title=t, xlabel="Low birthweight (%)")          # title and x-axis label
+plt.tight_layout()                                         # stop panels overlapping
+plt.show()                                                 # render the figure
+```
+
+::: {.notes}
+The left panel looks like one distribution with a gold cap. The metro shape is there, but it
+starts at the top of the nonmetro bars, so nobody can read it. That is the trouble with stacking
+distributions.
+
+Middle: both histograms from zero, see-through, so the overlap shows as a darker colour. Right:
+outlines only. Both keep each group whole. Rebecca's version of this uses `position = "identity"`
+with `alpha`, and it is the same idea.
+
+Lab Question 2 asks for a histogram where each group is fully visible. This is the slide.
+:::
+
+# Scales {.unnumbered background-color="#003594"}
+
+## Scales: ticks, labels, and log axes {.smaller}
+
+A scale maps data values to positions. matplotlib sets ticks automatically; `set_xscale("log")`
+spaces values by ratio, and a **locator** fixes the tick spacing.
+
+```{pyodide}
+import micropip                                            # installer for browser packages
+await micropip.install("seaborn")                          # fetch seaborn
+import pandas as pd                                        # tables
+import seaborn as sns                                      # statistical figures
+import matplotlib.pyplot as plt                            # figure and axes
+from matplotlib.ticker import MultipleLocator, StrMethodFormatter  # tick spacing and format
+
+births = pd.read_csv("data/pa_maternal_infant.csv")        # one row per county
+counties = pd.read_csv("data/pa_counties.csv")             # population per county
+joined = births.merge(counties, on="county")               # one table
+
+fig, (lin, log) = plt.subplots(1, 2, figsize=(10, 3), sharey=True)  # two panels
+log.set_xscale("log")                                      # equal ratios -> equal distances
+for ax in (lin, log):                                      # same scatter in both panels
+    sns.scatterplot(data=joined, x="population_2023",      # population -> x
+                    y="low_birthweight_pct",               # low birthweight -> y
+                    color="#003594", ax=ax)                # one colour
+    ax.xaxis.set_major_formatter(StrMethodFormatter("{x:,.0f}"))  # 1500000 -> 1,500,000
+    ax.set_xlabel("Population, 2023")                      # x-axis label
+lin.xaxis.set_major_locator(MultipleLocator(500000))       # an x tick every 500,000 people
+lin.yaxis.set_major_locator(MultipleLocator(1))            # a y tick every 1 point
+lin.set_ylabel("Low birthweight (%)")                      # y-axis label with units
+lin.set_title("Linear x"); log.set_title("Log x")          # panel titles
+plt.tight_layout()                                         # stop panels overlapping
+plt.show()                                                 # render the figure
+```
+
+::: {.notes}
+Population runs from about 4,400 in Cameron to 1.55 million in Philadelphia. On a linear axis,
+most counties crowd into the left tenth of the axis and a handful of large ones spread across the
+rest. On a log axis each
+step is ten times the last, and the counties spread out. Population, income, and counts nearly
+always want a log axis.
+
+`MultipleLocator(1)` puts a tick at every whole percentage point. `StrMethodFormatter` adds the
+thousands commas. Both are matplotlib, reached through `ax.xaxis` or `ax.yaxis` — the axis, not
+the axes, from Module 5.
+
+Rebecca's R equivalent is `scale_x_continuous(breaks = ...)`. The idea is the same; the
+spelling is different. Lab Question 3 uses `MultipleLocator`.
+:::
+
+## Colour scales: named and manual palettes {.smaller}
+
+`palette=` takes either a **named** palette, such as the ColorBrewer set `"Dark2"`, or a
+**dictionary** from each group to a colour.
+
+```{pyodide}
+import micropip                                            # installer for browser packages
+await micropip.install("seaborn")                          # fetch seaborn
+import pandas as pd                                        # tables
+import seaborn as sns                                      # statistical figures
+import matplotlib.pyplot as plt                            # figure and axes
+
+births = pd.read_csv("data/pa_maternal_infant.csv")        # one row per county
+counties = pd.read_csv("data/pa_counties.csv")             # region and metro per county
+joined = births.merge(counties, on="county")               # one table
+xy = dict(data=joined, x="children_in_poverty_pct", y="low_birthweight_pct")  # shared mappings
+
+fig, (named, manual) = plt.subplots(1, 2, figsize=(11, 3.2))    # two panels
+sns.scatterplot(**xy, hue="region", palette="Dark2", ax=named)  # a named ColorBrewer palette
+sns.scatterplot(**xy, hue="metro", style="metro",               # metro -> colour and shape
+                palette={"Metro": "#003594",                    # manual: group -> colour
+                         "Nonmetro": "#8a6400"}, ax=manual)     # dark gold for nonmetro
+named.legend(fontsize=7, frameon=False)                    # compact legend
+for ax in (named, manual):                                 # both panels:
+    ax.set(xlabel="Children in poverty (%)", ylabel="Low birthweight (%)")  # labels with units
+plt.tight_layout()                                         # stop panels overlapping
+plt.show()                                                 # render the figure
+```
+
+`sns.color_palette("Dark2")` displays a named palette's colours.
+
+::: {.notes}
+The named palette is a shortcut: seaborn hands out its colours in order. That is Rebecca's
+`scale_color_brewer(palette = "Dark2")`. ColorBrewer is the source of most good named palettes,
+and colorbrewer2.org lets you browse them.
+
+The dictionary is Rebecca's `scale_color_manual`, and it is the version to use in anything that
+leaves a notebook. Metro is royal blue in every figure, whatever order the rows arrive in. With a
+named palette, filter the data and the colours can shift between two figures in the same report.
+
+Lab Question 3 asks for two named colours by group. The dictionary is how.
+:::
+
+## Diverging colour scales: a correlation heatmap {.smaller}
+
+A **diverging** palette has a neutral centre and two directions, which suits a value with a
+meaningful zero.
+
+```{pyodide}
+import micropip                                            # installer for browser packages
+await micropip.install("seaborn")                          # fetch seaborn
+import pandas as pd                                        # tables
+import seaborn as sns                                      # statistical figures
+import matplotlib.pyplot as plt                            # figure and axes
+
+births = pd.read_csv("data/pa_maternal_infant.csv")        # one row per county
+measures = births[["low_birthweight_pct", "infant_mortality_per_1000",  # six measures:
+                   "teen_births_per_1000", "children_in_poverty_pct",   # births and poverty
+                   "uninsured_children_pct", "median_household_income"]]  # insurance, income
+short = ["Low bw", "Infant mort.", "Teen births",          # short labels for the cells,
+         "Child pov.", "Uninsured", "Income"]              # in the same order as the columns
+
+fig, ax = plt.subplots(figsize=(7, 3.8))                   # canvas and one axes
+sns.heatmap(measures.corr(), annot=True, fmt=".2f",        # correlations, printed in each cell
+            cmap="BrBG", vmin=-1, vmax=1,                  # diverging palette, fixed at -1..+1
+            xticklabels=short, yticklabels=short,          # readable labels
+            annot_kws={"size": 8}, ax=ax)                  # small cell text; target axes
+ax.set_title("Correlations among county measures")         # title
+plt.tight_layout()                                         # keep labels inside the canvas
+plt.show()                                                 # render the figure
+```
+
+::: {.notes}
+`vmin=-1, vmax=1` fixes the colour scale. Without it the colours stretch to whatever range is
+present, and the same colour means different numbers in two heatmaps.
+
+`BrBG` is brown–blue-green, diverging around white at zero. A sequential palette such as
+`viridis` would make −0.8 and +0.2 look like two steps of one ladder, when they point in opposite
+directions.
+
+Read across the low-birthweight row: child poverty at +0.47, and uninsured children at −0.50 —
+a negative that runs against intuition. Do not explain it away; it is a good example of why a
+county correlation is a description, not a mechanism. The strongest cell on the whole map is
+income against poverty, −0.80, and that one is nearly a definition, not a finding. `.corr()` drops missing values pair by pair, so
+the infant-mortality cells use 44 counties and the rest use 66 or 67.
+:::
+
+# Themes {.unnumbered background-color="#003594"}
+
+## Built-in styles {.smaller}
+
+A theme sets the **non-data** elements: background, grid, and ticks. seaborn has five styles.
+
+```{pyodide}
+import micropip                                            # installer for browser packages
+await micropip.install("seaborn")                          # fetch seaborn
+import pandas as pd                                        # tables
+import seaborn as sns                                      # statistical figures
+import matplotlib.pyplot as plt                            # figure and axes
+
+births = pd.read_csv("data/pa_maternal_infant.csv")        # one row per county
+
+fig = plt.figure(figsize=(11, 2.6))                        # an empty canvas
+for i, style in enumerate(["darkgrid", "whitegrid",        # four of the five styles
+                           "white", "ticks"], start=1):    # ("dark" is the fifth)
+    with sns.axes_style(style):                            # applies only inside this block
+        ax = fig.add_subplot(1, 4, i)                      # axes created in that style
+    sns.histplot(data=births, x="low_birthweight_pct",     # the same histogram each time
+                 binwidth=0.5, color="#003594", ax=ax)     # bin width; one colour
+    ax.set(title=style, xlabel="Low birthweight (%)",      # style name as the title
+           ylabel="")                                      # no y label, to save room
+plt.tight_layout()                                         # stop panels overlapping
+plt.show()                                                 # render the figure
+```
+
+`sns.set_theme(style="white")` sets the style for **every later figure** in the session.
+
+::: {.notes}
+These are Rebecca's `theme_bw()`, `theme_minimal()`, `theme_classic()`. Same data, same marks,
+four different backgrounds.
+
+`white` and `ticks` are the usual choices for print: no grey, no grid competing with the data.
+`whitegrid` helps when readers need to read values off the axis.
+
+The `with` block is a technical detail worth one sentence. `sns.set_theme` changes the style for
+everything that follows, and in a browser deck that would leak into every later slide. `with
+sns.axes_style(...)` applies it to one axes only. In a notebook, call `set_theme` once at the top.
+:::
+
+## Adjusting single elements {.smaller}
+
+Individual elements change through matplotlib and two seaborn helpers: `sns.despine()` and
+`sns.move_legend()`.
+
+```{pyodide}
+import micropip                                            # installer for browser packages
+await micropip.install("seaborn")                          # fetch seaborn
+import pandas as pd                                        # tables
+import seaborn as sns                                      # statistical figures
+import matplotlib.pyplot as plt                            # figure and axes
+
+births = pd.read_csv("data/pa_maternal_infant.csv")        # one row per county
+counties = pd.read_csv("data/pa_counties.csv")             # metro status per county
+joined = births.merge(counties, on="county")               # one table
+
+fig, ax = plt.subplots(figsize=(7, 3.4))                   # canvas and one axes
+sns.scatterplot(data=joined, x="children_in_poverty_pct",  # poverty -> x
+                y="low_birthweight_pct",                   # low birthweight -> y
+                hue="metro", style="metro",                # metro -> colour and shape
+                palette={"Metro": "#003594", "Nonmetro": "#8a6400"}, ax=ax)  # course colours
+sns.despine(ax=ax)                                         # remove the top and right borders
+sns.move_legend(ax, "lower center",                        # legend centred ...
+                bbox_to_anchor=(0.5, 1.0), ncol=2,         # ... above the axes, in one row
+                title=None, frameon=False)                 # no title, no box
+ax.set_title("Low birthweight against child poverty",      # title ...
+             fontweight="bold", pad=28)                    # ... in bold, clear of the legend
+ax.set(xlabel="Children in poverty (%)", ylabel="Low birthweight (%)")  # labels with units
+plt.tight_layout()                                         # keep labels inside the canvas
+plt.show()                                                 # render the figure
+```
+
+`legend=False` in the plotting call removes the legend entirely.
+
+::: {.notes}
+This is Rebecca's `theme()` slide: legend on top, no legend title, a bolder title.
+
+`despine` removes the top and right borders, which carry no information. `move_legend` is the
+reliable way to reposition a seaborn legend; `bbox_to_anchor=(0.5, 1.0)` means centred, at the
+top edge of the axes. `pad=28` lifts the title so the legend fits beneath it.
+
+Lab Question 3 is the themes exercise from the R half: colours by group, tick spacing, an axis
+title, a plain background, no legend, and a bold title. Every one of those calls is on this
+slide or the two before it.
+:::
+
+# Combining and saving {.unnumbered background-color="#003594"}
+
+## Combining figures {.smaller}
+
+`plt.subplot_mosaic()` lays out named panels from a sketch: each list is a row, and a repeated
+name spans several cells.
+
+```{pyodide}
+import micropip                                            # installer for browser packages
+await micropip.install("seaborn")                          # fetch seaborn
+import pandas as pd                                        # tables
+import seaborn as sns                                      # statistical figures
+import matplotlib.pyplot as plt                            # figure and axes
+
+births = pd.read_csv("data/pa_maternal_infant.csv")        # one row per county
+counties = pd.read_csv("data/pa_counties.csv")             # region per county
+joined = births.merge(counties, on="county")               # one table
+LBW = "low_birthweight_pct"                                # the column every panel uses
+
+fig, axd = plt.subplot_mosaic([["hist", "dens"],           # top row: two panels
+                               ["vio", "vio"]],            # bottom row: one wide panel
+                              figsize=(10, 4.6))           # canvas size
+sns.histplot(data=joined, x=LBW, binwidth=0.5,             # top left: histogram
+             color="#003594", ax=axd["hist"])              # one colour
+sns.kdeplot(data=joined, x=LBW, fill=True,                 # top right: density
+            color="#003594", ax=axd["dens"])               # one colour
+sns.violinplot(data=joined, x="region", y=LBW,             # bottom: one violin per region
+               color="#8a6400", ax=axd["vio"])             # one colour
+for name in ("hist", "dens"):                              # top panels:
+    axd[name].set_xlabel("Low birthweight (%)")            # x-axis label with units
+axd["vio"].set(xlabel="", ylabel="Low birthweight (%)")    # bottom panel labels
+fig.suptitle("Low birthweight in 67 Pennsylvania counties",  # one title for the figure
+             fontweight="bold")                            # in bold
+plt.tight_layout()                                         # stop panels overlapping
+plt.show()                                                 # render the figure
+```
+
+::: {.notes}
+This is Rebecca's patchwork slide, rebuilt. `(hist | dens) / violin` in patchwork is the nested
+list here: two names in the top row, one name repeated across the bottom row so it spans both
+columns.
+
+`axd` is a dictionary from panel name to axes, so `axd["vio"]` is the bottom panel. Name panels
+by what they hold and the code reads like the layout.
+
+`plt.subplots(2, 2)` from Module 5 is the simple grid; `subplot_mosaic` is for anything uneven.
+`fig.suptitle` titles the whole figure, where `ax.set_title` titles one panel.
+:::
+
+## Saving figures {.smaller}
+
+`fig.savefig()` writes the figure to a file. The extension chooses the format.
+
+```{pyodide}
+import micropip                                            # installer for browser packages
+await micropip.install("seaborn")                          # fetch seaborn
+import os                                                  # file sizes
+import pandas as pd                                        # tables
+import seaborn as sns                                      # statistical figures
+import matplotlib.pyplot as plt                            # figure and axes
+
+births = pd.read_csv("data/pa_maternal_infant.csv")        # one row per county
+
+fig, ax = plt.subplots(figsize=(6, 3))                     # canvas and one axes
+sns.histplot(data=births, x="low_birthweight_pct",         # the figure to save
+             binwidth=0.5, color="#003594", ax=ax)         # bin width; one colour
+ax.set(xlabel="Low birthweight (%)", ylabel="Counties")    # labels
+plt.tight_layout()                                         # keep labels inside the canvas
+
+fig.savefig("lbw_hist.png", dpi=300, bbox_inches="tight")  # raster image, 300 dots per inch
+fig.savefig("lbw_hist.pdf", bbox_inches="tight")           # vector image, sharp at any size
+plt.show()                                                 # render AFTER saving
+
+for f in ["lbw_hist.png", "lbw_hist.pdf"]:                 # confirm both files exist
+    print(f, os.path.getsize(f), "bytes")                  # name and size
+```
+
+`savefig()` comes **before** `plt.show()`: after showing, the figure may be empty.
+
+::: {.notes}
+PNG for slides and the web; PDF for papers, because it is drawn from shapes and stays sharp at any
+zoom. `dpi=300` is the usual print resolution. `bbox_inches="tight"` trims empty margins and stops
+long labels being clipped.
+
+The order rule catches people every term. In a notebook, `plt.show()` can hand the figure off and
+leave nothing to save, and the result is a blank file with no error.
+
+In the browser the files go to a temporary in-memory folder and vanish on refresh. In JupyterLab
+they appear next to the notebook. Rebecca also recommends dating file names and saving into an
+`output/` folder; that habit is worth copying.
+:::
+
+# Appendix: why visualize? {.unnumbered background-color="#003594"}
+
+## Identical summaries, different data {.smaller}
+
+Anscombe's quartet (1973): four data sets with the same means, variances, and correlation.
+
+```{pyodide}
+import pandas as pd                                        # tables
+import matplotlib.pyplot as plt                            # figure and axes
+
+x = [10, 8, 13, 9, 11, 14, 6, 4, 12, 7, 5]                 # x for sets I-III
+quartet = {                                                # set name -> (x, y)
+    "I":   (x, [8.04, 6.95, 7.58, 8.81, 8.33, 9.96,        # set I: y values ...
+                7.24, 4.26, 10.84, 4.82, 5.68]),           # ... eleven in all
+    "II":  (x, [9.14, 8.14, 8.74, 8.77, 9.26, 8.10,        # set II
+                6.13, 3.10, 9.13, 7.26, 4.74]),            # ... eleven in all
+    "III": (x, [7.46, 6.77, 12.74, 7.11, 7.81, 8.84,       # set III
+                6.08, 5.39, 8.15, 6.42, 5.73]),            # ... eleven in all
+    "IV":  ([8, 8, 8, 8, 8, 8, 8, 19, 8, 8, 8],            # set IV has its own x
+            [6.58, 5.76, 7.71, 8.84, 8.47, 7.04,           # set IV: y values ...
+             5.25, 12.50, 5.56, 7.91, 6.89]),              # ... eleven in all
+}                                                          # end of the four sets
+
+fig, axes = plt.subplots(1, 4, figsize=(11, 2.4), sharex=True, sharey=True)  # four panels
+for ax, (name, (xs, ys)) in zip(axes, quartet.items()):   # one set per panel
+    ax.scatter(xs, ys, color="#003594")                    # the eleven points
+    ax.set_title(name)                                     # panel title
+    s = pd.Series(ys)                                      # y as a Series, for summaries
+    print(name, "mean y", round(s.mean(), 2),              # same mean ...
+          "| sd y", round(s.std(), 2),                     # ... same spread ...
+          "| r", round(pd.Series(xs).corr(s), 3))          # ... same correlation
+plt.tight_layout()                                         # stop panels overlapping
+plt.show()                                                 # render the figure
+```
+
+::: {.notes}
+This is Rebecca's appendix point, with Anscombe's four sets instead of the datasaurus. Every
+printed line is the same: mean 7.5, standard deviation 2.03, correlation 0.816. The four pictures
+are a line, a curve, a line with one outlier, and a vertical stack with one point carrying the
+entire correlation.
+
+The values are typed in from Anscombe's 1973 paper. They are constructed, not public-health data,
+and that is the point: they were built to show that a summary can be identical while the data
+are not.
+
+Tie it back to Module 5. The asthma correlation of 0.659 was reported after its scatter, never
+before. This is why.
+:::
+
+## A figure of counts often draws a map of population {.smaller}
+
+```{pyodide}
+import pandas as pd                                        # tables
+import matplotlib.pyplot as plt                            # figure and axes
+
+covid = pd.read_csv("data/pa_covid_monthly.csv")           # deaths by county and month
+counties = pd.read_csv("data/pa_counties.csv")             # population per county
+covid = covid[covid["month"] >= "2021-08"]                 # keep the reliably reported period
+
+totals = (covid.groupby("county", as_index=False)["covid_deaths"].sum()  # deaths per county
+               .merge(counties[["county", "population_2023"]],           # attach population
+                      on="county"))                                      # by county
+totals["per_100k"] = (totals["covid_deaths"]               # deaths ...
+                      / totals["population_2023"] * 100000)  # ... per 100,000 residents
+
+fig, (cnt, rate) = plt.subplots(1, 2, figsize=(10, 2.8))   # two panels
+top = totals.nlargest(5, "covid_deaths").sort_values("covid_deaths")  # top 5 by count
+cnt.barh(top["county"], top["covid_deaths"], color="#003594")         # bars by count
+cnt.set(title="Top 5 by deaths", xlabel="COVID-19 deaths")            # labels
+top = totals.nlargest(5, "per_100k").sort_values("per_100k")          # top 5 by rate
+rate.barh(top["county"], top["per_100k"], color="#8a6400")            # bars by rate
+rate.set(title="Top 5 by deaths per 100,000", xlabel="Deaths per 100,000")  # labels
+plt.tight_layout()                                         # stop panels overlapping
+plt.show()                                                 # render the figure
+
+pop = totals["population_2023"]                            # the denominator
+print("count vs population:", round(totals["covid_deaths"].corr(pop), 3))  # counts track size
+print("rate  vs population:", round(totals["per_100k"].corr(pop), 3))      # rates do not
+```
+
+**The two lists share no counties.** Deaths track population at r = +0.953; the rate does not.
+
+::: {.notes}
+Ask for predictions first. Most of the room expects overlap. There is none.
+
+Left: Allegheny, Philadelphia, Montgomery, Lancaster, Bucks — Pennsylvania's largest counties.
+That chart is a population map with a mortality label; deaths and population correlate at +0.953.
+Right: Potter, Juniata, Jefferson, Armstrong, Fulton — small rural counties. Potter leads at 556
+per 100,000, from 89 deaths. Divide by population and the correlation with population falls to
+−0.308.
+
+Both charts are correct for different questions. Total deaths answers how many beds or staff;
+the rate answers where the burden per resident was highest. One caution on the rate: Potter's
+556 is 89 deaths in a county of 16,000, and a small count makes a jumpy rate.
+
+The filter keeps August 2021 onward, because this file badly undercounts 2020. Lab Question 4 is
+this slide.
+:::
+
+## Session outcomes {.smaller}
+
+1\. More marks: `histplot`, `kdeplot`, `boxplot`, `violinplot`, and seaborn's three families
+
+2\. **Layering** in order, and `zorder` when the order must change
+
+3\. **Statistical transformations**: what `countplot`, `barplot`, and `regplot` compute
+
+4\. **Facets** with `relplot` and `displot`: `col=`, `row=`, `col_wrap=`, shared axes
+
+5\. **Position adjustments**: `multiple="stack" / "dodge" / "fill" / "layer"`
+
+6\. **Scales**: log axes, tick locators, named and manual palettes, diverging heatmaps
+
+7\. **Themes**: `axes_style`, `despine`, `move_legend`; combining with `subplot_mosaic`; `savefig`
+
+8\. Figures before summaries; **rates before counts**
+
+::: {.callout-tip}
+## Lab 6, now
+Questions 1–3 in class (debug, facets and position, themes). All eight questions are due
+**Thursday 11/19 at 11:59 pm**.
+:::
+
+::: {.notes}
+The sentence for the module: a figure is data, mappings, marks, and a set of choices about
+statistics, panels, scales, and style — and each of those choices can change what the reader
+concludes.
+
+Hand over to the lab now. Questions 1 to 3 are Rebecca's three in-lecture exercises, translated.
+Question 1 is a debugging question, and the debugging is in reading the figure, not the error
+message: both calls run.
+:::
+
+## {#viz-cheat-seaborn background-iframe="https://assets.datacamp.com/blog_assets/Python_Seaborn_Cheat_Sheet.pdf#toolbar=0&navpanes=0&view=Fit" background-interactive="true"}
+
+```{=html}
+<style>
+#viz-cheat-seaborn h2 { display: none; }
+body.cheat-sheet-active .reveal .footer,
+body.cheat-sheet-active .reveal .slide-number,
+body.cheat-sheet-active .reveal .slide-menu-button,
+body.cheat-sheet-active .reveal .progress { display: none !important; }
+</style>
+<script>
+// Full-bleed slide: hide the footer, slide number, and menu while the cheat sheet shows.
+window.addEventListener("load", () => {
+  const toggle = (slide) => document.body.classList.toggle(
+    "cheat-sheet-active", !!slide && slide.id.startsWith("viz-cheat"));
+  Reveal.on("slidechanged", (e) => toggle(e.currentSlide));
+  toggle(Reveal.getCurrentSlide());
+});
+</script>
+```
+
+# That's all folks! {.unnumbered background-color="#003594"}
+
+::: {.section-subtitle}
+On to Lab 6.
+:::

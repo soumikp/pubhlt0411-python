@@ -1,0 +1,1427 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="module6_lecture_files/libs/clipboard/clipboard.min.js"></script>
+<script src="module6_lecture_files/libs/quarto-html/tabby.min.js"></script>
+<script src="module6_lecture_files/libs/quarto-html/popper.min.js"></script>
+<script src="module6_lecture_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="module6_lecture_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="module6_lecture_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="module6_lecture_files/libs/quarto-html/quarto-syntax-highlighting-acf12a64177840b8d86f2d4f01b2e9fb.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="module6_lecture_files/libs/quarto-contrib/live-runtime/live-runtime.js" type="module"></script>
+<link href="module6_lecture_files/libs/quarto-contrib/live-runtime/live-runtime.css" rel="stylesheet"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.9.37">
+
+  <meta name="author" content="Soumik Purkayastha">
+  <meta name="dcterms.date" content="2026-11-17">
+  <title>Module 6: Data visualization II</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="module6_lecture_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="module6_lecture_files/libs/revealjs/dist/reveal.css">
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="module6_lecture_files/libs/revealjs/dist/theme/quarto-4c94e9973d8f1a49040643b0080f559e.css">
+  <link href="module6_lecture_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="module6_lecture_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="module6_lecture_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="module6_lecture_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+  <script type="module" src="module6_lecture_files/libs/quarto-ojs/quarto-ojs-runtime.js"></script>
+  <link href="module6_lecture_files/libs/quarto-ojs/quarto-ojs.css" rel="stylesheet">
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title">Module 6: Data visualization II</h1>
+  <p class="subtitle">PUBHLT 0411 · Python for Public Health Data Analysis</p>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Soumik Purkayastha 
+</div>
+        <p class="quarto-title-affiliation">
+            Dept. of Biostatistics and Health Data Science, University of Pittsburgh
+          </p>
+    </div>
+</div>
+
+  <p class="date">November 17, 2026</p>
+</section>
+<section id="housekeepingsetup" class="slide level2 smaller">
+<h2>Housekeeping/setup</h2>
+<div class="cell">
+<div>
+<div id="pyodide-1" class="exercise-cell">
+
+</div>
+<script type="pyodide-1-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiaW1wb3J0IG1pY3JvcGlwICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICMgaW5zdGFsbGVyIGZvciBwYWNrYWdlcyB0aGUgYnJvd3NlciBsYWNrc1xuYXdhaXQgbWljcm9waXAuaW5zdGFsbChcInNlYWJvcm5cIikgICAgICAgICAgICAgICAgIyBmZXRjaCBzZWFib3JuOyBmaXJzdCBydW4gdGFrZXMgYSBmZXcgc2Vjb25kc1xuXG5pbXBvcnQgbnVtcHkgYXMgbnAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIyBhcnJheXMgYW5kIGFyaXRobWV0aWMgKE1vZHVsZSAzKVxuaW1wb3J0IHBhbmRhcyBhcyBwZCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICMgdGFibGVzIChNb2R1bGUgNClcbmltcG9ydCBtYXRwbG90bGliLnB5cGxvdCBhcyBwbHQgICAgICAgICAgICAgICAgICAjIGZpZ3VyZXMsIGF4ZXMsIGxhYmVscyAoTW9kdWxlIDUpXG5pbXBvcnQgc2VhYm9ybiBhcyBzbnMgICAgICAgICAgICAgICAgICAgICAgICAgICAgIyBzdGF0aXN0aWNhbCBmaWd1cmVzIChNb2R1bGUgNSlcblxuYmlydGhzID0gcGQucmVhZF9jc3YoXCJkYXRhL3BhX21hdGVybmFsX2luZmFudC5jc3ZcIikgICAgICAgICMgNjcgY291bnRpZXMsIENvdW50eSBIZWFsdGggUmFua2luZ3MgMjAyNFxuY291bnRpZXMgPSBwZC5yZWFkX2NzdihcImRhdGEvcGFfY291bnRpZXMuY3N2XCIpICAgICAgICAgICAgICMgcmVnaW9uLCBtZXRybyBzdGF0dXMsIHBvcHVsYXRpb25cbmpvaW5lZCA9IGJpcnRocy5tZXJnZShjb3VudGllcywgb249XCJjb3VudHlcIikgICAgICAgICAgICAgICAjIGF0dGFjaCBjb3VudHkgYXR0cmlidXRlcyBieSBrZXlcblxucHJpbnQoam9pbmVkLnNoYXBlKSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICMgcm93cywgY29sdW1uczogZXhwZWN0ICg2NywgMTQpIn0=
+</script>
+</div>
+</div>
+<p>Every code cell in this deck loads its own data, so any slide runs on its own. In JupyterLab, <code>import seaborn as sns</code> is sufficient; the two <code>micropip</code> lines are for the browser only.</p>
+<aside class="notes">
+<p>Run this first and let seaborn download while you introduce the data. Same opening as last week, new file.</p>
+<p>The births file is County Health Rankings 2024: one row per county, eight columns of maternal and child health. The counties file is the one they already know from Module 5. The merge gives fourteen columns, and every figure today draws from <code>joined</code>.</p>
+<p>Today is one class with the lab inside it. Tell them now: about fifty minutes of slides, then twenty minutes on Lab 6 Questions 1 to 3, which are built from this deck. Everything they need for those three is shown by the middle of the session.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="the-maternal-and-infant-data" class="slide level2 smaller">
+<h2>The maternal and infant data</h2>
+<div class="cell">
+<div>
+<div id="pyodide-2" class="exercise-cell">
+
+</div>
+<script type="pyodide-2-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiaW1wb3J0IHBhbmRhcyBhcyBwZCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIHRhYmxlc1xuXG5iaXJ0aHMgPSBwZC5yZWFkX2NzdihcImRhdGEvcGFfbWF0ZXJuYWxfaW5mYW50LmNzdlwiKSAgICAgICAgIyBvbmUgcm93IHBlciBjb3VudHlcbmNvdW50aWVzID0gcGQucmVhZF9jc3YoXCJkYXRhL3BhX2NvdW50aWVzLmNzdlwiKSAgICAgICAgICAgICAjIG1ldHJvIHN0YXR1cyBwZXIgY291bnR5XG5qb2luZWQgPSBiaXJ0aHMubWVyZ2UoY291bnRpZXMsIG9uPVwiY291bnR5XCIpICAgICAgICAgICAgICAgIyBvbmUgdGFibGVcblxuY29scyA9IFtcImxvd19iaXJ0aHdlaWdodF9wY3RcIiwgXCJjaGlsZHJlbl9pbl9wb3ZlcnR5X3BjdFwiXSAgIyB0aGUgdHdvIG1lYXN1cmVzIHVzZWQgdG9kYXlcbnByaW50KGpvaW5lZC5ncm91cGJ5KFwibWV0cm9cIilbY29sc10ubWVkaWFuKCkpICAgICAgICAgICAgICAjIG1lZGlhbiBvZiBlYWNoLCBieSBtZXRybyBzdGF0dXMifQ==
+</script>
+</div>
+</div>
+<p>Source: County Health Rankings &amp; Roadmaps 2024. <strong>Low birthweight</strong> is the percentage of live births under 2,500 grams, 5.3% (Union) to 11.0% (Philadelphia).</p>
+<p><strong>Metro counties have the higher median low-birthweight rate, 8.1% against 7.3%, even though child poverty is higher in nonmetro counties.</strong></p>
+<div class="callout callout-important callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>The question this module opens</strong></p>
+</div>
+<div class="callout-content">
+<p>Does child poverty account for the metro difference, or does the difference persist at the same level of poverty?</p>
+</div>
+</div>
+</div>
+<aside class="notes">
+<p>This is the cold open, and it is built to surprise. Most of the room expects rural counties to do worse on every maternal outcome, because nonmetro Pennsylvania is poorer: median child poverty 17.8% against 14.3%. And yet low birthweight runs the other way.</p>
+<p>Do not explain it. The obvious guess is that the metro number is dragged up by Philadelphia, and Philadelphia is indeed the top county at 11.0%. But it is one county of thirty-seven, and a median does not move much for one county. The facet slides answer the question properly.</p>
+<p>Framing, because this is maternal health: these are county rates, and differences between them reflect access to care, housing, income, and the structure of a place. Nothing on today’s slides is about the choices of individual mothers, and you should say so if anyone drifts there.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section>
+<section id="more-geoms" class="title-slide slide level1 unnumbered center" data-background-color="#003594">
+<h1>More geoms</h1>
+
+</section>
+<section id="sns.histplot-and-sns.kdeplot" class="slide level2 smaller">
+<h2><code>sns.histplot()</code> and <code>sns.kdeplot()</code></h2>
+<p>A histogram counts rows in bins. A <strong>density</strong> curve is a smoothed outline of the same distribution, scaled so its area is 1.</p>
+<div class="cell">
+<div>
+<div id="pyodide-3" class="exercise-cell">
+
+</div>
+<script type="pyodide-3-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiaW1wb3J0IG1pY3JvcGlwICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIGluc3RhbGxlciBmb3IgYnJvd3NlciBwYWNrYWdlc1xuYXdhaXQgbWljcm9waXAuaW5zdGFsbChcInNlYWJvcm5cIikgICAgICAgICAgICAgICAgICAgICAgICAgICMgZmV0Y2ggc2VhYm9yblxuaW1wb3J0IHBhbmRhcyBhcyBwZCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIHRhYmxlc1xuaW1wb3J0IHNlYWJvcm4gYXMgc25zICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIHN0YXRpc3RpY2FsIGZpZ3VyZXNcbmltcG9ydCBtYXRwbG90bGliLnB5cGxvdCBhcyBwbHQgICAgICAgICAgICAgICAgICAgICAgICAgICAgIyBmaWd1cmUgYW5kIGF4ZXNcblxuYmlydGhzID0gcGQucmVhZF9jc3YoXCJkYXRhL3BhX21hdGVybmFsX2luZmFudC5jc3ZcIikgICAgICAgICMgb25lIHJvdyBwZXIgY291bnR5XG5cbmZpZywgKGhpc3QsIGRlbnMpID0gcGx0LnN1YnBsb3RzKDEsIDIsIGZpZ3NpemU9KDksIDMpKSAgICAgIyB0d28gcGFuZWxzXG5zbnMuaGlzdHBsb3QoZGF0YT1iaXJ0aHMsIHg9XCJsb3dfYmlydGh3ZWlnaHRfcGN0XCIsICAgICAgICAgIyBkYXRhOyBsb3cgYmlydGh3ZWlnaHQgLT4geFxuICAgICAgICAgICAgIGJpbndpZHRoPTAuNSwgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIFNFVFRJTkc6IGV2ZXJ5IGJpbiAwLjUgcG9pbnRzIHdpZGVcbiAgICAgICAgICAgICBjb2xvcj1cIiMwMDM1OTRcIiwgYXg9aGlzdCkgICAgICAgICAgICAgICAgICAgICAjIG9uZSBjb2xvdXI7IGxlZnQgcGFuZWxcbnNucy5rZGVwbG90KGRhdGE9YmlydGhzLCB4PVwibG93X2JpcnRod2VpZ2h0X3BjdFwiLCAgICAgICAgICAjIHNhbWUgY29sdW1uLCBzbW9vdGhlZFxuICAgICAgICAgICAgZmlsbD1UcnVlLCBjb2xvcj1cIiMwMDM1OTRcIiwgYXg9ZGVucykgICAgICAgICAgICMgc2hhZGVkIHVuZGVyIHRoZSBjdXJ2ZTsgcmlnaHQgcGFuZWxcbmZvciBheCBpbiAoaGlzdCwgZGVucyk6ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIyBib3RoIHBhbmVsczpcbiAgICBheC5zZXRfeGxhYmVsKFwiTG93IGJpcnRod2VpZ2h0ICglIG9mIGxpdmUgYmlydGhzKVwiKSAgICAjIHgtYXhpcyBsYWJlbCB3aXRoIHVuaXRzXG5wbHQudGlnaHRfbGF5b3V0KCkgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICMgc3RvcCBwYW5lbHMgb3ZlcmxhcHBpbmdcbnBsdC5zaG93KCkgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIyByZW5kZXIgdGhlIGZpZ3VyZSJ9
+</script>
+</div>
+</div>
+<p><code>binwidth=</code> and <code>bins=</code> are settings: fixed numbers, not columns, so they never go to a mapping.</p>
+<aside class="notes">
+<p>Two views of one column. The histogram counts counties in half-point bins; the density draws a smooth outline whose area is one, so the y-axis is no longer a count.</p>
+<p>Read the shape. Most counties sit between six and nine percent, with a long right tail out to Philadelphia at eleven. The density makes the tail look gentler than the histogram does, which is the trade: smoothing hides the lumps and invents a little shape past the edges of the data.</p>
+<p>The R half makes the same point about <code>bins</code>: it is not inside <code>aes()</code> because it is not data. Same here. <code>binwidth=0.5</code> is a setting.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="sns.boxplot-and-sns.violinplot" class="slide level2 smaller">
+<h2><code>sns.boxplot()</code> and <code>sns.violinplot()</code></h2>
+<p>A violin draws the density of each group on both sides of a centre line, where a boxplot draws only its quartiles.</p>
+<div class="cell">
+<div>
+<div id="pyodide-4" class="exercise-cell">
+
+</div>
+<script type="pyodide-4-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiaW1wb3J0IG1pY3JvcGlwICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIGluc3RhbGxlciBmb3IgYnJvd3NlciBwYWNrYWdlc1xuYXdhaXQgbWljcm9waXAuaW5zdGFsbChcInNlYWJvcm5cIikgICAgICAgICAgICAgICAgICAgICAgICAgICMgZmV0Y2ggc2VhYm9yblxuaW1wb3J0IHBhbmRhcyBhcyBwZCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIHRhYmxlc1xuaW1wb3J0IHNlYWJvcm4gYXMgc25zICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIHN0YXRpc3RpY2FsIGZpZ3VyZXNcbmltcG9ydCBtYXRwbG90bGliLnB5cGxvdCBhcyBwbHQgICAgICAgICAgICAgICAgICAgICAgICAgICAgIyBmaWd1cmUgYW5kIGF4ZXNcblxuYmlydGhzID0gcGQucmVhZF9jc3YoXCJkYXRhL3BhX21hdGVybmFsX2luZmFudC5jc3ZcIikgICAgICAgICMgb25lIHJvdyBwZXIgY291bnR5XG5jb3VudGllcyA9IHBkLnJlYWRfY3N2KFwiZGF0YS9wYV9jb3VudGllcy5jc3ZcIikgICAgICAgICAgICAgIyBtZXRybyBzdGF0dXMgcGVyIGNvdW50eVxuam9pbmVkID0gYmlydGhzLm1lcmdlKGNvdW50aWVzLCBvbj1cImNvdW50eVwiKSAgICAgICAgICAgICAgICMgb25lIHRhYmxlXG5QQUwgPSB7XCJNZXRyb1wiOiBcIiMwMDM1OTRcIiwgXCJOb25tZXRyb1wiOiBcIiM4YTY0MDBcIn0gICAgICAgICAgIyBjb3Vyc2UgY29sb3VycywgYnkgZ3JvdXBcblxuZmlnLCAoYm94LCB2aW8pID0gcGx0LnN1YnBsb3RzKDEsIDIsIGZpZ3NpemU9KDksIDMpKSAgICAgICAjIHR3byBwYW5lbHNcbnNucy5ib3hwbG90KGRhdGE9am9pbmVkLCB4PVwibWV0cm9cIiwgeT1cImxvd19iaXJ0aHdlaWdodF9wY3RcIiwgICAgIyBtZXRybyAtPiB4LCBvdXRjb21lIC0+IHlcbiAgICAgICAgICAgIGh1ZT1cIm1ldHJvXCIsIHBhbGV0dGU9UEFMLCBsZWdlbmQ9RmFsc2UsIGF4PWJveCkgICAgICMgY29sb3VyIGJ5IGdyb3VwLCBubyBsZWdlbmRcbnNucy52aW9saW5wbG90KGRhdGE9am9pbmVkLCB4PVwibWV0cm9cIiwgeT1cImxvd19iaXJ0aHdlaWdodF9wY3RcIiwgIyBzYW1lIG1hcHBpbmdzXG4gICAgICAgICAgICAgICBodWU9XCJtZXRyb1wiLCBwYWxldHRlPVBBTCwgbGVnZW5kPUZhbHNlLCBheD12aW8pICAjIGNvbG91ciBieSBncm91cCwgbm8gbGVnZW5kXG5mb3IgYXggaW4gKGJveCwgdmlvKTogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICMgYm90aCBwYW5lbHM6XG4gICAgYXguc2V0KHhsYWJlbD1cIlwiLCB5bGFiZWw9XCJMb3cgYmlydGh3ZWlnaHQgKCUpXCIpICAgICAgICAjIGxhYmVsc1xucGx0LnRpZ2h0X2xheW91dCgpICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIHN0b3AgcGFuZWxzIG92ZXJsYXBwaW5nXG5wbHQuc2hvdygpICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICMgcmVuZGVyIHRoZSBmaWd1cmUifQ==
+</script>
+</div>
+</div>
+<p><code>hue=</code> repeats the <code>x</code> column so each box takes its colour from <code>palette</code>; <code>legend=False</code> drops the legend, which would only repeat the axis labels.</p>
+<aside class="notes">
+<p>The boxplot is last week’s: median line, box for the middle half, whiskers to one and a half box lengths, and single points beyond. The metro box sits higher. That is the cold open again.</p>
+<p>The violin shows what the box cannot. The metro violin has a long upper neck — that is Philadelphia and Fayette pulling up the tail — while the nonmetro violin is shorter and wider in the middle. Two groups with similar boxes can have very different violins, which is Rebecca’s point on the matching R slide.</p>
+<p>The <code>hue</code> repeat is a seaborn 0.13 habit worth naming. Passing <code>palette</code> without <code>hue</code> still works but prints a warning that it will stop working. Map the same column to <code>hue</code> and switch the legend off.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="seaborns-three-families" class="slide level2 smaller">
+<h2>seaborn’s three families</h2>
+<p>Every seaborn mark belongs to a family, and each family has a <strong>figure-level</strong> function that can split the data into panels.</p>
+<table class="caption-top">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Family</th>
+<th>Figure-level</th>
+<th>Axes-level marks</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Relational: two numeric variables</td>
+<td><code>sns.relplot()</code></td>
+<td><code>scatterplot</code>, <code>lineplot</code></td>
+</tr>
+<tr class="even">
+<td>Distributional: one numeric variable</td>
+<td><code>sns.displot()</code></td>
+<td><code>histplot</code>, <code>kdeplot</code></td>
+</tr>
+<tr class="odd">
+<td>Categorical: numeric by category</td>
+<td><code>sns.catplot()</code></td>
+<td><code>boxplot</code>, <code>violinplot</code>, <code>countplot</code>, <code>barplot</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Axes-level</strong> functions draw on one <code>ax=</code>. <strong>Figure-level</strong> functions create their own figure and take <code>col=</code> and <code>row=</code> instead. The <a href="https://seaborn.pydata.org/examples/index.html">seaborn gallery</a> shows a worked example of each.</p>
+<aside class="notes">
+<p>This is the map for the rest of the session, and the Python counterpart of Rebecca’s “ggplot2 has more than forty geoms” slide. seaborn has far fewer, organised into three families.</p>
+<p>The distinction that matters today is axes-level against figure-level. Everything so far has been axes-level: make the axes with <code>plt.subplots()</code>, pass <code>ax=ax</code>. The figure-level functions build the figure themselves, which is why they can make one panel per group. That is facets, and it is the middle of today.</p>
+<p>The gallery link is for the final project. Many of the figures there are two or three calls.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section></section>
+<section>
+<section id="layers-and-statistical-transformations" class="title-slide slide level1 unnumbered center" data-background-color="#003594">
+<h1>Layers and statistical transformations</h1>
+
+</section>
+<section id="layering-order-matters" class="slide level2 smaller">
+<h2>Layering: order matters</h2>
+<p>Each call draws on top of the previous one, so the layer that must be seen goes <strong>last</strong>.</p>
+<div class="cell">
+<div>
+<div id="pyodide-5" class="exercise-cell">
+
+</div>
+<script type="pyodide-5-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiaW1wb3J0IG1pY3JvcGlwICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIGluc3RhbGxlciBmb3IgYnJvd3NlciBwYWNrYWdlc1xuYXdhaXQgbWljcm9waXAuaW5zdGFsbChcInNlYWJvcm5cIikgICAgICAgICAgICAgICAgICAgICAgICAgICMgZmV0Y2ggc2VhYm9yblxuaW1wb3J0IHBhbmRhcyBhcyBwZCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIHRhYmxlc1xuaW1wb3J0IHNlYWJvcm4gYXMgc25zICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIHN0YXRpc3RpY2FsIGZpZ3VyZXNcbmltcG9ydCBtYXRwbG90bGliLnB5cGxvdCBhcyBwbHQgICAgICAgICAgICAgICAgICAgICAgICAgICAgIyBmaWd1cmUgYW5kIGF4ZXNcblxuYmlydGhzID0gcGQucmVhZF9jc3YoXCJkYXRhL3BhX21hdGVybmFsX2luZmFudC5jc3ZcIikgICAgICAgICMgb25lIHJvdyBwZXIgY291bnR5XG5jb3VudGllcyA9IHBkLnJlYWRfY3N2KFwiZGF0YS9wYV9jb3VudGllcy5jc3ZcIikgICAgICAgICAgICAgIyBtZXRybyBzdGF0dXMgcGVyIGNvdW50eVxuam9pbmVkID0gYmlydGhzLm1lcmdlKGNvdW50aWVzLCBvbj1cImNvdW50eVwiKSAgICAgICAgICAgICAgICMgb25lIHRhYmxlXG5tZXRybyA9IGpvaW5lZFtqb2luZWRbXCJtZXRyb1wiXSA9PSBcIk1ldHJvXCJdICAgICAgICAgICAgICAgICAjIHRoZSBncm91cCB0byBoaWdobGlnaHRcbnh5ID0gZGljdCh4PVwiY2hpbGRyZW5faW5fcG92ZXJ0eV9wY3RcIiwgeT1cImxvd19iaXJ0aHdlaWdodF9wY3RcIiwgcz00MCkgICMgc2hhcmVkIG1hcHBpbmdzLCBzaXplXG5cbmZpZywgKGJhZCwgZ29vZCkgPSBwbHQuc3VicGxvdHMoMSwgMiwgZmlnc2l6ZT0oMTAsIDMuMiksIHNoYXJleT1UcnVlKSAgIyB0d28gcGFuZWxzXG5zbnMuc2NhdHRlcnBsb3QoZGF0YT1tZXRybywgKip4eSwgY29sb3I9XCIjMDAzNTk0XCIsIGF4PWJhZCkgICAjIGxheWVyIDE6IG1ldHJvIGNvdW50aWVzXG5zbnMuc2NhdHRlcnBsb3QoZGF0YT1qb2luZWQsICoqeHksIGNvbG9yPVwiI2QxZDVkYlwiLCBheD1iYWQpICAjIGxheWVyIDI6IGFsbCA2NywgaW4gZ3JleSwgb24gdG9wXG5iYWQuc2V0X3RpdGxlKFwiTWV0cm8gZmlyc3QsIHRoZW4gYWxsIGNvdW50aWVzXCIpICAgICAgICAgICAgIyBwYW5lbCB0aXRsZVxuXG5zbnMuc2NhdHRlcnBsb3QoZGF0YT1qb2luZWQsICoqeHksIGNvbG9yPVwiI2QxZDVkYlwiLCBheD1nb29kKSAjIGxheWVyIDE6IGFsbCA2NyBhcyBhIGJhY2tkcm9wXG5zbnMuc2NhdHRlcnBsb3QoZGF0YT1tZXRybywgKip4eSwgY29sb3I9XCIjMDAzNTk0XCIsIGF4PWdvb2QpICAjIGxheWVyIDI6IG1ldHJvIGNvdW50aWVzIG9uIHRvcFxuZ29vZC5zZXRfdGl0bGUoXCJBbGwgY291bnRpZXMgZmlyc3QsIHRoZW4gbWV0cm9cIikgICAgICAgICAgICMgcGFuZWwgdGl0bGVcbmZvciBheCBpbiAoYmFkLCBnb29kKTogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIyBib3RoIHBhbmVsczpcbiAgICBheC5zZXQoeGxhYmVsPVwiQ2hpbGRyZW4gaW4gcG92ZXJ0eSAoJSlcIiwgeWxhYmVsPVwiTG93IGJpcnRod2VpZ2h0ICglKVwiKSAgIyBsYWJlbHMgd2l0aCB1bml0c1xucGx0LnRpZ2h0X2xheW91dCgpICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIHN0b3AgcGFuZWxzIG92ZXJsYXBwaW5nXG5wbHQuc2hvdygpICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICMgcmVuZGVyIHRoZSBmaWd1cmUifQ==
+</script>
+</div>
+</div>
+<p><code>zorder=</code> overrides the order: a layer with a higher <code>zorder</code> is drawn in front.</p>
+<aside class="notes">
+<p>Same two layers, opposite order. On the left the grey layer goes down last and paints over every metro county; the figure shows no metro counties at all, and the code ran without complaint. On the right the grey goes first and becomes a backdrop, and the metro counties stand out against the rest of the state.</p>
+<p>This is Rebecca’s “order matters” slide. Her example layers a violin and a boxplot. In seaborn that pair does not show the problem, because seaborn gives its boxes and points a higher <code>zorder</code> than its violins, so they land in front whatever the code order. That is worth one sentence if someone tries it: the library made the choice for you.</p>
+<p><code>xy</code> is a dictionary of the arguments both calls share, unpacked with <code>**</code>. It keeps the calls from drifting apart, and it is the only new Python on the slide.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="statistical-transformations" class="slide level2 smaller">
+<h2>Statistical transformations</h2>
+<p>Many marks compute something before drawing. <code>countplot</code> counts rows; <code>barplot</code> computes a <strong>mean</strong> of <code>y</code> and adds an error bar by default.</p>
+<div class="cell">
+<div>
+<div id="pyodide-6" class="exercise-cell">
+
+</div>
+<script type="pyodide-6-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiaW1wb3J0IG1pY3JvcGlwICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIGluc3RhbGxlciBmb3IgYnJvd3NlciBwYWNrYWdlc1xuYXdhaXQgbWljcm9waXAuaW5zdGFsbChcInNlYWJvcm5cIikgICAgICAgICAgICAgICAgICAgICAgICAgICMgZmV0Y2ggc2VhYm9yblxuaW1wb3J0IHBhbmRhcyBhcyBwZCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIHRhYmxlc1xuaW1wb3J0IHNlYWJvcm4gYXMgc25zICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIHN0YXRpc3RpY2FsIGZpZ3VyZXNcbmltcG9ydCBtYXRwbG90bGliLnB5cGxvdCBhcyBwbHQgICAgICAgICAgICAgICAgICAgICAgICAgICAgIyBmaWd1cmUgYW5kIGF4ZXNcblxuYmlydGhzID0gcGQucmVhZF9jc3YoXCJkYXRhL3BhX21hdGVybmFsX2luZmFudC5jc3ZcIikgICAgICAgICMgb25lIHJvdyBwZXIgY291bnR5XG5jb3VudGllcyA9IHBkLnJlYWRfY3N2KFwiZGF0YS9wYV9jb3VudGllcy5jc3ZcIikgICAgICAgICAgICAgIyByZWdpb24gcGVyIGNvdW50eVxuam9pbmVkID0gYmlydGhzLm1lcmdlKGNvdW50aWVzLCBvbj1cImNvdW50eVwiKSAgICAgICAgICAgICAgICMgb25lIHRhYmxlXG5uID0gam9pbmVkW1wicmVnaW9uXCJdLnZhbHVlX2NvdW50cygpLnJlc2V0X2luZGV4KCkgICAgICAgICAgIyBwcmVjb21wdXRlZCBjb3VudHMgcGVyIHJlZ2lvblxub3JkZXIgPSBzb3J0ZWQoam9pbmVkW1wicmVnaW9uXCJdLnVuaXF1ZSgpKSAgICAgICAgICAgICAgICAgICMgb25lIHJlZ2lvbiBvcmRlciBmb3IgYWxsIHBhbmVsc1xuXG5maWcsIChjbnQsIHByZSwgYXZnKSA9IHBsdC5zdWJwbG90cygxLCAzLCBmaWdzaXplPSgxMSwgMyksIHNoYXJleT1UcnVlKSAgIyB0aHJlZSBwYW5lbHNcbnNucy5jb3VudHBsb3QoZGF0YT1qb2luZWQsIHk9XCJyZWdpb25cIiwgb3JkZXI9b3JkZXIsICAgICAgICAjIHNlYWJvcm4gY291bnRzIHRoZSByb3dzIGl0c2VsZlxuICAgICAgICAgICAgICBjb2xvcj1cIiMwMDM1OTRcIiwgYXg9Y250KSAgICAgICAgICAgICAgICAgICAgICMgb25lIGNvbG91clxuY250LnNldCh0aXRsZT1cImNvdW50cGxvdFwiLCB4bGFiZWw9XCJDb3VudGllc1wiKSAgICAgICAgICAgICAgIyBwYW5lbCB0aXRsZTsgeCBsYWJlbFxuc25zLmJhcnBsb3QoZGF0YT1uLCB5PVwicmVnaW9uXCIsIHg9XCJjb3VudFwiLCBvcmRlcj1vcmRlciwgICAgIyBiYXIgbGVuZ3RoID0gYSBjb2x1bW4gb2YgY291bnRzXG4gICAgICAgICAgICBjb2xvcj1cIiMwMDM1OTRcIiwgYXg9cHJlKSAgICAgICAgICAgICAgICAgICAgICAgIyBvbmUgY29sb3VyXG5wcmUuc2V0KHRpdGxlPVwiYmFycGxvdCBvZiBjb3VudHNcIiwgeGxhYmVsPVwiQ291bnRpZXNcIikgICAgICAjIHBhbmVsIHRpdGxlOyB4IGxhYmVsXG5zbnMuYmFycGxvdChkYXRhPWpvaW5lZCwgeT1cInJlZ2lvblwiLCB4PVwibG93X2JpcnRod2VpZ2h0X3BjdFwiLCAgIyBiYXIgbGVuZ3RoID0gYSBNRUFOIHBlciByZWdpb25cbiAgICAgICAgICAgIG9yZGVyPW9yZGVyLCBjb2xvcj1cIiM4YTY0MDBcIiwgYXg9YXZnKSAgICAgICAgICAjIHNhbWUgb3JkZXI7IG9uZSBjb2xvdXJcbmF2Zy5zZXQodGl0bGU9XCJiYXJwbG90IG9mIGEgY29sdW1uXCIsICAgICAgICAgICAgICAgICAgICAgICAjIHBhbmVsIHRpdGxlXG4gICAgICAgIHhsYWJlbD1cIk1lYW4gbG93IGJpcnRod2VpZ2h0ICglKVwiKSAgICAgICAgICAgICAgICAgIyB3aGF0IHRoZSBiYXIgbm93IHNob3dzXG5mb3IgYXggaW4gKGNudCwgcHJlLCBhdmcpOiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICMgZXZlcnkgcGFuZWw6XG4gICAgYXguc2V0X3lsYWJlbChcIlwiKSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIyByZWdpb24gbmFtZXMgbmVlZCBubyBsYWJlbFxucGx0LnRpZ2h0X2xheW91dCgpICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIHN0b3AgcGFuZWxzIG92ZXJsYXBwaW5nXG5wbHQuc2hvdygpICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICMgcmVuZGVyIHRoZSBmaWd1cmUifQ==
+</script>
+</div>
+</div>
+<p><code>errorbar=None</code> removes the error bar. The interval it draws is inference, which this course does not cover.</p>
+<aside class="notes">
+<p>Left and middle are the same picture by two routes. <code>countplot</code> does the counting; <code>barplot</code> draws whatever numbers it is handed. That is Rebecca’s <code>stat = "count"</code> against <code>stat = "identity"</code>.</p>
+<p>The right panel is the trap. Hand <code>barplot</code> a raw column and it silently averages it per group and adds a black line. Nobody asked for a mean, and the line is a 95% bootstrap confidence interval — inference, which this course has deliberately not taught. Students paste this from the web and report the bar as if it were a count.</p>
+<p>The rule: know what the mark computed before reading it. For <code>barplot</code> on raw rows, add <code>errorbar=None</code>, and say “mean” in the axis label. Lab Question 6 is this slide.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="one-summary-or-one-per-group" class="slide level2 smaller">
+<h2>One summary, or one per group</h2>
+<p>A mapping applies to every layer that receives it. A layer without <code>hue=</code> summarises all rows at once.</p>
+<div class="cell">
+<div>
+<div id="pyodide-7" class="exercise-cell">
+
+</div>
+<script type="pyodide-7-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiaW1wb3J0IG1pY3JvcGlwICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIGluc3RhbGxlciBmb3IgYnJvd3NlciBwYWNrYWdlc1xuYXdhaXQgbWljcm9waXAuaW5zdGFsbChcInNlYWJvcm5cIikgICAgICAgICAgICAgICAgICAgICAgICAgICMgZmV0Y2ggc2VhYm9yblxuaW1wb3J0IHBhbmRhcyBhcyBwZCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIHRhYmxlc1xuaW1wb3J0IHNlYWJvcm4gYXMgc25zICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIHN0YXRpc3RpY2FsIGZpZ3VyZXNcbmltcG9ydCBtYXRwbG90bGliLnB5cGxvdCBhcyBwbHQgICAgICAgICAgICAgICAgICAgICAgICAgICAgIyBmaWd1cmUgYW5kIGF4ZXNcblxuYmlydGhzID0gcGQucmVhZF9jc3YoXCJkYXRhL3BhX21hdGVybmFsX2luZmFudC5jc3ZcIikgICAgICAgICMgb25lIHJvdyBwZXIgY291bnR5XG5jb3VudGllcyA9IHBkLnJlYWRfY3N2KFwiZGF0YS9wYV9jb3VudGllcy5jc3ZcIikgICAgICAgICAgICAgIyBtZXRybyBzdGF0dXMgcGVyIGNvdW50eVxuam9pbmVkID0gYmlydGhzLm1lcmdlKGNvdW50aWVzLCBvbj1cImNvdW50eVwiKSAgICAgICAgICAgICAgICMgb25lIHRhYmxlXG5QQUwgPSB7XCJNZXRyb1wiOiBcIiMwMDM1OTRcIiwgXCJOb25tZXRyb1wiOiBcIiM4YTY0MDBcIn0gICAgICAgICAgIyBjb3Vyc2UgY29sb3VycywgYnkgZ3JvdXBcbnh5ID0gZGljdCh4PVwiY2hpbGRyZW5faW5fcG92ZXJ0eV9wY3RcIiwgeT1cImxvd19iaXJ0aHdlaWdodF9wY3RcIikgICMgc2hhcmVkIG1hcHBpbmdzXG5cbmZpZywgKG9uZSwgZWFjaCkgPSBwbHQuc3VicGxvdHMoMSwgMiwgZmlnc2l6ZT0oMTAsIDMuNCksIHNoYXJleT1UcnVlKSAgIyB0d28gcGFuZWxzLCBvbmUgeSBzY2FsZVxuc25zLnNjYXR0ZXJwbG90KGRhdGE9am9pbmVkLCAqKnh5LCBodWU9XCJtZXRyb1wiLCBzdHlsZT1cIm1ldHJvXCIsICAgICAgICAgICMgcG9pbnRzIGJ5IGdyb3VwXG4gICAgICAgICAgICAgICAgcGFsZXR0ZT1QQUwsIGF4PW9uZSkgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIGxlZnQgcGFuZWxcbnNucy5yZWdwbG90KGRhdGE9am9pbmVkLCAqKnh5LCBzY2F0dGVyPUZhbHNlLCBjaT1Ob25lLCAgICAgIyBPTkUgc3RyYWlnaHQgbGluZSB0aHJvdWdoIGFsbCByb3dzXG4gICAgICAgICAgICBjb2xvcj1cImJsYWNrXCIsIGF4PW9uZSkgICAgICAgICAgICAgICAgICAgICAgICAgIyBubyBodWUsIHNvIG5vIGdyb3VwaW5nXG5vbmUuc2V0X3RpdGxlKFwiT25lIGxpbmUgZm9yIGFsbCBjb3VudGllc1wiKSAgICAgICAgICAgICAgICAgIyBwYW5lbCB0aXRsZVxuXG5mb3IgZ3JvdXAsIGNvbG91ciBpbiBQQUwuaXRlbXMoKTogICAgICAgICAgICAgICAgICAgICAgICAgICMgb25lIGxheWVyIHBlciBncm91cDpcbiAgICByb3dzID0gam9pbmVkW2pvaW5lZFtcIm1ldHJvXCJdID09IGdyb3VwXSAgICAgICAgICAgICAgICAjIHRoYXQgZ3JvdXAncyBjb3VudGllc1xuICAgIHNucy5yZWdwbG90KGRhdGE9cm93cywgKip4eSwgY2k9Tm9uZSwgY29sb3I9Y29sb3VyLCAgICAjIHBvaW50cyBhbmQgYSBsaW5lIHBlciBncm91cFxuICAgICAgICAgICAgICAgIG1hcmtlcj1cIm9cIiBpZiBncm91cCA9PSBcIk1ldHJvXCIgZWxzZSBcIlhcIiwgICAjIHNlY29uZCBjaGFubmVsOiBtYXJrZXIgc2hhcGVcbiAgICAgICAgICAgICAgICBsYWJlbD1ncm91cCwgYXg9ZWFjaCkgICAgICAgICAgICAgICAgICAgICAgIyBsZWdlbmQgZW50cnlcbmVhY2guc2V0X3RpdGxlKFwiT25lIGxpbmUgcGVyIGdyb3VwXCIpICAgICAgICAgICAgICAgICAgICAgICAjIHBhbmVsIHRpdGxlXG5lYWNoLmxlZ2VuZCh0aXRsZT1cIk1ldHJvIHN0YXR1c1wiLCBmcmFtZW9uPUZhbHNlKSAgICAgICAgICAgIyBsZWdlbmRcbmZvciBheCBpbiAob25lLCBlYWNoKTogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIyBib3RoIHBhbmVsczpcbiAgICBheC5zZXQoeGxhYmVsPVwiQ2hpbGRyZW4gaW4gcG92ZXJ0eSAoJSlcIiwgeWxhYmVsPVwiTG93IGJpcnRod2VpZ2h0ICglKVwiKSAgIyBsYWJlbHMgd2l0aCB1bml0c1xucGx0LnRpZ2h0X2xheW91dCgpICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIHN0b3AgcGFuZWxzIG92ZXJsYXBwaW5nXG5wbHQuc2hvdygpICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICMgcmVuZGVyIHRoZSBmaWd1cmUifQ==
+</script>
+</div>
+</div>
+<aside class="notes">
+<p><code>regplot</code> computes a straight-line fit and draws it. <code>ci=None</code> turns off the shaded band, which is inference again.</p>
+<p>Left: one line through all sixty-seven counties. The points are coloured by metro status, but the line ignores that, because the line layer never received <code>hue</code>. Rebecca’s R slide makes the same point with <code>color</code> inside or outside the shared <code>aes()</code>.</p>
+<p>Right: one line per group. Read the gap between them. At the same level of child poverty, the metro line sits above the nonmetro line. That is the first real answer to the cold open: poverty does not account for the difference, because the difference is still there when poverty is held level.</p>
+<p>Careful with the language. This is a picture of county averages, not a model of anyone’s risk. “Held level” here means “compare counties with similar poverty”, nothing stronger.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section></section>
+<section>
+<section id="facets" class="title-slide slide level1 unnumbered center" data-background-color="#003594">
+<h1>Facets</h1>
+
+</section>
+<section id="facets-one-panel-per-group" class="slide level2 smaller">
+<h2>Facets: one panel per group</h2>
+<p><code>col=</code> gives each value of a column its own panel. <code>col_wrap=</code> wraps a long row of panels onto several lines.</p>
+<div class="cell">
+<div>
+<div id="pyodide-8" class="exercise-cell">
+
+</div>
+<script type="pyodide-8-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiaW1wb3J0IG1pY3JvcGlwICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIGluc3RhbGxlciBmb3IgYnJvd3NlciBwYWNrYWdlc1xuYXdhaXQgbWljcm9waXAuaW5zdGFsbChcInNlYWJvcm5cIikgICAgICAgICAgICAgICAgICAgICAgICAgICMgZmV0Y2ggc2VhYm9yblxuaW1wb3J0IHBhbmRhcyBhcyBwZCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIHRhYmxlc1xuaW1wb3J0IHNlYWJvcm4gYXMgc25zICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIHN0YXRpc3RpY2FsIGZpZ3VyZXNcbmltcG9ydCBtYXRwbG90bGliLnB5cGxvdCBhcyBwbHQgICAgICAgICAgICAgICAgICAgICAgICAgICAgIyBmaWd1cmUgYW5kIGF4ZXNcblxuYmlydGhzID0gcGQucmVhZF9jc3YoXCJkYXRhL3BhX21hdGVybmFsX2luZmFudC5jc3ZcIikgICAgICAgICMgb25lIHJvdyBwZXIgY291bnR5XG5jb3VudGllcyA9IHBkLnJlYWRfY3N2KFwiZGF0YS9wYV9jb3VudGllcy5jc3ZcIikgICAgICAgICAgICAgIyByZWdpb24gcGVyIGNvdW50eVxuam9pbmVkID0gYmlydGhzLm1lcmdlKGNvdW50aWVzLCBvbj1cImNvdW50eVwiKSAgICAgICAgICAgICAgICMgb25lIHRhYmxlXG5cbmcgPSBzbnMucmVscGxvdChkYXRhPWpvaW5lZCwgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIyBmaWd1cmUtbGV2ZWw6IGJ1aWxkcyBpdHMgb3duIGZpZ3VyZVxuICAgICAgICAgICAgICAgIHg9XCJjaGlsZHJlbl9pbl9wb3ZlcnR5X3BjdFwiLCAgICAgICAgICAgICAgICMgcG92ZXJ0eSAtPiB4XG4gICAgICAgICAgICAgICAgeT1cImxvd19iaXJ0aHdlaWdodF9wY3RcIiwgICAgICAgICAgICAgICAgICAgIyBsb3cgYmlydGh3ZWlnaHQgLT4geVxuICAgICAgICAgICAgICAgIGNvbD1cInJlZ2lvblwiLCBjb2xfd3JhcD0zLCAgICAgICAgICAgICAgICAgICMgb25lIHBhbmVsIHBlciByZWdpb24sIDMgcGVyIHJvd1xuICAgICAgICAgICAgICAgIGhlaWdodD0xLjgsIGFzcGVjdD0xLjUsICAgICAgICAgICAgICAgICAgICAjIGVhY2ggcGFuZWwgMS44IGluIHRhbGwsIDEuNXggYXMgd2lkZVxuICAgICAgICAgICAgICAgIGNvbG9yPVwiIzAwMzU5NFwiKSAgICAgICAgICAgICAgICAgICAgICAgICAgICMgb25lIGNvbG91ciBmb3IgZXZlcnkgcG9pbnRcbmcuc2V0X3RpdGxlcyhcIntjb2xfbmFtZX1cIikgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIHBhbmVsIHRpdGxlID0gdGhlIHJlZ2lvbiBhbG9uZVxuZy5zZXRfYXhpc19sYWJlbHMoXCJDaGlsZHJlbiBpbiBwb3ZlcnR5ICglKVwiLCAgICAgICAgICAgICAgICMgeC1heGlzIGxhYmVsLCBvbmNlIHBlciBjb2x1bW5cbiAgICAgICAgICAgICAgICAgIFwiTG93IGJpcnRod2VpZ2h0ICglKVwiKSAgICAgICAgICAgICAgICAgICAjIHktYXhpcyBsYWJlbCwgb25jZSBwZXIgcm93XG5wbHQuc2hvdygpICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICMgcmVuZGVyIHRoZSBmaWd1cmUifQ==
+</script>
+</div>
+</div>
+<p><code>relplot</code> returns a <strong>FacetGrid</strong>, <code>g</code>, whose methods label every panel at once.</p>
+<aside class="notes">
+<p>This is the alternative Module 5 promised for a scatter with too many colours. Six regions as six colours on one axes was unreadable; six panels is easy.</p>
+<p><code>relplot</code> is the figure-level version of <code>scatterplot</code>. No <code>ax=</code> — it makes the axes. <code>col_wrap=3</code> is Rebecca’s <code>facet_wrap</code>: one variable, laid out in rows of three.</p>
+<p>All six panels share both axes by default, so a point in the Northwest panel and a point in the Southeast panel are directly comparable. That default is usually right; the shared-axes slide returns to it.</p>
+<p>The conditioning variable must be categorical. Facet on a numeric column and seaborn makes one panel per distinct value — fifty panels of one point each.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="facet-grids-two-conditioning-variables" class="slide level2 smaller">
+<h2>Facet grids: two conditioning variables</h2>
+<p><code>row=</code> and <code>col=</code> together give one panel per <strong>combination</strong>. A numeric column becomes a condition once it is cut into groups.</p>
+<div class="cell">
+<div>
+<div id="pyodide-9" class="exercise-cell">
+
+</div>
+<script type="pyodide-9-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiaW1wb3J0IG1pY3JvcGlwICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIGluc3RhbGxlciBmb3IgYnJvd3NlciBwYWNrYWdlc1xuYXdhaXQgbWljcm9waXAuaW5zdGFsbChcInNlYWJvcm5cIikgICAgICAgICAgICAgICAgICAgICAgICAgICMgZmV0Y2ggc2VhYm9yblxuaW1wb3J0IG51bXB5IGFzIG5wICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIG5wLndoZXJlXG5pbXBvcnQgcGFuZGFzIGFzIHBkICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICMgdGFibGVzXG5pbXBvcnQgc2VhYm9ybiBhcyBzbnMgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICMgc3RhdGlzdGljYWwgZmlndXJlc1xuaW1wb3J0IG1hdHBsb3RsaWIucHlwbG90IGFzIHBsdCAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIGZpZ3VyZSBhbmQgYXhlc1xuXG5iaXJ0aHMgPSBwZC5yZWFkX2NzdihcImRhdGEvcGFfbWF0ZXJuYWxfaW5mYW50LmNzdlwiKSAgICAgICAgIyBvbmUgcm93IHBlciBjb3VudHlcbmNvdW50aWVzID0gcGQucmVhZF9jc3YoXCJkYXRhL3BhX2NvdW50aWVzLmNzdlwiKSAgICAgICAgICAgICAjIG1ldHJvIHN0YXR1cyBwZXIgY291bnR5XG5qb2luZWQgPSBiaXJ0aHMubWVyZ2UoY291bnRpZXMsIG9uPVwiY291bnR5XCIpICAgICAgICAgICAgICAgIyBvbmUgdGFibGVcblxuY3V0ID0gam9pbmVkW1wiY2hpbGRyZW5faW5fcG92ZXJ0eV9wY3RcIl0ubWVkaWFuKCkgICAgICAgICAgICMgc3RhdGV3aWRlIG1lZGlhbjogMTYuMSVcbmpvaW5lZFtcInBvdmVydHlcIl0gPSBucC53aGVyZSggICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIGEgbmV3IGNhdGVnb3JpY2FsIGNvbHVtbjpcbiAgICBqb2luZWRbXCJjaGlsZHJlbl9pbl9wb3ZlcnR5X3BjdFwiXSA+IGN1dCwgICAgICAgICAgICAgICAjIGFib3ZlIHRoZSBtZWRpYW4gLi4uXG4gICAgXCJIaWdoZXIgY2hpbGQgcG92ZXJ0eVwiLCBcIkxvd2VyIGNoaWxkIHBvdmVydHlcIikgICAgICAgICAjIC4uLiBvciBub3RcblxuZyA9IHNucy5kaXNwbG90KGRhdGE9am9pbmVkLCB4PVwibG93X2JpcnRod2VpZ2h0X3BjdFwiLCAgICAgICMgZGlzdHJpYnV0aW9uIG9mIGxvdyBiaXJ0aHdlaWdodFxuICAgICAgICAgICAgICAgIHJvdz1cIm1ldHJvXCIsIGNvbD1cInBvdmVydHlcIiwgICAgICAgICAgICAgICAgIyBtZXRybyBieSByb3csIHBvdmVydHkgYnkgY29sdW1uXG4gICAgICAgICAgICAgICAgYmlud2lkdGg9MC41LCBoZWlnaHQ9MS41LCBhc3BlY3Q9Mi40LCAgICAgICMgYmluIHdpZHRoOyBwYW5lbCBzaXplXG4gICAgICAgICAgICAgICAgY29sb3I9XCIjMDAzNTk0XCIpICAgICAgICAgICAgICAgICAgICAgICAgICAgIyBvbmUgY29sb3VyXG5nLnNldF90aXRsZXMoXCJ7cm93X25hbWV9IMK3IHtjb2xfbmFtZX1cIikgICAgICAgICAgICAgICAgICAgICMgYm90aCBjb25kaXRpb25zIGluIGVhY2ggdGl0bGVcbmcuc2V0X2F4aXNfbGFiZWxzKFwiTG93IGJpcnRod2VpZ2h0ICglKVwiLCBcIkNvdW50aWVzXCIpICAgICAgICMgYXhpcyBsYWJlbHNcbnBsdC5zaG93KCkgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIyByZW5kZXIgdGhlIGZpZ3VyZVxuXG5wcmludChqb2luZWQuZ3JvdXBieShbXCJtZXRyb1wiLCBcInBvdmVydHlcIl0pW1wibG93X2JpcnRod2VpZ2h0X3BjdFwiXS5tZWRpYW4oKSkgICMgbWVkaWFuIHBlciBwYW5lbCJ9
+</script>
+</div>
+</div>
+<aside class="notes">
+<p>This is Rebecca’s <code>facet_grid(smoke ~ race)</code>. There is no second categorical column in this file that answers the cold open, so the slide makes one: above or below the statewide median of child poverty, 16.1%. <code>np.where</code> is Module 3.</p>
+<p>Now read the printout, which is the cold open answered. Higher-poverty counties: metro 8.35, nonmetro 7.90. Lower-poverty counties: metro 7.70, nonmetro 6.40. Metro counties are higher in both columns. Poverty moves the rate, and the metro difference survives inside each poverty group.</p>
+<p>Point at the cell sizes too. Only seven nonmetro counties are below the poverty median; twenty- seven metro counties are. A grid shows thin cells honestly, and a pooled figure hides them.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="facets-versus-aesthetics" class="slide level2 smaller">
+<h2>Facets versus aesthetics</h2>
+<p>A facet removes the other groups from view. Drawing all rows in grey behind each panel restores the comparison.</p>
+<div class="cell">
+<div>
+<div id="pyodide-10" class="exercise-cell">
+
+</div>
+<script type="pyodide-10-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiaW1wb3J0IG1pY3JvcGlwICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIGluc3RhbGxlciBmb3IgYnJvd3NlciBwYWNrYWdlc1xuYXdhaXQgbWljcm9waXAuaW5zdGFsbChcInNlYWJvcm5cIikgICAgICAgICAgICAgICAgICAgICAgICAgICMgZmV0Y2ggc2VhYm9yblxuaW1wb3J0IHBhbmRhcyBhcyBwZCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIHRhYmxlc1xuaW1wb3J0IHNlYWJvcm4gYXMgc25zICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIHN0YXRpc3RpY2FsIGZpZ3VyZXNcbmltcG9ydCBtYXRwbG90bGliLnB5cGxvdCBhcyBwbHQgICAgICAgICAgICAgICAgICAgICAgICAgICAgIyBmaWd1cmUgYW5kIGF4ZXNcblxuYmlydGhzID0gcGQucmVhZF9jc3YoXCJkYXRhL3BhX21hdGVybmFsX2luZmFudC5jc3ZcIikgICAgICAgICMgb25lIHJvdyBwZXIgY291bnR5XG5jb3VudGllcyA9IHBkLnJlYWRfY3N2KFwiZGF0YS9wYV9jb3VudGllcy5jc3ZcIikgICAgICAgICAgICAgIyBtZXRybyBzdGF0dXMgcGVyIGNvdW50eVxuam9pbmVkID0gYmlydGhzLm1lcmdlKGNvdW50aWVzLCBvbj1cImNvdW50eVwiKSAgICAgICAgICAgICAgICMgb25lIHRhYmxlXG54LCB5ID0gXCJjaGlsZHJlbl9pbl9wb3ZlcnR5X3BjdFwiLCBcImxvd19iaXJ0aHdlaWdodF9wY3RcIiAgICAjIHRoZSB0d28gY29sdW1uc1xuXG5nID0gc25zLnJlbHBsb3QoZGF0YT1qb2luZWQsIHg9eCwgeT15LCBjb2w9XCJtZXRyb1wiLCAgICAgICAgIyBvbmUgcGFuZWwgcGVyIG1ldHJvIGdyb3VwXG4gICAgICAgICAgICAgICAgaGVpZ2h0PTIuOCwgYXNwZWN0PTEuNCwgY29sb3I9XCIjMDAzNTk0XCIsICAgIyBwYW5lbCBzaXplOyBncm91cCBjb2xvdXJcbiAgICAgICAgICAgICAgICB6b3JkZXI9MikgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIyBkcmF3IHRoZXNlIHBvaW50cyBpbiBmcm9udFxuZm9yIGF4IGluIGcuYXhlcy5mbGF0OiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIGV2ZXJ5IHBhbmVsOlxuICAgIGF4LnNjYXR0ZXIoam9pbmVkW3hdLCBqb2luZWRbeV0sIGNvbG9yPVwiI2QxZDVkYlwiLCAgICAgICMgYWxsIDY3IGNvdW50aWVzIGluIGxpZ2h0IGdyZXlcbiAgICAgICAgICAgICAgIHM9MjUsIHpvcmRlcj0xKSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIyAuLi4gYmVoaW5kIHRoZSBncm91cCdzIHBvaW50c1xuZy5zZXRfdGl0bGVzKFwie2NvbF9uYW1lfVwiKSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICMgcGFuZWwgdGl0bGUgPSB0aGUgZ3JvdXBcbmcuc2V0X2F4aXNfbGFiZWxzKFwiQ2hpbGRyZW4gaW4gcG92ZXJ0eSAoJSlcIiwgXCJMb3cgYmlydGh3ZWlnaHQgKCUpXCIpICAjIGF4aXMgbGFiZWxzXG5wbHQuc2hvdygpICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICMgcmVuZGVyIHRoZSBmaWd1cmUifQ==
+</script>
+</div>
+</div>
+<p><code>g.axes.flat</code> reaches each panel’s matplotlib axes, so any matplotlib call can add to it.</p>
+<aside class="notes">
+<p>Rebecca’s slide compares colour-and-shape on one panel against facets, and then adds the full data back. This slide goes straight to the useful version.</p>
+<p>The grey points are every county; the blue points are the panel’s group. Now the comparison is inside each panel: the metro counties sit in the upper part of the grey cloud, the nonmetro counties in the lower part, at overlapping levels of poverty. That is the per-group line slide, seen a different way.</p>
+<p><code>zorder</code> controls which layer is in front, regardless of the order of the code. Higher is in front. It is the escape hatch when a library draws in an order you did not choose.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="rows-or-columns-shared-axes" class="slide level2 smaller">
+<h2>Rows or columns; shared axes</h2>
+<p>Panels <strong>stacked in a column</strong> share an x-axis, so their distributions line up. Panels <strong>side by side</strong> share a y-axis.</p>
+<div class="cell">
+<div>
+<div id="pyodide-11" class="exercise-cell">
+
+</div>
+<script type="pyodide-11-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiaW1wb3J0IG1pY3JvcGlwICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIGluc3RhbGxlciBmb3IgYnJvd3NlciBwYWNrYWdlc1xuYXdhaXQgbWljcm9waXAuaW5zdGFsbChcInNlYWJvcm5cIikgICAgICAgICAgICAgICAgICAgICAgICAgICMgZmV0Y2ggc2VhYm9yblxuaW1wb3J0IHBhbmRhcyBhcyBwZCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIHRhYmxlc1xuaW1wb3J0IHNlYWJvcm4gYXMgc25zICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIHN0YXRpc3RpY2FsIGZpZ3VyZXNcbmltcG9ydCBtYXRwbG90bGliLnB5cGxvdCBhcyBwbHQgICAgICAgICAgICAgICAgICAgICAgICAgICAgIyBmaWd1cmUgYW5kIGF4ZXNcblxuYmlydGhzID0gcGQucmVhZF9jc3YoXCJkYXRhL3BhX21hdGVybmFsX2luZmFudC5jc3ZcIikgICAgICAgICMgb25lIHJvdyBwZXIgY291bnR5XG5jb3VudGllcyA9IHBkLnJlYWRfY3N2KFwiZGF0YS9wYV9jb3VudGllcy5jc3ZcIikgICAgICAgICAgICAgIyBtZXRybyBzdGF0dXMgcGVyIGNvdW50eVxuam9pbmVkID0gYmlydGhzLm1lcmdlKGNvdW50aWVzLCBvbj1cImNvdW50eVwiKSAgICAgICAgICAgICAgICMgb25lIHRhYmxlXG5cbmcgPSBzbnMuZGlzcGxvdChkYXRhPWpvaW5lZCwgeD1cImxvd19iaXJ0aHdlaWdodF9wY3RcIiwgICAgICAjIGRpc3RyaWJ1dGlvbiBvZiBsb3cgYmlydGh3ZWlnaHRcbiAgICAgICAgICAgICAgICByb3c9XCJtZXRyb1wiLCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIG9uZSBST1cgcGVyIGdyb3VwOiB4LWF4ZXMgYWxpZ25cbiAgICAgICAgICAgICAgICBiaW53aWR0aD0wLjUsIGhlaWdodD0xLjQsIGFzcGVjdD00LCAgICAgICAgIyBiaW4gd2lkdGg7IHdpZGUsIHNob3J0IHBhbmVsc1xuICAgICAgICAgICAgICAgIGNvbG9yPVwiIzAwMzU5NFwiKSAgICAgICAgICAgICAgICAgICAgICAgICAgICMgb25lIGNvbG91clxuZy5zZXRfdGl0bGVzKFwie3Jvd19uYW1lfVwiKSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICMgcGFuZWwgdGl0bGUgPSB0aGUgZ3JvdXBcbmcuc2V0X2F4aXNfbGFiZWxzKFwiTG93IGJpcnRod2VpZ2h0ICglKVwiLCBcIkNvdW50aWVzXCIpICAgICAgICMgYXhpcyBsYWJlbHNcbnBsdC5zaG93KCkgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIyByZW5kZXIgdGhlIGZpZ3VyZSJ9
+</script>
+</div>
+</div>
+<p><code>sharex=False</code> or <code>sharey=False</code> gives each panel its own scale, at the cost of the comparison.</p>
+<aside class="notes">
+<p>Choose the direction from the comparison. Here the question is where the two distributions sit along the low-birthweight scale, so the panels are stacked and the x-axes line up. The metro histogram is shifted right; read it straight down.</p>
+<p>Side by side would line up the y-axes instead, which suits comparing heights — counts, or a response on the vertical axis.</p>
+<p>Turning sharing off is occasionally necessary, when one group’s range dwarfs another’s. Do it knowingly: two panels on different scales look comparable and are not.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section></section>
+<section>
+<section id="position-adjustments" class="title-slide slide level1 unnumbered center" data-background-color="#003594">
+<h1>Position adjustments</h1>
+
+</section>
+<section id="position-adjustments-bars" class="slide level2 smaller">
+<h2>Position adjustments: bars</h2>
+<p>When groups overlap in one bar, <code>multiple=</code> decides where each goes: <strong>stack</strong>, <strong>dodge</strong> (side by side), or <strong>fill</strong> (stack, scaled to proportions).</p>
+<div class="cell">
+<div>
+<div id="pyodide-12" class="exercise-cell">
+
+</div>
+<script type="pyodide-12-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiaW1wb3J0IG1pY3JvcGlwICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIGluc3RhbGxlciBmb3IgYnJvd3NlciBwYWNrYWdlc1xuYXdhaXQgbWljcm9waXAuaW5zdGFsbChcInNlYWJvcm5cIikgICAgICAgICAgICAgICAgICAgICAgICAgICMgZmV0Y2ggc2VhYm9yblxuaW1wb3J0IHBhbmRhcyBhcyBwZCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIHRhYmxlc1xuaW1wb3J0IHNlYWJvcm4gYXMgc25zICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIHN0YXRpc3RpY2FsIGZpZ3VyZXNcbmltcG9ydCBtYXRwbG90bGliLnB5cGxvdCBhcyBwbHQgICAgICAgICAgICAgICAgICAgICAgICAgICAgIyBmaWd1cmUgYW5kIGF4ZXNcblxuY291bnRpZXMgPSBwZC5yZWFkX2NzdihcImRhdGEvcGFfY291bnRpZXMuY3N2XCIpICAgICAgICAgICAgICMgcmVnaW9uIGFuZCBtZXRybyBwZXIgY291bnR5XG5QQUwgPSB7XCJNZXRyb1wiOiBcIiMwMDM1OTRcIiwgXCJOb25tZXRyb1wiOiBcIiM4YTY0MDBcIn0gICAgICAgICAgIyBjb3Vyc2UgY29sb3VycywgYnkgZ3JvdXBcblxuZmlnLCBheGVzID0gcGx0LnN1YnBsb3RzKDEsIDMsIGZpZ3NpemU9KDExLCAzKSwgc2hhcmV5PUZhbHNlKSAgIyB0aHJlZSBwYW5lbHNcbmZvciBheCwgaG93IGluIHppcChheGVzLCBbXCJzdGFja1wiLCBcImRvZGdlXCIsIFwiZmlsbFwiXSk6ICAgICAjIG9uZSBhZGp1c3RtZW50IHBlciBwYW5lbFxuICAgIHNucy5oaXN0cGxvdChkYXRhPWNvdW50aWVzLCB5PVwicmVnaW9uXCIsIGh1ZT1cIm1ldHJvXCIsICAgIyBjb3VudHMgb2YgY291bnRpZXMgcGVyIHJlZ2lvblxuICAgICAgICAgICAgICAgICBtdWx0aXBsZT1ob3csIHNocmluaz0wLjgsICAgICAgICAgICAgICAgICAjIHRoZSBhZGp1c3RtZW50OyBnYXBzIGJldHdlZW4gYmFyc1xuICAgICAgICAgICAgICAgICBwYWxldHRlPVBBTCwgbGVnZW5kPShob3cgPT0gXCJmaWxsXCIpLCAgICAgICMgY291cnNlIGNvbG91cnM7IG9uZSBsZWdlbmQgb25seVxuICAgICAgICAgICAgICAgICBheD1heCkgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIHRoaXMgcGFuZWxcbiAgICBheC5zZXQodGl0bGU9ZidtdWx0aXBsZT1cIntob3d9XCInLCB5bGFiZWw9XCJcIikgICAgICAgICAgICMgcGFuZWwgdGl0bGU7IG5hbWVzIG9uIHRoZSBsZWZ0XG5heGVzWzJdLnNldF94bGFiZWwoXCJQcm9wb3J0aW9uIG9mIGNvdW50aWVzXCIpICAgICAgICAgICAgICAgIyBmaWxsOiB0aGUgc2NhbGUgaXMgYSBwcm9wb3J0aW9uXG5zbnMubW92ZV9sZWdlbmQoYXhlc1syXSwgXCJ1cHBlciBsZWZ0XCIsICAgICAgICAgICAgICAgICAgICAgIyBsZWdlbmQgb3V0c2lkZSB0aGUgbGFzdCBwYW5lbCxcbiAgICAgICAgICAgICAgICBiYm94X3RvX2FuY2hvcj0oMS4wMiwgMSksIGZyYW1lb249RmFsc2UpICAgIyBzbyBpdCBjb3ZlcnMgbm8gYmFyc1xucGx0LnRpZ2h0X2xheW91dCgpICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIHN0b3AgcGFuZWxzIG92ZXJsYXBwaW5nXG5wbHQuc2hvdygpICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICMgcmVuZGVyIHRoZSBmaWd1cmUifQ==
+</script>
+</div>
+</div>
+<aside class="notes">
+<p><code>histplot</code> counts a categorical column just as <code>countplot</code> does, and it accepts <code>multiple=</code>, which <code>countplot</code> does not. That is why it is used here.</p>
+<p>Stack answers “how many counties per region, and how many of each kind”. Dodge makes the two groups easier to compare with each other. Fill throws away the totals and answers “what share of each region is metro”. Three questions, three adjustments.</p>
+<p>Read fill: the Southeast is nearly all metro, the North Central and Northwest mostly nonmetro. This is the same picture of Pennsylvania as Module 5’s countplot, now as proportions.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="position-adjustments-histograms" class="slide level2 smaller">
+<h2>Position adjustments: histograms</h2>
+<p>Stacked histograms hide the shape of every group except the bottom one. <strong>Layering</strong> with transparency, or drawing outlines with <code>element="step"</code>, keeps each group fully visible.</p>
+<div class="cell">
+<div>
+<div id="pyodide-13" class="exercise-cell">
+
+</div>
+<script type="pyodide-13-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiaW1wb3J0IG1pY3JvcGlwICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIGluc3RhbGxlciBmb3IgYnJvd3NlciBwYWNrYWdlc1xuYXdhaXQgbWljcm9waXAuaW5zdGFsbChcInNlYWJvcm5cIikgICAgICAgICAgICAgICAgICAgICAgICAgICMgZmV0Y2ggc2VhYm9yblxuaW1wb3J0IHBhbmRhcyBhcyBwZCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIHRhYmxlc1xuaW1wb3J0IHNlYWJvcm4gYXMgc25zICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIHN0YXRpc3RpY2FsIGZpZ3VyZXNcbmltcG9ydCBtYXRwbG90bGliLnB5cGxvdCBhcyBwbHQgICAgICAgICAgICAgICAgICAgICAgICAgICAgIyBmaWd1cmUgYW5kIGF4ZXNcblxuYmlydGhzID0gcGQucmVhZF9jc3YoXCJkYXRhL3BhX21hdGVybmFsX2luZmFudC5jc3ZcIikgICAgICAgICMgb25lIHJvdyBwZXIgY291bnR5XG5jb3VudGllcyA9IHBkLnJlYWRfY3N2KFwiZGF0YS9wYV9jb3VudGllcy5jc3ZcIikgICAgICAgICAgICAgIyBtZXRybyBzdGF0dXMgcGVyIGNvdW50eVxuam9pbmVkID0gYmlydGhzLm1lcmdlKGNvdW50aWVzLCBvbj1cImNvdW50eVwiKSAgICAgICAgICAgICAgICMgb25lIHRhYmxlXG5QQUwgPSB7XCJNZXRyb1wiOiBcIiMwMDM1OTRcIiwgXCJOb25tZXRyb1wiOiBcIiM4YTY0MDBcIn0gICAgICAgICAgIyBjb3Vyc2UgY29sb3VycywgYnkgZ3JvdXBcbm9wdHMgPSBkaWN0KGRhdGE9am9pbmVkLCB4PVwibG93X2JpcnRod2VpZ2h0X3BjdFwiLCBodWU9XCJtZXRyb1wiLCAgIyBzaGFyZWQgZGF0YSBhbmQgbWFwcGluZ3NcbiAgICAgICAgICAgIGJpbndpZHRoPTAuNSwgcGFsZXR0ZT1QQUwpICAgICAgICAgICAgICAgICAgICAgIyBiaW4gd2lkdGg7IGNvdXJzZSBjb2xvdXJzXG5cbmZpZywgYXhlcyA9IHBsdC5zdWJwbG90cygxLCAzLCBmaWdzaXplPSgxMSwgMyksIHNoYXJleT1UcnVlKSAgICAjIHRocmVlIHBhbmVscywgb25lIHkgc2NhbGVcbnNucy5oaXN0cGxvdCgqKm9wdHMsIG11bHRpcGxlPVwic3RhY2tcIiwgYXg9YXhlc1swXSkgICAgICAgICAjIGRlZmF1bHQgZm9yIGh1ZTogc3RhY2tlZFxuc25zLmhpc3RwbG90KCoqb3B0cywgbXVsdGlwbGU9XCJsYXllclwiLCBhbHBoYT0wLjQsIGF4PWF4ZXNbMV0pICAgIyBvdmVybGFpZCwgc2VlLXRocm91Z2hcbnNucy5oaXN0cGxvdCgqKm9wdHMsIGVsZW1lbnQ9XCJzdGVwXCIsIGZpbGw9RmFsc2UsIGF4PWF4ZXNbMl0pICAgICMgb3V0bGluZXMgb25seVxuZm9yIGF4LCB0IGluIHppcChheGVzLCBbXCJzdGFja1wiLCBcImxheWVyICsgYWxwaGFcIiwgXCJzdGVwIG91dGxpbmVzXCJdKTogICMgZWFjaCBwYW5lbDpcbiAgICBheC5zZXQodGl0bGU9dCwgeGxhYmVsPVwiTG93IGJpcnRod2VpZ2h0ICglKVwiKSAgICAgICAgICAjIHRpdGxlIGFuZCB4LWF4aXMgbGFiZWxcbnBsdC50aWdodF9sYXlvdXQoKSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIyBzdG9wIHBhbmVscyBvdmVybGFwcGluZ1xucGx0LnNob3coKSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIHJlbmRlciB0aGUgZmlndXJlIn0=
+</script>
+</div>
+</div>
+<aside class="notes">
+<p>The left panel looks like one distribution with a gold cap. The metro shape is there, but it starts at the top of the nonmetro bars, so nobody can read it. That is the trouble with stacking distributions.</p>
+<p>Middle: both histograms from zero, see-through, so the overlap shows as a darker colour. Right: outlines only. Both keep each group whole. Rebecca’s version of this uses <code>position = "identity"</code> with <code>alpha</code>, and it is the same idea.</p>
+<p>Lab Question 2 asks for a histogram where each group is fully visible. This is the slide.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section></section>
+<section>
+<section id="scales" class="title-slide slide level1 unnumbered center" data-background-color="#003594">
+<h1>Scales</h1>
+
+</section>
+<section id="scales-ticks-labels-and-log-axes" class="slide level2 smaller">
+<h2>Scales: ticks, labels, and log axes</h2>
+<p>A scale maps data values to positions. matplotlib sets ticks automatically; <code>set_xscale("log")</code> spaces values by ratio, and a <strong>locator</strong> fixes the tick spacing.</p>
+<div class="cell">
+<div>
+<div id="pyodide-14" class="exercise-cell">
+
+</div>
+<script type="pyodide-14-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiaW1wb3J0IG1pY3JvcGlwICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIGluc3RhbGxlciBmb3IgYnJvd3NlciBwYWNrYWdlc1xuYXdhaXQgbWljcm9waXAuaW5zdGFsbChcInNlYWJvcm5cIikgICAgICAgICAgICAgICAgICAgICAgICAgICMgZmV0Y2ggc2VhYm9yblxuaW1wb3J0IHBhbmRhcyBhcyBwZCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIHRhYmxlc1xuaW1wb3J0IHNlYWJvcm4gYXMgc25zICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIHN0YXRpc3RpY2FsIGZpZ3VyZXNcbmltcG9ydCBtYXRwbG90bGliLnB5cGxvdCBhcyBwbHQgICAgICAgICAgICAgICAgICAgICAgICAgICAgIyBmaWd1cmUgYW5kIGF4ZXNcbmZyb20gbWF0cGxvdGxpYi50aWNrZXIgaW1wb3J0IE11bHRpcGxlTG9jYXRvciwgU3RyTWV0aG9kRm9ybWF0dGVyICAjIHRpY2sgc3BhY2luZyBhbmQgZm9ybWF0XG5cbmJpcnRocyA9IHBkLnJlYWRfY3N2KFwiZGF0YS9wYV9tYXRlcm5hbF9pbmZhbnQuY3N2XCIpICAgICAgICAjIG9uZSByb3cgcGVyIGNvdW50eVxuY291bnRpZXMgPSBwZC5yZWFkX2NzdihcImRhdGEvcGFfY291bnRpZXMuY3N2XCIpICAgICAgICAgICAgICMgcG9wdWxhdGlvbiBwZXIgY291bnR5XG5qb2luZWQgPSBiaXJ0aHMubWVyZ2UoY291bnRpZXMsIG9uPVwiY291bnR5XCIpICAgICAgICAgICAgICAgIyBvbmUgdGFibGVcblxuZmlnLCAobGluLCBsb2cpID0gcGx0LnN1YnBsb3RzKDEsIDIsIGZpZ3NpemU9KDEwLCAzKSwgc2hhcmV5PVRydWUpICAjIHR3byBwYW5lbHNcbmxvZy5zZXRfeHNjYWxlKFwibG9nXCIpICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIGVxdWFsIHJhdGlvcyAtPiBlcXVhbCBkaXN0YW5jZXNcbmZvciBheCBpbiAobGluLCBsb2cpOiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIyBzYW1lIHNjYXR0ZXIgaW4gYm90aCBwYW5lbHNcbiAgICBzbnMuc2NhdHRlcnBsb3QoZGF0YT1qb2luZWQsIHg9XCJwb3B1bGF0aW9uXzIwMjNcIiwgICAgICAjIHBvcHVsYXRpb24gLT4geFxuICAgICAgICAgICAgICAgICAgICB5PVwibG93X2JpcnRod2VpZ2h0X3BjdFwiLCAgICAgICAgICAgICAgICMgbG93IGJpcnRod2VpZ2h0IC0+IHlcbiAgICAgICAgICAgICAgICAgICAgY29sb3I9XCIjMDAzNTk0XCIsIGF4PWF4KSAgICAgICAgICAgICAgICAjIG9uZSBjb2xvdXJcbiAgICBheC54YXhpcy5zZXRfbWFqb3JfZm9ybWF0dGVyKFN0ck1ldGhvZEZvcm1hdHRlcihcInt4OiwuMGZ9XCIpKSAgIyAxNTAwMDAwIC0+IDEsNTAwLDAwMFxuICAgIGF4LnNldF94bGFiZWwoXCJQb3B1bGF0aW9uLCAyMDIzXCIpICAgICAgICAgICAgICAgICAgICAgICMgeC1heGlzIGxhYmVsXG5saW4ueGF4aXMuc2V0X21ham9yX2xvY2F0b3IoTXVsdGlwbGVMb2NhdG9yKDUwMDAwMCkpICAgICAgICMgYW4geCB0aWNrIGV2ZXJ5IDUwMCwwMDAgcGVvcGxlXG5saW4ueWF4aXMuc2V0X21ham9yX2xvY2F0b3IoTXVsdGlwbGVMb2NhdG9yKDEpKSAgICAgICAgICAgICMgYSB5IHRpY2sgZXZlcnkgMSBwb2ludFxubGluLnNldF95bGFiZWwoXCJMb3cgYmlydGh3ZWlnaHQgKCUpXCIpICAgICAgICAgICAgICAgICAgICAgICMgeS1heGlzIGxhYmVsIHdpdGggdW5pdHNcbmxpbi5zZXRfdGl0bGUoXCJMaW5lYXIgeFwiKTsgbG9nLnNldF90aXRsZShcIkxvZyB4XCIpICAgICAgICAgICMgcGFuZWwgdGl0bGVzXG5wbHQudGlnaHRfbGF5b3V0KCkgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICMgc3RvcCBwYW5lbHMgb3ZlcmxhcHBpbmdcbnBsdC5zaG93KCkgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIyByZW5kZXIgdGhlIGZpZ3VyZSJ9
+</script>
+</div>
+</div>
+<aside class="notes">
+<p>Population runs from about 4,400 in Cameron to 1.55 million in Philadelphia. On a linear axis, most counties crowd into the left tenth of the axis and a handful of large ones spread across the rest. On a log axis each step is ten times the last, and the counties spread out. Population, income, and counts nearly always want a log axis.</p>
+<p><code>MultipleLocator(1)</code> puts a tick at every whole percentage point. <code>StrMethodFormatter</code> adds the thousands commas. Both are matplotlib, reached through <code>ax.xaxis</code> or <code>ax.yaxis</code> — the axis, not the axes, from Module 5.</p>
+<p>Rebecca’s R equivalent is <code>scale_x_continuous(breaks = ...)</code>. The idea is the same; the spelling is different. Lab Question 3 uses <code>MultipleLocator</code>.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="colour-scales-named-and-manual-palettes" class="slide level2 smaller">
+<h2>Colour scales: named and manual palettes</h2>
+<p><code>palette=</code> takes either a <strong>named</strong> palette, such as the ColorBrewer set <code>"Dark2"</code>, or a <strong>dictionary</strong> from each group to a colour.</p>
+<div class="cell">
+<div>
+<div id="pyodide-15" class="exercise-cell">
+
+</div>
+<script type="pyodide-15-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiaW1wb3J0IG1pY3JvcGlwICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIGluc3RhbGxlciBmb3IgYnJvd3NlciBwYWNrYWdlc1xuYXdhaXQgbWljcm9waXAuaW5zdGFsbChcInNlYWJvcm5cIikgICAgICAgICAgICAgICAgICAgICAgICAgICMgZmV0Y2ggc2VhYm9yblxuaW1wb3J0IHBhbmRhcyBhcyBwZCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIHRhYmxlc1xuaW1wb3J0IHNlYWJvcm4gYXMgc25zICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIHN0YXRpc3RpY2FsIGZpZ3VyZXNcbmltcG9ydCBtYXRwbG90bGliLnB5cGxvdCBhcyBwbHQgICAgICAgICAgICAgICAgICAgICAgICAgICAgIyBmaWd1cmUgYW5kIGF4ZXNcblxuYmlydGhzID0gcGQucmVhZF9jc3YoXCJkYXRhL3BhX21hdGVybmFsX2luZmFudC5jc3ZcIikgICAgICAgICMgb25lIHJvdyBwZXIgY291bnR5XG5jb3VudGllcyA9IHBkLnJlYWRfY3N2KFwiZGF0YS9wYV9jb3VudGllcy5jc3ZcIikgICAgICAgICAgICAgIyByZWdpb24gYW5kIG1ldHJvIHBlciBjb3VudHlcbmpvaW5lZCA9IGJpcnRocy5tZXJnZShjb3VudGllcywgb249XCJjb3VudHlcIikgICAgICAgICAgICAgICAjIG9uZSB0YWJsZVxueHkgPSBkaWN0KGRhdGE9am9pbmVkLCB4PVwiY2hpbGRyZW5faW5fcG92ZXJ0eV9wY3RcIiwgeT1cImxvd19iaXJ0aHdlaWdodF9wY3RcIikgICMgc2hhcmVkIG1hcHBpbmdzXG5cbmZpZywgKG5hbWVkLCBtYW51YWwpID0gcGx0LnN1YnBsb3RzKDEsIDIsIGZpZ3NpemU9KDExLCAzLjIpKSAgICAjIHR3byBwYW5lbHNcbnNucy5zY2F0dGVycGxvdCgqKnh5LCBodWU9XCJyZWdpb25cIiwgcGFsZXR0ZT1cIkRhcmsyXCIsIGF4PW5hbWVkKSAgIyBhIG5hbWVkIENvbG9yQnJld2VyIHBhbGV0dGVcbnNucy5zY2F0dGVycGxvdCgqKnh5LCBodWU9XCJtZXRyb1wiLCBzdHlsZT1cIm1ldHJvXCIsICAgICAgICAgICAgICAgIyBtZXRybyAtPiBjb2xvdXIgYW5kIHNoYXBlXG4gICAgICAgICAgICAgICAgcGFsZXR0ZT17XCJNZXRyb1wiOiBcIiMwMDM1OTRcIiwgICAgICAgICAgICAgICAgICAgICMgbWFudWFsOiBncm91cCAtPiBjb2xvdXJcbiAgICAgICAgICAgICAgICAgICAgICAgICBcIk5vbm1ldHJvXCI6IFwiIzhhNjQwMFwifSwgYXg9bWFudWFsKSAgICAgIyBkYXJrIGdvbGQgZm9yIG5vbm1ldHJvXG5uYW1lZC5sZWdlbmQoZm9udHNpemU9NywgZnJhbWVvbj1GYWxzZSkgICAgICAgICAgICAgICAgICAgICMgY29tcGFjdCBsZWdlbmRcbmZvciBheCBpbiAobmFtZWQsIG1hbnVhbCk6ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIyBib3RoIHBhbmVsczpcbiAgICBheC5zZXQoeGxhYmVsPVwiQ2hpbGRyZW4gaW4gcG92ZXJ0eSAoJSlcIiwgeWxhYmVsPVwiTG93IGJpcnRod2VpZ2h0ICglKVwiKSAgIyBsYWJlbHMgd2l0aCB1bml0c1xucGx0LnRpZ2h0X2xheW91dCgpICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIHN0b3AgcGFuZWxzIG92ZXJsYXBwaW5nXG5wbHQuc2hvdygpICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICMgcmVuZGVyIHRoZSBmaWd1cmUifQ==
+</script>
+</div>
+</div>
+<p><code>sns.color_palette("Dark2")</code> displays a named palette’s colours.</p>
+<aside class="notes">
+<p>The named palette is a shortcut: seaborn hands out its colours in order. That is Rebecca’s <code>scale_color_brewer(palette = "Dark2")</code>. ColorBrewer is the source of most good named palettes, and colorbrewer2.org lets you browse them.</p>
+<p>The dictionary is Rebecca’s <code>scale_color_manual</code>, and it is the version to use in anything that leaves a notebook. Metro is royal blue in every figure, whatever order the rows arrive in. With a named palette, filter the data and the colours can shift between two figures in the same report.</p>
+<p>Lab Question 3 asks for two named colours by group. The dictionary is how.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="diverging-colour-scales-a-correlation-heatmap" class="slide level2 smaller">
+<h2>Diverging colour scales: a correlation heatmap</h2>
+<p>A <strong>diverging</strong> palette has a neutral centre and two directions, which suits a value with a meaningful zero.</p>
+<div class="cell">
+<div>
+<div id="pyodide-16" class="exercise-cell">
+
+</div>
+<script type="pyodide-16-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiaW1wb3J0IG1pY3JvcGlwICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIGluc3RhbGxlciBmb3IgYnJvd3NlciBwYWNrYWdlc1xuYXdhaXQgbWljcm9waXAuaW5zdGFsbChcInNlYWJvcm5cIikgICAgICAgICAgICAgICAgICAgICAgICAgICMgZmV0Y2ggc2VhYm9yblxuaW1wb3J0IHBhbmRhcyBhcyBwZCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIHRhYmxlc1xuaW1wb3J0IHNlYWJvcm4gYXMgc25zICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIHN0YXRpc3RpY2FsIGZpZ3VyZXNcbmltcG9ydCBtYXRwbG90bGliLnB5cGxvdCBhcyBwbHQgICAgICAgICAgICAgICAgICAgICAgICAgICAgIyBmaWd1cmUgYW5kIGF4ZXNcblxuYmlydGhzID0gcGQucmVhZF9jc3YoXCJkYXRhL3BhX21hdGVybmFsX2luZmFudC5jc3ZcIikgICAgICAgICMgb25lIHJvdyBwZXIgY291bnR5XG5tZWFzdXJlcyA9IGJpcnRoc1tbXCJsb3dfYmlydGh3ZWlnaHRfcGN0XCIsIFwiaW5mYW50X21vcnRhbGl0eV9wZXJfMTAwMFwiLCAgIyBzaXggbWVhc3VyZXM6XG4gICAgICAgICAgICAgICAgICAgXCJ0ZWVuX2JpcnRoc19wZXJfMTAwMFwiLCBcImNoaWxkcmVuX2luX3BvdmVydHlfcGN0XCIsICAgIyBiaXJ0aHMgYW5kIHBvdmVydHlcbiAgICAgICAgICAgICAgICAgICBcInVuaW5zdXJlZF9jaGlsZHJlbl9wY3RcIiwgXCJtZWRpYW5faG91c2Vob2xkX2luY29tZVwiXV0gICMgaW5zdXJhbmNlLCBpbmNvbWVcbnNob3J0ID0gW1wiTG93IGJ3XCIsIFwiSW5mYW50IG1vcnQuXCIsIFwiVGVlbiBiaXJ0aHNcIiwgICAgICAgICAgIyBzaG9ydCBsYWJlbHMgZm9yIHRoZSBjZWxscyxcbiAgICAgICAgIFwiQ2hpbGQgcG92LlwiLCBcIlVuaW5zdXJlZFwiLCBcIkluY29tZVwiXSAgICAgICAgICAgICAgIyBpbiB0aGUgc2FtZSBvcmRlciBhcyB0aGUgY29sdW1uc1xuXG5maWcsIGF4ID0gcGx0LnN1YnBsb3RzKGZpZ3NpemU9KDcsIDMuOCkpICAgICAgICAgICAgICAgICAgICMgY2FudmFzIGFuZCBvbmUgYXhlc1xuc25zLmhlYXRtYXAobWVhc3VyZXMuY29ycigpLCBhbm5vdD1UcnVlLCBmbXQ9XCIuMmZcIiwgICAgICAgICMgY29ycmVsYXRpb25zLCBwcmludGVkIGluIGVhY2ggY2VsbFxuICAgICAgICAgICAgY21hcD1cIkJyQkdcIiwgdm1pbj0tMSwgdm1heD0xLCAgICAgICAgICAgICAgICAgICMgZGl2ZXJnaW5nIHBhbGV0dGUsIGZpeGVkIGF0IC0xLi4rMVxuICAgICAgICAgICAgeHRpY2tsYWJlbHM9c2hvcnQsIHl0aWNrbGFiZWxzPXNob3J0LCAgICAgICAgICAjIHJlYWRhYmxlIGxhYmVsc1xuICAgICAgICAgICAgYW5ub3Rfa3dzPXtcInNpemVcIjogOH0sIGF4PWF4KSAgICAgICAgICAgICAgICAgICMgc21hbGwgY2VsbCB0ZXh0OyB0YXJnZXQgYXhlc1xuYXguc2V0X3RpdGxlKFwiQ29ycmVsYXRpb25zIGFtb25nIGNvdW50eSBtZWFzdXJlc1wiKSAgICAgICAgICMgdGl0bGVcbnBsdC50aWdodF9sYXlvdXQoKSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIyBrZWVwIGxhYmVscyBpbnNpZGUgdGhlIGNhbnZhc1xucGx0LnNob3coKSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIHJlbmRlciB0aGUgZmlndXJlIn0=
+</script>
+</div>
+</div>
+<aside class="notes">
+<p><code>vmin=-1, vmax=1</code> fixes the colour scale. Without it the colours stretch to whatever range is present, and the same colour means different numbers in two heatmaps.</p>
+<p><code>BrBG</code> is brown–blue-green, diverging around white at zero. A sequential palette such as <code>viridis</code> would make −0.8 and +0.2 look like two steps of one ladder, when they point in opposite directions.</p>
+<p>Read across the low-birthweight row: child poverty at +0.47, and uninsured children at −0.50 — a negative that runs against intuition. Do not explain it away; it is a good example of why a county correlation is a description, not a mechanism. The strongest cell on the whole map is income against poverty, −0.80, and that one is nearly a definition, not a finding. <code>.corr()</code> drops missing values pair by pair, so the infant-mortality cells use 44 counties and the rest use 66 or 67.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section></section>
+<section>
+<section id="themes" class="title-slide slide level1 unnumbered center" data-background-color="#003594">
+<h1>Themes</h1>
+
+</section>
+<section id="built-in-styles" class="slide level2 smaller">
+<h2>Built-in styles</h2>
+<p>A theme sets the <strong>non-data</strong> elements: background, grid, and ticks. seaborn has five styles.</p>
+<div class="cell">
+<div>
+<div id="pyodide-17" class="exercise-cell">
+
+</div>
+<script type="pyodide-17-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiaW1wb3J0IG1pY3JvcGlwICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIGluc3RhbGxlciBmb3IgYnJvd3NlciBwYWNrYWdlc1xuYXdhaXQgbWljcm9waXAuaW5zdGFsbChcInNlYWJvcm5cIikgICAgICAgICAgICAgICAgICAgICAgICAgICMgZmV0Y2ggc2VhYm9yblxuaW1wb3J0IHBhbmRhcyBhcyBwZCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIHRhYmxlc1xuaW1wb3J0IHNlYWJvcm4gYXMgc25zICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIHN0YXRpc3RpY2FsIGZpZ3VyZXNcbmltcG9ydCBtYXRwbG90bGliLnB5cGxvdCBhcyBwbHQgICAgICAgICAgICAgICAgICAgICAgICAgICAgIyBmaWd1cmUgYW5kIGF4ZXNcblxuYmlydGhzID0gcGQucmVhZF9jc3YoXCJkYXRhL3BhX21hdGVybmFsX2luZmFudC5jc3ZcIikgICAgICAgICMgb25lIHJvdyBwZXIgY291bnR5XG5cbmZpZyA9IHBsdC5maWd1cmUoZmlnc2l6ZT0oMTEsIDIuNikpICAgICAgICAgICAgICAgICAgICAgICAgIyBhbiBlbXB0eSBjYW52YXNcbmZvciBpLCBzdHlsZSBpbiBlbnVtZXJhdGUoW1wiZGFya2dyaWRcIiwgXCJ3aGl0ZWdyaWRcIiwgICAgICAgICMgZm91ciBvZiB0aGUgZml2ZSBzdHlsZXNcbiAgICAgICAgICAgICAgICAgICAgICAgICAgIFwid2hpdGVcIiwgXCJ0aWNrc1wiXSwgc3RhcnQ9MSk6ICAgICMgKFwiZGFya1wiIGlzIHRoZSBmaWZ0aClcbiAgICB3aXRoIHNucy5heGVzX3N0eWxlKHN0eWxlKTogICAgICAgICAgICAgICAgICAgICAgICAgICAgIyBhcHBsaWVzIG9ubHkgaW5zaWRlIHRoaXMgYmxvY2tcbiAgICAgICAgYXggPSBmaWcuYWRkX3N1YnBsb3QoMSwgNCwgaSkgICAgICAgICAgICAgICAgICAgICAgIyBheGVzIGNyZWF0ZWQgaW4gdGhhdCBzdHlsZVxuICAgIHNucy5oaXN0cGxvdChkYXRhPWJpcnRocywgeD1cImxvd19iaXJ0aHdlaWdodF9wY3RcIiwgICAgICMgdGhlIHNhbWUgaGlzdG9ncmFtIGVhY2ggdGltZVxuICAgICAgICAgICAgICAgICBiaW53aWR0aD0wLjUsIGNvbG9yPVwiIzAwMzU5NFwiLCBheD1heCkgICAgICMgYmluIHdpZHRoOyBvbmUgY29sb3VyXG4gICAgYXguc2V0KHRpdGxlPXN0eWxlLCB4bGFiZWw9XCJMb3cgYmlydGh3ZWlnaHQgKCUpXCIsICAgICAgIyBzdHlsZSBuYW1lIGFzIHRoZSB0aXRsZVxuICAgICAgICAgICB5bGFiZWw9XCJcIikgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICMgbm8geSBsYWJlbCwgdG8gc2F2ZSByb29tXG5wbHQudGlnaHRfbGF5b3V0KCkgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICMgc3RvcCBwYW5lbHMgb3ZlcmxhcHBpbmdcbnBsdC5zaG93KCkgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIyByZW5kZXIgdGhlIGZpZ3VyZSJ9
+</script>
+</div>
+</div>
+<p><code>sns.set_theme(style="white")</code> sets the style for <strong>every later figure</strong> in the session.</p>
+<aside class="notes">
+<p>These are Rebecca’s <code>theme_bw()</code>, <code>theme_minimal()</code>, <code>theme_classic()</code>. Same data, same marks, four different backgrounds.</p>
+<p><code>white</code> and <code>ticks</code> are the usual choices for print: no grey, no grid competing with the data. <code>whitegrid</code> helps when readers need to read values off the axis.</p>
+<p>The <code>with</code> block is a technical detail worth one sentence. <code>sns.set_theme</code> changes the style for everything that follows, and in a browser deck that would leak into every later slide. <code>with sns.axes_style(...)</code> applies it to one axes only. In a notebook, call <code>set_theme</code> once at the top.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="adjusting-single-elements" class="slide level2 smaller">
+<h2>Adjusting single elements</h2>
+<p>Individual elements change through matplotlib and two seaborn helpers: <code>sns.despine()</code> and <code>sns.move_legend()</code>.</p>
+<div class="cell">
+<div>
+<div id="pyodide-18" class="exercise-cell">
+
+</div>
+<script type="pyodide-18-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiaW1wb3J0IG1pY3JvcGlwICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIGluc3RhbGxlciBmb3IgYnJvd3NlciBwYWNrYWdlc1xuYXdhaXQgbWljcm9waXAuaW5zdGFsbChcInNlYWJvcm5cIikgICAgICAgICAgICAgICAgICAgICAgICAgICMgZmV0Y2ggc2VhYm9yblxuaW1wb3J0IHBhbmRhcyBhcyBwZCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIHRhYmxlc1xuaW1wb3J0IHNlYWJvcm4gYXMgc25zICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIHN0YXRpc3RpY2FsIGZpZ3VyZXNcbmltcG9ydCBtYXRwbG90bGliLnB5cGxvdCBhcyBwbHQgICAgICAgICAgICAgICAgICAgICAgICAgICAgIyBmaWd1cmUgYW5kIGF4ZXNcblxuYmlydGhzID0gcGQucmVhZF9jc3YoXCJkYXRhL3BhX21hdGVybmFsX2luZmFudC5jc3ZcIikgICAgICAgICMgb25lIHJvdyBwZXIgY291bnR5XG5jb3VudGllcyA9IHBkLnJlYWRfY3N2KFwiZGF0YS9wYV9jb3VudGllcy5jc3ZcIikgICAgICAgICAgICAgIyBtZXRybyBzdGF0dXMgcGVyIGNvdW50eVxuam9pbmVkID0gYmlydGhzLm1lcmdlKGNvdW50aWVzLCBvbj1cImNvdW50eVwiKSAgICAgICAgICAgICAgICMgb25lIHRhYmxlXG5cbmZpZywgYXggPSBwbHQuc3VicGxvdHMoZmlnc2l6ZT0oNywgMy40KSkgICAgICAgICAgICAgICAgICAgIyBjYW52YXMgYW5kIG9uZSBheGVzXG5zbnMuc2NhdHRlcnBsb3QoZGF0YT1qb2luZWQsIHg9XCJjaGlsZHJlbl9pbl9wb3ZlcnR5X3BjdFwiLCAgIyBwb3ZlcnR5IC0+IHhcbiAgICAgICAgICAgICAgICB5PVwibG93X2JpcnRod2VpZ2h0X3BjdFwiLCAgICAgICAgICAgICAgICAgICAjIGxvdyBiaXJ0aHdlaWdodCAtPiB5XG4gICAgICAgICAgICAgICAgaHVlPVwibWV0cm9cIiwgc3R5bGU9XCJtZXRyb1wiLCAgICAgICAgICAgICAgICAjIG1ldHJvIC0+IGNvbG91ciBhbmQgc2hhcGVcbiAgICAgICAgICAgICAgICBwYWxldHRlPXtcIk1ldHJvXCI6IFwiIzAwMzU5NFwiLCBcIk5vbm1ldHJvXCI6IFwiIzhhNjQwMFwifSwgYXg9YXgpICAjIGNvdXJzZSBjb2xvdXJzXG5zbnMuZGVzcGluZShheD1heCkgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICMgcmVtb3ZlIHRoZSB0b3AgYW5kIHJpZ2h0IGJvcmRlcnNcbnNucy5tb3ZlX2xlZ2VuZChheCwgXCJsb3dlciBjZW50ZXJcIiwgICAgICAgICAgICAgICAgICAgICAgICAjIGxlZ2VuZCBjZW50cmVkIC4uLlxuICAgICAgICAgICAgICAgIGJib3hfdG9fYW5jaG9yPSgwLjUsIDEuMCksIG5jb2w9MiwgICAgICAgICAjIC4uLiBhYm92ZSB0aGUgYXhlcywgaW4gb25lIHJvd1xuICAgICAgICAgICAgICAgIHRpdGxlPU5vbmUsIGZyYW1lb249RmFsc2UpICAgICAgICAgICAgICAgICAjIG5vIHRpdGxlLCBubyBib3hcbmF4LnNldF90aXRsZShcIkxvdyBiaXJ0aHdlaWdodCBhZ2FpbnN0IGNoaWxkIHBvdmVydHlcIiwgICAgICAjIHRpdGxlIC4uLlxuICAgICAgICAgICAgIGZvbnR3ZWlnaHQ9XCJib2xkXCIsIHBhZD0yOCkgICAgICAgICAgICAgICAgICAgICMgLi4uIGluIGJvbGQsIGNsZWFyIG9mIHRoZSBsZWdlbmRcbmF4LnNldCh4bGFiZWw9XCJDaGlsZHJlbiBpbiBwb3ZlcnR5ICglKVwiLCB5bGFiZWw9XCJMb3cgYmlydGh3ZWlnaHQgKCUpXCIpICAjIGxhYmVscyB3aXRoIHVuaXRzXG5wbHQudGlnaHRfbGF5b3V0KCkgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICMga2VlcCBsYWJlbHMgaW5zaWRlIHRoZSBjYW52YXNcbnBsdC5zaG93KCkgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIyByZW5kZXIgdGhlIGZpZ3VyZSJ9
+</script>
+</div>
+</div>
+<p><code>legend=False</code> in the plotting call removes the legend entirely.</p>
+<aside class="notes">
+<p>This is Rebecca’s <code>theme()</code> slide: legend on top, no legend title, a bolder title.</p>
+<p><code>despine</code> removes the top and right borders, which carry no information. <code>move_legend</code> is the reliable way to reposition a seaborn legend; <code>bbox_to_anchor=(0.5, 1.0)</code> means centred, at the top edge of the axes. <code>pad=28</code> lifts the title so the legend fits beneath it.</p>
+<p>Lab Question 3 is the themes exercise from the R half: colours by group, tick spacing, an axis title, a plain background, no legend, and a bold title. Every one of those calls is on this slide or the two before it.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section></section>
+<section>
+<section id="combining-and-saving" class="title-slide slide level1 unnumbered center" data-background-color="#003594">
+<h1>Combining and saving</h1>
+
+</section>
+<section id="combining-figures" class="slide level2 smaller">
+<h2>Combining figures</h2>
+<p><code>plt.subplot_mosaic()</code> lays out named panels from a sketch: each list is a row, and a repeated name spans several cells.</p>
+<div class="cell">
+<div>
+<div id="pyodide-19" class="exercise-cell">
+
+</div>
+<script type="pyodide-19-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiaW1wb3J0IG1pY3JvcGlwICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIGluc3RhbGxlciBmb3IgYnJvd3NlciBwYWNrYWdlc1xuYXdhaXQgbWljcm9waXAuaW5zdGFsbChcInNlYWJvcm5cIikgICAgICAgICAgICAgICAgICAgICAgICAgICMgZmV0Y2ggc2VhYm9yblxuaW1wb3J0IHBhbmRhcyBhcyBwZCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIHRhYmxlc1xuaW1wb3J0IHNlYWJvcm4gYXMgc25zICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIHN0YXRpc3RpY2FsIGZpZ3VyZXNcbmltcG9ydCBtYXRwbG90bGliLnB5cGxvdCBhcyBwbHQgICAgICAgICAgICAgICAgICAgICAgICAgICAgIyBmaWd1cmUgYW5kIGF4ZXNcblxuYmlydGhzID0gcGQucmVhZF9jc3YoXCJkYXRhL3BhX21hdGVybmFsX2luZmFudC5jc3ZcIikgICAgICAgICMgb25lIHJvdyBwZXIgY291bnR5XG5jb3VudGllcyA9IHBkLnJlYWRfY3N2KFwiZGF0YS9wYV9jb3VudGllcy5jc3ZcIikgICAgICAgICAgICAgIyByZWdpb24gcGVyIGNvdW50eVxuam9pbmVkID0gYmlydGhzLm1lcmdlKGNvdW50aWVzLCBvbj1cImNvdW50eVwiKSAgICAgICAgICAgICAgICMgb25lIHRhYmxlXG5MQlcgPSBcImxvd19iaXJ0aHdlaWdodF9wY3RcIiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIyB0aGUgY29sdW1uIGV2ZXJ5IHBhbmVsIHVzZXNcblxuZmlnLCBheGQgPSBwbHQuc3VicGxvdF9tb3NhaWMoW1tcImhpc3RcIiwgXCJkZW5zXCJdLCAgICAgICAgICAgIyB0b3Agcm93OiB0d28gcGFuZWxzXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgW1widmlvXCIsIFwidmlvXCJdXSwgICAgICAgICAgICAjIGJvdHRvbSByb3c6IG9uZSB3aWRlIHBhbmVsXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICBmaWdzaXplPSgxMCwgNC42KSkgICAgICAgICAgICMgY2FudmFzIHNpemVcbnNucy5oaXN0cGxvdChkYXRhPWpvaW5lZCwgeD1MQlcsIGJpbndpZHRoPTAuNSwgICAgICAgICAgICAgIyB0b3AgbGVmdDogaGlzdG9ncmFtXG4gICAgICAgICAgICAgY29sb3I9XCIjMDAzNTk0XCIsIGF4PWF4ZFtcImhpc3RcIl0pICAgICAgICAgICAgICAjIG9uZSBjb2xvdXJcbnNucy5rZGVwbG90KGRhdGE9am9pbmVkLCB4PUxCVywgZmlsbD1UcnVlLCAgICAgICAgICAgICAgICAgIyB0b3AgcmlnaHQ6IGRlbnNpdHlcbiAgICAgICAgICAgIGNvbG9yPVwiIzAwMzU5NFwiLCBheD1heGRbXCJkZW5zXCJdKSAgICAgICAgICAgICAgICMgb25lIGNvbG91clxuc25zLnZpb2xpbnBsb3QoZGF0YT1qb2luZWQsIHg9XCJyZWdpb25cIiwgeT1MQlcsICAgICAgICAgICAgICMgYm90dG9tOiBvbmUgdmlvbGluIHBlciByZWdpb25cbiAgICAgICAgICAgICAgIGNvbG9yPVwiIzhhNjQwMFwiLCBheD1heGRbXCJ2aW9cIl0pICAgICAgICAgICAgICMgb25lIGNvbG91clxuZm9yIG5hbWUgaW4gKFwiaGlzdFwiLCBcImRlbnNcIik6ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIyB0b3AgcGFuZWxzOlxuICAgIGF4ZFtuYW1lXS5zZXRfeGxhYmVsKFwiTG93IGJpcnRod2VpZ2h0ICglKVwiKSAgICAgICAgICAgICMgeC1heGlzIGxhYmVsIHdpdGggdW5pdHNcbmF4ZFtcInZpb1wiXS5zZXQoeGxhYmVsPVwiXCIsIHlsYWJlbD1cIkxvdyBiaXJ0aHdlaWdodCAoJSlcIikgICAgIyBib3R0b20gcGFuZWwgbGFiZWxzXG5maWcuc3VwdGl0bGUoXCJMb3cgYmlydGh3ZWlnaHQgaW4gNjcgUGVubnN5bHZhbmlhIGNvdW50aWVzXCIsICAjIG9uZSB0aXRsZSBmb3IgdGhlIGZpZ3VyZVxuICAgICAgICAgICAgIGZvbnR3ZWlnaHQ9XCJib2xkXCIpICAgICAgICAgICAgICAgICAgICAgICAgICAgICMgaW4gYm9sZFxucGx0LnRpZ2h0X2xheW91dCgpICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIHN0b3AgcGFuZWxzIG92ZXJsYXBwaW5nXG5wbHQuc2hvdygpICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICMgcmVuZGVyIHRoZSBmaWd1cmUifQ==
+</script>
+</div>
+</div>
+<aside class="notes">
+<p>This is Rebecca’s patchwork slide, rebuilt. <code>(hist | dens) / violin</code> in patchwork is the nested list here: two names in the top row, one name repeated across the bottom row so it spans both columns.</p>
+<p><code>axd</code> is a dictionary from panel name to axes, so <code>axd["vio"]</code> is the bottom panel. Name panels by what they hold and the code reads like the layout.</p>
+<p><code>plt.subplots(2, 2)</code> from Module 5 is the simple grid; <code>subplot_mosaic</code> is for anything uneven. <code>fig.suptitle</code> titles the whole figure, where <code>ax.set_title</code> titles one panel.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="saving-figures" class="slide level2 smaller">
+<h2>Saving figures</h2>
+<p><code>fig.savefig()</code> writes the figure to a file. The extension chooses the format.</p>
+<div class="cell">
+<div>
+<div id="pyodide-20" class="exercise-cell">
+
+</div>
+<script type="pyodide-20-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiaW1wb3J0IG1pY3JvcGlwICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIGluc3RhbGxlciBmb3IgYnJvd3NlciBwYWNrYWdlc1xuYXdhaXQgbWljcm9waXAuaW5zdGFsbChcInNlYWJvcm5cIikgICAgICAgICAgICAgICAgICAgICAgICAgICMgZmV0Y2ggc2VhYm9yblxuaW1wb3J0IG9zICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIGZpbGUgc2l6ZXNcbmltcG9ydCBwYW5kYXMgYXMgcGQgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIyB0YWJsZXNcbmltcG9ydCBzZWFib3JuIGFzIHNucyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIyBzdGF0aXN0aWNhbCBmaWd1cmVzXG5pbXBvcnQgbWF0cGxvdGxpYi5weXBsb3QgYXMgcGx0ICAgICAgICAgICAgICAgICAgICAgICAgICAgICMgZmlndXJlIGFuZCBheGVzXG5cbmJpcnRocyA9IHBkLnJlYWRfY3N2KFwiZGF0YS9wYV9tYXRlcm5hbF9pbmZhbnQuY3N2XCIpICAgICAgICAjIG9uZSByb3cgcGVyIGNvdW50eVxuXG5maWcsIGF4ID0gcGx0LnN1YnBsb3RzKGZpZ3NpemU9KDYsIDMpKSAgICAgICAgICAgICAgICAgICAgICMgY2FudmFzIGFuZCBvbmUgYXhlc1xuc25zLmhpc3RwbG90KGRhdGE9YmlydGhzLCB4PVwibG93X2JpcnRod2VpZ2h0X3BjdFwiLCAgICAgICAgICMgdGhlIGZpZ3VyZSB0byBzYXZlXG4gICAgICAgICAgICAgYmlud2lkdGg9MC41LCBjb2xvcj1cIiMwMDM1OTRcIiwgYXg9YXgpICAgICAgICAgIyBiaW4gd2lkdGg7IG9uZSBjb2xvdXJcbmF4LnNldCh4bGFiZWw9XCJMb3cgYmlydGh3ZWlnaHQgKCUpXCIsIHlsYWJlbD1cIkNvdW50aWVzXCIpICAgICMgbGFiZWxzXG5wbHQudGlnaHRfbGF5b3V0KCkgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICMga2VlcCBsYWJlbHMgaW5zaWRlIHRoZSBjYW52YXNcblxuZmlnLnNhdmVmaWcoXCJsYndfaGlzdC5wbmdcIiwgZHBpPTMwMCwgYmJveF9pbmNoZXM9XCJ0aWdodFwiKSAgIyByYXN0ZXIgaW1hZ2UsIDMwMCBkb3RzIHBlciBpbmNoXG5maWcuc2F2ZWZpZyhcImxid19oaXN0LnBkZlwiLCBiYm94X2luY2hlcz1cInRpZ2h0XCIpICAgICAgICAgICAjIHZlY3RvciBpbWFnZSwgc2hhcnAgYXQgYW55IHNpemVcbnBsdC5zaG93KCkgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIyByZW5kZXIgQUZURVIgc2F2aW5nXG5cbmZvciBmIGluIFtcImxid19oaXN0LnBuZ1wiLCBcImxid19oaXN0LnBkZlwiXTogICAgICAgICAgICAgICAgICMgY29uZmlybSBib3RoIGZpbGVzIGV4aXN0XG4gICAgcHJpbnQoZiwgb3MucGF0aC5nZXRzaXplKGYpLCBcImJ5dGVzXCIpICAgICAgICAgICAgICAgICAgIyBuYW1lIGFuZCBzaXplIn0=
+</script>
+</div>
+</div>
+<p><code>savefig()</code> comes <strong>before</strong> <code>plt.show()</code>: after showing, the figure may be empty.</p>
+<aside class="notes">
+<p>PNG for slides and the web; PDF for papers, because it is drawn from shapes and stays sharp at any zoom. <code>dpi=300</code> is the usual print resolution. <code>bbox_inches="tight"</code> trims empty margins and stops long labels being clipped.</p>
+<p>The order rule catches people every term. In a notebook, <code>plt.show()</code> can hand the figure off and leave nothing to save, and the result is a blank file with no error.</p>
+<p>In the browser the files go to a temporary in-memory folder and vanish on refresh. In JupyterLab they appear next to the notebook. Rebecca also recommends dating file names and saving into an <code>output/</code> folder; that habit is worth copying.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section></section>
+<section>
+<section id="appendix-why-visualize" class="title-slide slide level1 unnumbered center" data-background-color="#003594">
+<h1>Appendix: why visualize?</h1>
+
+</section>
+<section id="identical-summaries-different-data" class="slide level2 smaller">
+<h2>Identical summaries, different data</h2>
+<p>Anscombe’s quartet (1973): four data sets with the same means, variances, and correlation.</p>
+<div class="cell">
+<div>
+<div id="pyodide-21" class="exercise-cell">
+
+</div>
+<script type="pyodide-21-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiaW1wb3J0IHBhbmRhcyBhcyBwZCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIHRhYmxlc1xuaW1wb3J0IG1hdHBsb3RsaWIucHlwbG90IGFzIHBsdCAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIGZpZ3VyZSBhbmQgYXhlc1xuXG54ID0gWzEwLCA4LCAxMywgOSwgMTEsIDE0LCA2LCA0LCAxMiwgNywgNV0gICAgICAgICAgICAgICAgICMgeCBmb3Igc2V0cyBJLUlJSVxucXVhcnRldCA9IHsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIHNldCBuYW1lIC0+ICh4LCB5KVxuICAgIFwiSVwiOiAgICh4LCBbOC4wNCwgNi45NSwgNy41OCwgOC44MSwgOC4zMywgOS45NiwgICAgICAgICMgc2V0IEk6IHkgdmFsdWVzIC4uLlxuICAgICAgICAgICAgICAgIDcuMjQsIDQuMjYsIDEwLjg0LCA0LjgyLCA1LjY4XSksICAgICAgICAgICAjIC4uLiBlbGV2ZW4gaW4gYWxsXG4gICAgXCJJSVwiOiAgKHgsIFs5LjE0LCA4LjE0LCA4Ljc0LCA4Ljc3LCA5LjI2LCA4LjEwLCAgICAgICAgIyBzZXQgSUlcbiAgICAgICAgICAgICAgICA2LjEzLCAzLjEwLCA5LjEzLCA3LjI2LCA0Ljc0XSksICAgICAgICAgICAgIyAuLi4gZWxldmVuIGluIGFsbFxuICAgIFwiSUlJXCI6ICh4LCBbNy40NiwgNi43NywgMTIuNzQsIDcuMTEsIDcuODEsIDguODQsICAgICAgICMgc2V0IElJSVxuICAgICAgICAgICAgICAgIDYuMDgsIDUuMzksIDguMTUsIDYuNDIsIDUuNzNdKSwgICAgICAgICAgICAjIC4uLiBlbGV2ZW4gaW4gYWxsXG4gICAgXCJJVlwiOiAgKFs4LCA4LCA4LCA4LCA4LCA4LCA4LCAxOSwgOCwgOCwgOF0sICAgICAgICAgICAgIyBzZXQgSVYgaGFzIGl0cyBvd24geFxuICAgICAgICAgICAgWzYuNTgsIDUuNzYsIDcuNzEsIDguODQsIDguNDcsIDcuMDQsICAgICAgICAgICAjIHNldCBJVjogeSB2YWx1ZXMgLi4uXG4gICAgICAgICAgICAgNS4yNSwgMTIuNTAsIDUuNTYsIDcuOTEsIDYuODldKSwgICAgICAgICAgICAgICMgLi4uIGVsZXZlbiBpbiBhbGxcbn0gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIyBlbmQgb2YgdGhlIGZvdXIgc2V0c1xuXG5maWcsIGF4ZXMgPSBwbHQuc3VicGxvdHMoMSwgNCwgZmlnc2l6ZT0oMTEsIDIuNCksIHNoYXJleD1UcnVlLCBzaGFyZXk9VHJ1ZSkgICMgZm91ciBwYW5lbHNcbmZvciBheCwgKG5hbWUsICh4cywgeXMpKSBpbiB6aXAoYXhlcywgcXVhcnRldC5pdGVtcygpKTogICAjIG9uZSBzZXQgcGVyIHBhbmVsXG4gICAgYXguc2NhdHRlcih4cywgeXMsIGNvbG9yPVwiIzAwMzU5NFwiKSAgICAgICAgICAgICAgICAgICAgIyB0aGUgZWxldmVuIHBvaW50c1xuICAgIGF4LnNldF90aXRsZShuYW1lKSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIHBhbmVsIHRpdGxlXG4gICAgcyA9IHBkLlNlcmllcyh5cykgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICMgeSBhcyBhIFNlcmllcywgZm9yIHN1bW1hcmllc1xuICAgIHByaW50KG5hbWUsIFwibWVhbiB5XCIsIHJvdW5kKHMubWVhbigpLCAyKSwgICAgICAgICAgICAgICMgc2FtZSBtZWFuIC4uLlxuICAgICAgICAgIFwifCBzZCB5XCIsIHJvdW5kKHMuc3RkKCksIDIpLCAgICAgICAgICAgICAgICAgICAgICMgLi4uIHNhbWUgc3ByZWFkIC4uLlxuICAgICAgICAgIFwifCByXCIsIHJvdW5kKHBkLlNlcmllcyh4cykuY29ycihzKSwgMykpICAgICAgICAgICMgLi4uIHNhbWUgY29ycmVsYXRpb25cbnBsdC50aWdodF9sYXlvdXQoKSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIyBzdG9wIHBhbmVscyBvdmVybGFwcGluZ1xucGx0LnNob3coKSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIHJlbmRlciB0aGUgZmlndXJlIn0=
+</script>
+</div>
+</div>
+<aside class="notes">
+<p>This is Rebecca’s appendix point, with Anscombe’s four sets instead of the datasaurus. Every printed line is the same: mean 7.5, standard deviation 2.03, correlation 0.816. The four pictures are a line, a curve, a line with one outlier, and a vertical stack with one point carrying the entire correlation.</p>
+<p>The values are typed in from Anscombe’s 1973 paper. They are constructed, not public-health data, and that is the point: they were built to show that a summary can be identical while the data are not.</p>
+<p>Tie it back to Module 5. The asthma correlation of 0.659 was reported after its scatter, never before. This is why.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="a-figure-of-counts-often-draws-a-map-of-population" class="slide level2 smaller">
+<h2>A figure of counts often draws a map of population</h2>
+<div class="cell">
+<div>
+<div id="pyodide-22" class="exercise-cell">
+
+</div>
+<script type="pyodide-22-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiaW1wb3J0IHBhbmRhcyBhcyBwZCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIHRhYmxlc1xuaW1wb3J0IG1hdHBsb3RsaWIucHlwbG90IGFzIHBsdCAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIGZpZ3VyZSBhbmQgYXhlc1xuXG5jb3ZpZCA9IHBkLnJlYWRfY3N2KFwiZGF0YS9wYV9jb3ZpZF9tb250aGx5LmNzdlwiKSAgICAgICAgICAgIyBkZWF0aHMgYnkgY291bnR5IGFuZCBtb250aFxuY291bnRpZXMgPSBwZC5yZWFkX2NzdihcImRhdGEvcGFfY291bnRpZXMuY3N2XCIpICAgICAgICAgICAgICMgcG9wdWxhdGlvbiBwZXIgY291bnR5XG5jb3ZpZCA9IGNvdmlkW2NvdmlkW1wibW9udGhcIl0gPj0gXCIyMDIxLTA4XCJdICAgICAgICAgICAgICAgICAjIGtlZXAgdGhlIHJlbGlhYmx5IHJlcG9ydGVkIHBlcmlvZFxuXG50b3RhbHMgPSAoY292aWQuZ3JvdXBieShcImNvdW50eVwiLCBhc19pbmRleD1GYWxzZSlbXCJjb3ZpZF9kZWF0aHNcIl0uc3VtKCkgICMgZGVhdGhzIHBlciBjb3VudHlcbiAgICAgICAgICAgICAgIC5tZXJnZShjb3VudGllc1tbXCJjb3VudHlcIiwgXCJwb3B1bGF0aW9uXzIwMjNcIl1dLCAgICAgICAgICAgIyBhdHRhY2ggcG9wdWxhdGlvblxuICAgICAgICAgICAgICAgICAgICAgIG9uPVwiY291bnR5XCIpKSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIyBieSBjb3VudHlcbnRvdGFsc1tcInBlcl8xMDBrXCJdID0gKHRvdGFsc1tcImNvdmlkX2RlYXRoc1wiXSAgICAgICAgICAgICAgICMgZGVhdGhzIC4uLlxuICAgICAgICAgICAgICAgICAgICAgIC8gdG90YWxzW1wicG9wdWxhdGlvbl8yMDIzXCJdICogMTAwMDAwKSAgIyAuLi4gcGVyIDEwMCwwMDAgcmVzaWRlbnRzXG5cbmZpZywgKGNudCwgcmF0ZSkgPSBwbHQuc3VicGxvdHMoMSwgMiwgZmlnc2l6ZT0oMTAsIDIuOCkpICAgIyB0d28gcGFuZWxzXG50b3AgPSB0b3RhbHMubmxhcmdlc3QoNSwgXCJjb3ZpZF9kZWF0aHNcIikuc29ydF92YWx1ZXMoXCJjb3ZpZF9kZWF0aHNcIikgICMgdG9wIDUgYnkgY291bnRcbmNudC5iYXJoKHRvcFtcImNvdW50eVwiXSwgdG9wW1wiY292aWRfZGVhdGhzXCJdLCBjb2xvcj1cIiMwMDM1OTRcIikgICAgICAgICAjIGJhcnMgYnkgY291bnRcbmNudC5zZXQodGl0bGU9XCJUb3AgNSBieSBkZWF0aHNcIiwgeGxhYmVsPVwiQ09WSUQtMTkgZGVhdGhzXCIpICAgICAgICAgICAgIyBsYWJlbHNcbnRvcCA9IHRvdGFscy5ubGFyZ2VzdCg1LCBcInBlcl8xMDBrXCIpLnNvcnRfdmFsdWVzKFwicGVyXzEwMGtcIikgICAgICAgICAgIyB0b3AgNSBieSByYXRlXG5yYXRlLmJhcmgodG9wW1wiY291bnR5XCJdLCB0b3BbXCJwZXJfMTAwa1wiXSwgY29sb3I9XCIjOGE2NDAwXCIpICAgICAgICAgICAgIyBiYXJzIGJ5IHJhdGVcbnJhdGUuc2V0KHRpdGxlPVwiVG9wIDUgYnkgZGVhdGhzIHBlciAxMDAsMDAwXCIsIHhsYWJlbD1cIkRlYXRocyBwZXIgMTAwLDAwMFwiKSAgIyBsYWJlbHNcbnBsdC50aWdodF9sYXlvdXQoKSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIyBzdG9wIHBhbmVscyBvdmVybGFwcGluZ1xucGx0LnNob3coKSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIHJlbmRlciB0aGUgZmlndXJlXG5cbnBvcCA9IHRvdGFsc1tcInBvcHVsYXRpb25fMjAyM1wiXSAgICAgICAgICAgICAgICAgICAgICAgICAgICAjIHRoZSBkZW5vbWluYXRvclxucHJpbnQoXCJjb3VudCB2cyBwb3B1bGF0aW9uOlwiLCByb3VuZCh0b3RhbHNbXCJjb3ZpZF9kZWF0aHNcIl0uY29ycihwb3ApLCAzKSkgICMgY291bnRzIHRyYWNrIHNpemVcbnByaW50KFwicmF0ZSAgdnMgcG9wdWxhdGlvbjpcIiwgcm91bmQodG90YWxzW1wicGVyXzEwMGtcIl0uY29ycihwb3ApLCAzKSkgICAgICAjIHJhdGVzIGRvIG5vdCJ9
+</script>
+</div>
+</div>
+<p><strong>The two lists share no counties.</strong> Deaths track population at r = +0.953; the rate does not.</p>
+<aside class="notes">
+<p>Ask for predictions first. Most of the room expects overlap. There is none.</p>
+<p>Left: Allegheny, Philadelphia, Montgomery, Lancaster, Bucks — Pennsylvania’s largest counties. That chart is a population map with a mortality label; deaths and population correlate at +0.953. Right: Potter, Juniata, Jefferson, Armstrong, Fulton — small rural counties. Potter leads at 556 per 100,000, from 89 deaths. Divide by population and the correlation with population falls to −0.308.</p>
+<p>Both charts are correct for different questions. Total deaths answers how many beds or staff; the rate answers where the burden per resident was highest. One caution on the rate: Potter’s 556 is 89 deaths in a county of 16,000, and a small count makes a jumpy rate.</p>
+<p>The filter keeps August 2021 onward, because this file badly undercounts 2020. Lab Question 4 is this slide.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="session-outcomes" class="slide level2 smaller">
+<h2>Session outcomes</h2>
+<p>1. More marks: <code>histplot</code>, <code>kdeplot</code>, <code>boxplot</code>, <code>violinplot</code>, and seaborn’s three families</p>
+<p>2. <strong>Layering</strong> in order, and <code>zorder</code> when the order must change</p>
+<p>3. <strong>Statistical transformations</strong>: what <code>countplot</code>, <code>barplot</code>, and <code>regplot</code> compute</p>
+<p>4. <strong>Facets</strong> with <code>relplot</code> and <code>displot</code>: <code>col=</code>, <code>row=</code>, <code>col_wrap=</code>, shared axes</p>
+<p>5. <strong>Position adjustments</strong>: <code>multiple="stack" / "dodge" / "fill" / "layer"</code></p>
+<p>6. <strong>Scales</strong>: log axes, tick locators, named and manual palettes, diverging heatmaps</p>
+<p>7. <strong>Themes</strong>: <code>axes_style</code>, <code>despine</code>, <code>move_legend</code>; combining with <code>subplot_mosaic</code>; <code>savefig</code></p>
+<p>8. Figures before summaries; <strong>rates before counts</strong></p>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Lab 6, now</strong></p>
+</div>
+<div class="callout-content">
+<p>Questions 1–3 in class (debug, facets and position, themes). All eight questions are due <strong>Thursday 11/19 at 11:59 pm</strong>.</p>
+</div>
+</div>
+</div>
+<aside class="notes">
+<p>The sentence for the module: a figure is data, mappings, marks, and a set of choices about statistics, panels, scales, and style — and each of those choices can change what the reader concludes.</p>
+<p>Hand over to the lab now. Questions 1 to 3 are Rebecca’s three in-lecture exercises, translated. Question 1 is a debugging question, and the debugging is in reading the figure, not the error message: both calls run.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="viz-cheat-seaborn" class="slide level2" data-background-iframe="https://assets.datacamp.com/blog_assets/Python_Seaborn_Cheat_Sheet.pdf#toolbar=0&amp;navpanes=0&amp;view=Fit" data-background-interactive="true">
+<h2></h2>
+<style>
+#viz-cheat-seaborn h2 { display: none; }
+body.cheat-sheet-active .reveal .footer,
+body.cheat-sheet-active .reveal .slide-number,
+body.cheat-sheet-active .reveal .slide-menu-button,
+body.cheat-sheet-active .reveal .progress { display: none !important; }
+</style>
+<script>
+// Full-bleed slide: hide the footer, slide number, and menu while the cheat sheet shows.
+window.addEventListener("load", () => {
+  const toggle = (slide) => document.body.classList.toggle(
+    "cheat-sheet-active", !!slide && slide.id.startsWith("viz-cheat"));
+  Reveal.on("slidechanged", (e) => toggle(e.currentSlide));
+  toggle(Reveal.getCurrentSlide());
+});
+</script>
+</section></section>
+<section id="thats-all-folks" class="title-slide slide level1 unnumbered center" data-background-color="#003594">
+<h1>That’s all folks!</h1>
+<div class="section-subtitle">
+<p>On to Lab 6.</p>
+</div>
+
+<script type="pyodide-data">
+eyJvcHRpb25zIjp7ImVudiI6eyJQTE9UTFlfUkVOREVSRVIiOiJwbG90bHlfbWltZXR5cGUifSwiaW5kZXhVUkwiOiJodHRwczovL2Nkbi5qc2RlbGl2ci5uZXQvcHlvZGlkZS92MC4yOC4xL2Z1bGwvIn0sInBhY2thZ2VzIjp7InBrZ3MiOlsicHlvZGlkZV9odHRwIiwibWljcm9waXAiLCJpcHl0aG9uIiwibnVtcHkiLCJwYW5kYXMiLCJtYXRwbG90bGliIl19fQ==
+</script>
+<script type="ojs-module-contents">
+eyJjb250ZW50cyI6W3siY2VsbE5hbWUiOiJweW9kaWRlLTIyIiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldCIsInNvdXJjZSI6InZpZXdvZiBfcHlvZGlkZV9lZGl0b3JfMjIgPSB7XG4gIGNvbnN0IHsgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yLCBiNjREZWNvZGUgfSA9IHdpbmRvdy5fZXhlcmNpc2Vfb2pzX3J1bnRpbWU7XG5cbiAgY29uc3Qgc2NyaXB0Q29udGVudCA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoYHNjcmlwdFt0eXBlPVxcXCJweW9kaWRlLTIyLWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtMjItY29udGVudHNgIH0sIGJsb2NrLmF0dHIpO1xuICBjb25zdCBlZGl0b3IgPSBuZXcgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yKFxuICAgIHB5b2RpZGVPanMucHlvZGlkZVByb21pc2UsXG4gICAgYmxvY2suY29kZSxcbiAgICBvcHRpb25zXG4gICk7XG5cbiAgcmV0dXJuIGVkaXRvci5jb250YWluZXI7XG59XG5fcHlvZGlkZV92YWx1ZV8yMiA9IHB5b2RpZGVPanMucHJvY2VzcyhfcHlvZGlkZV9lZGl0b3JfMjIsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLTIxIiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldCIsInNvdXJjZSI6InZpZXdvZiBfcHlvZGlkZV9lZGl0b3JfMjEgPSB7XG4gIGNvbnN0IHsgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yLCBiNjREZWNvZGUgfSA9IHdpbmRvdy5fZXhlcmNpc2Vfb2pzX3J1bnRpbWU7XG5cbiAgY29uc3Qgc2NyaXB0Q29udGVudCA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoYHNjcmlwdFt0eXBlPVxcXCJweW9kaWRlLTIxLWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtMjEtY29udGVudHNgIH0sIGJsb2NrLmF0dHIpO1xuICBjb25zdCBlZGl0b3IgPSBuZXcgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yKFxuICAgIHB5b2RpZGVPanMucHlvZGlkZVByb21pc2UsXG4gICAgYmxvY2suY29kZSxcbiAgICBvcHRpb25zXG4gICk7XG5cbiAgcmV0dXJuIGVkaXRvci5jb250YWluZXI7XG59XG5fcHlvZGlkZV92YWx1ZV8yMSA9IHB5b2RpZGVPanMucHJvY2VzcyhfcHlvZGlkZV9lZGl0b3JfMjEsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLTIwIiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldCIsInNvdXJjZSI6InZpZXdvZiBfcHlvZGlkZV9lZGl0b3JfMjAgPSB7XG4gIGNvbnN0IHsgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yLCBiNjREZWNvZGUgfSA9IHdpbmRvdy5fZXhlcmNpc2Vfb2pzX3J1bnRpbWU7XG5cbiAgY29uc3Qgc2NyaXB0Q29udGVudCA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoYHNjcmlwdFt0eXBlPVxcXCJweW9kaWRlLTIwLWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtMjAtY29udGVudHNgIH0sIGJsb2NrLmF0dHIpO1xuICBjb25zdCBlZGl0b3IgPSBuZXcgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yKFxuICAgIHB5b2RpZGVPanMucHlvZGlkZVByb21pc2UsXG4gICAgYmxvY2suY29kZSxcbiAgICBvcHRpb25zXG4gICk7XG5cbiAgcmV0dXJuIGVkaXRvci5jb250YWluZXI7XG59XG5fcHlvZGlkZV92YWx1ZV8yMCA9IHB5b2RpZGVPanMucHJvY2VzcyhfcHlvZGlkZV9lZGl0b3JfMjAsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLTE5IiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldCIsInNvdXJjZSI6InZpZXdvZiBfcHlvZGlkZV9lZGl0b3JfMTkgPSB7XG4gIGNvbnN0IHsgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yLCBiNjREZWNvZGUgfSA9IHdpbmRvdy5fZXhlcmNpc2Vfb2pzX3J1bnRpbWU7XG5cbiAgY29uc3Qgc2NyaXB0Q29udGVudCA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoYHNjcmlwdFt0eXBlPVxcXCJweW9kaWRlLTE5LWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtMTktY29udGVudHNgIH0sIGJsb2NrLmF0dHIpO1xuICBjb25zdCBlZGl0b3IgPSBuZXcgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yKFxuICAgIHB5b2RpZGVPanMucHlvZGlkZVByb21pc2UsXG4gICAgYmxvY2suY29kZSxcbiAgICBvcHRpb25zXG4gICk7XG5cbiAgcmV0dXJuIGVkaXRvci5jb250YWluZXI7XG59XG5fcHlvZGlkZV92YWx1ZV8xOSA9IHB5b2RpZGVPanMucHJvY2VzcyhfcHlvZGlkZV9lZGl0b3JfMTksIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLTE4IiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldCIsInNvdXJjZSI6InZpZXdvZiBfcHlvZGlkZV9lZGl0b3JfMTggPSB7XG4gIGNvbnN0IHsgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yLCBiNjREZWNvZGUgfSA9IHdpbmRvdy5fZXhlcmNpc2Vfb2pzX3J1bnRpbWU7XG5cbiAgY29uc3Qgc2NyaXB0Q29udGVudCA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoYHNjcmlwdFt0eXBlPVxcXCJweW9kaWRlLTE4LWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtMTgtY29udGVudHNgIH0sIGJsb2NrLmF0dHIpO1xuICBjb25zdCBlZGl0b3IgPSBuZXcgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yKFxuICAgIHB5b2RpZGVPanMucHlvZGlkZVByb21pc2UsXG4gICAgYmxvY2suY29kZSxcbiAgICBvcHRpb25zXG4gICk7XG5cbiAgcmV0dXJuIGVkaXRvci5jb250YWluZXI7XG59XG5fcHlvZGlkZV92YWx1ZV8xOCA9IHB5b2RpZGVPanMucHJvY2VzcyhfcHlvZGlkZV9lZGl0b3JfMTgsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLTE3IiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldCIsInNvdXJjZSI6InZpZXdvZiBfcHlvZGlkZV9lZGl0b3JfMTcgPSB7XG4gIGNvbnN0IHsgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yLCBiNjREZWNvZGUgfSA9IHdpbmRvdy5fZXhlcmNpc2Vfb2pzX3J1bnRpbWU7XG5cbiAgY29uc3Qgc2NyaXB0Q29udGVudCA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoYHNjcmlwdFt0eXBlPVxcXCJweW9kaWRlLTE3LWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtMTctY29udGVudHNgIH0sIGJsb2NrLmF0dHIpO1xuICBjb25zdCBlZGl0b3IgPSBuZXcgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yKFxuICAgIHB5b2RpZGVPanMucHlvZGlkZVByb21pc2UsXG4gICAgYmxvY2suY29kZSxcbiAgICBvcHRpb25zXG4gICk7XG5cbiAgcmV0dXJuIGVkaXRvci5jb250YWluZXI7XG59XG5fcHlvZGlkZV92YWx1ZV8xNyA9IHB5b2RpZGVPanMucHJvY2VzcyhfcHlvZGlkZV9lZGl0b3JfMTcsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLTE2IiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldCIsInNvdXJjZSI6InZpZXdvZiBfcHlvZGlkZV9lZGl0b3JfMTYgPSB7XG4gIGNvbnN0IHsgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yLCBiNjREZWNvZGUgfSA9IHdpbmRvdy5fZXhlcmNpc2Vfb2pzX3J1bnRpbWU7XG5cbiAgY29uc3Qgc2NyaXB0Q29udGVudCA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoYHNjcmlwdFt0eXBlPVxcXCJweW9kaWRlLTE2LWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtMTYtY29udGVudHNgIH0sIGJsb2NrLmF0dHIpO1xuICBjb25zdCBlZGl0b3IgPSBuZXcgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yKFxuICAgIHB5b2RpZGVPanMucHlvZGlkZVByb21pc2UsXG4gICAgYmxvY2suY29kZSxcbiAgICBvcHRpb25zXG4gICk7XG5cbiAgcmV0dXJuIGVkaXRvci5jb250YWluZXI7XG59XG5fcHlvZGlkZV92YWx1ZV8xNiA9IHB5b2RpZGVPanMucHJvY2VzcyhfcHlvZGlkZV9lZGl0b3JfMTYsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLTE1IiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldCIsInNvdXJjZSI6InZpZXdvZiBfcHlvZGlkZV9lZGl0b3JfMTUgPSB7XG4gIGNvbnN0IHsgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yLCBiNjREZWNvZGUgfSA9IHdpbmRvdy5fZXhlcmNpc2Vfb2pzX3J1bnRpbWU7XG5cbiAgY29uc3Qgc2NyaXB0Q29udGVudCA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoYHNjcmlwdFt0eXBlPVxcXCJweW9kaWRlLTE1LWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtMTUtY29udGVudHNgIH0sIGJsb2NrLmF0dHIpO1xuICBjb25zdCBlZGl0b3IgPSBuZXcgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yKFxuICAgIHB5b2RpZGVPanMucHlvZGlkZVByb21pc2UsXG4gICAgYmxvY2suY29kZSxcbiAgICBvcHRpb25zXG4gICk7XG5cbiAgcmV0dXJuIGVkaXRvci5jb250YWluZXI7XG59XG5fcHlvZGlkZV92YWx1ZV8xNSA9IHB5b2RpZGVPanMucHJvY2VzcyhfcHlvZGlkZV9lZGl0b3JfMTUsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLTE0IiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldCIsInNvdXJjZSI6InZpZXdvZiBfcHlvZGlkZV9lZGl0b3JfMTQgPSB7XG4gIGNvbnN0IHsgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yLCBiNjREZWNvZGUgfSA9IHdpbmRvdy5fZXhlcmNpc2Vfb2pzX3J1bnRpbWU7XG5cbiAgY29uc3Qgc2NyaXB0Q29udGVudCA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoYHNjcmlwdFt0eXBlPVxcXCJweW9kaWRlLTE0LWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtMTQtY29udGVudHNgIH0sIGJsb2NrLmF0dHIpO1xuICBjb25zdCBlZGl0b3IgPSBuZXcgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yKFxuICAgIHB5b2RpZGVPanMucHlvZGlkZVByb21pc2UsXG4gICAgYmxvY2suY29kZSxcbiAgICBvcHRpb25zXG4gICk7XG5cbiAgcmV0dXJuIGVkaXRvci5jb250YWluZXI7XG59XG5fcHlvZGlkZV92YWx1ZV8xNCA9IHB5b2RpZGVPanMucHJvY2VzcyhfcHlvZGlkZV9lZGl0b3JfMTQsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLTEzIiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldCIsInNvdXJjZSI6InZpZXdvZiBfcHlvZGlkZV9lZGl0b3JfMTMgPSB7XG4gIGNvbnN0IHsgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yLCBiNjREZWNvZGUgfSA9IHdpbmRvdy5fZXhlcmNpc2Vfb2pzX3J1bnRpbWU7XG5cbiAgY29uc3Qgc2NyaXB0Q29udGVudCA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoYHNjcmlwdFt0eXBlPVxcXCJweW9kaWRlLTEzLWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtMTMtY29udGVudHNgIH0sIGJsb2NrLmF0dHIpO1xuICBjb25zdCBlZGl0b3IgPSBuZXcgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yKFxuICAgIHB5b2RpZGVPanMucHlvZGlkZVByb21pc2UsXG4gICAgYmxvY2suY29kZSxcbiAgICBvcHRpb25zXG4gICk7XG5cbiAgcmV0dXJuIGVkaXRvci5jb250YWluZXI7XG59XG5fcHlvZGlkZV92YWx1ZV8xMyA9IHB5b2RpZGVPanMucHJvY2VzcyhfcHlvZGlkZV9lZGl0b3JfMTMsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLTEyIiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldCIsInNvdXJjZSI6InZpZXdvZiBfcHlvZGlkZV9lZGl0b3JfMTIgPSB7XG4gIGNvbnN0IHsgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yLCBiNjREZWNvZGUgfSA9IHdpbmRvdy5fZXhlcmNpc2Vfb2pzX3J1bnRpbWU7XG5cbiAgY29uc3Qgc2NyaXB0Q29udGVudCA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoYHNjcmlwdFt0eXBlPVxcXCJweW9kaWRlLTEyLWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtMTItY29udGVudHNgIH0sIGJsb2NrLmF0dHIpO1xuICBjb25zdCBlZGl0b3IgPSBuZXcgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yKFxuICAgIHB5b2RpZGVPanMucHlvZGlkZVByb21pc2UsXG4gICAgYmxvY2suY29kZSxcbiAgICBvcHRpb25zXG4gICk7XG5cbiAgcmV0dXJuIGVkaXRvci5jb250YWluZXI7XG59XG5fcHlvZGlkZV92YWx1ZV8xMiA9IHB5b2RpZGVPanMucHJvY2VzcyhfcHlvZGlkZV9lZGl0b3JfMTIsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLTExIiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldCIsInNvdXJjZSI6InZpZXdvZiBfcHlvZGlkZV9lZGl0b3JfMTEgPSB7XG4gIGNvbnN0IHsgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yLCBiNjREZWNvZGUgfSA9IHdpbmRvdy5fZXhlcmNpc2Vfb2pzX3J1bnRpbWU7XG5cbiAgY29uc3Qgc2NyaXB0Q29udGVudCA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoYHNjcmlwdFt0eXBlPVxcXCJweW9kaWRlLTExLWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtMTEtY29udGVudHNgIH0sIGJsb2NrLmF0dHIpO1xuICBjb25zdCBlZGl0b3IgPSBuZXcgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yKFxuICAgIHB5b2RpZGVPanMucHlvZGlkZVByb21pc2UsXG4gICAgYmxvY2suY29kZSxcbiAgICBvcHRpb25zXG4gICk7XG5cbiAgcmV0dXJuIGVkaXRvci5jb250YWluZXI7XG59XG5fcHlvZGlkZV92YWx1ZV8xMSA9IHB5b2RpZGVPanMucHJvY2VzcyhfcHlvZGlkZV9lZGl0b3JfMTEsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLTEwIiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldCIsInNvdXJjZSI6InZpZXdvZiBfcHlvZGlkZV9lZGl0b3JfMTAgPSB7XG4gIGNvbnN0IHsgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yLCBiNjREZWNvZGUgfSA9IHdpbmRvdy5fZXhlcmNpc2Vfb2pzX3J1bnRpbWU7XG5cbiAgY29uc3Qgc2NyaXB0Q29udGVudCA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoYHNjcmlwdFt0eXBlPVxcXCJweW9kaWRlLTEwLWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtMTAtY29udGVudHNgIH0sIGJsb2NrLmF0dHIpO1xuICBjb25zdCBlZGl0b3IgPSBuZXcgUHlvZGlkZUV4ZXJjaXNlRWRpdG9yKFxuICAgIHB5b2RpZGVPanMucHlvZGlkZVByb21pc2UsXG4gICAgYmxvY2suY29kZSxcbiAgICBvcHRpb25zXG4gICk7XG5cbiAgcmV0dXJuIGVkaXRvci5jb250YWluZXI7XG59XG5fcHlvZGlkZV92YWx1ZV8xMCA9IHB5b2RpZGVPanMucHJvY2VzcyhfcHlvZGlkZV9lZGl0b3JfMTAsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLTkiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0Iiwic291cmNlIjoidmlld29mIF9weW9kaWRlX2VkaXRvcl85ID0ge1xuICBjb25zdCB7IFB5b2RpZGVFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS05LWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtOS1jb250ZW50c2AgfSwgYmxvY2suYXR0cik7XG4gIGNvbnN0IGVkaXRvciA9IG5ldyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IoXG4gICAgcHlvZGlkZU9qcy5weW9kaWRlUHJvbWlzZSxcbiAgICBibG9jay5jb2RlLFxuICAgIG9wdGlvbnNcbiAgKTtcblxuICByZXR1cm4gZWRpdG9yLmNvbnRhaW5lcjtcbn1cbl9weW9kaWRlX3ZhbHVlXzkgPSBweW9kaWRlT2pzLnByb2Nlc3MoX3B5b2RpZGVfZWRpdG9yXzksIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLTgiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0Iiwic291cmNlIjoidmlld29mIF9weW9kaWRlX2VkaXRvcl84ID0ge1xuICBjb25zdCB7IFB5b2RpZGVFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS04LWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtOC1jb250ZW50c2AgfSwgYmxvY2suYXR0cik7XG4gIGNvbnN0IGVkaXRvciA9IG5ldyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IoXG4gICAgcHlvZGlkZU9qcy5weW9kaWRlUHJvbWlzZSxcbiAgICBibG9jay5jb2RlLFxuICAgIG9wdGlvbnNcbiAgKTtcblxuICByZXR1cm4gZWRpdG9yLmNvbnRhaW5lcjtcbn1cbl9weW9kaWRlX3ZhbHVlXzggPSBweW9kaWRlT2pzLnByb2Nlc3MoX3B5b2RpZGVfZWRpdG9yXzgsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLTciLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0Iiwic291cmNlIjoidmlld29mIF9weW9kaWRlX2VkaXRvcl83ID0ge1xuICBjb25zdCB7IFB5b2RpZGVFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS03LWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtNy1jb250ZW50c2AgfSwgYmxvY2suYXR0cik7XG4gIGNvbnN0IGVkaXRvciA9IG5ldyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IoXG4gICAgcHlvZGlkZU9qcy5weW9kaWRlUHJvbWlzZSxcbiAgICBibG9jay5jb2RlLFxuICAgIG9wdGlvbnNcbiAgKTtcblxuICByZXR1cm4gZWRpdG9yLmNvbnRhaW5lcjtcbn1cbl9weW9kaWRlX3ZhbHVlXzcgPSBweW9kaWRlT2pzLnByb2Nlc3MoX3B5b2RpZGVfZWRpdG9yXzcsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLTYiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0Iiwic291cmNlIjoidmlld29mIF9weW9kaWRlX2VkaXRvcl82ID0ge1xuICBjb25zdCB7IFB5b2RpZGVFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS02LWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtNi1jb250ZW50c2AgfSwgYmxvY2suYXR0cik7XG4gIGNvbnN0IGVkaXRvciA9IG5ldyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IoXG4gICAgcHlvZGlkZU9qcy5weW9kaWRlUHJvbWlzZSxcbiAgICBibG9jay5jb2RlLFxuICAgIG9wdGlvbnNcbiAgKTtcblxuICByZXR1cm4gZWRpdG9yLmNvbnRhaW5lcjtcbn1cbl9weW9kaWRlX3ZhbHVlXzYgPSBweW9kaWRlT2pzLnByb2Nlc3MoX3B5b2RpZGVfZWRpdG9yXzYsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLTUiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0Iiwic291cmNlIjoidmlld29mIF9weW9kaWRlX2VkaXRvcl81ID0ge1xuICBjb25zdCB7IFB5b2RpZGVFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS01LWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtNS1jb250ZW50c2AgfSwgYmxvY2suYXR0cik7XG4gIGNvbnN0IGVkaXRvciA9IG5ldyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IoXG4gICAgcHlvZGlkZU9qcy5weW9kaWRlUHJvbWlzZSxcbiAgICBibG9jay5jb2RlLFxuICAgIG9wdGlvbnNcbiAgKTtcblxuICByZXR1cm4gZWRpdG9yLmNvbnRhaW5lcjtcbn1cbl9weW9kaWRlX3ZhbHVlXzUgPSBweW9kaWRlT2pzLnByb2Nlc3MoX3B5b2RpZGVfZWRpdG9yXzUsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLTQiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0Iiwic291cmNlIjoidmlld29mIF9weW9kaWRlX2VkaXRvcl80ID0ge1xuICBjb25zdCB7IFB5b2RpZGVFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS00LWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtNC1jb250ZW50c2AgfSwgYmxvY2suYXR0cik7XG4gIGNvbnN0IGVkaXRvciA9IG5ldyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IoXG4gICAgcHlvZGlkZU9qcy5weW9kaWRlUHJvbWlzZSxcbiAgICBibG9jay5jb2RlLFxuICAgIG9wdGlvbnNcbiAgKTtcblxuICByZXR1cm4gZWRpdG9yLmNvbnRhaW5lcjtcbn1cbl9weW9kaWRlX3ZhbHVlXzQgPSBweW9kaWRlT2pzLnByb2Nlc3MoX3B5b2RpZGVfZWRpdG9yXzQsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLTMiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0Iiwic291cmNlIjoidmlld29mIF9weW9kaWRlX2VkaXRvcl8zID0ge1xuICBjb25zdCB7IFB5b2RpZGVFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS0zLWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtMy1jb250ZW50c2AgfSwgYmxvY2suYXR0cik7XG4gIGNvbnN0IGVkaXRvciA9IG5ldyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IoXG4gICAgcHlvZGlkZU9qcy5weW9kaWRlUHJvbWlzZSxcbiAgICBibG9jay5jb2RlLFxuICAgIG9wdGlvbnNcbiAgKTtcblxuICByZXR1cm4gZWRpdG9yLmNvbnRhaW5lcjtcbn1cbl9weW9kaWRlX3ZhbHVlXzMgPSBweW9kaWRlT2pzLnByb2Nlc3MoX3B5b2RpZGVfZWRpdG9yXzMsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLTIiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0Iiwic291cmNlIjoidmlld29mIF9weW9kaWRlX2VkaXRvcl8yID0ge1xuICBjb25zdCB7IFB5b2RpZGVFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS0yLWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtMi1jb250ZW50c2AgfSwgYmxvY2suYXR0cik7XG4gIGNvbnN0IGVkaXRvciA9IG5ldyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IoXG4gICAgcHlvZGlkZU9qcy5weW9kaWRlUHJvbWlzZSxcbiAgICBibG9jay5jb2RlLFxuICAgIG9wdGlvbnNcbiAgKTtcblxuICByZXR1cm4gZWRpdG9yLmNvbnRhaW5lcjtcbn1cbl9weW9kaWRlX3ZhbHVlXzIgPSBweW9kaWRlT2pzLnByb2Nlc3MoX3B5b2RpZGVfZWRpdG9yXzIsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLTEiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0Iiwic291cmNlIjoidmlld29mIF9weW9kaWRlX2VkaXRvcl8xID0ge1xuICBjb25zdCB7IFB5b2RpZGVFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwicHlvZGlkZS0xLWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHB5b2RpZGUtMS1jb250ZW50c2AgfSwgYmxvY2suYXR0cik7XG4gIGNvbnN0IGVkaXRvciA9IG5ldyBQeW9kaWRlRXhlcmNpc2VFZGl0b3IoXG4gICAgcHlvZGlkZU9qcy5weW9kaWRlUHJvbWlzZSxcbiAgICBibG9jay5jb2RlLFxuICAgIG9wdGlvbnNcbiAgKTtcblxuICByZXR1cm4gZWRpdG9yLmNvbnRhaW5lcjtcbn1cbl9weW9kaWRlX3ZhbHVlXzEgPSBweW9kaWRlT2pzLnByb2Nlc3MoX3B5b2RpZGVfZWRpdG9yXzEsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJweW9kaWRlLXByZWx1ZGUiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0UXVpZXQiLCJzb3VyY2UiOiJweW9kaWRlT2pzID0ge1xuICBjb25zdCB7XG4gICAgUHlvZGlkZUV2YWx1YXRvcixcbiAgICBQeW9kaWRlRW52aXJvbm1lbnRNYW5hZ2VyLFxuICAgIHNldHVwUHl0aG9uLFxuICAgIHN0YXJ0UHlvZGlkZVdvcmtlcixcbiAgICBiNjREZWNvZGUsXG4gICAgY29sbGFwc2VQYXRoLFxuICB9ID0gd2luZG93Ll9leGVyY2lzZV9vanNfcnVudGltZTtcblxuICBjb25zdCBzdGF0dXNDb250YWluZXIgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZChcImV4ZXJjaXNlLWxvYWRpbmctc3RhdHVzXCIpO1xuICBjb25zdCBpbmRpY2F0b3JDb250YWluZXIgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZChcImV4ZXJjaXNlLWxvYWRpbmctaW5kaWNhdG9yXCIpO1xuICBpbmRpY2F0b3JDb250YWluZXIuY2xhc3NMaXN0LnJlbW92ZShcImQtbm9uZVwiKTtcblxuICBsZXQgc3RhdHVzVGV4dCA9IGRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoXCJkaXZcIilcbiAgc3RhdHVzVGV4dC5jbGFzc0xpc3QgPSBcImV4ZXJjaXNlLWxvYWRpbmctZGV0YWlsc1wiO1xuICBzdGF0dXNUZXh0ID0gc3RhdHVzQ29udGFpbmVyLmFwcGVuZENoaWxkKHN0YXR1c1RleHQpO1xuICBzdGF0dXNUZXh0LnRleHRDb250ZW50ID0gYEluaXRpYWxpc2VgO1xuXG4gIC8vIEhvaXN0IGluZGljYXRvciBvdXQgZnJvbSBmaW5hbCBzbGlkZSB3aGVuIHJ1bm5pbmcgdW5kZXIgcmV2ZWFsXG4gIGNvbnN0IHJldmVhbFN0YXR1cyA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoXCIucmV2ZWFsIC5leGVyY2lzZS1sb2FkaW5nLWluZGljYXRvclwiKTtcbiAgaWYgKHJldmVhbFN0YXR1cykge1xuICAgIHJldmVhbFN0YXR1cy5yZW1vdmUoKTtcbiAgICBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKFwiLnJldmVhbCA+IC5zbGlkZXNcIikuYXBwZW5kQ2hpbGQocmV2ZWFsU3RhdHVzKTtcbiAgfVxuXG4gIC8vIE1ha2UgYW55IHJldmVhbCBzbGlkZXMgd2l0aCBsaXZlIGNlbGxzIHNjcm9sbGFibGVcbiAgZG9jdW1lbnQucXVlcnlTZWxlY3RvckFsbChcIi5yZXZlYWwgLmV4ZXJjaXNlLWNlbGxcIikuZm9yRWFjaCgoZWwpID0+IHtcbiAgICBlbC5jbG9zZXN0KCdzZWN0aW9uLnNsaWRlJykuY2xhc3NMaXN0LmFkZChcInNjcm9sbGFibGVcIik7XG4gIH0pXG5cbiAgLy8gUHlvZGlkZSBzdXBwbGVtZW50YWwgZGF0YSBhbmQgb3B0aW9uc1xuICBjb25zdCBkYXRhQ29udGVudCA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoYHNjcmlwdFt0eXBlPVxcXCJweW9kaWRlLWRhdGFcXFwiXWApLnRleHRDb250ZW50O1xuICBjb25zdCBkYXRhID0gSlNPTi5wYXJzZShiNjREZWNvZGUoZGF0YUNvbnRlbnQpKTtcblxuICAvLyBHcmFiIGxpc3Qgb2YgcmVzb3VyY2VzIHRvIGJlIGRvd25sb2FkZWRcbiAgY29uc3QgZmlsZXNDb250ZW50ID0gZG9jdW1lbnQucXVlcnlTZWxlY3Rvcihgc2NyaXB0W3R5cGU9XFxcInZmcy1maWxlXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgZmlsZXMgPSBKU09OLnBhcnNlKGI2NERlY29kZShmaWxlc0NvbnRlbnQpKTtcblxuICBsZXQgcHlvZGlkZVByb21pc2UgPSAoYXN5bmMgKCkgPT4ge1xuICAgIHN0YXR1c1RleHQudGV4dENvbnRlbnQgPSBgRG93bmxvYWRpbmcgUHlvZGlkZWA7XG4gICAgY29uc3QgcHlvZGlkZSA9IGF3YWl0IHN0YXJ0UHlvZGlkZVdvcmtlcihkYXRhLm9wdGlvbnMpO1xuXG4gICAgc3RhdHVzVGV4dC50ZXh0Q29udGVudCA9IGBEb3dubG9hZGluZyBwYWNrYWdlOiBtaWNyb3BpcGA7XG4gICAgYXdhaXQgcHlvZGlkZS5sb2FkUGFja2FnZShcIm1pY3JvcGlwXCIpO1xuICAgIGNvbnN0IG1pY3JvcGlwID0gYXdhaXQgcHlvZGlkZS5weWltcG9ydChcIm1pY3JvcGlwXCIpO1xuICAgIGF3YWl0IGRhdGEucGFja2FnZXMucGtncy5tYXAoKHBrZykgPT4gKCkgPT4ge1xuICAgICAgc3RhdHVzVGV4dC50ZXh0Q29udGVudCA9IGBEb3dubG9hZGluZyBwYWNrYWdlOiAke3BrZ31gO1xuICAgICAgcmV0dXJuIG1pY3JvcGlwLmluc3RhbGwocGtnKTtcbiAgICB9KS5yZWR1Y2UoKGN1ciwgbmV4dCkgPT4gY3VyLnRoZW4obmV4dCksIFByb21pc2UucmVzb2x2ZSgpKTtcbiAgICBhd2FpdCBtaWNyb3BpcC5kZXN0cm95KCk7XG5cbiAgICAvLyBEb3dubG9hZCBhbmQgaW5zdGFsbCByZXNvdXJjZXNcbiAgICBhd2FpdCBmaWxlcy5tYXAoKGZpbGUpID0+IGFzeW5jICgpID0+IHtcbiAgICAgIGNvbnN0IG5hbWUgPSBmaWxlLnN1YnN0cmluZyhmaWxlLmxhc3RJbmRleE9mKCcvJykgKyAxKTtcbiAgICAgIHN0YXR1c1RleHQudGV4dENvbnRlbnQgPSBgRG93bmxvYWRpbmcgcmVzb3VyY2U6ICR7bmFtZX1gO1xuICAgICAgY29uc3QgcmVzcG9uc2UgPSBhd2FpdCBmZXRjaChmaWxlKTtcbiAgICAgIGlmICghcmVzcG9uc2Uub2spIHtcbiAgICAgICAgdGhyb3cgbmV3IEVycm9yKGBDYW4ndCBkb3dubG9hZCBcXGAke2ZpbGV9XFxgLiBFcnJvciAke3Jlc3BvbnNlLnN0YXR1c306IFwiJHtyZXNwb25zZS5zdGF0dXNUZXh0fVwiLmApO1xuICAgICAgfVxuICAgICAgY29uc3QgZGF0YSA9IGF3YWl0IHJlc3BvbnNlLmFycmF5QnVmZmVyKCk7XG5cbiAgICAgIC8vIFN0b3JlIFVSTHMgaW4gdGhlIGN3ZCB3aXRob3V0IGFueSBzdWJkaXJlY3Rvcnkgc3RydWN0dXJlXG4gICAgICBpZiAoZmlsZS5pbmNsdWRlcyhcIjovL1wiKSkge1xuICAgICAgICBmaWxlID0gbmFtZTtcbiAgICAgIH1cblxuICAgICAgLy8gQ29sbGFwc2UgaGlnaGVyIGRpcmVjdG9yeSBzdHJ1Y3R1cmVcbiAgICAgIGZpbGUgPSBjb2xsYXBzZVBhdGgoZmlsZSk7XG5cbiAgICAgIC8vIENyZWF0ZSBkaXJlY3RvcnkgdHJlZSwgaWdub3JpbmcgXCJkaXJlY3RvcnkgZXhpc3RzXCIgVkZTIGVycm9yc1xuICAgICAgY29uc3QgcGFydHMgPSBmaWxlLnNwbGl0KCcvJykuc2xpY2UoMCwgLTEpO1xuICAgICAgbGV0IHBhdGggPSAnJztcbiAgICAgIHdoaWxlIChwYXJ0cy5sZW5ndGggPiAwKSB7XG4gICAgICAgIHBhdGggKz0gcGFydHMuc2hpZnQoKSArICcvJztcbiAgICAgICAgdHJ5IHtcbiAgICAgICAgICBhd2FpdCBweW9kaWRlLkZTLm1rZGlyKHBhdGgpO1xuICAgICAgICB9IGNhdGNoIChlKSB7XG4gICAgICAgICAgaWYgKGUubmFtZSAhPT0gXCJFcnJub0Vycm9yXCIpIHRocm93IGU7XG4gICAgICAgICAgaWYgKGUuZXJybm8gIT09IDIwKSB7XG4gICAgICAgICAgICBjb25zdCBlcnJvclRleHRQdHIgPSBhd2FpdCBweW9kaWRlLl9tb2R1bGUuX3N0cmVycm9yKGUuZXJybm8pO1xuICAgICAgICAgICAgY29uc3QgZXJyb3JUZXh0ID0gYXdhaXQgcHlvZGlkZS5fbW9kdWxlLlVURjhUb1N0cmluZyhlcnJvclRleHRQdHIpO1xuICAgICAgICAgICAgdGhyb3cgbmV3IEVycm9yKGBGaWxlc3lzdGVtIEVycm9yICR7ZS5lcnJub30gXCIke2Vycm9yVGV4dH1cIi5gKTtcbiAgICAgICAgICB9XG4gICAgICAgIH1cbiAgICAgIH1cblxuICAgICAgLy8gV3JpdGUgdGhpcyBmaWxlIHRvIHRoZSBWRlNcbiAgICAgIHRyeSB7XG4gICAgICAgIHJldHVybiBhd2FpdCBweW9kaWRlLkZTLndyaXRlRmlsZShmaWxlLCBuZXcgVWludDhBcnJheShkYXRhKSk7XG4gICAgICB9IGNhdGNoIChlKSB7XG4gICAgICAgIGlmIChlLm5hbWUgIT09IFwiRXJybm9FcnJvclwiKSB0aHJvdyBlO1xuICAgICAgICBjb25zdCBlcnJvclRleHRQdHIgPSBhd2FpdCBweW9kaWRlLl9tb2R1bGUuX3N0cmVycm9yKGUuZXJybm8pO1xuICAgICAgICBjb25zdCBlcnJvclRleHQgPSBhd2FpdCBweW9kaWRlLl9tb2R1bGUuVVRGOFRvU3RyaW5nKGVycm9yVGV4dFB0cik7XG4gICAgICAgIHRocm93IG5ldyBFcnJvcihgRmlsZXN5c3RlbSBFcnJvciAke2UuZXJybm99IFwiJHtlcnJvclRleHR9XCIuYCk7XG4gICAgICB9XG4gICAgfSkucmVkdWNlKChjdXIsIG5leHQpID0+IGN1ci50aGVuKG5leHQpLCBQcm9taXNlLnJlc29sdmUoKSk7XG5cbiAgICBzdGF0dXNUZXh0LnRleHRDb250ZW50ID0gYFB5b2RpZGUgZW52aXJvbm1lbnQgc2V0dXBgO1xuICAgIGF3YWl0IHNldHVwUHl0aG9uKHB5b2RpZGUpO1xuXG4gICAgc3RhdHVzVGV4dC5yZW1vdmUoKTtcbiAgICBpZiAoc3RhdHVzQ29udGFpbmVyLmNoaWxkcmVuLmxlbmd0aCA9PSAwKSB7XG4gICAgICBzdGF0dXNDb250YWluZXIucGFyZW50Tm9kZS5yZW1vdmUoKTtcbiAgICB9XG4gICAgcmV0dXJuIHB5b2RpZGU7XG4gIH0pKCkuY2F0Y2goKGVycikgPT4ge1xuICAgIHN0YXR1c1RleHQuc3R5bGUuY29sb3IgPSBcInZhcigtLWV4ZXJjaXNlLWVkaXRvci1obC1lciwgI0FEMDAwMClcIjtcbiAgICBzdGF0dXNUZXh0LnRleHRDb250ZW50ID0gZXJyLm1lc3NhZ2U7XG4gICAgLy9pbmRpY2F0b3JDb250YWluZXIucXVlcnlTZWxlY3RvcihcIi5zcGlubmVyLWdyb3dcIikuY2xhc3NMaXN0LmFkZChcImQtbm9uZVwiKTtcbiAgICB0aHJvdyBlcnI7XG4gIH0pO1xuXG4gIC8vIEtlZXAgdHJhY2sgb2YgaW5pdGlhbCBPSlMgYmxvY2sgcmVuZGVyXG4gIGNvbnN0IHJlbmRlcmVkT2pzID0ge307XG5cbiAgY29uc3QgcHJvY2VzcyA9IGFzeW5jIChjb250ZXh0LCBpbnB1dHMpID0+IHtcbiAgICBjb25zdCBweW9kaWRlID0gYXdhaXQgcHlvZGlkZVByb21pc2U7XG4gICAgY29uc3QgZXZhbHVhdG9yID0gbmV3IFB5b2RpZGVFdmFsdWF0b3IocHlvZGlkZSwgY29udGV4dCk7XG4gICAgYXdhaXQgZXZhbHVhdG9yLnByb2Nlc3MoaW5wdXRzKTtcbiAgICByZXR1cm4gZXZhbHVhdG9yLmNvbnRhaW5lcjtcbiAgfVxuXG4gIHJldHVybiB7XG4gICAgcHlvZGlkZVByb21pc2UsXG4gICAgcmVuZGVyZWRPanMsXG4gICAgcHJvY2VzcyxcbiAgfTtcbn1cbiJ9XX0=
+</script>
+<div id="exercise-loading-indicator" class="exercise-loading-indicator d-none d-flex align-items-center gap-2">
+<div id="exercise-loading-status" class="d-flex gap-2">
+
+</div>
+<div class="spinner-grow spinner-grow-sm">
+
+</div>
+</div>
+<script type="vfs-file">
+WyJkYXRhL3BhX21hdGVybmFsX2luZmFudC5jc3YiLCJkYXRhL3BhX2NvdW50aWVzLmNzdiIsImRhdGEvcGFfY292aWRfbW9udGhseS5jc3YiXQ==
+</script>
+</section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<div class="footer footer-default">
+<p>soumik@pitt.edu · PUBHLT 0411 · Module 6: Data visualization II</p>
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="module6_lecture_files/libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="module6_lecture_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="module6_lecture_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="module6_lecture_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="module6_lecture_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="module6_lecture_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="module6_lecture_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="module6_lecture_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="module6_lecture_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="module6_lecture_files/libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'none',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1280,
+
+        height: 720,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 8.0e-2,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    <script type="ojs-module-contents">
+    eyJjb250ZW50cyI6W119
+    </script>
+    <script type="module">
+    if (window.location.protocol === "file:") { alert("The OJS runtime does not work with file:// URLs. Please use a web server to view this document."); }
+    window._ojs.paths.runtimeToDoc = "../../..";
+    window._ojs.paths.runtimeToRoot = "../../..";
+    window._ojs.paths.docToRoot = "";
+    window._ojs.selfContained = false;
+    window._ojs.runtime.interpretFromScriptTags();
+    </script>
+    
+    <script>
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+      // slide changes (different for each slide format).
+      (function () {
+        // dispatch for htmlwidgets
+        function fireSlideEnter() {
+          const event = window.document.createEvent("Event");
+          event.initEvent("slideenter", true, true);
+          window.document.dispatchEvent(event);
+        }
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+          fireSlideEnter();
+
+          // dispatch for shiny
+          if (window.jQuery) {
+            if (previousSlide) {
+              window.jQuery(previousSlide).trigger("hidden");
+            }
+            if (currentSlide) {
+              window.jQuery(currentSlide).trigger("shown");
+            }
+          }
+        }
+
+        // hookup for slidy
+        if (window.w3c_slidy) {
+          window.w3c_slidy.add_observer(function (slide_num) {
+            // slide_num starts at position 1
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+          });
+        }
+
+      })();
+    </script>
+
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp('/' + window.location.host + '/');
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    
+
+</body></html>
